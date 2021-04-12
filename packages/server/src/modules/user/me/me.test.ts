@@ -1,9 +1,9 @@
-import { Connection } from "typeorm";
-import * as faker from "faker";
+import { Connection } from 'typeorm';
+import faker from 'faker';
 
-import { User } from "../../../entity/User";
-import { TestClient } from "../../../utils/TestClient";
-import { createTestConn } from "../../../testUtils/createTestConn";
+import { User } from '../../../entity/User';
+import { createTestConn } from '../../../test-utils/createTestConn';
+import { gCall } from '../../../test-utils/gCall';
 
 let userId: string;
 let conn: Connection;
@@ -16,32 +16,79 @@ beforeAll(async () => {
   const user = await User.create({
     email,
     password,
-    confirmed: true
+    confirmed: true,
   }).save();
   userId = user.id;
 });
 
 afterAll(async () => {
-  conn.close();
+  await conn.close();
 });
 
-describe("me", () => {
-  test("return null if no cookie", async () => {
-    const client = new TestClient(process.env.TEST_HOST as string);
-    const response = await client.me();
-    expect(response.data.me).toBeNull();
+const loginMutation = `
+mutation Login($email: String!, $password:String!){
+  login(email: $email, password: $password){
+    errors{
+      path
+      message
+    }
+    
+    user{
+      email
+      confirmed
+      forgotPasswordLocked
+      createdAt
+    }
+  }
+}`;
+
+const meQuery = `
+query{
+  me{
+    id
+    email
+    confirmed
+    forgotPasswordLocked
+  }
+}
+`;
+
+describe('me', () => {
+  test('return null if no cookie', async () => {
+    const response = await gCall({
+      source: meQuery,
+    });
+
+    expect(response).toMatchObject({
+      data: {
+        me: null,
+      },
+    });
   });
 
-  test("get current user", async () => {
-    const client = new TestClient(process.env.TEST_HOST as string);
-    await client.login(email, password);
-    const response = await client.me();
+  test('get current user', async () => {
+    await gCall({
+      source: loginMutation,
+      variableValues: {
+        data: {
+          email,
+          password,
+        },
+      },
+    });
+    const response = await gCall({
+      source: meQuery,
+    });
 
-    expect(response.data).toEqual({
-      me: {
-        id: userId,
-        email
-      }
+    expect(response).toMatchObject({
+      data: {
+        me: {
+          id: userId,
+          email,
+          confirmed: true,
+          forgotPasswordLocked: false,
+        },
+      },
     });
   });
 });

@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import 'dotenv-safe/config';
-import path from 'path';
 import cors from 'cors';
 import express from 'express';
 import session from 'express-session';
@@ -15,21 +14,12 @@ import {
   __prod__,
   __test__,
 } from './constants';
-import { createConnection } from 'typeorm';
-import { User } from './entity/User';
 import { UserResolver } from './resolvers/user';
 import { buildSchema } from 'type-graphql';
+import { createTypeormConn } from './utils/createTypeormConn';
 
 const main = async () => {
-  const conn = await createConnection({
-    type: 'postgres',
-    url: process.env.DATABASE_URL,
-    logging: true,
-    synchronize: true,
-    dropSchema: __test__,
-    migrations: [path.join(__dirname, './migration/*')],
-    entities: [User],
-  });
+  const conn = await createTypeormConn();
 
   await conn.runMigrations();
 

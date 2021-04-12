@@ -1,0 +1,17 @@
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+.idea/
+.vscode/
+*.log
+.env
+.env.production
+dist/
+build/
+temp/
+dump.rdb
+node_modules
