@@ -1,4 +1,5 @@
 import { Layout } from 'antd';
+import { RegisterController } from '@airbnb-clone/controller';
 import { RegisterView } from '../modules/views/RegisterView';
 import { withApollo } from '../utils/withApollo';
 
@@ -14,11 +15,13 @@ const Register: React.FC<registerProps> = ({}) => {
           marginLeft: 'auto',
           marginRight: 'auto',
           marginTop: '2rem',
-          maxWidth: '800px',
+          maxWidth: '400px',
           width: '100%',
         }}
       >
-        <RegisterView />
+        <RegisterController>
+          {({ submit }) => <RegisterView submit={submit} />}
+        </RegisterController>
       </Content>
     </Layout>
   );

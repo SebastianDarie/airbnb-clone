@@ -1,6 +1,11 @@
-import { Form, Input, Button } from 'antd';
+import { Form, Button } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { InputField } from '../../components/InputField';
+import { FormProps } from '@airbnb-clone/controller';
 
-interface RegisterViewProps {}
+interface RegisterViewProps {
+  submit: (values: FormProps) => void;
+}
 
 const formItemLayout = {
   labelCol: {
@@ -25,22 +30,22 @@ const tailFormItemLayout = {
   },
 };
 
-export const RegisterView: React.FC<RegisterViewProps> = ({}) => {
+export const RegisterView: React.FC<RegisterViewProps> = ({ submit }) => {
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-  };
+  // const onFinish = (values: FormProps) => {
+  //   console.log('Received values of form: ', values);
+  // };
 
   return (
     <Form
       {...formItemLayout}
       form={form}
       name='register'
-      onFinish={onFinish}
+      onFinish={submit}
       scrollToFirstError
     >
-      <Form.Item
+      <InputField
         name='email'
         label='E-mail'
         rules={[
@@ -52,12 +57,16 @@ export const RegisterView: React.FC<RegisterViewProps> = ({}) => {
             required: true,
             message: 'Please input your E-mail!',
           },
+          {
+            max: 255,
+            message: 'That is where you need to stop',
+          },
         ]}
-      >
-        <Input />
-      </Form.Item>
+        placeholder='e.g. bob@bob.com'
+        prefix={<UserOutlined />}
+      />
 
-      <Form.Item
+      <InputField
         name='password'
         label='Password'
         rules={[
@@ -65,16 +74,24 @@ export const RegisterView: React.FC<RegisterViewProps> = ({}) => {
             required: true,
             message: 'Please input your password!',
           },
+          {
+            min: 3,
+            message: 'Password must be at least 3 characters',
+          },
+          {
+            max: 256,
+            message: 'That is where you need to stop',
+          },
         ]}
         hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
+        placeholder='e.g. secret-password'
+        prefix={<LockOutlined />}
+      />
 
-      <Form.Item
+      <InputField
         name='confirm'
         label='Confirm Password'
-        dependencies={['password']}
+        dependecies={['password']}
         hasFeedback
         rules={[
           {
@@ -92,9 +109,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({}) => {
             },
           }),
         ]}
-      >
-        <Input.Password />
-      </Form.Item>
+      />
 
       <Form.Item {...tailFormItemLayout}>
         <Button type='primary' htmlType='submit'>

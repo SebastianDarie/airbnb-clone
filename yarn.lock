@@ -5,6 +5,25 @@ __metadata:
   version: 4
   cacheKey: 7
 
+"@airbnb-clone/common@workspace:packages/common":
+  version: 0.0.0-use.local
+  resolution: "@airbnb-clone/common@workspace:packages/common"
+  languageName: unknown
+  linkType: soft
+
+"@airbnb-clone/controller@1.0.0, @airbnb-clone/controller@workspace:packages/controller":
+  version: 0.0.0-use.local
+  resolution: "@airbnb-clone/controller@workspace:packages/controller"
+  dependencies:
+    "@types/node": ^14.14.37
+    "@types/react": ^17.0.3
+    "@types/react-dom": ^17.0.3
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    typescript: ^4.2.4
+  languageName: unknown
+  linkType: soft
+
 "@ant-design/colors@npm:^6.0.0":
   version: 6.0.0
   resolution: "@ant-design/colors@npm:6.0.0"
@@ -3904,6 +3923,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"enhanced-resolve@npm:^5.7.0":
+  version: 5.7.0
+  resolution: "enhanced-resolve@npm:5.7.0"
+  dependencies:
+    graceful-fs: ^4.2.4
+    tapable: ^2.2.0
+  checksum: 545cfa659e9cdccf1240bccbbd1791db7ec589979d71b35df5aeaf872dd8d13fab379ad73fa960f4cb32963b85492792c0fb0866f484043740014824ae6088b9
+  languageName: node
+  linkType: hard
+
 "env-paths@npm:^2.2.0":
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
@@ -6936,6 +6965,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-transpile-modules@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "next-transpile-modules@npm:6.4.0"
+  dependencies:
+    enhanced-resolve: ^5.7.0
+    escalade: ^3.1.1
+  checksum: 0173c649d696f0de8b4225706efeff9bb38da9ea6fcfdbb4f5bdb6528072fbc5ff4d9252a8b3d3fb71f970fb00118f202c88c11fad02f953df5007f934b04604
+  languageName: node
+  linkType: hard
+
 "next@npm:latest":
   version: 10.1.3
   resolution: "next@npm:10.1.3"
@@ -9957,6 +9996,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tapable@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "tapable@npm:2.2.0"
+  checksum: f8ed725aedb3d777bf908ff06c02d1a2108667d3e64af87dd45354ac8de67e7e4fe1a567e215057fb1a2a5437b31d80cc5e5ddbb8327f7280afd4494967a9a93
+  languageName: node
+  linkType: hard
+
 "tar@npm:^6.0.2, tar@npm:^6.1.0":
   version: 6.1.0
   resolution: "tar@npm:6.1.0"
@@ -10891,6 +10937,8 @@ typescript@^4.2.4:
   version: 0.0.0-use.local
   resolution: "with-typescript@workspace:packages/client"
   dependencies:
+    "@airbnb-clone/controller": 1.0.0
+    "@ant-design/icons": ^4.6.2
     "@apollo/client": ^3.3.14
     "@types/node": ^14.14.37
     "@types/react": ^17.0.3
@@ -10900,6 +10948,7 @@ typescript@^4.2.4:
     graphql-tag: ^2.11.0
     next: latest
     next-apollo: ^5.0.4
+    next-transpile-modules: ^6.4.0
     react: ^17.0.2
     react-dom: ^17.0.2
     typescript: ^4.2.4
