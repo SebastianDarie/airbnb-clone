@@ -14,13 +14,27 @@ interface InputFieldProps {
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
+  name,
+  label,
+  dependecies,
+  hasFeedback,
+  rules,
   placeholder,
   prefix,
-  ...props
 }) => {
   return (
-    <Form.Item {...props}>
-      <Input placeholder={placeholder} prefix={prefix} />
+    <Form.Item
+      name={name}
+      label={label}
+      dependencies={dependecies}
+      hasFeedback={hasFeedback}
+      rules={rules}
+    >
+      {name === 'password' || name === 'confirm' ? (
+        <Input.Password placeholder={placeholder} prefix={prefix} />
+      ) : (
+        <Input placeholder={placeholder} prefix={prefix} />
+      )}
     </Form.Item>
   );
 };

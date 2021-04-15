@@ -20,7 +20,9 @@ const Register: React.FC<registerProps> = ({}) => {
         }}
       >
         <RegisterController>
-          {({ submit }) => <RegisterView submit={submit} />}
+          {({ data, loading, submit }) => (
+            <RegisterView data={data} loading={loading} submit={submit} />
+          )}
         </RegisterController>
       </Content>
     </Layout>
