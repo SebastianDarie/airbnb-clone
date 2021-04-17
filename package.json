@@ -1,6 +1,23 @@
 {
   "private": true,
+  "scripts": {
+    "build:client": "lerna run build --scope=@airbnb-clone/{client, controller}"
+  },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "nohoist": [
+    "**/react-native",
+    "**/react-native/**",
+    "**/metro-react-native-babel-preset",
+    "**/metro-react-native-babel-preset/**",
+    "**/@react-native-community/eslint-config",
+    "**/@react-native-community/eslint-config/**",
+    "**/@types/react-native",
+    "**/@types/react-native/**"
+  ],
+  "name": "airbnb-clone",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
 }
