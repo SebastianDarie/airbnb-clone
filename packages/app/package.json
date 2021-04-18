@@ -3,20 +3,25 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --variant=debug --deviceId 63a8ff16",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "start": "react-native start --host 127.0.0.1 --reset-cache",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@apollo/client": "^3.3.15",
+    "@react-native-masked-view/masked-view": "^0.2.3",
     "@react-navigation/native": "next",
     "@react-navigation/stack": "next",
     "graphql": "^15.5.0",
     "react": "17.0.1",
     "react-native": "0.64.0",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-paper": "^4.7.2",
+    "react-native-reanimated": "^2.1.0",
+    "react-native-safe-area-context": "^3.2.0",
+    "react-native-screens": "^3.1.1",
     "react-native-vector-icons": "^8.1.0"
   },
   "devDependencies": {
@@ -46,5 +51,8 @@
       "json",
       "node"
     ]
+  },
+  "installConfig": {
+    "hoistingLimits": "dependencies"
   }
 }
