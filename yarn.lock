@@ -25,6 +25,7 @@ __metadata:
     jest: ^26.6.3
     metro-react-native-babel-preset: ^0.64.0
     react: 17.0.1
+    react-hook-form: ^7.2.1
     react-native: 0.64.0
     react-native-gesture-handler: ^1.10.3
     react-native-paper: ^4.7.2
@@ -15720,6 +15721,15 @@ __metadata:
   peerDependencies:
     react: 17.0.2
   checksum: 960a74ff6670766846a73097a599115963df1574833c59ca0c2fd909758ebe7a6214cd14f5e6aa63ce846d8f39fde7f3b80474ccfcfadc45dd7f3246364718c6
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "react-hook-form@npm:7.2.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: 89cd54042926b042a1fa8a5f0201006c3f86068fdc7f647b6d3c5601274794b76c483c1927dc33ac30161fc13c3d367bd2aabd3744a0fa302e743c22913a65a4
   languageName: node
   linkType: hard
 

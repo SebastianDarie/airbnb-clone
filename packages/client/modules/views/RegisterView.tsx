@@ -7,7 +7,7 @@ import { FormProps, RegisterMutation } from '@airbnb-clone/controller';
 interface RegisterViewProps {
   data?: RegisterMutation | null | undefined;
   loading: boolean;
-  submit: (values: FormProps) => void;
+  submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
 }
 
 const formItemLayout = {
@@ -42,10 +42,6 @@ export const RegisterView: React.FC<RegisterViewProps> = React.memo(
         form.setFields([{ name: err.path, errors: [err.message] }])
       );
     }
-
-    // const onFinish = (values: FormProps) => {
-    //   console.log('Received values of form: ', values);
-    // };
 
     return (
       <Form

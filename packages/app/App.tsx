@@ -68,7 +68,7 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <PaperProvider>
-        <SafeAreaView style={backgroundStyle}>
+        {/* <SafeAreaView style={backgroundStyle}>
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
@@ -94,9 +94,8 @@ const App = () => {
               <LearnMoreLinks />
             </View>
           </ScrollView>
-        </SafeAreaView>
+        </SafeAreaView> */}
         <Routes />
-        hello
       </PaperProvider>
     </ApolloProvider>
   );

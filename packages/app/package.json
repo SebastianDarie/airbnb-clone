@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --variant=debug --deviceId 63a8ff16",
+    "android": "react-native run-android --variant=debug --deviceId emulator-5554",
     "ios": "react-native run-ios",
-    "start": "react-native start --host 127.0.0.1 --reset-cache",
+    "start": "react-native start --host 127.0.0.1",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
@@ -16,6 +16,7 @@
     "@react-navigation/stack": "next",
     "graphql": "^15.5.0",
     "react": "17.0.1",
+    "react-hook-form": "^7.2.1",
     "react-native": "0.64.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-paper": "^4.7.2",

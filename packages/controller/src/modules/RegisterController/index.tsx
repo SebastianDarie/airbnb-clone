@@ -7,7 +7,7 @@ interface RegisterControllerProps {
   children: (data: {
     data?: RegisterMutation | null | undefined;
     loading: boolean;
-    submit: (values: FormProps) => void;
+    submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
