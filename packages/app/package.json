@@ -10,7 +10,9 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@airbnb-clone/controller": "1.0.0",
     "@apollo/client": "^3.3.15",
+    "@hookform/error-message": "^2.0.0",
     "@react-native-masked-view/masked-view": "^0.2.3",
     "@react-navigation/native": "next",
     "@react-navigation/stack": "next",

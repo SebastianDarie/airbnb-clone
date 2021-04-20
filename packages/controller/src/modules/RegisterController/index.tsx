@@ -6,7 +6,7 @@ import { RegisterMutation, useRegisterMutation } from '../../generated/graphql';
 interface RegisterControllerProps {
   children: (data: {
     data?: RegisterMutation | null | undefined;
-    loading: boolean;
+    loading?: boolean;
     submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
   }) => (JSX.Element & React.ReactNode) | null;
 }

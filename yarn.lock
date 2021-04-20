@@ -9,9 +9,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@airbnb-clone/app@workspace:packages/app"
   dependencies:
+    "@airbnb-clone/controller": 1.0.0
     "@apollo/client": ^3.3.15
     "@babel/core": ^7.12.9
     "@babel/runtime": ^7.12.5
+    "@hookform/error-message": ^2.0.0
     "@react-native-community/eslint-config": ^2.0.0
     "@react-native-masked-view/masked-view": ^0.2.3
     "@react-navigation/native": next
@@ -1899,6 +1901,17 @@ __metadata:
   dependencies:
     "@hapi/hoek": ^9.0.0
   checksum: f92797d5ef54bb801a3591a118ea483ed5a6b41cdd1aaa6f7bf427b64b5f76056bc7063447adf43be8f94b04408228cce12963ea498b8da8f9e01d01c78710ac
+  languageName: node
+  linkType: hard
+
+"@hookform/error-message@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@hookform/error-message@npm:2.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    react-hook-form: ^7.0.0
+  checksum: 505deb27323671736c67abb356c2740b419b47fd9336077c43540699735b152fd85125cbdec7a5d3471d6b6f0708230599db2c81af608426bbc16ad4bf8aab7d
   languageName: node
   linkType: hard
 
