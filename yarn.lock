@@ -26,7 +26,7 @@ __metadata:
     graphql: ^15.5.0
     jest: ^26.6.3
     metro-react-native-babel-preset: ^0.64.0
-    react: 17.0.1
+    react: ^17.0.2
     react-hook-form: ^7.2.1
     react-native: 0.64.0
     react-native-gesture-handler: ^1.10.3
@@ -36,7 +36,7 @@ __metadata:
     react-native-screens: ^3.1.1
     react-native-vector-icons: ^8.1.0
     react-test-renderer: 17.0.1
-    typescript: ^3.8.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -15947,16 +15947,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:17.0.1":
-  version: 17.0.1
-  resolution: "react@npm:17.0.1"
-  dependencies:
-    loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: a76d86ec973eb4b25a46071ac7f974adfd66ed89ad1db63043be1d976ec25417520a210e6d724b0ad937422b706afcf9962cedda9e92125992a8c0e8a95f2051
-  languageName: node
-  linkType: hard
-
 "react@npm:^17.0.2":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
@@ -18622,16 +18612,6 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-typescript@^3.8.3:
-  version: 3.9.9
-  resolution: "typescript@npm:3.9.9"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 22bbe953faa34903587f3bd8fb6c343d754745d4177e49da523a2a3b814fe5eaf60d9b23c2d401d038a08a5ac2d8094b268ba75adee840cc2358fb5a866624ab
-  languageName: node
-  linkType: hard
-
 typescript@^4.2.4:
   version: 4.2.4
   resolution: "typescript@npm:4.2.4"
@@ -18639,16 +18619,6 @@ typescript@^4.2.4:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: edaede2fa77f56b7fba80ee624a2368ab1216e75b0434d968ccb47ab0a5e2f6d94f848b3b111c1237dd71e988cd376af26370dcdad3b94355c76e759f0dd0a1e
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^3.8.3#builtin<compat/typescript>":
-  version: 3.9.9
-  resolution: "typescript@patch:typescript@npm%3A3.9.9#builtin<compat/typescript>::version=3.9.9&hash=a45b0e"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 05a113f2ec0d0fc3263335c230d2eb7b94d851e51b5766f63b88b611127d08782ce41132eb32b9d3d434de8340f698f7ec2f72ebb4d33c3b2976b27de1f47ace
   languageName: node
   linkType: hard
 

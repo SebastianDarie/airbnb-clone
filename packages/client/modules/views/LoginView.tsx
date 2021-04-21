@@ -4,7 +4,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { InputField } from '../../components/InputField';
 import { FormProps, RegisterMutation } from '@airbnb-clone/controller';
 
-interface RegisterViewProps {
+interface LoginViewProps {
   data?: RegisterMutation | null | undefined;
   loading?: boolean;
   submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
@@ -33,7 +33,7 @@ const tailFormItemLayout = {
   },
 };
 
-export const RegisterView: React.FC<RegisterViewProps> = React.memo(
+export const LoginView: React.FC<LoginViewProps> = React.memo(
   ({ data, loading, submit }) => {
     const [form] = Form.useForm();
 

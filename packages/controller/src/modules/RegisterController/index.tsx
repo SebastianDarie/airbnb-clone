@@ -21,10 +21,10 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
     const { data } = await register({
       variables: { email: values.email, password: values.password },
     });
-
-    if (!data?.register.errors) {
-      router.push('/');
-    }
+    console.log(data);
+    // if (!data?.register.errors) {
+    //   router.push('/');
+    // }
 
     return data;
   };
