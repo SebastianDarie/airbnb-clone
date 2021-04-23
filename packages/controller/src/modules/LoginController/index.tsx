@@ -3,7 +3,7 @@ import React from 'react';
 import { FormProps } from '../..';
 import { RegisterMutation, useRegisterMutation } from '../../generated/graphql';
 
-interface RegisterControllerProps {
+interface LoginControllerProps {
   children: (data: {
     data?: RegisterMutation | null | undefined;
     loading?: boolean;
@@ -11,7 +11,7 @@ interface RegisterControllerProps {
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
-export const RegisterController: React.FC<RegisterControllerProps> = ({
+export const LoginController: React.FC<LoginControllerProps> = ({
   children,
 }) => {
   //const router = useRouter();

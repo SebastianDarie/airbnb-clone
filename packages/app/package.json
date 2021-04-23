@@ -54,8 +54,5 @@
       "json",
       "node"
     ]
-  },
-  "installConfig": {
-    "hoistingLimits": "dependencies"
   }
 }
