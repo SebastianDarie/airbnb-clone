@@ -1,4 +1,5 @@
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {Control, Controller, DeepMap, FieldError} from 'react-hook-form';
 import {Subheading, TextInput} from 'react-native-paper';
 import {FormProps} from '@airbnb-clone/controller';
@@ -33,10 +34,10 @@ export const InputField: React.FC<InputFieldProps> = ({
             autoCapitalize="none"
             error={!!errors?.email}
             onBlur={onBlur}
-            onChangeText={value => onChange(value)}
+            onChangeText={val => onChange(val)}
             value={value}
             {...props}
-            style={{height: 40, marginHorizontal: 10, marginTop: 5}}
+            style={styles.input}
           />
         )}
         rules={rules}
@@ -48,7 +49,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         render={({messages}) =>
           messages &&
           Object.entries(messages).map(([type, message]) => (
-            <Subheading key={type} style={{color: 'red', marginHorizontal: 12}}>
+            <Subheading key={type} style={styles.subheading}>
               {message}
             </Subheading>
           ))
@@ -57,3 +58,15 @@ export const InputField: React.FC<InputFieldProps> = ({
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    marginHorizontal: 10,
+    marginTop: 5,
+  },
+  subheading: {
+    color: 'red',
+    marginHorizontal: 12,
+  },
+});

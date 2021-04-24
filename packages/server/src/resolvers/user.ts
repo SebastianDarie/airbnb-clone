@@ -100,6 +100,7 @@ export class UserResolver {
         .values({
           email: credentials.email,
           password: hashedPassword,
+          confirmed: true,
         })
         .returning('*')
         .execute();
@@ -119,23 +120,26 @@ export class UserResolver {
     }
 
     req.session.userId = user.id;
-
-    if (process.env.NODE_ENV !== 'test') {
-      const token = v4();
-
-      await redis.set(
-        CONFIRM_EMAIL_PREFIX + token,
-        user.id,
-        'ex',
-        1000 * 60 * 60 * 24
-      );
-
-      await sendEmail(
-        credentials.email,
-        'Confirm your email',
-        `<a href="${process.env.CORS_ORIGIN}/confirm-email/${token}">Confirm your email</a>`
-      );
+    if (req.sessionID) {
+      await redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, req.sessionID);
     }
+
+    // if (process.env.NODE_ENV !== 'test') {
+    //   const token = v4();
+
+    //   await redis.set(
+    //     CONFIRM_EMAIL_PREFIX + token,
+    //     user.id,
+    //     'ex',
+    //     1000 * 60 * 60 * 24
+    //   );
+
+    //   await sendEmail(
+    //     credentials.email,
+    //     'Confirm your email',
+    //     `<a href="${process.env.CORS_ORIGIN}/confirm-email/${token}">Confirm your email</a>`
+    //   );
+    // }
 
     return { user };
   }

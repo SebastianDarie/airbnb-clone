@@ -2,13 +2,13 @@ import React from 'react';
 import { Form, Button, Checkbox } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { InputField } from '../../components/InputField';
-import { FormProps, RegisterMutation } from '@airbnb-clone/controller';
+import { FormProps, LoginMutation } from '@airbnb-clone/controller';
 import Link from 'next/link';
 
 interface LoginViewProps {
-  data?: RegisterMutation | null | undefined;
+  data?: LoginMutation | null | undefined;
   loading?: boolean;
-  submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
+  submit: (values: FormProps) => Promise<LoginMutation | null | undefined>;
 }
 
 const formItemLayout = {
@@ -38,8 +38,8 @@ export const LoginView: React.FC<LoginViewProps> = React.memo(
   ({ data, loading, submit }) => {
     const [form] = Form.useForm();
 
-    if (data?.register.errors) {
-      data.register.errors.map((err) =>
+    if (data?.login.errors) {
+      data.login.errors.map((err) =>
         form.setFields([{ name: err.path, errors: [err.message] }])
       );
     }

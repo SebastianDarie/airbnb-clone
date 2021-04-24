@@ -11,31 +11,31 @@ __metadata:
   dependencies:
     "@airbnb-clone/controller": 1.0.0
     "@apollo/client": ^3.3.15
-    "@babel/core": ^7.12.9
-    "@babel/runtime": ^7.12.5
+    "@babel/core": ^7.13.16
+    "@babel/runtime": ^7.13.17
     "@hookform/error-message": ^2.0.0
     "@react-native-community/eslint-config": ^2.0.0
-    "@react-native-masked-view/masked-view": ^0.2.3
+    "@react-native-masked-view/masked-view": ^0.2.4
     "@react-navigation/native": next
     "@react-navigation/stack": next
-    "@types/jest": ^26.0.20
-    "@types/react-native": ^0.64.0
-    "@types/react-test-renderer": ^16.9.2
+    "@types/jest": ^26.0.22
+    "@types/react-native": ^0.64.4
+    "@types/react-test-renderer": ^17.0.1
     babel-jest: ^26.6.3
-    eslint: ^7.14.0
+    eslint: ^7.25.0
     graphql: ^15.5.0
     jest: ^26.6.3
-    metro-react-native-babel-preset: ^0.64.0
+    metro-react-native-babel-preset: ^0.66.0
     react: ^17.0.2
-    react-hook-form: ^7.2.1
+    react-hook-form: ^7.3.0
     react-native: 0.64.0
     react-native-gesture-handler: ^1.10.3
-    react-native-paper: ^4.7.2
+    react-native-paper: ^4.8.1
     react-native-reanimated: ^2.1.0
     react-native-safe-area-context: ^3.2.0
     react-native-screens: ^3.1.1
     react-native-vector-icons: ^8.1.0
-    react-test-renderer: 17.0.1
+    react-test-renderer: 17.0.2
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
@@ -47,13 +47,13 @@ __metadata:
     "@airbnb-clone/controller": 1.0.0
     "@ant-design/icons": ^4.6.2
     "@apollo/client": ^3.3.15
-    "@types/node": ^14.14.37
+    "@types/node": ^14.14.41
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
-    antd: ^4.15.1
+    antd: ^4.15.2
     graphql: ^15.5.0
     graphql-tag: ^2.11.0
-    next: latest
+    next: ^10.1.3
     next-apollo: ^5.0.4
     next-transpile-modules: ^6.4.0
     react: ^17.0.2
@@ -73,11 +73,11 @@ __metadata:
   resolution: "@airbnb-clone/controller@workspace:packages/controller"
   dependencies:
     "@apollo/client": ^3.3.15
-    "@graphql-codegen/cli": 1.21.3
-    "@graphql-codegen/typescript": 1.21.1
-    "@graphql-codegen/typescript-operations": 1.17.15
-    "@graphql-codegen/typescript-react-apollo": 2.2.3
-    "@types/node": ^14.14.37
+    "@graphql-codegen/cli": 1.21.4
+    "@graphql-codegen/typescript": 1.22.0
+    "@graphql-codegen/typescript-operations": 1.17.16
+    "@graphql-codegen/typescript-react-apollo": 2.2.4
+    "@types/node": ^14.14.41
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     graphql: ^15.5.0
@@ -98,16 +98,16 @@ __metadata:
     "@types/express": ^4.17.11
     "@types/express-rate-limit": ^5.1.1
     "@types/express-session": ^1.17.3
-    "@types/faker": ^5.5.1
-    "@types/ioredis": ^4.22.3
+    "@types/faker": ^5.5.3
+    "@types/ioredis": ^4.26.0
     "@types/jest": ^26.0.22
-    "@types/node": ^14.14.37
+    "@types/node": ^14.14.41
     "@types/nodemailer": ^6.4.1
     "@types/rate-limit-redis": ^1.7.1
     "@types/redis": ^2.8.28
     "@types/uuid": ^8.3.0
     "@types/yup": ^0.29.11
-    apollo-server-express: ^2.22.2
+    apollo-server-express: ^2.23.0
     argon2: ^0.27.2
     connect-redis: ^5.1.0
     cors: ^2.8.5
@@ -119,14 +119,14 @@ __metadata:
     faker: ^5.5.3
     gen-env-types: ^1.3.0
     graphql: ^15.5.0
-    ioredis: ^4.26.0
+    ioredis: ^4.27.1
     jest: ^26.6.3
     nodemailer: ^6.5.0
     nodemon: ^2.0.7
     pg: ^8.6.0
     rate-limit-redis: ^2.1.0
     reflect-metadata: ^0.1.13
-    ts-jest: ^26.5.4
+    ts-jest: ^26.5.5
     ts-node: ^9.1.1
     type-graphql: ^1.1.1
     typeorm: ^0.2.32
@@ -303,7 +303,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.13.16, @babel/core@npm:^7.0.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.1.6, @babel/core@npm:^7.12.9, @babel/core@npm:^7.7.5":
+"@babel/core@npm:7.13.16, @babel/core@npm:^7.0.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.1.6, @babel/core@npm:^7.13.16, @babel/core@npm:^7.7.5":
   version: 7.13.16
   resolution: "@babel/core@npm:7.13.16"
   dependencies:
@@ -494,6 +494,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-remap-async-to-generator@npm:^7.13.0":
+  version: 7.13.0
+  resolution: "@babel/helper-remap-async-to-generator@npm:7.13.0"
+  dependencies:
+    "@babel/helper-annotate-as-pure": ^7.12.13
+    "@babel/helper-wrap-function": ^7.13.0
+    "@babel/types": ^7.13.0
+  checksum: d4211801d482dd4ad48273a7500fcdadc3eb71f44c4d647a3cf5fbe1bc7486abb011976e8842fb8b8374b50d64bae20639a1092e84c2bcd566dfb9f033151b53
+  languageName: node
+  linkType: hard
+
 "@babel/helper-replace-supers@npm:^7.12.13, @babel/helper-replace-supers@npm:^7.13.0, @babel/helper-replace-supers@npm:^7.13.12":
   version: 7.13.12
   resolution: "@babel/helper-replace-supers@npm:7.13.12"
@@ -544,6 +555,18 @@ __metadata:
   version: 7.12.17
   resolution: "@babel/helper-validator-option@npm:7.12.17"
   checksum: 9201d17a5634b05a6f3d561b95e73a4e4f9ba2e56c55cfc3b9a2a9618c4090b4b507720ac7a2e77209e68dc9bdc00a59b5ba7ad9ecbca3fb2c9217e814b7b5a5
+  languageName: node
+  linkType: hard
+
+"@babel/helper-wrap-function@npm:^7.13.0":
+  version: 7.13.0
+  resolution: "@babel/helper-wrap-function@npm:7.13.0"
+  dependencies:
+    "@babel/helper-function-name": ^7.12.13
+    "@babel/template": ^7.12.13
+    "@babel/traverse": ^7.13.0
+    "@babel/types": ^7.13.0
+  checksum: 89426304e5409454fe3a5082becb434152820d04b3de0687c8478ea15248a646a1598bc725659dd22d7ae651558fae65f9c352914a3562a4e657ba28195fcea9
   languageName: node
   linkType: hard
 
@@ -858,6 +881,19 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 26edbba649037ff59dbebba9479e7598c69b108200e1e6f39650ef9339d73d595d62716f45b38caac211800134f3ebba7960ea5bf4f43d6143cd9518d3f5c697
+  languageName: node
+  linkType: hard
+
+"@babel/plugin-transform-async-to-generator@npm:^7.0.0":
+  version: 7.13.0
+  resolution: "@babel/plugin-transform-async-to-generator@npm:7.13.0"
+  dependencies:
+    "@babel/helper-module-imports": ^7.12.13
+    "@babel/helper-plugin-utils": ^7.13.0
+    "@babel/helper-remap-async-to-generator": ^7.13.0
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 32d484b30f658c1a9470305c6db04f5297ebd20e83486cc596cc52253b04fab7b75c1fe0fceef271622b91e61321906c94d37d1913dfacb7b5396fd6a8979de2
   languageName: node
   linkType: hard
 
@@ -1245,7 +1281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.17, @babel/runtime@npm:^7.8.4":
   version: 7.13.17
   resolution: "@babel/runtime@npm:7.13.17"
   dependencies:
@@ -1408,12 +1444,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/cli@npm:1.21.3":
-  version: 1.21.3
-  resolution: "@graphql-codegen/cli@npm:1.21.3"
+"@graphql-codegen/cli@npm:1.21.4":
+  version: 1.21.4
+  resolution: "@graphql-codegen/cli@npm:1.21.4"
   dependencies:
     "@graphql-codegen/core": 1.17.9
-    "@graphql-codegen/plugin-helpers": ^1.18.4
+    "@graphql-codegen/plugin-helpers": ^1.18.5
     "@graphql-tools/apollo-engine-loader": ^6
     "@graphql-tools/code-file-loader": ^6
     "@graphql-tools/git-loader": ^6
@@ -1426,7 +1462,7 @@ __metadata:
     "@graphql-tools/utils": ^7.0.0
     ansi-escapes: ^4.3.1
     chalk: ^4.1.0
-    change-case-all: 1.0.12
+    change-case-all: 1.0.14
     chokidar: ^3.4.3
     common-tags: ^1.8.0
     cosmiconfig: ^7.0.0
@@ -1447,7 +1483,7 @@ __metadata:
     mkdirp: ^1.0.4
     string-env-interpolation: ^1.0.1
     ts-log: ^2.2.3
-    tslib: ~2.1.0
+    tslib: ~2.2.0
     valid-url: ^1.0.9
     wrap-ansi: ^7.0.0
     yaml: ^1.10.0
@@ -1458,7 +1494,7 @@ __metadata:
     gql-gen: bin.js
     graphql-code-generator: bin.js
     graphql-codegen: bin.js
-  checksum: 3cc2540ba41ab995c20c22b652033c1563c2439fabf1b0e45ba8dbc22ef6af23a178d3fbf2e4308a5d132b560f1600c5a0d46243e9095c02645030d6bc99e1bf
+  checksum: 757045363d3e6af3b55f4a1c55ff2f7156ebd25cfc92544b87f3c9905cb3c8e14f7b2be5789e99d0438e571c219d274db24baa0ba0304f956539d34ff3d0d4f4
   languageName: node
   linkType: hard
 
@@ -1476,7 +1512,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/plugin-helpers@npm:^1.18.2, @graphql-codegen/plugin-helpers@npm:^1.18.3, @graphql-codegen/plugin-helpers@npm:^1.18.4, @graphql-codegen/plugin-helpers@npm:^1.18.5":
+"@graphql-codegen/plugin-helpers@npm:^1.18.2, @graphql-codegen/plugin-helpers@npm:^1.18.5":
   version: 1.18.5
   resolution: "@graphql-codegen/plugin-helpers@npm:1.18.5"
   dependencies:
@@ -1491,52 +1527,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript-operations@npm:1.17.15":
-  version: 1.17.15
-  resolution: "@graphql-codegen/typescript-operations@npm:1.17.15"
+"@graphql-codegen/typescript-operations@npm:1.17.16":
+  version: 1.17.16
+  resolution: "@graphql-codegen/typescript-operations@npm:1.17.16"
   dependencies:
-    "@graphql-codegen/plugin-helpers": ^1.18.3
-    "@graphql-codegen/typescript": ^1.21.1
-    "@graphql-codegen/visitor-plugin-common": ^1.19.0
+    "@graphql-codegen/plugin-helpers": ^1.18.5
+    "@graphql-codegen/typescript": ^1.22.0
+    "@graphql-codegen/visitor-plugin-common": ^1.20.0
     auto-bind: ~4.0.0
-    tslib: ~2.1.0
+    tslib: ~2.2.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-  checksum: 4544b60a8c27ad5f4d5a28b36546a466d790156a92a35b586a0ad89afdf1c970be5a90409da11c9fbf37cf4c77ebc5a1a76cb35bf1fb73e4031db53fdb7f2a46
+  checksum: 73b617c00c126951806406a8a2dc0b3991658fac1cc3e90655fa8766a6f76842d0845d30cb6b1b9c0cfa7d4545df6b09a950123a6470f914deaf96a31ebe7347
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript-react-apollo@npm:2.2.3":
-  version: 2.2.3
-  resolution: "@graphql-codegen/typescript-react-apollo@npm:2.2.3"
+"@graphql-codegen/typescript-react-apollo@npm:2.2.4":
+  version: 2.2.4
+  resolution: "@graphql-codegen/typescript-react-apollo@npm:2.2.4"
   dependencies:
-    "@graphql-codegen/plugin-helpers": ^1.18.4
-    "@graphql-codegen/visitor-plugin-common": ^1.19.1
+    "@graphql-codegen/plugin-helpers": ^1.18.5
+    "@graphql-codegen/visitor-plugin-common": ^1.20.0
     auto-bind: ~4.0.0
-    change-case-all: 1.0.12
-    tslib: ~2.1.0
+    change-case-all: 1.0.14
+    tslib: ~2.2.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     graphql-tag: ^2.0.0
-  checksum: 8539304855937f50bbf08e6cb03c5ccf00560eb2a859c47066af059ae72c6231f6fa2f38da3cac53a34a5af5eabe10542702bc20e6a294d56878094ee466ebee
+  checksum: be74e3354a339e2ba72a8b2cc993a59b36633d56b14486cb93c1cd8645855d5dc98376b5fc130fd2aa6a0c71911f9ce690632145a00848a656a273f9b2ce52f8
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript@npm:1.21.1":
-  version: 1.21.1
-  resolution: "@graphql-codegen/typescript@npm:1.21.1"
-  dependencies:
-    "@graphql-codegen/plugin-helpers": ^1.18.3
-    "@graphql-codegen/visitor-plugin-common": ^1.19.0
-    auto-bind: ~4.0.0
-    tslib: ~2.1.0
-  peerDependencies:
-    graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-  checksum: 86165e0ea311729f6b18f3fd7deb3686f5ce6c2e5b4f9ead7c234dcdacc815ca1adf8e55c6532c31ef4d6e195b5775f57e31d72cda2d50498642556e87ad3dee
-  languageName: node
-  linkType: hard
-
-"@graphql-codegen/typescript@npm:^1.21.1":
+"@graphql-codegen/typescript@npm:1.22.0, @graphql-codegen/typescript@npm:^1.22.0":
   version: 1.22.0
   resolution: "@graphql-codegen/typescript@npm:1.22.0"
   dependencies:
@@ -1550,7 +1572,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/visitor-plugin-common@npm:^1.19.0, @graphql-codegen/visitor-plugin-common@npm:^1.19.1, @graphql-codegen/visitor-plugin-common@npm:^1.20.0":
+"@graphql-codegen/visitor-plugin-common@npm:^1.20.0":
   version: 1.20.0
   resolution: "@graphql-codegen/visitor-plugin-common@npm:1.20.0"
   dependencies:
@@ -2541,7 +2563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-masked-view/masked-view@npm:^0.2.3":
+"@react-native-masked-view/masked-view@npm:^0.2.4":
   version: 0.2.4
   resolution: "@react-native-masked-view/masked-view@npm:0.2.4"
   peerDependencies:
@@ -2881,7 +2903,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/faker@npm:^5.5.1":
+"@types/faker@npm:^5.5.3":
   version: 5.5.3
   resolution: "@types/faker@npm:5.5.3"
   checksum: 400a10db2a027bbfa3bd91c4a04fbb2bab4ab98f20a3a60b505db1947f24a8efc9040739bf2380d2635d4db558eb13018dd3025a38f5d8643c0fc058f24b5220
@@ -2946,7 +2968,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ioredis@npm:*, @types/ioredis@npm:^4.22.3":
+"@types/ioredis@npm:*, @types/ioredis@npm:^4.26.0":
   version: 4.26.0
   resolution: "@types/ioredis@npm:4.26.0"
   dependencies:
@@ -2980,7 +3002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.20, @types/jest@npm:^26.0.22":
+"@types/jest@npm:^26.0.22":
   version: 26.0.22
   resolution: "@types/jest@npm:26.0.22"
   dependencies:
@@ -3109,7 +3131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^14.14.37":
+"@types/node@npm:*, @types/node@npm:^14.14.41":
   version: 14.14.41
   resolution: "@types/node@npm:14.14.41"
   checksum: 37dfb639644c8ee9b9846106834983f590d494b855e74645a4f169ea24199f7559366d25f6e72e83ba940b59eb6370e002bd53963d098d6d9fdf935a37011417
@@ -3194,7 +3216,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:^0.64.0":
+"@types/react-native@npm:^0.64.4":
   version: 0.64.4
   resolution: "@types/react-native@npm:0.64.4"
   dependencies:
@@ -3203,12 +3225,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-test-renderer@npm:^16.9.2":
-  version: 16.9.5
-  resolution: "@types/react-test-renderer@npm:16.9.5"
+"@types/react-test-renderer@npm:^17.0.1":
+  version: 17.0.1
+  resolution: "@types/react-test-renderer@npm:17.0.1"
   dependencies:
-    "@types/react": ^16
-  checksum: ee49f49af1e73fe32034063ef14dd23c73702987451ac7a6919313f163241203b9ef415471b7a277e852de83ef74cbc6852d3bcedc8aeae50905b1779730d4c0
+    "@types/react": "*"
+  checksum: bd3f8c6c2ae23f270b465106ae81c7e72dc97b64f83b980239bd45a69dcc9f41aada4183f16634320e8d02cede942e46258366a596dbefaae558abad236f4ab6
   languageName: node
   linkType: hard
 
@@ -3220,17 +3242,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 5bcaabadc90a23ad9008540eae98a5819b638c4cf1b968adc67be47d6a8dc8cb100061d877dae97618fb275e405dc484b37154080c7ac0ea7df5efcdd8f98c24
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^16":
-  version: 16.14.5
-  resolution: "@types/react@npm:16.14.5"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 76840cce4dae25a17b1f35950bb232b0bc98beceb45766695f4b0226758aff346cebd3830ffe5f67c3e0030ac24d3ea899750c46e49ee405a2b6d72e87a855ed
   languageName: node
   linkType: hard
 
@@ -3716,7 +3727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"antd@npm:^4.15.1":
+"antd@npm:^4.15.2":
   version: 4.15.2
   resolution: "antd@npm:4.15.2"
   dependencies:
@@ -3948,7 +3959,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"apollo-server-express@npm:^2.22.2":
+"apollo-server-express@npm:^2.23.0":
   version: 2.23.0
   resolution: "apollo-server-express@npm:2.23.0"
   dependencies:
@@ -5187,24 +5198,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"change-case-all@npm:1.0.12":
-  version: 1.0.12
-  resolution: "change-case-all@npm:1.0.12"
-  dependencies:
-    change-case: ^4.1.1
-    is-lower-case: ^2.0.1
-    is-upper-case: ^2.0.1
-    lower-case: ^2.0.1
-    lower-case-first: ^2.0.1
-    sponge-case: ^1.0.0
-    swap-case: ^2.0.1
-    title-case: ^3.0.2
-    upper-case: ^2.0.1
-    upper-case-first: ^2.0.1
-  checksum: 750375031a1252467bc528e039fdda0ab21d95a92d52a58b6ea0c2ac18b9c7585fc7b029793e621bd32dd0b941d0a8fd5aa642d377bc9fb46390be920b8201cc
-  languageName: node
-  linkType: hard
-
 "change-case-all@npm:1.0.14":
   version: 1.0.14
   resolution: "change-case-all@npm:1.0.14"
@@ -5223,7 +5216,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"change-case@npm:^4.1.1, change-case@npm:^4.1.2":
+"change-case@npm:^4.1.2":
   version: 4.1.2
   resolution: "change-case@npm:4.1.2"
   dependencies:
@@ -6877,9 +6870,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.14.0":
-  version: 7.24.0
-  resolution: "eslint@npm:7.24.0"
+"eslint@npm:^7.25.0":
+  version: 7.25.0
+  resolution: "eslint@npm:7.25.0"
   dependencies:
     "@babel/code-frame": 7.12.11
     "@eslint/eslintrc": ^0.4.0
@@ -6920,7 +6913,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 8130aacc3698a730ba8fa10ac9e1436151181c34cad265c21c97708e62dba714b6f3cc4cb7a1d343918da3d35a5913505ccf53cfbdc1fa8d62d326b7e35b7aae
+  checksum: 6e1782e2264ebf987504746ee82e996bf0ef2c29a2eaea869b54cb8aa1eaf10945b1d563618515e65ac934ca626f3609282127773f45868ad4a98744458a3c62
   languageName: node
   linkType: hard
 
@@ -8562,9 +8555,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:^4.26.0":
-  version: 4.26.0
-  resolution: "ioredis@npm:4.26.0"
+"ioredis@npm:^4.27.1":
+  version: 4.27.1
+  resolution: "ioredis@npm:4.27.1"
   dependencies:
     cluster-key-slot: ^1.1.0
     debug: ^4.3.1
@@ -8576,7 +8569,7 @@ __metadata:
     redis-errors: ^1.2.0
     redis-parser: ^3.0.0
     standard-as-callback: ^2.1.0
-  checksum: 7b2519162bbd4a036e414f45f256a5c37b07bb02393d8c9cdb874c89ab905da039dfbbfd5795d59c63dcc4a47a8537cc87b605fadf70509e9583e77a8c867c2a
+  checksum: b2c812b7822c33137807125456a6e707bd3614464442e955dd0b8e4aadc157d4a3de824d746048e4190b24ac6db3c971d8d6234a4c13d8ba1e9bed33f3bb98af
   languageName: node
   linkType: hard
 
@@ -8853,7 +8846,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-lower-case@npm:^2.0.1, is-lower-case@npm:^2.0.2":
+"is-lower-case@npm:^2.0.2":
   version: 2.0.2
   resolution: "is-lower-case@npm:2.0.2"
   dependencies:
@@ -9047,7 +9040,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-upper-case@npm:^2.0.1, is-upper-case@npm:^2.0.2":
+"is-upper-case@npm:^2.0.2":
   version: 2.0.2
   resolution: "is-upper-case@npm:2.0.2"
   dependencies:
@@ -10466,7 +10459,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lower-case-first@npm:^2.0.1, lower-case-first@npm:^2.0.2":
+"lower-case-first@npm:^2.0.2":
   version: 2.0.2
   resolution: "lower-case-first@npm:2.0.2"
   dependencies:
@@ -10475,7 +10468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lower-case@npm:^2.0.1, lower-case@npm:^2.0.2":
+"lower-case@npm:^2.0.2":
   version: 2.0.2
   resolution: "lower-case@npm:2.0.2"
   dependencies:
@@ -10727,7 +10720,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metro-react-native-babel-preset@npm:0.64.0, metro-react-native-babel-preset@npm:^0.64.0":
+"metro-react-native-babel-preset@npm:0.64.0":
   version: 0.64.0
   resolution: "metro-react-native-babel-preset@npm:0.64.0"
   dependencies:
@@ -10773,6 +10766,56 @@ __metadata:
   peerDependencies:
     "@babel/core": "*"
   checksum: fd3bf0ad7f1a83c60b021f00033cbaa5bfae1dd95d82f32738ad8c96a073b2b607f3b8fc93cdfd29638d0c8a3284c411f8cca770a700949afcc38b6c1ff0c950
+  languageName: node
+  linkType: hard
+
+"metro-react-native-babel-preset@npm:^0.66.0":
+  version: 0.66.0
+  resolution: "metro-react-native-babel-preset@npm:0.66.0"
+  dependencies:
+    "@babel/core": ^7.0.0
+    "@babel/plugin-proposal-class-properties": ^7.0.0
+    "@babel/plugin-proposal-export-default-from": ^7.0.0
+    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.0.0
+    "@babel/plugin-proposal-object-rest-spread": ^7.0.0
+    "@babel/plugin-proposal-optional-catch-binding": ^7.0.0
+    "@babel/plugin-proposal-optional-chaining": ^7.0.0
+    "@babel/plugin-syntax-dynamic-import": ^7.0.0
+    "@babel/plugin-syntax-export-default-from": ^7.0.0
+    "@babel/plugin-syntax-flow": ^7.2.0
+    "@babel/plugin-syntax-nullish-coalescing-operator": ^7.0.0
+    "@babel/plugin-syntax-optional-chaining": ^7.0.0
+    "@babel/plugin-transform-arrow-functions": ^7.0.0
+    "@babel/plugin-transform-async-to-generator": ^7.0.0
+    "@babel/plugin-transform-block-scoping": ^7.0.0
+    "@babel/plugin-transform-classes": ^7.0.0
+    "@babel/plugin-transform-computed-properties": ^7.0.0
+    "@babel/plugin-transform-destructuring": ^7.0.0
+    "@babel/plugin-transform-exponentiation-operator": ^7.0.0
+    "@babel/plugin-transform-flow-strip-types": ^7.0.0
+    "@babel/plugin-transform-for-of": ^7.0.0
+    "@babel/plugin-transform-function-name": ^7.0.0
+    "@babel/plugin-transform-literals": ^7.0.0
+    "@babel/plugin-transform-modules-commonjs": ^7.0.0
+    "@babel/plugin-transform-object-assign": ^7.0.0
+    "@babel/plugin-transform-parameters": ^7.0.0
+    "@babel/plugin-transform-react-display-name": ^7.0.0
+    "@babel/plugin-transform-react-jsx": ^7.0.0
+    "@babel/plugin-transform-react-jsx-self": ^7.0.0
+    "@babel/plugin-transform-react-jsx-source": ^7.0.0
+    "@babel/plugin-transform-regenerator": ^7.0.0
+    "@babel/plugin-transform-runtime": ^7.0.0
+    "@babel/plugin-transform-shorthand-properties": ^7.0.0
+    "@babel/plugin-transform-spread": ^7.0.0
+    "@babel/plugin-transform-sticky-regex": ^7.0.0
+    "@babel/plugin-transform-template-literals": ^7.0.0
+    "@babel/plugin-transform-typescript": ^7.5.0
+    "@babel/plugin-transform-unicode-regex": ^7.0.0
+    "@babel/template": ^7.0.0
+    react-refresh: ^0.4.0
+  peerDependencies:
+    "@babel/core": "*"
+  checksum: fb689698d994a569c71096d559acacd4b873f3d7b853a78bee0970d6a35fa472ca858a046c852688788a7309f18e345b11957305964cffa39581fb851a433e6c
   languageName: node
   linkType: hard
 
@@ -11323,7 +11366,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^10.1.3, next@npm:latest":
+"next@npm:^10.1.3":
   version: 10.1.3
   resolution: "next@npm:10.1.3"
   dependencies:
@@ -13398,12 +13441,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.2.1":
-  version: 7.2.3
-  resolution: "react-hook-form@npm:7.2.3"
+"react-hook-form@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "react-hook-form@npm:7.3.0"
   peerDependencies:
     react: ^16.8.0 || ^17
-  checksum: 56383ecd873618cfe3b0bf3576121c16659a009aa21394d0d80109f5eb83dfbab07ccd17f5220b3970055bc31201aa55e06848b7102f457cd01e762fba5fee99
+  checksum: e2f2c4d15ac56ab54e3701865a59ff8608f9ba777427374bd219f42fcd6a1fd04d334d40fc4f35cb52cf4227e81aa11106524862f3fa507a49a641a18da6fbe8
   languageName: node
   linkType: hard
 
@@ -13414,7 +13457,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.12.0 || ^17.0.0, react-is@npm:^17.0.1":
+"react-is@npm:^16.12.0 || ^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 3eff23f410d40ab9bc5177f147a92c7f42c356a21ecea340e0554566956d67e5e1ba56f26cc7fa22339ac3c7151744177bd6305eaa26d3cbf15f354358c9d9b6
@@ -13454,9 +13497,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-paper@npm:^4.7.2":
-  version: 4.8.0
-  resolution: "react-native-paper@npm:4.8.0"
+"react-native-paper@npm:^4.8.1":
+  version: 4.8.1
+  resolution: "react-native-paper@npm:4.8.1"
   dependencies:
     "@callstack/react-theme-provider": ^3.0.5
     color: ^3.1.2
@@ -13465,7 +13508,7 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-vector-icons: "*"
-  checksum: 3b27bdb4c683907822c21173a791cf9ec8d632408d481539bb12bd9451977154bc9ce00358c8e8d86757c1cd8beb4f6d9659071a959a1b28ff3101a296b8fdca
+  checksum: 8172a439ab9bde54737fdc6ede6b01c573f9596775a7a63e8a0558639977244d3cee023b966adffbf0225396f1a34753221d373e3535eb7585987b5189e54fa4
   languageName: node
   linkType: hard
 
@@ -13594,17 +13637,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-test-renderer@npm:17.0.1":
-  version: 17.0.1
-  resolution: "react-test-renderer@npm:17.0.1"
+"react-test-renderer@npm:17.0.2":
+  version: 17.0.2
+  resolution: "react-test-renderer@npm:17.0.2"
   dependencies:
     object-assign: ^4.1.1
-    react-is: ^17.0.1
+    react-is: ^17.0.2
     react-shallow-renderer: ^16.13.1
-    scheduler: ^0.20.1
+    scheduler: ^0.20.2
   peerDependencies:
-    react: 17.0.1
-  checksum: 6ec269430beea4356180d90868a9959399781a03ae8de6a29f2edc29d6ca41432653d4103991467ebcc47be5bd2d9197789411e913da66369c2aa2f13311105f
+    react: 17.0.2
+  checksum: 9e79031ad20f9c20941aec1eda32d39eb558e9130740013e5a7b53367cf0eb8f7505c8034fec7da47cdcd80b254f20f1311c250bb586323bec7fbf7d97a90a1e
   languageName: node
   linkType: hard
 
@@ -14842,7 +14885,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"sponge-case@npm:^1.0.0, sponge-case@npm:^1.0.1":
+"sponge-case@npm:^1.0.1":
   version: 1.0.1
   resolution: "sponge-case@npm:1.0.1"
   dependencies:
@@ -15340,7 +15383,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"swap-case@npm:^2.0.1, swap-case@npm:^2.0.2":
+"swap-case@npm:^2.0.2":
   version: 2.0.2
   resolution: "swap-case@npm:2.0.2"
   dependencies:
@@ -15520,7 +15563,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"title-case@npm:^3.0.2, title-case@npm:^3.0.3":
+"title-case@npm:^3.0.3":
   version: 3.0.3
   resolution: "title-case@npm:3.0.3"
   dependencies:
@@ -15695,7 +15738,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^26.5.4":
+"ts-jest@npm:^26.5.5":
   version: 26.5.5
   resolution: "ts-jest@npm:26.5.5"
   dependencies:
@@ -16157,7 +16200,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"upper-case-first@npm:^2.0.1, upper-case-first@npm:^2.0.2":
+"upper-case-first@npm:^2.0.2":
   version: 2.0.2
   resolution: "upper-case-first@npm:2.0.2"
   dependencies:
@@ -16166,7 +16209,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"upper-case@npm:^2.0.1, upper-case@npm:^2.0.2":
+"upper-case@npm:^2.0.2":
   version: 2.0.2
   resolution: "upper-case@npm:2.0.2"
   dependencies:

@@ -1,18 +1,10 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Button, Card, Subheading, Text, TextInput} from 'react-native-paper';
-import {
-  useForm,
-  Controller,
-  Control,
-  DeepMap,
-  FieldError,
-  FieldValues,
-} from 'react-hook-form';
-//import { InputField } from '../../components/InputField';
 import {FormProps, RegisterMutation} from '@airbnb-clone/controller';
-import {InputField} from '../components/InputField';
+import React from 'react';
+import {Control, DeepMap, FieldError} from 'react-hook-form';
+import {StyleSheet, View} from 'react-native';
+import {Button, Card} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {InputField} from '../components/InputField';
 
 interface RegisterViewProps {
   control: Control<FormProps>;
@@ -36,6 +28,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
         <Card>
           <Card.Title
             title="Register"
+            // eslint-disable-next-line react-native/no-inline-styles
             titleStyle={{fontSize: 25, marginBottom: -5}}
           />
           <InputField
@@ -54,39 +47,6 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
             mode="outlined"
             placeholder="e.g. bob@bob.com"
           />
-          {/* <Controller
-        control={control}
-        name="email"
-        render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            error={!!errors?.email}
-            onBlur={onBlur}
-            onChangeText={value => onChange(value)}
-            value={value}
-            label="E-mail"
-            mode="outlined"
-            placeholder="e.g. bob@bob.com"
-          />
-        )}
-        rules={{
-          pattern: {
-            message: 'The email address is invalid.',
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-          },
-          required: true,
-          maxLength: 255,
-        }}
-        defaultValue=""
-      />
-      {errors.email && errors.email.type === 'pattern' && (
-        <Subheading>The email address is invalid.</Subheading>
-      )}
-      {errors.email && errors.email.type === 'required' && (
-        <Subheading>This is required</Subheading>
-      )}
-      {errors.email && errors.email.type === 'maxLength' && (
-        <Subheading>Max length exceeded</Subheading>
-      )} */}
 
           <InputField
             control={control}
@@ -102,33 +62,6 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
             placeholder="e.g. booga ooga"
             secureTextEntry
           />
-
-          {/* <Controller
-        control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            secureTextEntry
-            error={!!errors?.password}
-            onBlur={onBlur}
-            onChangeText={value => onChange(value)}
-            value={value}
-            label="Password"
-            mode="outlined"
-          />
-        )}
-        name="password"
-        rules={{required: true, maxLength: 256, minLength: 3}}
-        defaultValue=""
-      />
-      {errors?.password && errors?.password.type === 'required' && (
-        <Subheading>This is required</Subheading>
-      )}
-      {errors?.password && errors?.password.type === 'maxLength' && (
-        <Subheading>Max length exceeded</Subheading>
-      )}
-      {errors?.password && errors?.password.type === 'minLength' && (
-        <Subheading>Min length not ok</Subheading>
-      )} */}
 
           <Card.Actions>
             <Button
