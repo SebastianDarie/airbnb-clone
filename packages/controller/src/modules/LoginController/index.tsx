@@ -1,9 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { FormProps } from '../..';
+import { FormProps } from '../../types';
 import { LoginMutation, useLoginMutation } from '../../generated/graphql';
 
 interface LoginControllerProps {
+  onSessionId?: (sessionId: string) => void;
   children: (data: {
     data?: LoginMutation | null | undefined;
     loading?: boolean;
@@ -13,6 +14,7 @@ interface LoginControllerProps {
 
 export const LoginController: React.FC<LoginControllerProps> = ({
   children,
+  onSessionId,
 }) => {
   const router = useRouter();
   const [login, { data, loading }] = useLoginMutation({
@@ -26,6 +28,10 @@ export const LoginController: React.FC<LoginControllerProps> = ({
     console.log(data);
     if (!data?.login.errors) {
       router.push('/');
+    }
+
+    if (data?.login.sessionID && onSessionId) {
+      onSessionId(data.login.sessionID);
     }
 
     return data;

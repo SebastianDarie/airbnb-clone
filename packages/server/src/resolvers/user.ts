@@ -52,6 +52,9 @@ class UserResponse {
 
   @Field(() => User, { nullable: true })
   user?: User;
+
+  @Field(() => String, { nullable: true })
+  sessionID?: string;
 }
 
 @Resolver(User)
@@ -201,7 +204,7 @@ export class UserResolver {
       await redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, req.sessionID);
     }
 
-    return { user };
+    return { user, sessionID: req.sessionID };
   }
 
   @Mutation(() => Boolean)

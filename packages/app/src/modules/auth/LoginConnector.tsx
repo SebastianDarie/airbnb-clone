@@ -1,11 +1,12 @@
-import {FormProps, RegisterController} from '@airbnb-clone/controller';
+import {FormProps, LoginController} from '@airbnb-clone/controller';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {Button} from 'react-native-paper';
 import {AuthNavProps} from '../../navigation/AuthParamList';
-import {RegisterView} from '../../views/RegisterView';
+import {LoginView} from '../../views/LoginView';
 
-export const RegisterConnector = ({navigation}: AuthNavProps<'Register'>) => {
+export const LoginConnector = ({navigation}: AuthNavProps<'Login'>) => {
   const {
     control,
     handleSubmit,
@@ -20,21 +21,29 @@ export const RegisterConnector = ({navigation}: AuthNavProps<'Register'>) => {
     });
   });
 
+  const storeSessionId = async (sid: string) => {
+    try {
+      await AsyncStorage.setItem('sid', sid);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
-      <RegisterController>
+      <LoginController onSessionId={storeSessionId}>
         {({submit}) => (
-          <RegisterView
+          <LoginView
             control={control}
             errors={errors}
             isSubmitting={isSubmitting}
             submit={submit}
           />
         )}
-      </RegisterController>
+      </LoginController>
       <Button
         onPress={() => {
-          navigation.navigate('Login');
+          navigation.navigate('Register');
         }}>
         Navigate
       </Button>

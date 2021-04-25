@@ -14,6 +14,7 @@ __metadata:
     "@babel/core": ^7.13.16
     "@babel/runtime": ^7.13.17
     "@hookform/error-message": ^2.0.0
+    "@react-native-async-storage/async-storage": ^1.15.4
     "@react-native-community/eslint-config": ^2.0.0
     "@react-native-masked-view/masked-view": ^0.2.4
     "@react-navigation/native": next
@@ -2386,6 +2387,17 @@ __metadata:
   version: 1.1.0
   resolution: "@protobufjs/utf8@npm:1.1.0"
   checksum: 5b3fa7425fe2852f6e5643d9a53c6cfb4491630667176c0fc35ddb7a71101559241bafb6b80486144ed75da3d3624095d037c802b578dbdb4cce131cf1bcb7cf
+  languageName: node
+  linkType: hard
+
+"@react-native-async-storage/async-storage@npm:^1.15.4":
+  version: 1.15.4
+  resolution: "@react-native-async-storage/async-storage@npm:1.15.4"
+  dependencies:
+    deep-assign: ^3.0.0
+  peerDependencies:
+    react-native: ^0.60.6 || ^0.61.5 || ^0.62.2 || ^0.63.2 || ^0.64.0 || 1000.0.0
+  checksum: 22adedf1c21d93f04b0d056e8da9c1adcf36550e1384b9c9586d25df1d1f92bb260fed00a6ff62d754eed6553d9d684f85e9ddb4eb4bff1f1d6ba73e764a1036
   languageName: node
   linkType: hard
 
@@ -6139,6 +6151,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deep-assign@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "deep-assign@npm:3.0.0"
+  dependencies:
+    is-obj: ^1.0.0
+  checksum: 25c6583d3c46abbdd1a76c9792d930713e48950f6b8656b5bbef9492ab3408bfa0fe3a708160b767d18bd0e8e2491dbff5495a6e1ba499f2d6a9b0f8bda479e9
+  languageName: node
+  linkType: hard
+
 "deep-extend@npm:^0.6.0":
   version: 0.6.0
   resolution: "deep-extend@npm:0.6.0"
@@ -8899,6 +8920,13 @@ __metadata:
   version: 7.0.0
   resolution: "is-number@npm:7.0.0"
   checksum: eec6e506c6de472af4bdfd0cc477e8aeb76f0a7066c8680fcdfed5324ee31a7d2b59d22313007c58aa80eb937f0c40eefdceedb851997d46b490b49f87160369
+  languageName: node
+  linkType: hard
+
+"is-obj@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "is-obj@npm:1.0.1"
+  checksum: 0913a3bb6424d6bfb37e2daa5ef4a5d31a388b0f5a53f36bbe1fd95f1264efe92c6fd87a5c3f41e25b3db42fe60924fe6ae1f0efb274375b090fd093a5301ccf
   languageName: node
   linkType: hard
 

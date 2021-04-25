@@ -13,6 +13,7 @@
     "@airbnb-clone/controller": "1.0.0",
     "@apollo/client": "^3.3.15",
     "@hookform/error-message": "^2.0.0",
+    "@react-native-async-storage/async-storage": "^1.15.4",
     "@react-native-masked-view/masked-view": "^0.2.4",
     "@react-navigation/native": "next",
     "@react-navigation/stack": "next",
@@ -54,8 +55,5 @@
       "json",
       "node"
     ]
-  },
-  "installConfig": {
-    "hoistingLimits": "dependencies"
   }
 }
