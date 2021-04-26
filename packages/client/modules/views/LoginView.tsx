@@ -86,7 +86,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <Link href='/'>Forgot password</Link>
+        <Link href='/forgot-password'>Forgot password</Link>
       </Form.Item>
       <Form.Item {...tailFormItemLayout}>
         <Button
