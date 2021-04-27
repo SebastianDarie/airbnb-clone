@@ -1,0 +1,5 @@
+mutation ConfirmEmail($token: String!) {
+  confirmEmail(token: $token) {
+    ...RegularUserResponse
+  }
+}

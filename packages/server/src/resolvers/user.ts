@@ -264,7 +264,7 @@ export class UserResolver {
     @Ctx() { redis }: MyContext
   ): Promise<boolean> {
     const user = await User.findOne({ email });
-    if (!user || user.confirmed) {
+    if (!user || !user.confirmed) {
       return true;
     }
 

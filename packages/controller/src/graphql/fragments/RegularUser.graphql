@@ -3,5 +3,4 @@ fragment RegularUser on User {
   email
   confirmed
   forgotPasswordLocked
-  createdAt
 }

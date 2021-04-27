@@ -12,9 +12,12 @@ const Login: React.FC<LoginProps> = ({}) => {
     <Layout>
       <Content
         style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
           marginLeft: 'auto',
           marginRight: 'auto',
-          marginTop: '2rem',
           maxWidth: '400px',
           width: '100%',
         }}

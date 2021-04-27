@@ -5,13 +5,15 @@ export const sendEmail = async (
   subject: string,
   html: string
 ): Promise<void> => {
+  // let testAccount = await nodemailer.createTestAccount();
+  // console.log(testAccount.user, testAccount.pass);
   const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
     secure: false,
     auth: {
-      user: 'iycqnfn3zpvimhzn@ethereal.email',
-      pass: 'c1aHndf4WtEjjbFTZB',
+      user: 'gj7s4nm4uvxrqcl3@ethereal.email',
+      pass: '291QNH5KqAJECnNCb2',
     },
   });
 
