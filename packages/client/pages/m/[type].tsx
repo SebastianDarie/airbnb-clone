@@ -1,8 +1,7 @@
-import { ConfirmEmailController } from '@airbnb-clone/controller';
-import { Layout } from 'antd';
-import { ConfirmEmailView } from '../../modules/views/ConfirmEmailView';
+import { Card, Layout } from 'antd';
 import { withApollo } from '../../utils/withApollo';
 
+const { Meta } = Card;
 const { Content } = Layout;
 
 interface ConfirmationProps {}
@@ -21,11 +20,9 @@ const Confirmation: React.FC<ConfirmationProps> = ({}) => {
           width: '100%',
         }}
       >
-        <ConfirmEmailController>
-          {({ data, loading, submit }) => (
-            <ConfirmEmailView data={data} loading={loading} submit={submit} />
-          )}
-        </ConfirmEmailController>
+        <Card hoverable style={{ width: 240 }}>
+          <Meta title='Test title' description='test description' />
+        </Card>
       </Content>
     </Layout>
   );
