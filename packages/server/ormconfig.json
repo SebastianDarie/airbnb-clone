@@ -7,14 +7,9 @@
     "username": "sebastian",
     "password": "2772",
     "database": "airbnb",
-    "entities": ["src/entity/**/*.ts"],
-    "migrations": ["src/migrations/**/*.ts"],
-    "subscribers": ["src/subscriber/**/*.ts"],
-    "cli": {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migrations",
-      "subscribersDir": "src/subscriber"
-    }
+    "entities": ["dist/entity/*.js"],
+    "migrations": ["dist/migrations/*.js"],
+    "subscribers": ["dist/subscriber/*.js"]
   },
   {
     "name": "test",

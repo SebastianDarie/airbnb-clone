@@ -17,6 +17,7 @@ import {
 import { UserResolver } from './resolvers/user';
 import { buildSchema } from 'type-graphql';
 import { createTypeormConn } from './utils/createTypeormConn';
+import { ListingResolver } from './resolvers/listing';
 
 const main = async () => {
   const conn = await createTypeormConn();
@@ -68,7 +69,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [ListingResolver, UserResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({

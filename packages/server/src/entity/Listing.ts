@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from 'type-graphql';
+import { ObjectType, Field } from 'type-graphql';
 import {
   Entity,
   Column,
@@ -7,7 +7,6 @@ import {
   UpdateDateColumn,
   BaseEntity,
   ManyToOne,
-  OneToMany,
 } from 'typeorm';
 import { User } from './User';
 
@@ -16,7 +15,7 @@ import { User } from './User';
 export class Listing extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
-  id!: number;
+  id!: string;
 
   @Field()
   @Column({ length: 50 })
@@ -28,7 +27,11 @@ export class Listing extends BaseEntity {
 
   @Field()
   @Column()
-  pictureUrl!: string;
+  categories!: string;
+
+  @Field()
+  @Column()
+  photoUrl!: string;
 
   @Field()
   @Column({ type: 'int' })
@@ -50,17 +53,16 @@ export class Listing extends BaseEntity {
   @Column({ type: 'double precision' })
   longitude!: number;
 
-  @Field()
+  @Field(() => [String])
   @Column({ type: 'text', array: true })
   amenities: string[];
 
-  // @Field()
-  // @Column()
-  // creatorId: number;
+  @Field()
+  @Column('uuid')
+  creatorId: string;
 
-  // @Field()
-  // @ManyToOne(() => User, (user) => user.posts)
-  // creator: User;
+  @ManyToOne(() => User, (user) => user.listings)
+  creator: User;
 
   @Field(() => String)
   @CreateDateColumn()

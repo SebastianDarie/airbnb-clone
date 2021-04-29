@@ -4,9 +4,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Listing } from './Listing';
 
 @ObjectType()
 @Entity()
@@ -27,6 +29,9 @@ export class User extends BaseEntity {
   @Field()
   @Column({ default: false })
   forgotPasswordLocked: boolean;
+
+  @OneToMany(() => Listing, (listing) => listing.creator)
+  listings: Listing[];
 
   @Field(() => String)
   @CreateDateColumn()

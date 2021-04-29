@@ -103,7 +103,7 @@ export class UserResolver {
         .values({
           email: credentials.email,
           password: hashedPassword,
-          confirmed: true,
+          //confirmed: true,
         })
         .returning('*')
         .execute();
