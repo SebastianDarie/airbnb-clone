@@ -27,7 +27,7 @@ export class Listing extends BaseEntity {
 
   @Field()
   @Column()
-  categories!: string;
+  category!: string;
 
   @Field()
   @Column()

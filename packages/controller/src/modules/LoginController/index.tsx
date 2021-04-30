@@ -27,7 +27,11 @@ export const LoginController: React.FC<LoginControllerProps> = ({
     });
     console.log(data);
     if (!data?.login.errors) {
-      router.push('/');
+      if (typeof router.query.next === 'string') {
+        router.push(router.query.next);
+      } else {
+        router.push('/');
+      }
     }
 
     if (data?.login.sessionID && onSessionId) {

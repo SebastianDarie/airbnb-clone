@@ -1,3 +1,4 @@
+export * from './modules/auth/useIsAuth';
 export * from './modules/ConfirmEmailController';
 export * from './modules/ChangePasswordController';
 export * from './modules/ForgotPasswordController';

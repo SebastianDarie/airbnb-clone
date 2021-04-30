@@ -23,7 +23,7 @@ class ListingInput {
   description: string;
 
   @Field()
-  categories: string;
+  category: string;
 
   @Field(() => Int)
   price: number;

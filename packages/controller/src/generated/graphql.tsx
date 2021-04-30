@@ -20,6 +20,36 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type Listing = {
+  __typename?: 'Listing';
+  id: Scalars['String'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  categories: Scalars['String'];
+  photoUrl: Scalars['String'];
+  price: Scalars['Float'];
+  beds: Scalars['Float'];
+  guests: Scalars['Float'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  amenities: Array<Scalars['String']>;
+  creatorId: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type ListingInput = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  categories: Scalars['String'];
+  price: Scalars['Int'];
+  beds: Scalars['Int'];
+  guests: Scalars['Int'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  amenities: Array<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   register: UserResponse;
@@ -29,6 +59,8 @@ export type Mutation = {
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
   deleteUser: Scalars['Boolean'];
+  createListing: Listing;
+  deleteListing: Scalars['Boolean'];
 };
 
 
@@ -63,10 +95,21 @@ export type MutationDeleteUserArgs = {
   email: Scalars['String'];
 };
 
+
+export type MutationCreateListingArgs = {
+  input: ListingInput;
+};
+
+
+export type MutationDeleteListingArgs = {
+  id: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   users: Array<User>;
   me?: Maybe<User>;
+  listings: Array<Listing>;
 };
 
 export type User = {
@@ -176,6 +219,17 @@ export type RegisterMutation = (
     { __typename?: 'UserResponse' }
     & RegularUserResponseFragment
   ) }
+);
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & RegularUserFragment
+  )> }
 );
 
 export const RegularErrorFragmentDoc = gql`
@@ -370,3 +424,37 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const MeDocument = gql`
+    query Me {
+  me {
+    ...RegularUser
+  }
+}
+    ${RegularUserFragmentDoc}`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;

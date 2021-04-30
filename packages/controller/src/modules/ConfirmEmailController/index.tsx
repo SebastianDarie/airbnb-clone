@@ -20,11 +20,11 @@ export const ConfirmEmailController: React.FC<ConfirmEmailControllerProps> = ({
   const [confirmEmail, { data, loading }] = useConfirmEmailMutation();
 
   const submit = async () => {
-    // await confirmEmail({
-    //   variables: {
-    //     token: typeof router.query.token === 'string' ? router.query.token : '',
-    //   },
-    // });
+    await confirmEmail({
+      variables: {
+        token: typeof router.query.token === 'string' ? router.query.token : '',
+      },
+    });
     console.log(router.query.token === 'string');
 
     return true;
