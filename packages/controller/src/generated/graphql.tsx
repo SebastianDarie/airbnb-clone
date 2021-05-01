@@ -25,7 +25,7 @@ export type Listing = {
   id: Scalars['String'];
   title: Scalars['String'];
   description: Scalars['String'];
-  categories: Scalars['String'];
+  category: Scalars['String'];
   photoUrl: Scalars['String'];
   price: Scalars['Float'];
   beds: Scalars['Float'];
@@ -41,7 +41,7 @@ export type Listing = {
 export type ListingInput = {
   title: Scalars['String'];
   description: Scalars['String'];
-  categories: Scalars['String'];
+  category: Scalars['String'];
   price: Scalars['Int'];
   beds: Scalars['Int'];
   guests: Scalars['Int'];
@@ -179,6 +179,19 @@ export type ConfirmEmailMutation = (
   & { confirmEmail: (
     { __typename?: 'UserResponse' }
     & RegularUserResponseFragment
+  ) }
+);
+
+export type CreateListingMutationVariables = Exact<{
+  input: ListingInput;
+}>;
+
+
+export type CreateListingMutation = (
+  { __typename?: 'Mutation' }
+  & { createListing: (
+    { __typename?: 'Listing' }
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'price' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities' | 'creatorId'>
   ) }
 );
 
@@ -324,6 +337,50 @@ export function useConfirmEmailMutation(baseOptions?: Apollo.MutationHookOptions
 export type ConfirmEmailMutationHookResult = ReturnType<typeof useConfirmEmailMutation>;
 export type ConfirmEmailMutationResult = Apollo.MutationResult<ConfirmEmailMutation>;
 export type ConfirmEmailMutationOptions = Apollo.BaseMutationOptions<ConfirmEmailMutation, ConfirmEmailMutationVariables>;
+export const CreateListingDocument = gql`
+    mutation CreateListing($input: ListingInput!) {
+  createListing(input: $input) {
+    id
+    title
+    description
+    category
+    photoUrl
+    price
+    beds
+    guests
+    latitude
+    longitude
+    amenities
+    creatorId
+  }
+}
+    `;
+export type CreateListingMutationFn = Apollo.MutationFunction<CreateListingMutation, CreateListingMutationVariables>;
+
+/**
+ * __useCreateListingMutation__
+ *
+ * To run a mutation, you first call `useCreateListingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateListingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createListingMutation, { data, loading, error }] = useCreateListingMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateListingMutation(baseOptions?: Apollo.MutationHookOptions<CreateListingMutation, CreateListingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateListingMutation, CreateListingMutationVariables>(CreateListingDocument, options);
+      }
+export type CreateListingMutationHookResult = ReturnType<typeof useCreateListingMutation>;
+export type CreateListingMutationResult = Apollo.MutationResult<CreateListingMutation>;
+export type CreateListingMutationOptions = Apollo.BaseMutationOptions<CreateListingMutation, CreateListingMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)

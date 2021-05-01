@@ -1,13 +1,11 @@
-import { Select } from 'antd';
+import { Form, Select } from 'antd';
 import { InputField } from '../../components/InputField';
 
 const { Option } = Select;
 
-interface TextPageProps {
-  handleChange: (value: any) => void;
-}
+interface TextPageProps {}
 
-export const TextPage: React.FC<TextPageProps> = ({ handleChange }) => {
+export const TextPage: React.FC<TextPageProps> = ({}) => {
   return (
     <>
       <InputField
@@ -42,15 +40,16 @@ export const TextPage: React.FC<TextPageProps> = ({ handleChange }) => {
         placeholder='e.g. details to persuade customers'
       />
 
-      <Select
-        defaultValue='home'
-        style={{ width: 120 }}
-        onChange={handleChange}
-        allowClear
+      <Form.Item
+        name='category'
+        label='Category'
+        rules={[{ required: true, message: 'A category is required' }]}
       >
-        <Option value='home'>Home</Option>
-        <Option value='apartment'>Apartment</Option>
-      </Select>
+        <Select style={{ width: 120 }} allowClear>
+          <Option value='home'>Home</Option>
+          <Option value='apartment'>Apartment</Option>
+        </Select>
+      </Form.Item>
     </>
   );
 };

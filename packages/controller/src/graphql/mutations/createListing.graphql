@@ -1,0 +1,16 @@
+mutation CreateListing($input: ListingInput!) {
+  createListing(input: $input) {
+    id
+    title
+    description
+    category
+    photoUrl
+    price
+    beds
+    guests
+    latitude
+    longitude
+    amenities
+    creatorId
+  }
+}

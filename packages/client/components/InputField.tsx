@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, InputNumber } from 'antd';
 import { Rule } from 'antd/lib/form';
 import { NamePath } from 'antd/lib/form/interface';
 
@@ -11,6 +11,9 @@ interface InputFieldProps {
   rules?: Rule[] | undefined;
   placeholder?: string | undefined;
   prefix?: ReactNode;
+  number?: boolean;
+  min?: number;
+  max?: number;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -21,6 +24,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   rules,
   placeholder,
   prefix,
+  number,
+  ...props
 }) => {
   return (
     <Form.Item
@@ -32,6 +37,8 @@ export const InputField: React.FC<InputFieldProps> = ({
     >
       {name === 'password' || name === 'confirm' ? (
         <Input.Password placeholder={placeholder} prefix={prefix} />
+      ) : number ? (
+        <InputNumber {...props} />
       ) : (
         <Input placeholder={placeholder} prefix={prefix} />
       )}

@@ -1,5 +1,9 @@
 import Link from 'next/link';
-import { ListingFormProps, useIsAuth } from '@airbnb-clone/controller';
+import {
+  CreateListingController,
+  ListingFormProps,
+  useIsAuth,
+} from '@airbnb-clone/controller';
 import { withApollo } from '../utils/withApollo';
 import {
   Layout,
@@ -25,16 +29,12 @@ const { Step } = Steps;
 
 interface CreateListingProps {}
 
-const handleChange = (value: any) => {
-  console.log(`selected ${value}`);
-};
-
 const pages = [
-  { title: 'General', content: <TextPage handleChange={handleChange} /> },
-  { title: 'Details', content: <NumberPage handleChange={handleChange} /> },
+  { title: 'General', content: <TextPage /> },
+  { title: 'Details', content: <NumberPage /> },
   {
     title: 'More Details',
-    content: <AmenitiesPage handleChange={handleChange} />,
+    content: <AmenitiesPage />,
   },
 ];
 
@@ -52,9 +52,9 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
     setCurrPage(currPage - 1);
   };
 
-  // const handleChange = (value: any) => {
-  //   console.log(`selected ${value}`);
-  // };
+  const handleChange = (value: any) => {
+    console.log(`selected ${value}`);
+  };
 
   const handleSubmit = (values: ListingFormProps) => {
     console.log(values);
@@ -79,119 +79,130 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
           height: '100vh',
           marginLeft: 'auto',
           marginRight: 'auto',
-          maxWidth: '400px',
+          maxWidth: '800px',
           width: '100%',
         }}
       >
-        <Form
-          {...formItemLayout}
-          form={form}
-          name='login'
-          initialValues={{ remember: true }}
-          onFinish={handleSubmit}
-          scrollToFirstError
+        <CreateListingController>
+          {({ loading, submit }) => (
+            <Form
+              {...formItemLayout}
+              form={form}
+              name='listing'
+              initialValues={{
+                title: '',
+                description: '',
+                category: 'home',
+                price: 1,
+                beds: 1,
+                guests: 1,
+                latitude: 0,
+                longitude: 0,
+                amenities: [],
+              }}
+              onFinish={submit}
+              scrollToFirstError
+              style={{ width: '100%' }}
+            >
+              {/* <InputField
+          name='title'
+          label='Title'
+          rules={[
+            {
+              required: true,
+              message: 'Please add a title!',
+            },
+            {
+              max: 50,
+              message: 'That is where you need to stop',
+            },
+          ]}
+          placeholder='e.g. Lovely Studio Flat in the Center of the City'
+        />
+  
+        <InputField
+          name='description'
+          label='Description'
+          rules={[
+            {
+              required: true,
+              message: 'Please add a description!',
+            },
+            {
+              max: 255,
+              message: 'That is where you need to stop',
+            },
+          ]}
+          placeholder='e.g. details to persuade customers'
+        />
+  
+        <Select
+          defaultValue='home'
+          style={{ width: 120 }}
+          onChange={handleChange}
+          allowClear
         >
-          {/* <InputField
-        name='title'
-        label='Title'
-        rules={[
-          {
-            required: true,
-            message: 'Please add a title!',
-          },
-          {
-            max: 50,
-            message: 'That is where you need to stop',
-          },
-        ]}
-        placeholder='e.g. Lovely Studio Flat in the Center of the City'
-      />
-
-      <InputField
-        name='description'
-        label='Description'
-        rules={[
-          {
-            required: true,
-            message: 'Please add a description!',
-          },
-          {
-            max: 255,
-            message: 'That is where you need to stop',
-          },
-        ]}
-        placeholder='e.g. details to persuade customers'
-      />
-
-      <Select
-        defaultValue='home'
-        style={{ width: 120 }}
-        onChange={handleChange}
-        allowClear
-      >
-        <Option value='home'>Home</Option>
-        <Option value='apartment'>Apartment</Option>
-      </Select>
-
-      <InputNumber min={1} max={10000} onChange={handleChange} />
-      <InputNumber min={1} max={8} onChange={handleChange} />
-      <InputNumber min={1} max={16} onChange={handleChange} />
-      <InputNumber min={-90} max={90} onChange={handleChange} />
-      <InputNumber min={180} max={180} onChange={handleChange} />
-
-      <Select
-        mode='tags'
-        style={{ width: '100%' }}
-        placeholder='Tags Mode'
-        onChange={handleChange}
-      >
-        {children}
-      </Select> */}
-
-          <Steps current={currPage}>
-            {pages.map((page) => (
-              <Step key={page.title} title={page.title} />
-            ))}
-          </Steps>
-          <>{pages[currPage].content}</>
-
-          <Form.Item>
-            {currPage < pages.length - 1 && (
-              <Button
-                type='primary'
-                style={{ width: '100%' }}
-                onClick={nextPage}
-              >
-                Next
-              </Button>
-            )}
-            {currPage === pages.length - 1 && (
-              <Button
-                type='primary'
-                htmlType='submit'
-                style={{ width: '100%' }}
-              >
-                Create Listing
-              </Button>
-            )}
-            {currPage > 0 && (
-              <Button style={{ margin: '0 8px' }} onClick={prevPage}>
-                Previous
-              </Button>
-            )}
-          </Form.Item>
-
-          {/* <Form.Item {...tailFormItemLayout}>
-        <Button
-          type='primary'
-          htmlType='submit'
-          //loading={loading}
+          <Option value='home'>Home</Option>
+          <Option value='apartment'>Apartment</Option>
+        </Select>
+  
+        <InputNumber min={1} max={10000} onChange={handleChange} />
+        <InputNumber min={1} max={8} onChange={handleChange} />
+        <InputNumber min={1} max={16} onChange={handleChange} />
+        <InputNumber min={-90} max={90} onChange={handleChange} />
+        <InputNumber min={180} max={180} onChange={handleChange} />
+  
+        <Select
+          mode='tags'
           style={{ width: '100%' }}
+          placeholder='Tags Mode'
+          onChange={handleChange}
         >
-          Create Listing
-        </Button>
-      </Form.Item> */}
-        </Form>
+          {children}
+        </Select> */}
+
+              <Steps current={currPage} style={{ marginBottom: 10 }}>
+                {pages.map((page) => (
+                  <Step key={page.title} title={page.title} />
+                ))}
+              </Steps>
+              <div style={{ maxWidth: '600px', paddingTop: 60 }}>
+                {pages[currPage].content}
+              </div>
+
+              <Form.Item {...tailFormItemLayout}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  {currPage < pages.length - 1 && (
+                    <Button type='primary' onClick={nextPage}>
+                      Next
+                    </Button>
+                  )}
+                  {currPage === pages.length - 1 && (
+                    <Button type='primary' htmlType='submit' loading={loading}>
+                      Create Listing
+                    </Button>
+                  )}
+                  {currPage > 0 && (
+                    <Button style={{ margin: '0 8px' }} onClick={prevPage}>
+                      Previous
+                    </Button>
+                  )}
+                </div>
+              </Form.Item>
+
+              {/* <Form.Item {...tailFormItemLayout}>
+          <Button
+            type='primary'
+            htmlType='submit'
+            //loading={loading}
+            style={{ width: '100%' }}
+          >
+            Create Listing
+          </Button>
+        </Form.Item> */}
+            </Form>
+          )}
+        </CreateListingController>
       </Content>
     </Layout>
   );

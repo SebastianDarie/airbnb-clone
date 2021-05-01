@@ -1,10 +1,9 @@
-import { Form, InputNumber, Select } from 'antd';
+import { Form, Select } from 'antd';
+import { InputField } from '../../components/InputField';
 
 const { Option } = Select;
 
-interface AmenitiesPageProps {
-  handleChange: (value: any) => void;
-}
+interface AmenitiesPageProps {}
 
 const children: JSX.Element[] = [];
 for (let i = 10; i < 36; i++) {
@@ -15,26 +14,29 @@ for (let i = 10; i < 36; i++) {
   );
 }
 
-export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({
-  handleChange,
-}) => {
+export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({}) => {
   return (
     <>
-      <Form.Item label='Latitude'>
-        <InputNumber min={-90} max={90} onChange={handleChange} />
-      </Form.Item>
-      <Form.Item label='Longitude'>
-        <InputNumber min={180} max={180} onChange={handleChange} />
-      </Form.Item>
+      <InputField number name='latitude' label='Latitude' min={-90} max={90} />
+      <InputField
+        number
+        name='longitude'
+        label='Longitude'
+        min={-180}
+        max={180}
+      />
 
-      <Select
-        mode='tags'
-        style={{ width: '100%' }}
-        placeholder='Amenities'
-        onChange={handleChange}
+      <Form.Item
+        name='amenities'
+        label='Amenities'
+        rules={[
+          { required: true, message: 'At least one amenity should be added' },
+        ]}
       >
-        {children}
-      </Select>
+        <Select mode='tags' style={{ width: '100%' }} placeholder='Amenities'>
+          {children}
+        </Select>
+      </Form.Item>
     </>
   );
 };
