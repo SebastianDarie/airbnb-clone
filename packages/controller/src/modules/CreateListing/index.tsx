@@ -15,9 +15,10 @@ export const CreateListingController: React.FC<CreateListingControllerProps> = (
   const [createListing, { loading }] = useCreateListingMutation();
 
   const submit = async (values: ListingFormProps) => {
-    await createListing({
-      variables: { input: values },
-    });
+    // await createListing({
+    //   variables: { input: values },
+    // });
+    console.log(values);
     return true;
   };
 

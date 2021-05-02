@@ -45,9 +45,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@airbnb-clone/client@workspace:packages/client"
   dependencies:
+    "@airbnb-clone/common": 1.0.0
     "@airbnb-clone/controller": 1.0.0
     "@ant-design/icons": ^4.6.2
     "@apollo/client": ^3.3.15
+    "@hookform/error-message": ^2.0.0
+    "@hookform/resolvers": ^2.4.0
     "@types/node": ^14.14.41
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
@@ -59,13 +62,18 @@ __metadata:
     next-transpile-modules: ^6.4.0
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-hook-form: ^7.3.6
     typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
-"@airbnb-clone/common@workspace:packages/common":
+"@airbnb-clone/common@1.0.0, @airbnb-clone/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@airbnb-clone/common@workspace:packages/common"
+  dependencies:
+    "@types/yup": ^0.29.11
+    typescript: ^4.2.4
+    yup: ^0.32.9
   languageName: unknown
   linkType: soft
 
@@ -1948,6 +1956,15 @@ __metadata:
     react-dom: ">=16.8.0"
     react-hook-form: ^7.0.0
   checksum: 505deb27323671736c67abb356c2740b419b47fd9336077c43540699735b152fd85125cbdec7a5d3471d6b6f0708230599db2c81af608426bbc16ad4bf8aab7d
+  languageName: node
+  linkType: hard
+
+"@hookform/resolvers@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@hookform/resolvers@npm:2.4.0"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 0a18e36e89b20c288dd07b178ade6519563a200c023408f78d6ab1b1d57ce0006ce3c45543450772b9892d6c976501479b2c74cfa2bffda77d25385d56eb169e
   languageName: node
   linkType: hard
 
@@ -13475,6 +13492,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17
   checksum: e2f2c4d15ac56ab54e3701865a59ff8608f9ba777427374bd219f42fcd6a1fd04d334d40fc4f35cb52cf4227e81aa11106524862f3fa507a49a641a18da6fbe8
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.3.6":
+  version: 7.3.6
+  resolution: "react-hook-form@npm:7.3.6"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: 67fc0305f858d76fb06cfe786252aeb001319eeb64a07effc71cefc4ed089955c2f41461b18da883af84ca5011e9144d0d4ee01b2956a8d0d962dda294e322cf
   languageName: node
   linkType: hard
 

@@ -8,9 +8,12 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@airbnb-clone/common": "1.0.0",
     "@airbnb-clone/controller": "1.0.0",
     "@ant-design/icons": "^4.6.2",
     "@apollo/client": "^3.3.15",
+    "@hookform/error-message": "^2.0.0",
+    "@hookform/resolvers": "^2.4.0",
     "antd": "^4.15.2",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
@@ -18,7 +21,8 @@
     "next-apollo": "^5.0.4",
     "next-transpile-modules": "^6.4.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.3.6"
   },
   "devDependencies": {
     "@types/node": "^14.14.41",

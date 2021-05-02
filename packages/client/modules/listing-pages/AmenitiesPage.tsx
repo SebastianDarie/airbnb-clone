@@ -1,9 +1,8 @@
 import { Form, Select } from 'antd';
 import { InputField } from '../../components/InputField';
+import { StepForm } from '../../interfaces';
 
 const { Option } = Select;
-
-interface AmenitiesPageProps {}
 
 const children: JSX.Element[] = [];
 for (let i = 10; i < 36; i++) {
@@ -14,16 +13,30 @@ for (let i = 10; i < 36; i++) {
   );
 }
 
-export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({}) => {
+export const AmenitiesPage: React.FC<StepForm> = ({ control }) => {
   return (
     <>
-      <InputField number name='latitude' label='Latitude' min={-90} max={90} />
       <InputField
         number
+        control={control}
+        name='latitude'
+        label='Latitude'
+        min={-90}
+        max={90}
+        rules={{
+          required: 'Please input the latitude of the location',
+        }}
+      />
+      <InputField
+        number
+        control={control}
         name='longitude'
         label='Longitude'
         min={-180}
         max={180}
+        rules={{
+          required: 'Please input the longitude of the location',
+        }}
       />
 
       <Form.Item
