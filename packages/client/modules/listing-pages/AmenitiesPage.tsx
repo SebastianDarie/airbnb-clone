@@ -1,54 +1,47 @@
 import { Form, Select } from 'antd';
+import { Controller } from 'react-hook-form';
 import { InputField } from '../../components/InputField';
 import { StepForm } from '../../interfaces';
 
-const { Option } = Select;
-
-const children: JSX.Element[] = [];
-for (let i = 10; i < 36; i++) {
-  children.push(
-    <Option key={i.toString(36) + i} value={i.toString(36) + i}>
-      {i.toString(36) + i}
-    </Option>
-  );
-}
-
-export const AmenitiesPage: React.FC<StepForm> = ({ control }) => {
+export const AmenitiesPage: React.FC<StepForm> = ({ control, errors }) => {
   return (
     <>
       <InputField
         number
         control={control}
+        errors={errors[0]}
         name='latitude'
         label='Latitude'
         min={-90}
         max={90}
-        rules={{
-          required: 'Please input the latitude of the location',
-        }}
       />
       <InputField
         number
         control={control}
+        errors={errors[1]}
         name='longitude'
         label='Longitude'
         min={-180}
         max={180}
-        rules={{
-          required: 'Please input the longitude of the location',
-        }}
       />
 
       <Form.Item
-        name='amenities'
         label='Amenities'
-        rules={[
-          { required: true, message: 'At least one amenity should be added' },
-        ]}
+        help={errors[2]}
+        validateStatus={errors[2] ? 'error' : ''}
       >
-        <Select mode='tags' style={{ width: '100%' }} placeholder='Amenities'>
-          {children}
-        </Select>
+        <Controller
+          control={control}
+          name='amenities'
+          render={({ field }) => (
+            <Select
+              {...field}
+              mode='tags'
+              style={{ width: '100%' }}
+              placeholder='Amenities'
+            />
+          )}
+        />
       </Form.Item>
     </>
   );

@@ -14,5 +14,5 @@ export type User = {
 
 export interface StepForm {
   control: Control<ListingFormProps>;
-  errors: string | undefined;
+  errors: (string | undefined)[] | (FieldError | undefined)[];
 }

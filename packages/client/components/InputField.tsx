@@ -12,12 +12,11 @@ import { ErrorMessage } from '@hookform/error-message';
 
 interface InputFieldProps {
   control: Control<any>;
-  errors?: string | undefined;
+  errors?: any;
   name: string;
   label: ReactNode;
   dependecies?: NamePath[] | undefined;
   hasFeedback?: boolean | undefined;
-  rules?: Omit<RegisterOptions, 'valueAsNumber' | 'valueAsDate' | 'setValueAs'>;
   placeholder?: string | undefined;
   prefix?: ReactNode;
   number?: boolean;
@@ -32,7 +31,6 @@ export const InputField: React.FC<InputFieldProps> = ({
   label,
   dependecies,
   hasFeedback,
-  rules,
   placeholder,
   prefix,
   number,
@@ -44,8 +42,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       dependencies={dependecies}
       hasFeedback={hasFeedback}
       help={errors}
-      validateStatus={!!errors}
-      //rules={rules}
+      validateStatus={errors ? 'error' : ''}
     >
       {name === 'password' || name === 'confirm' ? (
         <Controller
@@ -78,13 +75,14 @@ export const InputField: React.FC<InputFieldProps> = ({
                 render={({ messages }) =>
                   messages &&
                   Object.entries(messages).map(([type, message]) => (
-                    <p key={type}>{message}</p>
+                    <p key={type} color='red'>
+                      {message}
+                    </p>
                   ))
                 }
               /> */}
             </>
           )}
-          rules={rules}
         />
       )}
     </Form.Item>

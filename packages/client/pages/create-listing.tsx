@@ -4,7 +4,7 @@ import {
   ListingFormProps,
   useIsAuth,
 } from '@airbnb-clone/controller';
-import { Button, Form, Layout, Select, Steps } from 'antd';
+import { Button, Form, Layout, Steps } from 'antd';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,7 +15,6 @@ import { formItemLayout, tailFormItemLayout } from '../styles/formStyles';
 import { withApollo } from '../utils/withApollo';
 
 const { Content } = Layout;
-const { Option } = Select;
 const { Step } = Steps;
 
 interface CreateListingProps {}
@@ -28,24 +27,48 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
     control,
     formState: { errors, isDirty, isSubmitting, isValid },
   } = useForm<ListingFormProps>({
-    criteriaMode: 'all',
     mode: 'onBlur',
     resolver: yupResolver(textPageSchema),
   });
-  console.log(errors.title?.message);
+
   const pages = [
     {
       title: 'General',
-      content: <TextPage control={control} errors={errors.title?.message} />,
+      content: (
+        <TextPage
+          control={control}
+          errors={[
+            errors.title?.message,
+            errors.description?.message,
+            errors.category?.message,
+          ]}
+        />
+      ),
     },
     {
       title: 'Details',
-      content: <NumberPage control={control} errors={errors.price?.message} />,
+      content: (
+        <NumberPage
+          control={control}
+          errors={[
+            errors.price?.message,
+            errors.beds?.message,
+            errors.guests?.message,
+          ]}
+        />
+      ),
     },
     {
       title: 'More Details',
       content: (
-        <AmenitiesPage control={control} errors={errors.longitude?.message} />
+        <AmenitiesPage
+          control={control}
+          errors={[
+            errors.latitude?.message,
+            errors.longitude?.message,
+            errors.amenities?.message,
+          ]}
+        />
       ),
     },
   ];
@@ -59,15 +82,6 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
   const prevPage = () => {
     setCurrPage(currPage - 1);
   };
-
-  const children = [];
-  for (let i = 10; i < 36; i++) {
-    children.push(
-      <Option key={i.toString(36) + i} value={i.toString(36) + i}>
-        {i.toString(36) + i}
-      </Option>
-    );
-  }
 
   return (
     <Layout>
@@ -104,11 +118,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
               <Form.Item {...tailFormItemLayout}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {currPage < pages.length - 1 && (
-                    <Button
-                      type='primary'
-                      onClick={nextPage}
-                      disabled={!isDirty || !isValid}
-                    >
+                    <Button type='primary' onClick={nextPage}>
                       Next
                     </Button>
                   )}
@@ -116,6 +126,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
                     <Button
                       type='primary'
                       htmlType='submit'
+                      disabled={!isDirty || !isValid}
                       loading={isSubmitting}
                     >
                       Create Listing

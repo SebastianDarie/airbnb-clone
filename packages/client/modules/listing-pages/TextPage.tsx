@@ -1,4 +1,5 @@
 import { Form, Select } from 'antd';
+import { Controller } from 'react-hook-form';
 import { InputField } from '../../components/InputField';
 import { StepForm } from '../../interfaces';
 
@@ -9,41 +10,35 @@ export const TextPage: React.FC<StepForm> = ({ control, errors }) => {
     <>
       <InputField
         control={control}
-        errors={errors}
+        errors={errors[0]}
         name='title'
         label='Title'
-        rules={{
-          required: 'Please add a name!',
-          maxLength: { message: 'This is where you need to stop', value: 50 },
-        }}
         placeholder='e.g. Lovely Studio Flat in the Center of the City'
       />
 
       <InputField
         control={control}
-        errors={errors}
+        errors={errors[1]}
         name='description'
         label='Description'
-        rules={{
-          required: 'Please add a description!',
-
-          maxLength: {
-            message: 'That is where you need to stop',
-            value: 255,
-          },
-        }}
         placeholder='e.g. details to persuade customers'
       />
 
       <Form.Item
-        name='category'
         label='Category'
-        //rules={[{ required: true, message: 'A category is required' }]}
+        help={errors[2]}
+        validateStatus={errors[2] ? 'error' : ''}
       >
-        <Select style={{ width: 120 }} allowClear>
-          <Option value='home'>Home</Option>
-          <Option value='apartment'>Apartment</Option>
-        </Select>
+        <Controller
+          control={control}
+          name='category'
+          render={({ field }) => (
+            <Select {...field} style={{ width: 120 }} allowClear>
+              <Option value='home'>Home</Option>
+              <Option value='apartment'>Apartment</Option>
+            </Select>
+          )}
+        />
       </Form.Item>
     </>
   );
