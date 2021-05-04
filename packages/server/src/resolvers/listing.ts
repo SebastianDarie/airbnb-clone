@@ -25,6 +25,9 @@ class ListingInput {
   @Field()
   category: string;
 
+  @Field()
+  photoUrl: string;
+
   @Field(() => Int)
   price: number;
 

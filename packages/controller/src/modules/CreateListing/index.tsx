@@ -5,7 +5,7 @@ import { ListingFormProps } from '../../types';
 interface CreateListingControllerProps {
   children: (data: {
     loading?: boolean;
-    submit: (values: ListingFormProps) => Promise<boolean>;
+    submit: (values: ListingFormProps, photoUrl: string) => Promise<boolean>;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
@@ -14,11 +14,11 @@ export const CreateListingController: React.FC<CreateListingControllerProps> = (
 }) => {
   const [createListing, { loading }] = useCreateListingMutation();
 
-  const submit = async (values: ListingFormProps) => {
-    // await createListing({
-    //   variables: { input: values },
-    // });
-    console.log(values);
+  const submit = async (values: ListingFormProps, photoUrl: string) => {
+    await createListing({
+      variables: { input: { ...values, photoUrl } },
+    });
+    console.log(values, photoUrl);
     return true;
   };
 

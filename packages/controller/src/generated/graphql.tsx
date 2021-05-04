@@ -42,6 +42,7 @@ export type ListingInput = {
   title: Scalars['String'];
   description: Scalars['String'];
   category: Scalars['String'];
+  photoUrl: Scalars['String'];
   price: Scalars['Int'];
   beds: Scalars['Int'];
   guests: Scalars['Int'];
