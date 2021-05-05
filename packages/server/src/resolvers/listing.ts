@@ -63,7 +63,6 @@ export class ListingResolver {
     return Listing.create({
       ...input,
       creatorId: req.session.userId,
-      photoUrl: '',
     }).save();
   }
 

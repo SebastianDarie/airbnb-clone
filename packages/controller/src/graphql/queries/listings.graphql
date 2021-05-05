@@ -1,0 +1,10 @@
+query Listings {
+  listings {
+    id
+    title
+    description
+    category
+    price
+    photoUrl
+  }
+}

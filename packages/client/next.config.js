@@ -5,4 +5,7 @@ module.exports = withTM({
   future: {
     webpack5: true,
   },
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
 });

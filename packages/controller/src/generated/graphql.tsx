@@ -235,6 +235,17 @@ export type RegisterMutation = (
   ) }
 );
 
+export type ListingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListingsQuery = (
+  { __typename?: 'Query' }
+  & { listings: Array<(
+    { __typename?: 'Listing' }
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'price' | 'photoUrl'>
+  )> }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -482,6 +493,45 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const ListingsDocument = gql`
+    query Listings {
+  listings {
+    id
+    title
+    description
+    category
+    price
+    photoUrl
+  }
+}
+    `;
+
+/**
+ * __useListingsQuery__
+ *
+ * To run a query within a React component, call `useListingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListingsQuery(baseOptions?: Apollo.QueryHookOptions<ListingsQuery, ListingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListingsQuery, ListingsQueryVariables>(ListingsDocument, options);
+      }
+export function useListingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListingsQuery, ListingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListingsQuery, ListingsQueryVariables>(ListingsDocument, options);
+        }
+export type ListingsQueryHookResult = ReturnType<typeof useListingsQuery>;
+export type ListingsLazyQueryHookResult = ReturnType<typeof useListingsLazyQuery>;
+export type ListingsQueryResult = Apollo.QueryResult<ListingsQuery, ListingsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
