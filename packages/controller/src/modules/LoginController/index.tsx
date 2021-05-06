@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { FormProps } from '../../types';
+import { AuthFormProps } from '../../types';
 import { LoginMutation, useLoginMutation } from '../../generated/graphql';
 
 interface LoginControllerProps {
@@ -8,7 +8,9 @@ interface LoginControllerProps {
   children: (data: {
     data?: LoginMutation | null | undefined;
     loading?: boolean;
-    submit: (values: FormProps) => Promise<LoginMutation | null | undefined>;
+    submit: (
+      values: AuthFormProps
+    ) => Promise<LoginMutation | null | undefined>;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
@@ -21,7 +23,7 @@ export const LoginController: React.FC<LoginControllerProps> = ({
     notifyOnNetworkStatusChange: true,
   });
 
-  const submit = async (values: FormProps) => {
+  const submit = async (values: AuthFormProps) => {
     const { data } = await login({
       variables: { email: values.email, password: values.password },
     });

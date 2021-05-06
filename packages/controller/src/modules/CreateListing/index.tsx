@@ -18,7 +18,7 @@ export const CreateListingController: React.FC<CreateListingControllerProps> = (
     await createListing({
       variables: { input: { ...values, photoUrl } },
     });
-    console.log(values, photoUrl);
+
     return true;
   };
 

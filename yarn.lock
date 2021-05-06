@@ -102,6 +102,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@airbnb-clone/server@workspace:packages/server"
   dependencies:
+    "@airbnb-clone/common": 1.0.0
     "@types/connect-redis": ^0.0.16
     "@types/cors": ^2.8.10
     "@types/express": ^4.17.11

@@ -38,6 +38,7 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "@airbnb-clone/common": "1.0.0",
     "apollo-server-express": "^2.23.0",
     "argon2": "^0.27.2",
     "connect-redis": "^5.1.0",

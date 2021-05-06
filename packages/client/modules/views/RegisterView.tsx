@@ -1,13 +1,15 @@
 import { Form, Button } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { InputField } from '../../components/InputField';
-import { FormProps, RegisterMutation } from '@airbnb-clone/controller';
+import { AuthFormProps, RegisterMutation } from '@airbnb-clone/controller';
 import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 
 interface RegisterViewProps {
   data?: RegisterMutation | null | undefined;
   loading?: boolean;
-  submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
+  submit: (
+    values: AuthFormProps
+  ) => Promise<RegisterMutation | null | undefined>;
 }
 
 export const RegisterView: React.FC<RegisterViewProps> = ({

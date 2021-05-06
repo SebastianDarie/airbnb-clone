@@ -1,14 +1,18 @@
 import { Form, Button, Checkbox } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { InputField } from '../../components/InputField';
-import { FormProps, LoginMutation } from '@airbnb-clone/controller';
+import { AuthFormProps, LoginMutation } from '@airbnb-clone/controller';
 import Link from 'next/link';
 import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { loginSchema } from '@airbnb-clone/common';
+import { useEffect } from 'react';
 
 interface LoginViewProps {
   data?: LoginMutation | null | undefined;
   loading?: boolean;
-  submit: (values: FormProps) => Promise<LoginMutation | null | undefined>;
+  submit: (values: AuthFormProps) => Promise<LoginMutation | null | undefined>;
 }
 
 export const LoginView: React.FC<LoginViewProps> = ({
@@ -16,60 +20,48 @@ export const LoginView: React.FC<LoginViewProps> = ({
   loading,
   submit,
 }) => {
-  const [form] = Form.useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isSubmitting, isValid },
+    setError,
+  } = useForm<AuthFormProps>({
+    mode: 'onBlur',
+    resolver: yupResolver(loginSchema),
+  });
 
-  if (data?.login.errors) {
-    data.login.errors.map((err) =>
-      form.setFields([{ name: err.path, errors: [err.message] }])
-    );
-  }
+  useEffect(() => {
+    if (data?.login.errors) {
+      data.login.errors.map((err) =>
+        setError(err.path as 'email' | 'password' | 'confirm', {
+          type: 'server',
+          message: err.message,
+        })
+      );
+    }
+  }, [data?.login.errors]);
 
   return (
     <Form
       {...formItemLayout}
-      form={form}
       name='login'
       initialValues={{ remember: true }}
-      onFinish={submit}
+      onFinish={handleSubmit((values) => submit(values))}
       scrollToFirstError
     >
       <InputField
+        control={control}
+        errors={errors.email?.message}
         name='email'
         label='E-mail'
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-          {
-            max: 255,
-            message: 'That is where you need to stop',
-          },
-        ]}
         placeholder='e.g. bob@bob.com'
         prefix={<UserOutlined />}
       />
       <InputField
+        control={control}
+        errors={errors.password?.message}
         name='password'
         label='Password'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-          {
-            min: 3,
-            message: 'Password must be at least 3 characters',
-          },
-          {
-            max: 256,
-            message: 'That is where you need to stop',
-          },
-        ]}
         hasFeedback
         placeholder='e.g. secret-password'
         prefix={<LockOutlined />}
@@ -92,7 +84,8 @@ export const LoginView: React.FC<LoginViewProps> = ({
         <Button
           type='primary'
           htmlType='submit'
-          loading={loading}
+          disabled={!isDirty || !isValid}
+          loading={loading || isSubmitting}
           style={{ width: '100%' }}
         >
           Log in

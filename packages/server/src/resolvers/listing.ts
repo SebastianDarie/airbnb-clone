@@ -2,15 +2,18 @@ import {
   Arg,
   Ctx,
   Field,
+  FieldResolver,
   Float,
   InputType,
   Int,
   Mutation,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from 'type-graphql';
 import { Listing } from '../entity/Listing';
+import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
 
@@ -49,6 +52,14 @@ class ListingInput {
 
 @Resolver(Listing)
 export class ListingResolver {
+  @FieldResolver(() => User)
+  creator(
+    @Root() listing: Listing,
+    @Ctx() { userLoader }: MyContext
+  ): Promise<User> {
+    return userLoader.load(listing.creatorId);
+  }
+
   @Query(() => [Listing])
   async listings(): Promise<Listing[]> {
     return Listing.find({});

@@ -6,7 +6,6 @@ import { withApollo } from '../utils/withApollo';
 type ListingsProps = {} & WithListingsProps;
 
 const RealListings: React.FC<ListingsProps> = ({ data, error, loading }) => {
-  console.log(data, error, loading);
   if ((!data && !loading) || error) {
     return (
       <div>

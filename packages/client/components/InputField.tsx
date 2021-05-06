@@ -1,14 +1,7 @@
-import { ReactNode } from 'react';
 import { Form, Input, InputNumber } from 'antd';
 import { NamePath } from 'antd/lib/form/interface';
-import {
-  Control,
-  Controller,
-  DeepMap,
-  FieldError,
-  RegisterOptions,
-} from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
+import { ReactNode } from 'react';
+import { Control, Controller, UseFormSetError } from 'react-hook-form';
 
 interface InputFieldProps {
   control: Control<any>;
@@ -66,21 +59,9 @@ export const InputField: React.FC<InputFieldProps> = ({
         <Controller
           control={control}
           name={name}
-          render={({ field, formState: { errors } }) => (
+          render={({ field }) => (
             <>
               <Input {...field} placeholder={placeholder} prefix={prefix} />
-              {/* <ErrorMessage
-                errors={errors}
-                name={name}
-                render={({ messages }) =>
-                  messages &&
-                  Object.entries(messages).map(([type, message]) => (
-                    <p key={type} color='red'>
-                      {message}
-                    </p>
-                  ))
-                }
-              /> */}
             </>
           )}
         />

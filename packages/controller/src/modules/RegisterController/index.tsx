@@ -1,13 +1,15 @@
 import React from 'react';
 //import { useRouter } from 'next/router';
-import { FormProps } from '../..';
+import { AuthFormProps } from '../../types';
 import { RegisterMutation, useRegisterMutation } from '../../generated/graphql';
 
 interface RegisterControllerProps {
   children: (data: {
     data?: RegisterMutation | null | undefined;
     loading?: boolean;
-    submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
+    submit: (
+      values: AuthFormProps
+    ) => Promise<RegisterMutation | null | undefined>;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
@@ -17,7 +19,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
   //const router = useRouter();
   const [register, { data, loading }] = useRegisterMutation();
 
-  const submit = async (values: FormProps) => {
+  const submit = async (values: AuthFormProps) => {
     const { data } = await register({
       variables: { email: values.email, password: values.password },
     });

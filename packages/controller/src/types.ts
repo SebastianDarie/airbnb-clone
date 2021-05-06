@@ -1,4 +1,4 @@
-export interface FormProps {
+export interface AuthFormProps {
   email: string;
   password: string;
   confirm?: string;

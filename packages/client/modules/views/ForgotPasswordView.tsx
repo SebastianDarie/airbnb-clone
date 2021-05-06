@@ -1,4 +1,4 @@
-import { FormProps } from '@airbnb-clone/controller';
+import { AuthFormProps } from '@airbnb-clone/controller';
 import { UserOutlined } from '@ant-design/icons';
 import { Button, Form } from 'antd';
 import { InputField } from '../../components/InputField';
@@ -6,7 +6,7 @@ import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 
 interface ForgotPasswordViewProps {
   loading?: boolean;
-  submit: (values: FormProps) => Promise<boolean>;
+  submit: (values: AuthFormProps) => Promise<boolean>;
 }
 
 export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({

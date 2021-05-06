@@ -24,8 +24,8 @@ import {
 import { formatYupError } from '../utils/formatYupError';
 import { forgotPasswordLockAccount } from '../utils/forgotPasswordLockAccount';
 import { sendEmail } from '../utils/sendEmail';
-import { registerSchema } from '../validation/yupSchemas';
 import { removeAllUsersSessions } from '../utils/removeAllUsersSessions';
+import { changePasswordSchema, registerSchema } from '@airbnb-clone/common';
 
 @InputType()
 class UserInput {
@@ -34,6 +34,9 @@ class UserInput {
 
   @Field()
   password: string;
+
+  @Field()
+  confirm: string;
 }
 
 @ObjectType()
@@ -293,7 +296,7 @@ export class UserResolver {
     @Arg('newPassword') newPassword: string,
     @Ctx() { redis, req }: MyContext
   ): Promise<UserResponse> {
-    const valid = await registerSchema.isValid({ password: newPassword });
+    const valid = await changePasswordSchema.isValid({ newPassword });
     if (!valid) {
       return {
         errors: [

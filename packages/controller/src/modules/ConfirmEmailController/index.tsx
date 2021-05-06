@@ -25,7 +25,6 @@ export const ConfirmEmailController: React.FC<ConfirmEmailControllerProps> = ({
         token: typeof router.query.token === 'string' ? router.query.token : '',
       },
     });
-    console.log(router.query.token === 'string');
 
     return true;
   };

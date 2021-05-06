@@ -102,9 +102,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
       },
       (_error: any, result: any) => {
         if (result.event === 'success') {
-          console.log(result.info.secure_url);
           setCurrImg(result.info.secure_url);
-          console.log(currImg);
         }
       }
     );
@@ -125,7 +123,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
         }}
       >
         <CreateListingController>
-          {({ submit }) => (
+          {({ loading, submit }) => (
             <>
               <Form
                 {...formItemLayout}
@@ -182,7 +180,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
                           type='primary'
                           htmlType='submit'
                           disabled={!isDirty || !isValid}
-                          loading={isSubmitting}
+                          loading={loading || isSubmitting}
                         >
                           Create Listing
                         </Button>

@@ -18,6 +18,7 @@ import { UserResolver } from './resolvers/user';
 import { buildSchema } from 'type-graphql';
 import { createTypeormConn } from './utils/createTypeormConn';
 import { ListingResolver } from './resolvers/listing';
+import { createUserLoader } from './loaders/createUserLoader';
 
 const main = async () => {
   const conn = await createTypeormConn();
@@ -76,6 +77,7 @@ const main = async () => {
       req,
       res,
       redis,
+      userLoader: createUserLoader(),
     }),
   });
 

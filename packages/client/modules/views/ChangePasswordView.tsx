@@ -1,4 +1,7 @@
-import { ChangePasswordMutation, FormProps } from '@airbnb-clone/controller';
+import {
+  ChangePasswordMutation,
+  AuthFormProps,
+} from '@airbnb-clone/controller';
 import { LockOutlined } from '@ant-design/icons';
 import { Button, Form } from 'antd';
 import { InputField } from '../../components/InputField';
@@ -7,7 +10,7 @@ import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 interface ChangePasswordViewProps {
   data?: ChangePasswordMutation | null | undefined;
   loading?: boolean;
-  submit: (values: FormProps) => Promise<boolean>;
+  submit: (values: AuthFormProps) => Promise<boolean>;
 }
 
 export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
