@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+//import { useRouter } from 'next/router';
 import React from 'react';
 import {
   ConfirmEmailMutation,
@@ -16,15 +16,15 @@ interface ConfirmEmailControllerProps {
 export const ConfirmEmailController: React.FC<ConfirmEmailControllerProps> = ({
   children,
 }) => {
-  const router = useRouter();
+  //const router = useRouter();
   const [confirmEmail, { data, loading }] = useConfirmEmailMutation();
 
   const submit = async () => {
-    await confirmEmail({
-      variables: {
-        token: typeof router.query.token === 'string' ? router.query.token : '',
-      },
-    });
+    // await confirmEmail({
+    //   variables: {
+    //     token: typeof router.query.token === 'string' ? router.query.token : '',
+    //   },
+    // });
 
     return true;
   };

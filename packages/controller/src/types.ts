@@ -1,8 +1,14 @@
 export interface AuthFormProps {
   email: string;
   password: string;
-  confirm?: string;
 }
+
+export interface RegisterFormProps extends AuthFormProps {
+  confirm: string;
+}
+
+export type ChangePasswordProps = Omit<AuthFormProps, 'email' | 'confirm'>;
+export type ForgotPasswordProps = Omit<AuthFormProps, 'password' | 'confirm'>;
 
 export interface ListingFormProps {
   title: string;

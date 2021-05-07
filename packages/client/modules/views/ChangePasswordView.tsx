@@ -1,50 +1,60 @@
+import { changePasswordSchema } from '@airbnb-clone/common';
 import {
   ChangePasswordMutation,
-  AuthFormProps,
+  ChangePasswordProps,
 } from '@airbnb-clone/controller';
 import { LockOutlined } from '@ant-design/icons';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Form } from 'antd';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { InputField } from '../../components/InputField';
 import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 
 interface ChangePasswordViewProps {
   data?: ChangePasswordMutation | null | undefined;
   loading?: boolean;
-  submit: (values: AuthFormProps) => Promise<boolean>;
+  submit: (values: ChangePasswordProps) => Promise<boolean>;
 }
 
 export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
+  data,
   loading,
   submit,
 }) => {
-  const [form] = Form.useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isSubmitting, isValid },
+    setError,
+  } = useForm<ChangePasswordProps>({
+    mode: 'onBlur',
+    resolver: yupResolver(changePasswordSchema),
+  });
+
+  useEffect(() => {
+    if (data?.changePassword.errors) {
+      data.changePassword.errors.map((err) =>
+        setError(err.path as 'password', {
+          type: 'server',
+          message: err.message,
+        })
+      );
+    }
+  }, [data?.changePassword.errors]);
 
   return (
     <Form
       {...formItemLayout}
-      form={form}
-      name='login'
-      initialValues={{ remember: true }}
-      onFinish={submit}
+      name='change-password'
+      onFinish={handleSubmit((data) => submit(data))}
       scrollToFirstError
     >
       <InputField
+        control={control}
+        errors={errors.password?.message}
         name='password'
         label='Password'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-          {
-            min: 3,
-            message: 'Password must be at least 3 characters',
-          },
-          {
-            max: 256,
-            message: 'That is where you need to stop',
-          },
-        ]}
         hasFeedback
         placeholder='e.g. secret-password'
         prefix={<LockOutlined />}
@@ -54,7 +64,8 @@ export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
         <Button
           type='primary'
           htmlType='submit'
-          loading={loading}
+          disabled={!isDirty || !isValid}
+          loading={loading || isSubmitting}
           style={{ width: '100%' }}
         >
           Change Password

@@ -4,13 +4,13 @@ import {
   ChangePasswordMutation,
   useChangePasswordMutation,
 } from '../../generated/graphql';
-import { AuthFormProps } from '../../types';
+import { ChangePasswordProps } from '../../types';
 
 interface ChangePasswordControllerProps {
   children: (data: {
     data?: ChangePasswordMutation | null | undefined;
     loading?: boolean;
-    submit: (values: AuthFormProps) => Promise<boolean>;
+    submit: (values: ChangePasswordProps) => Promise<boolean>;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
@@ -20,7 +20,7 @@ export const ChangePasswordController: React.FC<ChangePasswordControllerProps> =
   const router = useRouter();
   const [changePassword, { data, loading }] = useChangePasswordMutation();
 
-  const submit = async (values: AuthFormProps) => {
+  const submit = async (values: ChangePasswordProps) => {
     const response = await changePassword({
       variables: {
         newPassword: values.password,

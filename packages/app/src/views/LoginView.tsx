@@ -1,4 +1,4 @@
-import {FormProps, LoginMutation} from '@airbnb-clone/controller';
+import {AuthFormProps, LoginMutation} from '@airbnb-clone/controller';
 import React from 'react';
 import {Control, DeepMap, FieldError} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
@@ -7,10 +7,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {InputField} from '../components/InputField';
 
 interface LoginViewProps {
-  control: Control<FormProps>;
-  errors: DeepMap<FormProps, FieldError>;
+  control: Control<AuthFormProps>;
+  errors: DeepMap<AuthFormProps, FieldError>;
   isSubmitting: boolean;
-  submit: (values: FormProps) => Promise<LoginMutation | null | undefined>;
+  submit: (values: AuthFormProps) => Promise<LoginMutation | null | undefined>;
 }
 
 export const LoginView: React.FC<LoginViewProps> = ({

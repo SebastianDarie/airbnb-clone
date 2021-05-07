@@ -1,7 +1,7 @@
 import { Form, Input, InputNumber } from 'antd';
 import { NamePath } from 'antd/lib/form/interface';
 import { ReactNode } from 'react';
-import { Control, Controller, UseFormSetError } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 interface InputFieldProps {
   control: Control<any>;

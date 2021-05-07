@@ -1,46 +1,42 @@
-import { AuthFormProps } from '@airbnb-clone/controller';
+import { forgotPasswordSchema } from '@airbnb-clone/common';
+import { ForgotPasswordProps } from '@airbnb-clone/controller';
 import { UserOutlined } from '@ant-design/icons';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Form } from 'antd';
+import { useForm } from 'react-hook-form';
 import { InputField } from '../../components/InputField';
 import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 
 interface ForgotPasswordViewProps {
   loading?: boolean;
-  submit: (values: AuthFormProps) => Promise<boolean>;
+  submit: (values: ForgotPasswordProps) => Promise<boolean>;
 }
 
 export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({
   loading,
   submit,
 }) => {
-  const [form] = Form.useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isSubmitting, isValid },
+  } = useForm<ForgotPasswordProps>({
+    mode: 'onBlur',
+    resolver: yupResolver(forgotPasswordSchema),
+  });
 
   return (
     <Form
       {...formItemLayout}
-      form={form}
-      name='login'
-      initialValues={{ remember: true }}
-      onFinish={submit}
+      name='forgot-password'
+      onFinish={handleSubmit((data) => submit(data))}
       scrollToFirstError
     >
       <InputField
+        control={control}
+        errors={errors.email?.message}
         name='email'
         label='E-mail'
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-          {
-            max: 255,
-            message: 'That is where you need to stop',
-          },
-        ]}
         placeholder='e.g. bob@bob.com'
         prefix={<UserOutlined />}
       />
@@ -49,7 +45,8 @@ export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({
         <Button
           type='primary'
           htmlType='submit'
-          loading={loading}
+          disabled={!isDirty || !isValid}
+          loading={loading || isSubmitting}
           style={{ width: '100%' }}
         >
           Reset Password

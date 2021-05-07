@@ -5,6 +5,8 @@
  * @format
  */
 
+const path = require('path');
+
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -15,4 +17,5 @@ module.exports = {
     }),
   },
   maxWorkers: 4,
+  watchFolders: [path.resolve(__dirname, '../../node_modules')],
 };

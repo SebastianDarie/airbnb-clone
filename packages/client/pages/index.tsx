@@ -2,7 +2,9 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import { withApollo } from '../utils/withApollo';
 
-const IndexPage = () => (
+type IndexProps = {};
+
+const IndexPage: React.FC<IndexProps> = () => (
   <Layout title='Vacations Rentals, Homes, Hotels, Experiences & More - Airbnb'>
     <h1>Hello Next.js 👋</h1>
     <p>

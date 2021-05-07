@@ -1,4 +1,4 @@
-import {FormProps, RegisterMutation} from '@airbnb-clone/controller';
+import {RegisterFormProps, RegisterMutation} from '@airbnb-clone/controller';
 import React from 'react';
 import {Control, DeepMap, FieldError} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
@@ -7,10 +7,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {InputField} from '../components/InputField';
 
 interface RegisterViewProps {
-  control: Control<FormProps>;
-  errors: DeepMap<FormProps, FieldError>;
+  control: Control<RegisterFormProps>;
+  errors: DeepMap<RegisterFormProps, FieldError>;
   isSubmitting: boolean;
-  submit: (values: FormProps) => Promise<RegisterMutation | null | undefined>;
+  submit: (
+    values: RegisterFormProps,
+  ) => Promise<RegisterMutation | null | undefined>;
   // submit: (
   //   e?: React.BaseSyntheticEvent<object, any, any> | undefined,
   // ) => Promise<void>;

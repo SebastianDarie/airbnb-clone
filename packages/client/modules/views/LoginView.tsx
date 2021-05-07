@@ -33,7 +33,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
   useEffect(() => {
     if (data?.login.errors) {
       data.login.errors.map((err) =>
-        setError(err.path as 'email' | 'password' | 'confirm', {
+        setError(err.path as 'email' | 'password', {
           type: 'server',
           message: err.message,
         })

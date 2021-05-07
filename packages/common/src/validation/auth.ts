@@ -4,6 +4,15 @@ export const emailNotLongEnough = 'E-mail must be at least 3 characters';
 export const passwordNotLongEnough = 'Password must be at least 3 characters';
 export const passwordTooLong = 'Password is too long';
 export const invalidEmail = 'The input is not a valid E-mail!';
+export const requiredEmail = 'An E-mail is required!';
+export const emailTooLong = 'The email is too long';
+
+export const emailValidation = yup
+  .string()
+  .email(invalidEmail)
+  .min(3, emailNotLongEnough)
+  .max(255, emailTooLong)
+  .required(requiredEmail);
 
 export const registerPasswordValidation = yup
   .string()
@@ -12,12 +21,7 @@ export const registerPasswordValidation = yup
   .required();
 
 export const registerSchema = yup.object().shape({
-  email: yup
-    .string()
-    .min(3, emailNotLongEnough)
-    .max(255)
-    .email(invalidEmail)
-    .required(),
+  email: emailValidation,
   password: registerPasswordValidation,
   confirm: yup
     .string()
@@ -28,15 +32,14 @@ export const registerSchema = yup.object().shape({
 });
 
 export const loginSchema = yup.object().shape({
-  email: yup
-    .string()
-    .min(3, emailNotLongEnough)
-    .max(255)
-    .email(invalidEmail)
-    .required(),
+  email: emailValidation,
   password: registerPasswordValidation,
 });
 
 export const changePasswordSchema = yup.object().shape({
   newPassword: registerPasswordValidation,
+});
+
+export const forgotPasswordSchema = yup.object().shape({
+  email: emailValidation,
 });
