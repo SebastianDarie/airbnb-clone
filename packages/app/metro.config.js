@@ -7,6 +7,12 @@
 
 const path = require('path');
 
+const watchFolders = [
+  path.resolve(__dirname, '../..', 'node_modules'),
+  path.resolve(path.join(__dirname, '/../common/')),
+  path.resolve(path.join(__dirname, '/../controller/')),
+];
+
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -16,6 +22,5 @@ module.exports = {
       },
     }),
   },
-  maxWorkers: 4,
-  watchFolders: [path.resolve(__dirname, '../../node_modules')],
+  watchFolders,
 };

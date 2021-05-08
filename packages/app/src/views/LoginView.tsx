@@ -1,24 +1,36 @@
 import {AuthFormProps, LoginMutation} from '@airbnb-clone/controller';
 import React from 'react';
-import {Control, DeepMap, FieldError} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
 import {Button, Card} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {InputField} from '../components/InputField';
 
 interface LoginViewProps {
-  control: Control<AuthFormProps>;
-  errors: DeepMap<AuthFormProps, FieldError>;
-  isSubmitting: boolean;
+  data: LoginMutation | null | undefined;
+  loading: boolean | undefined;
   submit: (values: AuthFormProps) => Promise<LoginMutation | null | undefined>;
 }
 
 export const LoginView: React.FC<LoginViewProps> = ({
-  control,
-  errors,
-  isSubmitting,
+  data,
+  loading,
   submit,
 }) => {
+  const {
+    control,
+    handleSubmit,
+    formState: {errors, isSubmitting},
+  } = useForm<AuthFormProps>({criteriaMode: 'all'});
+
+  const onSubmit = handleSubmit(values => {
+    console.log(values);
+    console.log(isSubmitting);
+    console.log(data);
+    console.log(loading);
+    submit(values);
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -32,14 +44,6 @@ export const LoginView: React.FC<LoginViewProps> = ({
             control={control}
             errors={errors}
             name="email"
-            rules={{
-              pattern: {
-                message: 'The email address is invalid.',
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              },
-              required: 'The email is required',
-              maxLength: {message: 'You have reached the maximum', value: 255},
-            }}
             label="E-mail"
             mode="outlined"
             placeholder="e.g. bob@bob.com"
@@ -49,14 +53,6 @@ export const LoginView: React.FC<LoginViewProps> = ({
             control={control}
             errors={errors}
             name="password"
-            rules={{
-              required: 'The password is required',
-              maxLength: {
-                message: 'It can not be longer than this',
-                value: 256,
-              },
-              minLength: {message: 'That is too short', value: 3},
-            }}
             label="Password"
             mode="outlined"
             placeholder="e.g. booga ooga"
@@ -67,7 +63,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
             <Button
               loading={isSubmitting}
               mode="contained"
-              onPress={submit as any}
+              onPress={onSubmit}
               style={styles.button}>
               Submit
             </Button>
