@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { AuthFormProps } from '../../types';
 import { LoginMutation, useLoginMutation } from '../../generated/graphql';
 
@@ -16,29 +16,34 @@ interface LoginControllerProps {
 
 export const LoginController: React.FC<LoginControllerProps> = ({
   children,
-  onSessionId,
+  //onSessionId,
 }) => {
-  const router = useRouter();
+  //const router = useRouter();
   const [login, { data, loading }] = useLoginMutation({
     notifyOnNetworkStatusChange: true,
   });
 
   const submit = async (values: AuthFormProps) => {
-    const { data } = await login({
-      variables: { email: values.email, password: values.password },
-    });
+    console.log('running');
+    try {
+      await login({
+        variables: { email: values.email, password: values.password },
+      });
+    } catch (err) {
+      console.log(err);
+    }
     console.log(data);
-    if (!data?.login.errors) {
-      if (typeof router.query.next === 'string') {
-        router.push(router.query.next);
-      } else {
-        router.push('/');
-      }
-    }
+    // if (!data?.login.errors) {
+    //   if (typeof router.query.next === 'string') {
+    //     router.push(router.query.next);
+    //   } else {
+    //     router.push('/');
+    //   }
+    // }
 
-    if (data?.login.sessionID && onSessionId) {
-      onSessionId(data.login.sessionID);
-    }
+    // if (data?.login.sessionID && onSessionId) {
+    //   onSessionId(data.login.sessionID);
+    // }
 
     return data;
   };

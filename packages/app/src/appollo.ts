@@ -6,6 +6,8 @@ const host =
     ? 'http://localhost:4000/graphql'
     : 'http://192.168.0.4:4000/graphql';
 
+//console.log(host);
+
 export const client = new ApolloClient({
   assumeImmutableResults: true,
   queryDeduplication: true,

@@ -1,4 +1,11 @@
-import {AuthFormProps, LoginMutation} from '@airbnb-clone/controller';
+import {
+  AuthFormProps,
+  LoginMutation,
+  useMeLazyQuery,
+  useMeQuery,
+} from '@airbnb-clone/controller';
+import {useQuery} from '@apollo/client';
+import gql from 'graphql-tag';
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
@@ -12,11 +19,23 @@ interface LoginViewProps {
   submit: (values: AuthFormProps) => Promise<LoginMutation | null | undefined>;
 }
 
+const meQuery = gql`
+  query me {
+    id
+    email
+    confirmed
+    forgotPasswordLocked
+    createdAt
+  }
+`;
+
 export const LoginView: React.FC<LoginViewProps> = ({
   data,
   loading,
   submit,
 }) => {
+  const {data: newdata, loading: newloading, error} = useQuery(meQuery);
+  const [me, {data: medata, loading: meloading}] = useMeLazyQuery();
   const {
     control,
     handleSubmit,
@@ -31,6 +50,18 @@ export const LoginView: React.FC<LoginViewProps> = ({
     submit(values);
   });
 
+  if (data?.login.errors) {
+    console.log(data.login.errors);
+  }
+  console.log(medata, meloading);
+  console.log(
+    newdata,
+    newloading,
+    error,
+    error?.extraInfo,
+    error?.message,
+    error?.networkError,
+  );
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -66,6 +97,15 @@ export const LoginView: React.FC<LoginViewProps> = ({
               onPress={onSubmit}
               style={styles.button}>
               Submit
+            </Button>
+          </Card.Actions>
+          <Card.Actions>
+            <Button
+              loading={isSubmitting}
+              mode="contained"
+              onPress={me}
+              style={styles.button}>
+              Me query
             </Button>
           </Card.Actions>
         </Card>

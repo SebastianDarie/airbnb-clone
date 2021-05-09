@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import 'react-native-gesture-handler'
+import 'react-native-gesture-handler';
 import React from 'react';
 import {
   SafeAreaView,
@@ -64,7 +64,7 @@ const App = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
+  console.log(client.link);
   return (
     <ApolloProvider client={client}>
       <PaperProvider>
