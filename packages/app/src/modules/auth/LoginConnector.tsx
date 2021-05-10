@@ -25,7 +25,13 @@ export const LoginConnector = ({navigation}: AuthNavProps<'Login'>) => {
         onPress={() => {
           navigation.navigate('Register');
         }}>
-        Navigate
+        Register
+      </Button>
+      <Button
+        onPress={() => {
+          navigation.navigate('Me');
+        }}>
+        Me page
       </Button>
     </>
   );

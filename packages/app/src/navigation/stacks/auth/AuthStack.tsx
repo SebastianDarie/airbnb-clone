@@ -1,6 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {LoginConnector} from '../../../modules/auth/LoginConnector';
+import Me from '../../../modules/auth/Me';
 import {RegisterConnector} from '../../../modules/auth/RegisterConnector';
 import {AuthParamList} from './AuthParamList';
 
@@ -23,6 +24,7 @@ export const AuthStack: React.FC<AuthStackProps> = () => {
         name="Register"
         component={RegisterConnector}
       />
+      <Stack.Screen options={{headerTitle: 'Me'}} name="Me" component={Me} />
     </Stack.Navigator>
   );
 };
