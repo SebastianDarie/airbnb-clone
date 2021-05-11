@@ -8,15 +8,17 @@ interface InputFieldProps {
   control: Control<any>;
   errors: DeepMap<any, FieldError>;
   label: string;
-  mode: 'outlined' | 'flat' | undefined;
+  mode?: 'outlined' | 'flat' | undefined;
   name: string;
-  placeholder: string;
+  placeholder?: string;
+  keyboardType?: 'numeric';
   secureTextEntry?: boolean;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
   control,
   errors,
+  mode = 'outlined',
   name,
   ...props
 }) => {
@@ -33,6 +35,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             onChangeText={val => onChange(val)}
             value={value}
             style={styles.input}
+            mode={mode}
             {...props}
           />
         )}

@@ -11,5 +11,6 @@ export const client = new ApolloClient({
   queryDeduplication: true,
   uri: host,
   credentials: 'include',
+
   cache: new InMemoryCache(),
 });
