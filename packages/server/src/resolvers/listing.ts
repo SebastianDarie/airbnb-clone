@@ -16,6 +16,7 @@ import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
+import cloudinary from 'cloudinary';
 
 @InputType()
 class ListingInput {
@@ -63,6 +64,26 @@ export class ListingResolver {
   @Query(() => [Listing])
   async listings(): Promise<Listing[]> {
     return Listing.find({});
+  }
+
+  @Mutation(() => String)
+  @UseMiddleware(isAuth)
+  async uploadPhoto(@Arg('photo') photo: string): Promise<String> {
+    cloudinary.v2.config({
+      cloud_name: process.env.CLOUDINARY_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+    const res = await cloudinary.v2.uploader.unsigned_upload(
+      photo,
+      'ml_default',
+      {
+        public_id: '',
+        folder: 'listings',
+      }
+    );
+
+    return res.secure_url;
   }
 
   @Mutation(() => Listing)

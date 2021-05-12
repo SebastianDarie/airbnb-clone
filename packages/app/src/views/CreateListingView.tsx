@@ -1,24 +1,31 @@
-import {ListingFormProps} from '@airbnb-clone/controller';
+import {
+  ListingFormProps,
+  withPhotoUpload,
+  WithPhotoUploadProps,
+} from '@airbnb-clone/controller';
 import {ApolloError} from '@apollo/client';
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {Button, Card} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {CheckboxField} from '../components/CheckBoxField';
 import {InputField} from '../components/InputField';
 
-interface CreateListingViewProps {
+type CreateListingViewProps = {
   error: ApolloError | undefined;
   loading: boolean | undefined;
   submit: (values: ListingFormProps, photoUrl: string) => Promise<boolean>;
-}
+} & WithPhotoUploadProps;
 
-export const CreateListingView: React.FC<CreateListingViewProps> = ({
+const CreateListingView: React.FC<CreateListingViewProps> = ({
   error,
   loading,
   submit,
+  uploadPhoto,
 }) => {
+  const [photo, setPhoto] = useState<string>('');
   const form = useForm<ListingFormProps>({criteriaMode: 'all'});
   const {
     control,
@@ -26,8 +33,10 @@ export const CreateListingView: React.FC<CreateListingViewProps> = ({
     formState: {errors, isSubmitting},
   } = form;
 
-  const onSubmit = handleSubmit(values => {
-    submit(values, '');
+  const onSubmit = handleSubmit(async values => {
+    const photoUrl = await uploadPhoto({variables: {photo}});
+    console.log(photoUrl, typeof photoUrl);
+    submit(values, 'photoUrl');
   });
 
   if (error) {
@@ -113,6 +122,27 @@ export const CreateListingView: React.FC<CreateListingViewProps> = ({
 
           <Card.Actions>
             <Button
+              loading={isSubmitting}
+              mode="contained"
+              onPress={() =>
+                launchImageLibrary({mediaType: 'photo'}, res => {
+                  console.log(res);
+
+                  if (res && res.errorCode) {
+                    console.log(res.errorMessage);
+                  } else {
+                    console.log(res.uri, res.fileName, res.fileSize);
+                    setPhoto(res.uri!);
+                  }
+                })
+              }
+              style={styles.button}>
+              Pick Image
+            </Button>
+          </Card.Actions>
+
+          <Card.Actions>
+            <Button
               loading={loading || isSubmitting}
               mode="contained"
               onPress={onSubmit}
@@ -125,6 +155,8 @@ export const CreateListingView: React.FC<CreateListingViewProps> = ({
     </SafeAreaView>
   );
 };
+
+export default withPhotoUpload(CreateListingView);
 
 const styles = StyleSheet.create({
   container: {

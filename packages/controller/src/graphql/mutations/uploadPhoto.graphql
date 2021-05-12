@@ -1,0 +1,3 @@
+mutation UploadPhoto($photo: String!) {
+  uploadPhoto(photo: $photo)
+}

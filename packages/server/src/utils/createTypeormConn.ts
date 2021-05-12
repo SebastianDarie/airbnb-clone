@@ -1,6 +1,7 @@
 import path from 'path';
 import { createConnection } from 'typeorm';
 import { Listing } from '../entity/Listing';
+import { Message } from '../entity/Message';
 import { User } from '../entity/User';
 
 export const createTypeormConn = () => {
@@ -10,6 +11,6 @@ export const createTypeormConn = () => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, '../migrations/*')],
-    entities: [Listing, User],
+    entities: [Listing, Message, User],
   });
 };

@@ -7,7 +7,9 @@ import {
   UpdateDateColumn,
   BaseEntity,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
+import { Message } from './Message';
 import { User } from './User';
 
 @ObjectType()
@@ -63,6 +65,9 @@ export class Listing extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.listings)
   creator: User;
+
+  @OneToMany(() => Message, (message) => message.listing)
+  messages: Message[];
 
   @Field(() => String)
   @CreateDateColumn()

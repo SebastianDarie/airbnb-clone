@@ -6,5 +6,8 @@ declare namespace NodeJS {
     PORT: string;
     SECRET: string;
     CORS_ORIGIN: string;
+    CLOUDINARY_API_KEY: string;
+    CLOUDINARY_API_SECRET: string;
+    CLOUDINARY_NAME: string;
   }
 }

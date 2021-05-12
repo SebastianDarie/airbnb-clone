@@ -1,24 +1,25 @@
-import 'reflect-metadata';
-import 'dotenv-safe/config';
-import cors from 'cors';
-import express from 'express';
-import session from 'express-session';
-import connectRedis from 'connect-redis';
-import RateLimit from 'express-rate-limit';
-import RateLimitRedisStore from 'rate-limit-redis';
-import Redis from 'ioredis';
 import { ApolloServer } from 'apollo-server-express';
+import connectRedis from 'connect-redis';
+import cors from 'cors';
+import 'dotenv-safe/config';
+import express from 'express';
+import RateLimit from 'express-rate-limit';
+import session from 'express-session';
+import Redis from 'ioredis';
+import RateLimitRedisStore from 'rate-limit-redis';
+import 'reflect-metadata';
+import { buildSchema } from 'type-graphql';
 import {
   COOKIE_NAME,
   REDIS_SESSION_PREFIX,
   __prod__,
   __test__,
 } from './constants';
-import { UserResolver } from './resolvers/user';
-import { buildSchema } from 'type-graphql';
-import { createTypeormConn } from './utils/createTypeormConn';
-import { ListingResolver } from './resolvers/listing';
 import { createUserLoader } from './loaders/createUserLoader';
+import { ListingResolver } from './resolvers/listing';
+import { MessageResolver } from './resolvers/message';
+import { UserResolver } from './resolvers/user';
+import { createTypeormConn } from './utils/createTypeormConn';
 
 const main = async () => {
   const conn = await createTypeormConn();
@@ -70,7 +71,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [ListingResolver, UserResolver],
+      resolvers: [ListingResolver, MessageResolver, UserResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({
