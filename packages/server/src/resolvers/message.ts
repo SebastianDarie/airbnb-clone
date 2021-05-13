@@ -1,5 +1,7 @@
 import {
   Arg,
+  Args,
+  ArgsType,
   Ctx,
   Field,
   FieldResolver,
@@ -7,9 +9,15 @@ import {
   InputType,
   Int,
   Mutation,
+  ObjectType,
+  Publisher,
+  PubSub,
+  PubSubEngine,
   Query,
   Resolver,
+  ResolverFilterData,
   Root,
+  Subscription,
   UseMiddleware,
 } from 'type-graphql';
 import { Listing } from '../entity/Listing';
@@ -18,6 +26,12 @@ import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
 
+@ArgsType()
+export class NewMessageArgs {
+  @Field()
+  listingId: string;
+}
+
 @InputType()
 class MessageInput {
   @Field()
@@ -25,6 +39,21 @@ class MessageInput {
 
   @Field()
   listingId: string;
+}
+
+@ObjectType()
+class MessagePayload {
+  @Field()
+  id: string;
+
+  @Field()
+  text: string;
+
+  @Field()
+  creatorId: string;
+
+  @Field()
+  createdAt: Date;
 }
 
 @Resolver(Message)
@@ -51,12 +80,36 @@ export class MessageResolver {
   @UseMiddleware(isAuth)
   async createMessage(
     @Arg('input') input: MessageInput,
-    @Ctx() { req }: MyContext
+    @Ctx() { req }: MyContext,
+    @PubSub('MESSAGES') publish: Publisher<Message>
   ): Promise<Message> {
-    return Message.create({
+    const message = await Message.create({
       ...input,
       creatorId: req.session.userId,
     }).save();
+    console.log(message);
+    await publish(message);
+    return message;
+  }
+
+  @Subscription({
+    topics: 'MESSAGES',
+    filter: ({
+      payload,
+      args,
+    }: ResolverFilterData<Message, NewMessageArgs>) => {
+      return payload.listingId === args.listingId;
+    },
+  })
+  newMessage(
+    // @Ctx() { pubsub }: MyContext,
+    @Args() listingId: string,
+    @PubSub() pubsub: PubSubEngine,
+    @Root() message: Message
+  ): MessagePayload {
+    pubsub.asyncIterator(['MESSAGES']);
+    console.log(message);
+    return message;
   }
 
   // @Mutation(() => Boolean)

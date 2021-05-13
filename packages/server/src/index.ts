@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, PubSub } from 'apollo-server-express';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
 import 'dotenv-safe/config';
@@ -6,8 +6,11 @@ import express from 'express';
 import RateLimit from 'express-rate-limit';
 import session from 'express-session';
 import Redis from 'ioredis';
+import { createServer } from 'http';
 import RateLimitRedisStore from 'rate-limit-redis';
 import 'reflect-metadata';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { execute, subscribe } from 'graphql';
 import { buildSchema } from 'type-graphql';
 import {
   COOKIE_NAME,
@@ -69,6 +72,8 @@ const main = async () => {
     })
   );
 
+  const pubsub = new PubSub();
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [ListingResolver, MessageResolver, UserResolver],
@@ -78,8 +83,13 @@ const main = async () => {
       req,
       res,
       redis,
+      pubsub,
       userLoader: createUserLoader(),
     }),
+    subscriptions: {
+      path: '/subscriptions',
+      onConnect: () => console.log('subscriptions connect'),
+    },
   });
 
   apolloServer.applyMiddleware({
@@ -87,8 +97,29 @@ const main = async () => {
     cors: false,
   });
 
-  app.listen(parseInt(__test__ ? '0' : process.env.PORT), () => {
+  // app.listen(parseInt(__test__ ? '0' : process.env.PORT), () => {
+  //   console.log(`Server running on port ${process.env.PORT}`);
+  // });
+
+  const server = createServer(app);
+
+  server.listen(parseInt(__test__ ? '0' : process.env.PORT), async () => {
     console.log(`Server running on port ${process.env.PORT}`);
+
+    new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema: await buildSchema({
+          resolvers: [ListingResolver, MessageResolver, UserResolver],
+          validate: false,
+        }),
+      },
+      {
+        server: server,
+        path: '/subscriptions',
+      }
+    );
   });
 };
 
