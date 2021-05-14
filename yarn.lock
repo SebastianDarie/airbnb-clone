@@ -132,6 +132,7 @@ __metadata:
     faker: ^5.5.3
     gen-env-types: ^1.3.0
     graphql: ^15.5.0
+    graphql-redis-subscriptions: ^2.3.1
     ioredis: ^4.27.1
     jest: ^26.6.3
     nodemailer: ^6.5.0
@@ -7984,6 +7985,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"graphql-redis-subscriptions@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "graphql-redis-subscriptions@npm:2.3.1"
+  dependencies:
+    ioredis: ^4.17.3
+    iterall: ^1.3.0
+  peerDependencies:
+    graphql-subscriptions: ^1.0.0
+  dependenciesMeta:
+    ioredis:
+      optional: true
+  checksum: 11fff9d8eaa3ae35e348a6c0a02344db0ab0fcbf4a3d1a10d84fc898d0063cd6c02d660a2758540c1665e3dbe1f6a3a7561052488d7b98df3d8ab75d7ba8061e
+  languageName: node
+  linkType: hard
+
 "graphql-request@npm:^3.3.0":
   version: 3.4.0
   resolution: "graphql-request@npm:3.4.0"
@@ -8623,6 +8639,24 @@ __metadata:
   dependencies:
     loose-envify: ^1.0.0
   checksum: 96d8a2a4f0ad21020c5847546fc36bec5c0870d99f071aaa93df00c1036439d48211a1823ab6128f78a15ccc4c4f62baf6a65f6c0ed489270dd44d0a04f443a1
+  languageName: node
+  linkType: hard
+
+"ioredis@npm:^4.17.3":
+  version: 4.27.2
+  resolution: "ioredis@npm:4.27.2"
+  dependencies:
+    cluster-key-slot: ^1.1.0
+    debug: ^4.3.1
+    denque: ^1.1.0
+    lodash.defaults: ^4.2.0
+    lodash.flatten: ^4.4.0
+    p-map: ^2.1.0
+    redis-commands: 1.7.0
+    redis-errors: ^1.2.0
+    redis-parser: ^3.0.0
+    standard-as-callback: ^2.1.0
+  checksum: 8e6e21495bbbc726e4dc6349441d48fd013713f6de9896db3b1790e7d707b36652fa96060121e7aac875c22fdf96a0e95a0ebb5a076d08d02ddce1f5f4fc5913
   languageName: node
   linkType: hard
 

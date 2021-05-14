@@ -1,13 +1,37 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { NextPageContext } from 'next';
 import { withApollo as createWithApollo } from 'next-apollo';
+
+const httpLink = new HttpLink({
+  uri: process.env.NEXT_PUBLIC_API_URL as string,
+});
+
+const wsLink = new WebSocketLink({
+  uri: process.env.NEXT_PUBLIC_SUBSCRIPTIONS_URL as string,
+  options: {
+    reconnect: true,
+  },
+});
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink
+);
 
 const createClient = (ctx: NextPageContext | undefined) =>
   new ApolloClient({
     assumeImmutableResults: true,
     queryDeduplication: true,
     ssrMode: typeof window === 'undefined',
-    uri: process.env.NEXT_PUBLIC_API_URL as string,
     credentials: 'include',
     headers: {
       cookie:
@@ -15,6 +39,7 @@ const createClient = (ctx: NextPageContext | undefined) =>
           ? ctx?.req?.headers.cookie
           : undefined) || '',
     },
+    link: splitLink,
     cache: new InMemoryCache(),
   });
 

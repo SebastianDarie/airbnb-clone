@@ -1,16 +1,17 @@
-import { ApolloServer, PubSub } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
 import 'dotenv-safe/config';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import session from 'express-session';
-import Redis from 'ioredis';
+import { execute, subscribe } from 'graphql';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { createServer } from 'http';
+import Redis from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
 import 'reflect-metadata';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
-import { execute, subscribe } from 'graphql';
 import { buildSchema } from 'type-graphql';
 import {
   COOKIE_NAME,
@@ -72,23 +73,32 @@ const main = async () => {
     })
   );
 
-  const pubsub = new PubSub();
+  const redisPubsub = new RedisPubSub();
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [ListingResolver, MessageResolver, UserResolver],
+      pubSub: redisPubsub,
       validate: false,
     }),
     context: ({ req, res }) => ({
       req,
       res,
       redis,
-      pubsub,
+      redisPubsub,
       userLoader: createUserLoader(),
     }),
     subscriptions: {
       path: '/subscriptions',
-      onConnect: () => console.log('subscriptions connect'),
+      onConnect: (connectionParams, webSocket, context) =>
+        console.log(
+          'subscriptions connect',
+          connectionParams,
+          webSocket,
+          context
+        ),
+      onDisconnect: (webSocket, context) =>
+        console.log('subscriptions disconnect', webSocket, context),
     },
   });
 

@@ -81,14 +81,14 @@ export class MessageResolver {
   async createMessage(
     @Arg('input') input: MessageInput,
     @Ctx() { req }: MyContext,
-    @PubSub('MESSAGES') publish: Publisher<Message>
+    @PubSub('MESSAGES') notifyNewMsg: Publisher<Message>
   ): Promise<Message> {
     const message = await Message.create({
       ...input,
       creatorId: req.session.userId,
     }).save();
     console.log(message);
-    await publish(message);
+    await notifyNewMsg(message);
     return message;
   }
 
@@ -103,11 +103,11 @@ export class MessageResolver {
   })
   newMessage(
     // @Ctx() { pubsub }: MyContext,
-    @Args() listingId: string,
+    @Args() listingId: NewMessageArgs,
     @PubSub() pubsub: PubSubEngine,
     @Root() message: Message
   ): MessagePayload {
-    pubsub.asyncIterator(['MESSAGES']);
+    pubsub.asyncIterator('MESSAGES');
     console.log(message);
     return message;
   }
