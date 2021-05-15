@@ -66,6 +66,11 @@ export class ListingResolver {
     return Listing.find({});
   }
 
+  @Query(() => Listing, { nullable: true })
+  async listing(@Arg('id') id: string): Promise<Listing | undefined> {
+    return Listing.findOne(id);
+  }
+
   @Mutation(() => String)
   @UseMiddleware(isAuth)
   async uploadPhoto(@Arg('photo') photo: string): Promise<String> {

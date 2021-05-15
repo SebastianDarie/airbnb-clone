@@ -1,6 +1,7 @@
 import { withListings, WithListingsProps } from '@airbnb-clone/controller';
 import { Card } from 'antd';
 import Image from 'next/image';
+import Link from 'next/link';
 import { withApollo } from '../utils/withApollo';
 
 type ListingsProps = {} & WithListingsProps;
@@ -36,10 +37,12 @@ const RealListings: React.FC<ListingsProps> = ({ data, error, loading }) => {
               />
             }
           >
-            <Card.Meta
-              title={listing.title}
-              description={listing.description}
-            />
+            <Link href={`/listing/${listing.id}`}>
+              <Card.Meta
+                title={listing.title}
+                description={listing.description}
+              />
+            </Link>
           </Card>
         ))}
     </>

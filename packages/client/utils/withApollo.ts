@@ -8,24 +8,28 @@ const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_API_URL as string,
 });
 
-const wsLink = new WebSocketLink({
-  uri: process.env.NEXT_PUBLIC_SUBSCRIPTIONS_URL as string,
-  options: {
-    reconnect: true,
-  },
-});
+const wsLink = process.browser
+  ? new WebSocketLink({
+      uri: process.env.NEXT_PUBLIC_SUBSCRIPTIONS_URL as string,
+      options: {
+        reconnect: true,
+      },
+    })
+  : null;
 
-const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-    );
-  },
-  wsLink,
-  httpLink
-);
+const splitLink = process.browser
+  ? split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+        return (
+          definition.kind === 'OperationDefinition' &&
+          definition.operation === 'subscription'
+        );
+      },
+      wsLink!,
+      httpLink
+    )
+  : undefined;
 
 const createClient = (ctx: NextPageContext | undefined) =>
   new ApolloClient({
@@ -39,6 +43,7 @@ const createClient = (ctx: NextPageContext | undefined) =>
           ? ctx?.req?.headers.cookie
           : undefined) || '',
     },
+    uri: process.env.NEXT_PUBLIC_API_URL as string,
     link: splitLink,
     cache: new InMemoryCache(),
   });

@@ -12,7 +12,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
+
 
 export type FieldError = {
   __typename?: 'FieldError';
@@ -52,8 +55,35 @@ export type ListingInput = {
   amenities: Array<Scalars['String']>;
 };
 
+export type Message = {
+  __typename?: 'Message';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  creatorId: Scalars['String'];
+  listingId: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type MessageInput = {
+  text: Scalars['String'];
+  listingId: Scalars['String'];
+};
+
+export type MessagePayload = {
+  __typename?: 'MessagePayload';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  creatorId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  uploadPhoto: Scalars['String'];
+  createListing: Listing;
+  deleteListing: Scalars['Boolean'];
+  createMessage: Message;
   register: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
@@ -61,9 +91,26 @@ export type Mutation = {
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
   deleteUser: Scalars['Boolean'];
-  uploadPhoto: Scalars['String'];
-  createListing: Listing;
-  deleteListing: Scalars['Boolean'];
+};
+
+
+export type MutationUploadPhotoArgs = {
+  photo: Scalars['String'];
+};
+
+
+export type MutationCreateListingArgs = {
+  input: ListingInput;
+};
+
+
+export type MutationDeleteListingArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationCreateMessageArgs = {
+  input: MessageInput;
 };
 
 
@@ -98,26 +145,33 @@ export type MutationDeleteUserArgs = {
   email: Scalars['String'];
 };
 
-
-export type MutationUploadPhotoArgs = {
-  photo: Scalars['String'];
+export type Query = {
+  __typename?: 'Query';
+  listings: Array<Listing>;
+  listing?: Maybe<Listing>;
+  messages: Array<Message>;
+  users: Array<User>;
+  me?: Maybe<User>;
 };
 
 
-export type MutationCreateListingArgs = {
-  input: ListingInput;
-};
-
-
-export type MutationDeleteListingArgs = {
+export type QueryListingArgs = {
   id: Scalars['String'];
 };
 
-export type Query = {
-  __typename?: 'Query';
-  users: Array<User>;
-  me?: Maybe<User>;
-  listings: Array<Listing>;
+
+export type QueryMessagesArgs = {
+  listingId: Scalars['String'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  newMessage: MessagePayload;
+};
+
+
+export type SubscriptionNewMessageArgs = {
+  listingId: Scalars['String'];
 };
 
 export type User = {
@@ -260,6 +314,23 @@ export type UploadPhotoMutationVariables = Exact<{
 export type UploadPhotoMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'uploadPhoto'>
+);
+
+export type ListingQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type ListingQuery = (
+  { __typename?: 'Query' }
+  & { listing?: Maybe<(
+    { __typename?: 'Listing' }
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'price' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities' | 'createdAt'>
+    & { creator: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'confirmed' | 'email'>
+    ) }
+  )> }
 );
 
 export type ListingsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -582,6 +653,57 @@ export function useUploadPhotoMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UploadPhotoMutationHookResult = ReturnType<typeof useUploadPhotoMutation>;
 export type UploadPhotoMutationResult = Apollo.MutationResult<UploadPhotoMutation>;
 export type UploadPhotoMutationOptions = Apollo.BaseMutationOptions<UploadPhotoMutation, UploadPhotoMutationVariables>;
+export const ListingDocument = gql`
+    query Listing($id: String!) {
+  listing(id: $id) {
+    id
+    title
+    description
+    category
+    photoUrl
+    price
+    beds
+    guests
+    latitude
+    longitude
+    amenities
+    createdAt
+    creator {
+      id
+      confirmed
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useListingQuery__
+ *
+ * To run a query within a React component, call `useListingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListingQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useListingQuery(baseOptions: Apollo.QueryHookOptions<ListingQuery, ListingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListingQuery, ListingQueryVariables>(ListingDocument, options);
+      }
+export function useListingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListingQuery, ListingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListingQuery, ListingQueryVariables>(ListingDocument, options);
+        }
+export type ListingQueryHookResult = ReturnType<typeof useListingQuery>;
+export type ListingLazyQueryHookResult = ReturnType<typeof useListingLazyQuery>;
+export type ListingQueryResult = Apollo.QueryResult<ListingQuery, ListingQueryVariables>;
 export const ListingsDocument = gql`
     query Listings {
   listings {
