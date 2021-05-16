@@ -18,6 +18,7 @@ const sub = gql`
 
 const TestSub: React.FC<TestSubProps> = ({}) => {
   const { data, error, loading } = useSubscription(sub, {
+    variables: { listingId: 'cc056aa8-651a-482d-8adc-3ceb27d1ccd1' },
     onSubscriptionData: () => alert('new data'),
   });
 

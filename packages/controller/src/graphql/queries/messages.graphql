@@ -1,0 +1,8 @@
+query Messages($listingId: String!) {
+  messages(listingId: $listingId) {
+    id
+    text
+    creatorId
+    listingId
+  }
+}
