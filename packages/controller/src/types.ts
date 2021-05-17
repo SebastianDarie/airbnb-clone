@@ -21,3 +21,8 @@ export interface ListingFormProps {
   longitude: number;
   amenities: string[];
 }
+
+export interface MessageFormProps {
+  text: string;
+  listingId: string;
+}

@@ -1,5 +1,6 @@
 export * from './modules/auth/useIsAuth';
 export * from './modules/CreateListing';
+export * from './modules/CreateMessageController';
 export * from './modules/ConfirmEmailController';
 export * from './modules/ChangePasswordController';
 export * from './modules/ForgotPasswordController';

@@ -106,7 +106,7 @@ export class MessageResolver {
     @Args() listingId: NewMessageArgs,
     @PubSub() pubsub: PubSubEngine,
     @Root() message: Message
-  ): MessagePayload {
+  ): Message {
     pubsub.asyncIterator('MESSAGES');
     console.log(message);
     return message;

@@ -1,0 +1,8 @@
+subscription NewMessage($listingId: String!) {
+  newMessage(listingId: $listingId) {
+    id
+    text
+    creatorId
+    createdAt
+  }
+}
