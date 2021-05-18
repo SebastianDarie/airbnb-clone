@@ -14,6 +14,7 @@ export const useGetMessagesFromUrl = (): QueryResult<
 > => {
   const router = useRouter();
   const id = typeof router.query.id === 'string' ? router.query.id : '';
+  console.log(id);
   return useMessagesQuery({
     skip: id === '',
     variables: {

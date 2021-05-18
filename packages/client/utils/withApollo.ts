@@ -1,41 +1,19 @@
-import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  split,
+} from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { NextPageContext } from 'next';
 import { withApollo as createWithApollo } from 'next-apollo';
 
-const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_API_URL as string,
-});
-
-const wsLink = process.browser
-  ? new WebSocketLink({
-      uri: process.env.NEXT_PUBLIC_SUBSCRIPTIONS_URL as string,
-      options: {
-        reconnect: true,
-      },
-    })
-  : null;
-
-const splitLink = process.browser
-  ? split(
-      ({ query }) => {
-        const definition = getMainDefinition(query);
-        return (
-          definition.kind === 'OperationDefinition' &&
-          definition.operation === 'subscription'
-        );
-      },
-      wsLink!,
-      httpLink
-    )
-  : undefined;
-
-const createClient = (ctx: NextPageContext | undefined) =>
-  new ApolloClient({
-    assumeImmutableResults: true,
-    queryDeduplication: true,
-    ssrMode: typeof window === 'undefined',
+const linkCreate = (
+  ctx: NextPageContext | undefined
+): ApolloLink | undefined => {
+  const httpLink = new HttpLink({
     credentials: 'include',
     headers: {
       cookie:
@@ -44,7 +22,40 @@ const createClient = (ctx: NextPageContext | undefined) =>
           : undefined) || '',
     },
     uri: process.env.NEXT_PUBLIC_API_URL as string,
-    link: splitLink,
+  });
+
+  const wsLink = process.browser
+    ? new WebSocketLink({
+        uri: process.env.NEXT_PUBLIC_SUBSCRIPTIONS_URL as string,
+        options: {
+          reconnect: true,
+        },
+      })
+    : null;
+
+  return process.browser
+    ? split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+          return (
+            definition.kind === 'OperationDefinition' &&
+            definition.operation === 'subscription'
+          );
+        },
+        wsLink!,
+        httpLink
+      )
+    : undefined;
+};
+
+const createClient = (ctx: NextPageContext | undefined) =>
+  new ApolloClient({
+    assumeImmutableResults: true,
+    queryDeduplication: true,
+    ssrMode: typeof window === 'undefined',
+
+    uri: process.env.NEXT_PUBLIC_API_URL as string,
+    link: linkCreate(ctx),
     cache: new InMemoryCache(),
   });
 

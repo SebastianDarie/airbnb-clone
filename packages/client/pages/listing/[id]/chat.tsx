@@ -1,4 +1,4 @@
-import { Button, Form } from 'antd';
+import { Button, Form, Layout } from 'antd';
 import { useForm } from 'react-hook-form';
 import { InputField } from '../../../components/InputField';
 import { useGetMessagesFromUrl } from '../../../shared-hooks/useGetMessagesFromUrl';
@@ -7,12 +7,24 @@ import { withApollo } from '../../../utils/withApollo';
 import {
   CreateMessageController,
   NewMessageDocument,
+  useIsAuth,
+  useNewMessageSubscription,
 } from '@airbnb-clone/controller';
-import { useEffect } from 'react';
 
 interface ListingChatProps {}
 
 const ListingChat: React.FC<ListingChatProps> = () => {
+  useIsAuth();
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isSubmitting, isValid },
+  } = useForm<{ text: string }>({
+    mode: 'onBlur',
+    //resolver: yupResolver(loginSchema),
+  });
+
   const {
     data,
     error,
@@ -21,25 +33,32 @@ const ListingChat: React.FC<ListingChatProps> = () => {
     subscribeToMore,
   } = useGetMessagesFromUrl();
 
-  useEffect(() => {
-    const subscribeToNewMessages = () => {
-      subscribeToMore({
-        document: NewMessageDocument,
-        variables,
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) return prev;
-          const newMsg = subscriptionData.data.messages.filter((msg) =>
-            prev.messages.includes(msg)
-          );
-          return Object.assign({}, prev, {
-            messages: [...prev.messages, newMsg],
-          });
-        },
-      });
-    };
+  const {
+    data: subData,
+    error: subError,
+    loading: subLoading,
+  } = useNewMessageSubscription({ variables });
+  console.log(subData, subError, subLoading);
 
-    subscribeToNewMessages();
-  }, []);
+  // useEffect(() => {
+  //   const subscribeToNewMessages = () => {
+  //     subscribeToMore({
+  //       document: NewMessageDocument,
+  //       variables,
+  //       updateQuery: (prev, { subscriptionData }) => {
+  //         if (!subscriptionData.data) return prev;
+  //         const newMsg = subscriptionData.data.messages.filter((msg) =>
+  //           prev.messages.includes(msg)
+  //         );
+  //         return Object.assign({}, prev, {
+  //           messages: [...prev.messages, newMsg],
+  //         });
+  //       },
+  //     });
+  //   };
+
+  //   subscribeToNewMessages();
+  // }, []);
 
   if ((!data && !loading) || error) {
     return (
@@ -54,53 +73,94 @@ const ListingChat: React.FC<ListingChatProps> = () => {
     return <div>loading...</div>;
   }
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors, isDirty, isSubmitting, isValid },
-  } = useForm<{ text: string }>({
-    mode: 'onBlur',
-    //resolver: yupResolver(loginSchema),
-  });
+  let unsubscribe: () => void;
+
+  // const subscribeToNewMessages = () => {
+  //   subscribeToMore({
+  //     document: NewMessageDocument,
+  //     variables,
+  //     updateQuery: (prev, { subscriptionData }) => {
+  //       if (!subscriptionData.data) return prev;
+  //       const newMsg = subscriptionData.data.messages.filter((msg) =>
+  //         prev.messages.includes(msg)
+  //       );
+  //       return Object.assign({}, prev, {
+  //         messages: [...prev.messages, newMsg],
+  //       });
+  //     },
+  //   });
+  // };
+
+  console.log(data?.messages);
 
   return (
-    <>
-      {data && data.messages.map((msg) => <p key={msg.id}>{msg.text}</p>)}
+    <Layout>
+      <Layout.Content
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          maxWidth: '400px',
+          width: '100%',
+        }}
+      >
+        {data && data.messages.map((msg) => <p key={msg.id}>{msg.text}</p>)}
 
-      {variables && (
-        <CreateMessageController>
-          {({ submit, error, loading }) => (
-            <Form
-              {...formItemLayout}
-              name='message'
-              onFinish={handleSubmit((values) =>
-                submit({ ...values, listingId: variables.listingId })
-              )}
-              scrollToFirstError
-            >
-              <InputField
-                control={control}
-                errors={errors.text?.message}
-                name='message'
-                label=''
-              />
+        {variables && (
+          <CreateMessageController>
+            {({ submit, loading }) => {
+              // if (!unsubscribe) {
+              //   unsubscribe = subscribeToNewMessages;
+              // }
 
-              <Form.Item {...tailFormItemLayout}>
-                <Button
-                  type='primary'
-                  htmlType='submit'
-                  disabled={!isDirty || !isValid}
-                  loading={loading || isSubmitting}
-                  style={{ width: '100%' }}
+              return (
+                <Form
+                  {...formItemLayout}
+                  name='message'
+                  onFinish={handleSubmit((values) =>
+                    submit({ ...values, listingId: variables.listingId })
+                  )}
+                  scrollToFirstError
                 >
-                  Send
-                </Button>
-              </Form.Item>
-            </Form>
-          )}
-        </CreateMessageController>
-      )}
-    </>
+                  <InputField
+                    control={control}
+                    errors={errors.text?.message}
+                    name='text'
+                    label=''
+                  />
+
+                  <Form.Item {...tailFormItemLayout}>
+                    <Button
+                      type='primary'
+                      htmlType='submit'
+                      disabled={!isDirty || !isValid}
+                      loading={loading || isSubmitting}
+                      style={{ width: '100%' }}
+                    >
+                      Send
+                    </Button>
+                  </Form.Item>
+                  <Form.Item {...tailFormItemLayout}>
+                    <Button
+                      type='ghost'
+                      loading={loading || isSubmitting}
+                      style={{ width: '100%' }}
+                      onClick={unsubscribe}
+                    >
+                      Unsubscribe
+                    </Button>
+                  </Form.Item>
+                </Form>
+              );
+            }}
+          </CreateMessageController>
+        )}
+      </Layout.Content>
+    </Layout>
   );
 };
 

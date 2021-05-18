@@ -24,15 +24,10 @@ export const LoginController: React.FC<LoginControllerProps> = ({
   });
 
   const submit = async (values: AuthFormProps) => {
-    console.log('running');
-    try {
-      await login({
-        variables: { email: values.email, password: values.password },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(data);
+    await login({
+      variables: { email: values.email, password: values.password },
+    });
+
     // if (!data?.login.errors) {
     //   if (typeof router.query.next === 'string') {
     //     router.push(router.query.next);
