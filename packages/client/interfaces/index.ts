@@ -5,7 +5,7 @@
 // import { User } from 'path/to/interfaces';
 
 import { ListingFormProps } from '@airbnb-clone/controller';
-import { Control, DeepMap, FieldError } from 'react-hook-form';
+import { Control, DeepMap, FieldError, UseFormSetValue } from 'react-hook-form';
 
 export type User = {
   id: number;
@@ -17,4 +17,5 @@ export interface StepForm {
   errors: (string | undefined)[] | (FieldError | undefined)[];
   isDirty?: boolean;
   isValid?: boolean;
+  setValue?: UseFormSetValue<ListingFormProps>;
 }

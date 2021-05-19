@@ -53,10 +53,13 @@ __metadata:
     "@apollo/client": ^3.3.15
     "@hookform/error-message": ^2.0.0
     "@hookform/resolvers": ^2.4.0
+    "@types/google-map-react": ^2.1.0
     "@types/node": ^14.14.41
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
+    "@types/react-geosuggest": ^2.7.11
     antd: ^4.15.2
+    google-map-react: ^2.1.9
     graphql: ^15.5.0
     graphql-tag: ^2.11.0
     next: ^10.1.3
@@ -64,6 +67,7 @@ __metadata:
     next-transpile-modules: ^6.4.0
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-geosuggest: ^2.14.1
     react-hook-form: ^7.3.6
     typescript: ^4.2.4
   languageName: unknown
@@ -1459,6 +1463,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@googlemaps/js-api-loader@npm:^1.7.0":
+  version: 1.11.4
+  resolution: "@googlemaps/js-api-loader@npm:1.11.4"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+  checksum: 6b967da4a21952a293e5e77b2a2bbc26e835e452bfd690f6d9807305428c69f1d322fa28e6da77b69dae4e732a1e6e074360162067b79fa16781de28b17932a9
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/cli@npm:1.21.4":
   version: 1.21.4
   resolution: "@graphql-codegen/cli@npm:1.21.4"
@@ -2231,6 +2244,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mapbox/point-geometry@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@mapbox/point-geometry@npm:0.1.0"
+  checksum: 03b9b0d106dca7469a0dc555e79460ee6371e1db04a094539bcf4447425e9bee9362453d50cbb69412246a327aa800fcb0a734af5294208f21366cbf8fc1cb61
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:10.1.3":
   version: 10.1.3
   resolution: "@next/env@npm:10.1.3"
@@ -2964,6 +2984,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/google-map-react@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@types/google-map-react@npm:2.1.0"
+  dependencies:
+    "@types/react": "*"
+  checksum: 76b7ae8de016bf33a7d3b1d27ac50edb7f1f79157e98f40026442d98cb65dd963a310b3e813be739886d5e16f40c3d59f824e1c88237ccd23743623a46cd20d6
+  languageName: node
+  linkType: hard
+
+"@types/google.maps@npm:*":
+  version: 3.44.6
+  resolution: "@types/google.maps@npm:3.44.6"
+  checksum: d0d8503508a84c4cccc4694392eb8330a4897a8093b56505238ba970fa78e423226302cd51e875bd556a5c05907fc685f8fd2aa04af878729edea708c3374235
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.2":
   version: 4.1.5
   resolution: "@types/graceful-fs@npm:4.1.5"
@@ -3248,6 +3284,16 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 9314c91a985f153591e1e74aef3d63d8b22e098069773f32745bf0733740a49802731761a46da8788a7d3dd2c21346036f12c2c24627630e5a6210b120a650e6
+  languageName: node
+  linkType: hard
+
+"@types/react-geosuggest@npm:^2.7.11":
+  version: 2.7.11
+  resolution: "@types/react-geosuggest@npm:2.7.11"
+  dependencies:
+    "@types/google.maps": "*"
+    "@types/react": "*"
+  checksum: a1b13ee82c5f15f04053518ba604680255e05b5834f0903408dca6fb3be619514be7af60f69edf1b3c65b77acffc49008223890ab9fe1a9416fd708092245090
   languageName: node
   linkType: hard
 
@@ -7070,6 +7116,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eventemitter3@npm:^4.0.4":
+  version: 4.0.7
+  resolution: "eventemitter3@npm:4.0.7"
+  checksum: 1fc12c7bc3b4194c50975827e72d56ff57c32b75a4c7dbf4d5eebf3c8371f6f1aad6799150b609de1b867c0d8a9885c08b6ca5e7e0dc437d6152f3063b2607dd
+  languageName: node
+  linkType: hard
+
 "events@npm:^3.0.0":
   version: 3.3.0
   resolution: "events@npm:3.3.0"
@@ -7314,7 +7367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-deep-equal@npm:^3.1.1":
+"fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: 451526766b219503131d11e823eaadd1533080b0be4860e316670b039dcaf31cd1007c2fe036a9b922abba7c040dfad5e942ed79d21f2ff849e50049f36e0fb7
@@ -7910,6 +7963,21 @@ __metadata:
     merge2: ^1.3.0
     slash: ^3.0.0
   checksum: f17da0f869918656ec8c16c15ad100f025fbd13e4c157286cf340811eb1355a7d06dde77be1685a7a051970ec6abeff96a9b2a1a97525f84bc94fbd518c1d1db
+  languageName: node
+  linkType: hard
+
+"google-map-react@npm:^2.1.9":
+  version: 2.1.9
+  resolution: "google-map-react@npm:2.1.9"
+  dependencies:
+    "@googlemaps/js-api-loader": ^1.7.0
+    "@mapbox/point-geometry": ^0.1.0
+    eventemitter3: ^4.0.4
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^16.0.0
+    react-dom: ^16.0.0
+  checksum: 50ce0ab68102a793865e1bda748ce7d6e5facdd5f97fbfa38da6d97948d62d07fb1a0e551cc8345f5173b62c093838e685d4fc9a10f7b826cd1eee9cb36b2e4d
   languageName: node
   linkType: hard
 
@@ -10342,7 +10410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.debounce@npm:^4.0.8":
+"lodash.debounce@npm:^4.0.6, lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
   checksum: b6042bd8c09ff1961c9127d32266316bc21f946ece5e3464a663ec61fadb98e7d56ec0ef7e23b47d393695310c19cf24e651c1756be6da91ac02c72be7f79465
@@ -13557,6 +13625,19 @@ __metadata:
   peerDependencies:
     react: 17.0.2
   checksum: 960a74ff6670766846a73097a599115963df1574833c59ca0c2fd909758ebe7a6214cd14f5e6aa63ce846d8f39fde7f3b80474ccfcfadc45dd7f3246364718c6
+  languageName: node
+  linkType: hard
+
+"react-geosuggest@npm:^2.14.1":
+  version: 2.14.1
+  resolution: "react-geosuggest@npm:2.14.1"
+  dependencies:
+    classnames: ^2.2.6
+    lodash.debounce: ^4.0.6
+  peerDependencies:
+    react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+  checksum: e548bb120285e5c06f1727ae2db5a2297f2ea692f9464feca7a303a367a5351b9787fdb77449a4a43cb518f102161b7d065ac34e600aa01ef1428e7302e21c61
   languageName: node
   linkType: hard
 

@@ -1,11 +1,12 @@
 import { Form, Select } from 'antd';
 import { Controller } from 'react-hook-form';
 import { InputField } from '../../components/InputField';
+import { LocationField } from '../../components/LocationField';
 import { StepForm } from '../../interfaces';
 
 const { Option } = Select;
 
-export const TextPage: React.FC<StepForm> = ({ control, errors }) => {
+export const TextPage: React.FC<StepForm> = ({ control, errors, setValue }) => {
   return (
     <>
       <InputField
@@ -40,6 +41,8 @@ export const TextPage: React.FC<StepForm> = ({ control, errors }) => {
           )}
         />
       </Form.Item>
+
+      <LocationField setValue={setValue} />
     </>
   );
 };

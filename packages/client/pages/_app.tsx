@@ -1,6 +1,8 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+
 import 'antd/dist/antd.css';
+import '../styles/Geosuggest.css';
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (

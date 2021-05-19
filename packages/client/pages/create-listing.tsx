@@ -30,6 +30,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
     handleSubmit,
     control,
     formState: { errors, isDirty, isSubmitting, isValid },
+    setValue,
   } = useForm<ListingFormProps>({
     mode: 'onBlur',
     resolver: yupResolver(textPageSchema),
@@ -46,6 +47,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
             errors.description?.message,
             errors.category?.message,
           ]}
+          setValue={setValue}
         />
       ),
       icon: <HomeTwoTone />,
