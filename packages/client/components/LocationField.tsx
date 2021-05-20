@@ -1,7 +1,8 @@
 import { ListingFormProps } from '@airbnb-clone/controller';
+import { GoogleMap, useLoadScript } from '@react-google-maps/api';
+import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
 import React, { useState } from 'react';
 import Geosuggest, { Suggest } from 'react-geosuggest';
-import GoogleMapReact from 'google-map-react';
 import { UseFormSetValue } from 'react-hook-form';
 
 interface LocationFieldProps {
@@ -13,48 +14,80 @@ interface DefaultCenter {
   lng: number;
 }
 
-const google = typeof window === 'undefined' ? null : window.google;
+//const google = typeof window === 'undefined' ? null : window.google;
+const libraries: Libraries = ['places'];
+const mapContainerStyle = {
+  height: '350px',
+  width: '600px',
+};
+const options: google.maps.MapOptions = {};
 
-export const LocationField: React.FC<LocationFieldProps> = ({ setValue }) => {
-  const [defaultCenter, setDefaultCenter] = useState<DefaultCenter | null>(
-    null
-  );
-
-  const onSuggestSelect = (place: Suggest) => {
-    const {
-      location: { lat, lng },
-    } = place;
-    setValue!('latitude', lat);
-    setValue!('longitude', lng);
-
-    setDefaultCenter({
-      lat,
-      lng,
+export const LocationField: React.FC<LocationFieldProps> = React.memo(
+  ({ setValue }) => {
+    const { isLoaded, loadError } = useLoadScript({
+      googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_KEY!,
+      libraries,
     });
-  };
+    const [defaultCenter, setDefaultCenter] = useState<
+      DefaultCenter | undefined
+    >({
+      lat: 59.95,
+      lng: 30.33,
+    });
 
-  return (
-    <div style={{ height: '100%', width: '100%' }}>
-      {google && (
-        <>
+    const onSuggestSelect = (place: Suggest) => {
+      const {
+        location: { lat, lng },
+      } = place;
+      setValue!('latitude', lat);
+      setValue!('longitude', lng);
+
+      setDefaultCenter({
+        lat,
+        lng,
+      });
+    };
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          height: '400px',
+          width: '100%',
+        }}
+      >
+        {/* {google && ( */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Geosuggest
             placeholder='Find your location'
-            location={new google.maps.LatLng(53.558572, 9.9278215)}
+            //location={defaultCenter}
             radius={20}
             onSuggestSelect={onSuggestSelect}
           />
 
-          <GoogleMapReact
-            bootstrapURLKeys={{
-              key: process.env.NEXT_PUBLIC_GOOGLE_KEY as string,
-            }}
-            //defaultCenter={center}
-            //defaultZoom={zoom}
-          >
-            test
-          </GoogleMapReact>
-        </>
-      )}
-    </div>
-  );
-};
+          <div>{defaultCenter?.lat}</div>
+          <div>{defaultCenter?.lng}</div>
+
+          {defaultCenter && (
+            <>
+              {loadError ? (
+                <div>Failed to load maps</div>
+              ) : !isLoaded ? (
+                <div>Loading map...</div>
+              ) : (
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  center={defaultCenter}
+                  options={options}
+                  zoom={8}
+                ></GoogleMap>
+              )}
+            </>
+          )}
+        </div>
+        {/* )} */}
+      </div>
+    );
+  }
+);

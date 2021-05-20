@@ -17,6 +17,7 @@ import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
 import cloudinary from 'cloudinary';
+import { getConnection } from 'typeorm';
 
 @InputType()
 class ListingInput {
@@ -51,6 +52,39 @@ class ListingInput {
   amenities: string[];
 }
 
+@InputType()
+class UpdateListing {
+  @Field()
+  title?: string;
+
+  @Field()
+  description?: string;
+
+  @Field()
+  category?: string;
+
+  @Field()
+  photoUrl?: string;
+
+  @Field(() => Int)
+  price?: number;
+
+  @Field(() => Int)
+  beds?: number;
+
+  @Field(() => Int)
+  guests?: number;
+
+  @Field(() => Float)
+  latitude?: number;
+
+  @Field(() => Float)
+  longitude?: number;
+
+  @Field(() => [String])
+  amenities?: string[];
+}
+
 @Resolver(Listing)
 export class ListingResolver {
   @FieldResolver(() => User)
@@ -73,7 +107,10 @@ export class ListingResolver {
 
   @Mutation(() => String)
   @UseMiddleware(isAuth)
-  async uploadPhoto(@Arg('photo') photo: string): Promise<String> {
+  async uploadPhoto(
+    @Arg('photo') photo: string,
+    @Arg('publicId') publicId: string
+  ): Promise<String> {
     cloudinary.v2.config({
       cloud_name: process.env.CLOUDINARY_NAME,
       api_key: process.env.CLOUDINARY_API_KEY,
@@ -83,7 +120,7 @@ export class ListingResolver {
       photo,
       'ml_default',
       {
-        public_id: '',
+        public_id: publicId,
         folder: 'listings',
       }
     );
@@ -101,6 +138,27 @@ export class ListingResolver {
       ...input,
       creatorId: req.session.userId,
     }).save();
+  }
+
+  @Mutation(() => Listing, { nullable: true })
+  @UseMiddleware(isAuth)
+  async updateListing(
+    @Arg('id') id: string,
+    @Arg('input') input: UpdateListing,
+    @Ctx() { req }: MyContext
+  ): Promise<Listing | null> {
+    const result = await getConnection()
+      .createQueryBuilder()
+      .update(Listing)
+      .set({ ...input })
+      .where('id = :id and "creatorId" = :creatorId', {
+        id,
+        creatorId: req.session.userId,
+      })
+      .returning('*')
+      .execute();
+
+    return result.raw[0];
   }
 
   @Mutation(() => Boolean)

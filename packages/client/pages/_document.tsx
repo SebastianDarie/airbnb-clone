@@ -13,9 +13,9 @@ export default class Document extends NextDocument {
             content='Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.'
           />
 
-          <script
+          {/* <script
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_KEY}&libraries=drawing,geometry,places`}
-          ></script>
+          ></script> */}
 
           <script
             src='https://widget.cloudinary.com/v2.0/global/all.js'
