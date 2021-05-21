@@ -1,3 +1,11 @@
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+export type NullPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? T[P] | null : T[P];
+};
+
 export interface AuthFormProps {
   email: string;
   password: string;

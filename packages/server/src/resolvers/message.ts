@@ -80,34 +80,29 @@ export class MessageResolver {
   @UseMiddleware(isAuth)
   async createMessage(
     @Arg('input') input: MessageInput,
-    @Ctx() { req }: MyContext,
-    @PubSub('MESSAGES') notifyNewMsg: Publisher<Message>
-  ): Promise<Message> {
+    @Ctx() { req, redisPubsub }: MyContext
+  ): //@PubSub('MESSAGES') notifyNewMsg: Publisher<Message>
+  Promise<Message> {
     const message = await Message.create({
       ...input,
       creatorId: req.session.userId,
     }).save();
     console.log(message);
-    await notifyNewMsg(message);
+    await redisPubsub.publish('MESSAGES', message);
     return message;
   }
 
   @Subscription({
-    topics: 'MESSAGES',
-    filter: ({
-      payload,
-      args,
-    }: ResolverFilterData<Message, NewMessageArgs>) => {
-      return payload.listingId === args.listingId;
+    subscribe: (_root, _args, context, _info) => {
+      return context.redisPubsub.asyncIterator('MESSAGES');
     },
   })
   newMessage(
-    // @Ctx() { pubsub }: MyContext,
     @Args() listingId: NewMessageArgs,
-    @PubSub() pubsub: PubSubEngine,
+    //@Ctx() { redisPubsub }: MyContext,
+    //@PubSub() pubsub: PubSubEngine,
     @Root() message: Message
   ): Message {
-    pubsub.asyncIterator('MESSAGES');
     console.log(message);
     return message;
   }

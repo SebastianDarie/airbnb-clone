@@ -12,10 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: any;
 };
-
 
 export type FieldError = {
   __typename?: 'FieldError';
@@ -70,18 +67,11 @@ export type MessageInput = {
   listingId: Scalars['String'];
 };
 
-export type MessagePayload = {
-  __typename?: 'MessagePayload';
-  id: Scalars['String'];
-  text: Scalars['String'];
-  creatorId: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   uploadPhoto: Scalars['String'];
   createListing: Listing;
+  updateListing?: Maybe<Listing>;
   deleteListing: Scalars['Boolean'];
   createMessage: Message;
   register: UserResponse;
@@ -95,12 +85,19 @@ export type Mutation = {
 
 
 export type MutationUploadPhotoArgs = {
+  publicId: Scalars['String'];
   photo: Scalars['String'];
 };
 
 
 export type MutationCreateListingArgs = {
   input: ListingInput;
+};
+
+
+export type MutationUpdateListingArgs = {
+  input: UpdateListing;
+  id: Scalars['String'];
 };
 
 
@@ -166,12 +163,25 @@ export type QueryMessagesArgs = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  newMessage: MessagePayload;
+  newMessage: Message;
 };
 
 
 export type SubscriptionNewMessageArgs = {
   listingId: Scalars['String'];
+};
+
+export type UpdateListing = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
+  photoUrl?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Int']>;
+  beds?: Maybe<Scalars['Int']>;
+  guests?: Maybe<Scalars['Int']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  amenities?: Maybe<Array<Scalars['String']>>;
 };
 
 export type User = {
@@ -320,7 +330,22 @@ export type RegisterMutation = (
   ) }
 );
 
+export type UpdateListingMutationVariables = Exact<{
+  id: Scalars['String'];
+  input: UpdateListing;
+}>;
+
+
+export type UpdateListingMutation = (
+  { __typename?: 'Mutation' }
+  & { updateListing?: Maybe<(
+    { __typename?: 'Listing' }
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'price' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities'>
+  )> }
+);
+
 export type UploadPhotoMutationVariables = Exact<{
+  publicId: Scalars['String'];
   photo: Scalars['String'];
 }>;
 
@@ -390,8 +415,8 @@ export type NewMessageSubscriptionVariables = Exact<{
 export type NewMessageSubscription = (
   { __typename?: 'Subscription' }
   & { newMessage: (
-    { __typename?: 'MessagePayload' }
-    & Pick<MessagePayload, 'id' | 'text' | 'creatorId' | 'createdAt'>
+    { __typename?: 'Message' }
+    & Pick<Message, 'id' | 'text' | 'creatorId' | 'createdAt'>
   ) }
 );
 
@@ -699,9 +724,53 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateListingDocument = gql`
+    mutation UpdateListing($id: String!, $input: UpdateListing!) {
+  updateListing(id: $id, input: $input) {
+    id
+    title
+    description
+    category
+    photoUrl
+    price
+    beds
+    guests
+    latitude
+    longitude
+    amenities
+  }
+}
+    `;
+export type UpdateListingMutationFn = Apollo.MutationFunction<UpdateListingMutation, UpdateListingMutationVariables>;
+
+/**
+ * __useUpdateListingMutation__
+ *
+ * To run a mutation, you first call `useUpdateListingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateListingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateListingMutation, { data, loading, error }] = useUpdateListingMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateListingMutation(baseOptions?: Apollo.MutationHookOptions<UpdateListingMutation, UpdateListingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateListingMutation, UpdateListingMutationVariables>(UpdateListingDocument, options);
+      }
+export type UpdateListingMutationHookResult = ReturnType<typeof useUpdateListingMutation>;
+export type UpdateListingMutationResult = Apollo.MutationResult<UpdateListingMutation>;
+export type UpdateListingMutationOptions = Apollo.BaseMutationOptions<UpdateListingMutation, UpdateListingMutationVariables>;
 export const UploadPhotoDocument = gql`
-    mutation UploadPhoto($photo: String!) {
-  uploadPhoto(photo: $photo)
+    mutation UploadPhoto($publicId: String!, $photo: String!) {
+  uploadPhoto(publicId: $publicId, photo: $photo)
 }
     `;
 export type UploadPhotoMutationFn = Apollo.MutationFunction<UploadPhotoMutation, UploadPhotoMutationVariables>;
@@ -719,6 +788,7 @@ export type UploadPhotoMutationFn = Apollo.MutationFunction<UploadPhotoMutation,
  * @example
  * const [uploadPhotoMutation, { data, loading, error }] = useUploadPhotoMutation({
  *   variables: {
+ *      publicId: // value for 'publicId'
  *      photo: // value for 'photo'
  *   },
  * });

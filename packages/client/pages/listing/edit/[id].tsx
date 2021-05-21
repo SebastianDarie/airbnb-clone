@@ -4,14 +4,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Layout } from 'antd';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ListingFormView } from '../modules/listing/ListingForm';
-import { withApollo } from '../utils/withApollo';
+import { ListingForm } from '../../../modules/listing/ListingForm';
+import { withApollo } from '../../../utils/withApollo';
 
 const { Content } = Layout;
 
-interface CreateListingProps {}
+interface UpdateListingProps {}
 
-const CreateListing: React.FC<CreateListingProps> = ({}) => {
+const UpdateListing: React.FC<UpdateListingProps> = ({}) => {
   useIsAuth();
   const {
     handleSubmit,
@@ -39,8 +39,7 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
           width: '100%',
         }}
       >
-        <ListingFormView
-          update={false}
+        <ListingForm
           control={control}
           errors={errors}
           isDirty={isDirty}
@@ -56,4 +55,4 @@ const CreateListing: React.FC<CreateListingProps> = ({}) => {
   );
 };
 
-export default withApollo({ ssr: false })(CreateListing);
+export default withApollo({ ssr: false })(UpdateListing);

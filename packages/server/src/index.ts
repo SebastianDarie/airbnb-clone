@@ -5,13 +5,11 @@ import 'dotenv-safe/config';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import session from 'express-session';
-import { execute, subscribe } from 'graphql';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { createServer } from 'http';
 import Redis from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
 import 'reflect-metadata';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { buildSchema } from 'type-graphql';
 import {
   COOKIE_NAME,
@@ -91,44 +89,30 @@ const main = async () => {
     subscriptions: {
       path: '/subscriptions',
       onConnect: (connectionParams, webSocket, context) =>
-        console.log(
-          'subscriptions connect',
-          connectionParams,
-          webSocket,
-          context
-        ),
+        console.log('subscriptions connect'),
       onDisconnect: (webSocket, context) =>
         console.log('subscriptions disconnect', webSocket, context),
     },
   });
 
+  const server = createServer(app);
+
   apolloServer.applyMiddleware({
     app,
     cors: false,
   });
+  apolloServer.installSubscriptionHandlers(server);
 
   // app.listen(parseInt(__test__ ? '0' : process.env.PORT), () => {
   //   console.log(`Server running on port ${process.env.PORT}`);
   // });
 
-  const server = createServer(app);
-
   server.listen(parseInt(__test__ ? '0' : process.env.PORT), async () => {
-    console.log(`Server running on port ${process.env.PORT}`);
-
-    new SubscriptionServer(
-      {
-        execute,
-        subscribe,
-        schema: await buildSchema({
-          resolvers: [ListingResolver, MessageResolver, UserResolver],
-          validate: false,
-        }),
-      },
-      {
-        server: server,
-        path: '/subscriptions',
-      }
+    console.log(
+      `Server running on port ${process.env.PORT} ${apolloServer.graphqlPath}`
+    );
+    console.log(
+      `Subscriptions running on port ${process.env.PORT} ${apolloServer.subscriptionsPath}`
     );
   });
 };

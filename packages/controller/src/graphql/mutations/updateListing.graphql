@@ -1,0 +1,15 @@
+mutation UpdateListing($id: String!, $input: UpdateListing!) {
+  updateListing(id: $id, input: $input) {
+    id
+    title
+    description
+    category
+    photoUrl
+    price
+    beds
+    guests
+    latitude
+    longitude
+    amenities
+  }
+}

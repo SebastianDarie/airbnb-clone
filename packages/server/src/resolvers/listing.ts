@@ -54,34 +54,34 @@ class ListingInput {
 
 @InputType()
 class UpdateListing {
-  @Field()
+  @Field({ nullable: true })
   title?: string;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 
-  @Field()
+  @Field({ nullable: true })
   category?: string;
 
-  @Field()
+  @Field({ nullable: true })
   photoUrl?: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   price?: number;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   beds?: number;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   guests?: number;
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   latitude?: number;
 
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   longitude?: number;
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   amenities?: string[];
 }
 
