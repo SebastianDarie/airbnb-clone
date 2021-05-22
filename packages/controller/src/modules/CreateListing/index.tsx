@@ -8,7 +8,7 @@ interface CreateListingControllerProps {
     error?: ApolloError | undefined;
     loading?: boolean;
     submit: (values: ListingFormProps, photoUrl: string) => Promise<boolean>;
-  }) => (JSX.Element & React.ReactNode) | null;
+  }) => React.ReactNode;
 }
 
 export const CreateListingController: React.FC<CreateListingControllerProps> = ({

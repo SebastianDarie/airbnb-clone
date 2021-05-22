@@ -4,7 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Layout } from 'antd';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ListingForm } from '../../../modules/listing/ListingForm';
+import { ListingFormView } from '../../../modules/listing/ListingForm';
+import { useGetListingFromUrl } from '../../../shared-hooks/useGetListingFromUrl';
 import { withApollo } from '../../../utils/withApollo';
 
 const { Content } = Layout;
@@ -13,17 +14,32 @@ interface UpdateListingProps {}
 
 const UpdateListing: React.FC<UpdateListingProps> = ({}) => {
   useIsAuth();
+  const { data, error, loading } = useGetListingFromUrl();
   const {
     handleSubmit,
     control,
     formState: { errors, isDirty, isSubmitting, isValid },
     setValue,
   } = useForm<ListingFormProps>({
+    defaultValues: { ...data?.listing },
     mode: 'onBlur',
     resolver: yupResolver(textPageSchema),
   });
 
   const [currImg, setCurrImg] = useState('');
+
+  if (!data && loading) {
+    return <div>loading values...</div>;
+  }
+
+  if ((!data && !loading) || error) {
+    return (
+      <div>
+        <div>failed to load previous values</div>
+        <div>{error?.message}</div>
+      </div>
+    );
+  }
 
   return (
     <Layout>
@@ -39,7 +55,8 @@ const UpdateListing: React.FC<UpdateListingProps> = ({}) => {
           width: '100%',
         }}
       >
-        <ListingForm
+        <ListingFormView
+          update
           control={control}
           errors={errors}
           isDirty={isDirty}

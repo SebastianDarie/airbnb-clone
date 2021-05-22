@@ -19,6 +19,12 @@ export const ListingView: React.FC<ListingViewProps> = ({ id, data }) => {
           <Title>{data.listing?.title}</Title>
           <Button
             type='primary'
+            onClick={() => router.push(`/listing/edit/${id}`)}
+          >
+            Edit
+          </Button>
+          <Button
+            type='primary'
             onClick={() => router.push(`/listing/${id}/chat`)}
           >
             Chat

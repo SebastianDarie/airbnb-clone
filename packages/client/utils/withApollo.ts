@@ -1,3 +1,4 @@
+import { Message } from '@airbnb-clone/controller';
 import {
   ApolloClient,
   ApolloLink,
@@ -53,10 +54,27 @@ const createClient = (ctx: NextPageContext | undefined) =>
     assumeImmutableResults: true,
     queryDeduplication: true,
     ssrMode: typeof window === 'undefined',
-
     uri: process.env.NEXT_PUBLIC_API_URL as string,
     link: linkCreate(ctx),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            messages: {
+              keyArgs: ['listingId'],
+              merge(
+                existing: Message[] | undefined,
+                incoming: Message[]
+              ): Message[] {
+                return {
+                  ...[...(existing || []), ...incoming],
+                };
+              },
+            },
+          },
+        },
+      },
+    }),
   });
 
 export const withApollo = createWithApollo(createClient);

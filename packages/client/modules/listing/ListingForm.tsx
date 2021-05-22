@@ -1,6 +1,7 @@
 import {
   CreateListingController,
   ListingFormProps,
+  UpdateListingController,
 } from '@airbnb-clone/controller';
 import { Button, Form, Steps } from 'antd';
 import React, { useState } from 'react';
@@ -24,7 +25,7 @@ import { AmenitiesPage } from './AmenitiesPage';
 const { Step } = Steps;
 
 interface ComponentListingFormProps {
-  update: boolean
+  update: boolean;
   control: Control<ListingFormProps>;
   errors: DeepMap<ListingFormProps, FieldError>;
   isDirty: boolean;
@@ -40,7 +41,11 @@ export const ListingFormView: React.FC<ComponentListingFormProps> = ({
   update,
   control,
   errors,
-  
+  currImg,
+  isDirty,
+  isSubmitting,
+  isValid,
+  handleSubmit,
   setCurrImg,
   setValue,
 }) => {
@@ -117,83 +122,78 @@ export const ListingFormView: React.FC<ComponentListingFormProps> = ({
     );
   }
 
+  let Controller = CreateListingController;
+  if (update) {
+    Controller = UpdateListingController as any;
+  }
+
   return (
-    <CreateListingController>
+    <Controller>
       {({ loading, submit }) => (
-        
-      )}
-    </CreateListingController>
-  );
-};
+        <Form
+          {...formItemLayout}
+          name='listing'
+          onFinish={handleSubmit((data) => submit(data, currImg))}
+          scrollToFirstError
+          style={{ width: '100%' }}
+        >
+          <Steps current={currPage} style={{ marginBottom: 10 }}>
+            {pages.map((page) => (
+              <Step key={page.title} title={page.title} icon={page.icon} />
+            ))}
+          </Steps>
+          <div style={{ maxWidth: '600px', paddingTop: 60 }}>
+            {pages[currPage].content}
+          </div>
 
-// currImg,
-//   isDirty,
-//   isSubmitting,
-//   isValid,
-//   handleSubmit,
-
-const ListingForm:React.FC<> = ({}) => {
-  <Form
-            {...formItemLayout}
-            name='listing'
-            onFinish={handleSubmit((data) => submit(data, currImg))}
-            scrollToFirstError
-            style={{ width: '100%' }}
-          >
-            <Steps current={currPage} style={{ marginBottom: 10 }}>
-              {pages.map((page) => (
-                <Step key={page.title} title={page.title} icon={page.icon} />
-              ))}
-            </Steps>
-            <div style={{ maxWidth: '600px', paddingTop: 60 }}>
-              {pages[currPage].content}
-            </div>
-
-            <Form.Item {...tailFormItemLayout}>
-              <div
+          <Form.Item {...tailFormItemLayout}>
+            <div
+              style={{
+                display: !isDirty || !isValid ? undefined : 'flex',
+                justifyContent:
+                  !isDirty || !isValid ? undefined : 'space-between',
+              }}
+            >
+              <Form.Item
                 style={{
-                  display: !isDirty || !isValid ? undefined : 'flex',
-                  justifyContent:
-                    !isDirty || !isValid ? undefined : 'space-between',
+                  display: !isDirty || !isValid ? 'none' : '',
+                  marginLeft: '200px',
                 }}
               >
-                <Form.Item
-                  style={{
-                    display: !isDirty || !isValid ? 'none' : '',
-                    marginLeft: '200px',
-                  }}
+                <Button
+                  type='dashed'
+                  disabled={!isDirty || !isValid}
+                  onClick={() => widget.open()}
                 >
-                  <Button
-                    type='dashed'
-                    disabled={!isDirty || !isValid}
-                    onClick={() => widget.open()}
-                  >
-                    Add image
+                  Add image
+                </Button>
+              </Form.Item>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {currPage < pages.length - 1 && (
+                  <Button type='primary' onClick={nextPage}>
+                    Next
                   </Button>
-                </Form.Item>
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  {currPage < pages.length - 1 && (
-                    <Button type='primary' onClick={nextPage}>
-                      Next
-                    </Button>
-                  )}
-                  {currPage === pages.length - 1 && (
-                    <Button
-                      type='primary'
-                      htmlType='submit'
-                      disabled={!isDirty || !isValid}
-                      loading={loading || isSubmitting}
-                    >
-                      Create Listing
-                    </Button>
-                  )}
-                  {currPage > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={prevPage}>
-                      Previous
-                    </Button>
-                  )}
-                </div>
+                )}
+                {currPage === pages.length - 1 && (
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    disabled={!isDirty || !isValid}
+                    loading={loading || isSubmitting}
+                  >
+                    Create Listing
+                  </Button>
+                )}
+                {currPage > 0 && (
+                  <Button style={{ margin: '0 8px' }} onClick={prevPage}>
+                    Previous
+                  </Button>
+                )}
               </div>
-            </Form.Item>
-          </Form>
-}
+            </div>
+          </Form.Item>
+        </Form>
+      )}
+    </Controller>
+  );
+};

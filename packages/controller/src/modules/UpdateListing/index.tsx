@@ -11,7 +11,7 @@ interface UpdateListingControllerProps {
       id: string,
       values: NullPartial<ListingFormProps>
     ) => Promise<boolean>;
-  }) => (JSX.Element & React.ReactNode) | null;
+  }) => React.ReactNode;
 }
 
 export const UpdateListingController: React.FC<UpdateListingControllerProps> = ({

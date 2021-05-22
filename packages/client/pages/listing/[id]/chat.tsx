@@ -32,13 +32,7 @@ const ListingChat: React.FC<ListingChatProps> = () => {
     variables,
     subscribeToMore,
   } = useGetMessagesFromUrl();
-
-  const {
-    data: subData,
-    error: subError,
-    loading: subLoading,
-  } = useNewMessageSubscription({ variables });
-  console.log(subData, subError, subLoading);
+  console.log(data, error);
 
   // useEffect(() => {
   //   const subscribeToNewMessages = () => {
@@ -63,7 +57,7 @@ const ListingChat: React.FC<ListingChatProps> = () => {
   if ((!data && !loading) || error) {
     return (
       <div>
-        <div>failed to load listings</div>
+        <div>failed to load messages</div>
         <div>{error?.message}</div>
       </div>
     );
@@ -75,23 +69,21 @@ const ListingChat: React.FC<ListingChatProps> = () => {
 
   let unsubscribe: () => void;
 
-  // const subscribeToNewMessages = () => {
-  //   subscribeToMore({
-  //     document: NewMessageDocument,
-  //     variables,
-  //     updateQuery: (prev, { subscriptionData }) => {
-  //       if (!subscriptionData.data) return prev;
-  //       const newMsg = subscriptionData.data.messages.filter((msg) =>
-  //         prev.messages.includes(msg)
-  //       );
-  //       return Object.assign({}, prev, {
-  //         messages: [...prev.messages, newMsg],
-  //       });
-  //     },
-  //   });
-  // };
-
-  console.log(data?.messages);
+  const subscribeToNewMessages = () => {
+    subscribeToMore({
+      document: NewMessageDocument,
+      variables,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newMsg = subscriptionData.data.messages.filter((msg) =>
+          prev.messages.includes(msg)
+        );
+        return Object.assign({}, prev, {
+          messages: [...prev.messages, newMsg],
+        });
+      },
+    });
+  };
 
   return (
     <Layout>
@@ -113,9 +105,9 @@ const ListingChat: React.FC<ListingChatProps> = () => {
         {variables && (
           <CreateMessageController>
             {({ submit, loading }) => {
-              // if (!unsubscribe) {
-              //   unsubscribe = subscribeToNewMessages;
-              // }
+              if (!unsubscribe) {
+                unsubscribe = subscribeToNewMessages;
+              }
 
               return (
                 <Form
