@@ -17,6 +17,11 @@ export default class Document extends NextDocument {
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_KEY}&libraries=drawing,geometry,places`}
           ></script> */}
 
+          <link
+            href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css'
+            rel='stylesheet'
+          />
+
           <script
             src='https://widget.cloudinary.com/v2.0/global/all.js'
             type='text/javascript'
