@@ -18,6 +18,7 @@ import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
 import cloudinary from 'cloudinary';
 import { getConnection } from 'typeorm';
+import { REDIS_CACHE_PREFIX } from '../constants';
 
 @InputType()
 class ListingInput {
@@ -96,8 +97,10 @@ export class ListingResolver {
   }
 
   @Query(() => [Listing])
-  async listings(): Promise<Listing[]> {
-    return Listing.find({});
+  async listings(@Ctx() { redis }: MyContext): Promise<Listing[]> {
+    const listings = (await redis.lrange(REDIS_CACHE_PREFIX, 0, -1)) || [];
+    return listings.map((listing) => JSON.parse(listing));
+    //return Listing.find({});
   }
 
   @Query(() => Listing, { nullable: true })
@@ -122,6 +125,7 @@ export class ListingResolver {
       {
         public_id: publicId,
         folder: 'listings',
+        // invalidate: true,
       }
     );
 
@@ -132,12 +136,16 @@ export class ListingResolver {
   @UseMiddleware(isAuth)
   async createListing(
     @Arg('input') input: ListingInput,
-    @Ctx() { req }: MyContext
-  ): Promise<Listing> {
-    return Listing.create({
+    @Ctx() { req, redis }: MyContext
+  ): Promise<boolean> {
+    const listing = await Listing.create({
       ...input,
       creatorId: req.session.userId,
     }).save();
+
+    redis.lpush(REDIS_CACHE_PREFIX, JSON.stringify(listing));
+
+    return true;
   }
 
   @Mutation(() => Listing, { nullable: true })
@@ -145,7 +153,7 @@ export class ListingResolver {
   async updateListing(
     @Arg('id') id: string,
     @Arg('input') input: UpdateListing,
-    @Ctx() { req }: MyContext
+    @Ctx() { req, redis }: MyContext
   ): Promise<Listing | null> {
     const result = await getConnection()
       .createQueryBuilder()
@@ -157,6 +165,10 @@ export class ListingResolver {
       })
       .returning('*')
       .execute();
+
+    const listings = await redis.lrange(REDIS_CACHE_PREFIX, 0, -1);
+    const idx = listings.findIndex((listing) => JSON.parse(listing).id === id);
+    await redis.lset(REDIS_CACHE_PREFIX, idx, JSON.stringify(result.raw[0]));
 
     return result.raw[0];
   }

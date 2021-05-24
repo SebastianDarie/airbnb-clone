@@ -13,10 +13,12 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import {
   COOKIE_NAME,
+  REDIS_CACHE_PREFIX,
   REDIS_SESSION_PREFIX,
   __prod__,
   __test__,
 } from './constants';
+import { Listing } from './entity/Listing';
 import { createUserLoader } from './loaders/createUserLoader';
 import { ListingResolver } from './resolvers/listing';
 import { MessageResolver } from './resolvers/message';
@@ -53,7 +55,6 @@ const main = async () => {
         httpOnly: true,
         sameSite: 'lax',
         secure: __prod__,
-        //domain: __prod__ ? '.reddit-clone.tech' : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SECRET,
@@ -103,9 +104,11 @@ const main = async () => {
   });
   apolloServer.installSubscriptionHandlers(server);
 
-  // app.listen(parseInt(__test__ ? '0' : process.env.PORT), () => {
-  //   console.log(`Server running on port ${process.env.PORT}`);
-  // });
+  await redis.del(REDIS_CACHE_PREFIX);
+
+  const listings = await Listing.find({});
+  const listingStrings = listings.map((listing) => JSON.stringify(listing));
+  await redis.lpush(REDIS_CACHE_PREFIX, ...listingStrings);
 
   server.listen(parseInt(__test__ ? '0' : process.env.PORT), async () => {
     console.log(
