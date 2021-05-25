@@ -1,0 +1,15 @@
+query SearchListings($input: SearchInput!, $limit: Int!, $cursor: String) {
+  searchListings(input: $input, limit: $limit, cursor: $cursor) {
+    listings {
+      id
+      title
+      description
+      category
+      photoUrl
+      beds
+      guests
+      createdAt
+    }
+    hasMore
+  }
+}

@@ -7,6 +7,7 @@ import {
   InputType,
   Int,
   Mutation,
+  ObjectType,
   Query,
   Resolver,
   Root,
@@ -86,6 +87,27 @@ class UpdateListing {
   amenities?: string[];
 }
 
+@InputType()
+class SearchInput {
+  @Field(() => String, { nullable: true })
+  title?: string;
+
+  @Field(() => Int, { nullable: true })
+  beds?: number;
+
+  @Field(() => Int, { nullable: true })
+  guests?: number;
+}
+
+@ObjectType()
+class PaginatedListings {
+  @Field(() => [Listing])
+  listings: Listing[];
+
+  @Field()
+  hasMore: boolean;
+}
+
 @Resolver(Listing)
 export class ListingResolver {
   @FieldResolver(() => User)
@@ -106,6 +128,47 @@ export class ListingResolver {
   @Query(() => Listing, { nullable: true })
   async listing(@Arg('id') id: string): Promise<Listing | undefined> {
     return Listing.findOne(id);
+  }
+
+  @Query(() => PaginatedListings)
+  async searchListings(
+    @Arg('input') { title, beds, guests }: SearchInput,
+    @Arg('limit', () => Int) limit: number,
+    @Arg('cursor', () => String, { nullable: true }) cursor: string | null
+  ): Promise<PaginatedListings> {
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    let qb = getConnection()
+      .getRepository(Listing)
+      .createQueryBuilder('l')
+      .orderBy('l."createdAt"', 'DESC')
+      .take(realLimitPlusOne);
+
+    if (cursor) {
+      qb.where('l."createdAt" < :cursor ', {
+        cursor: new Date(parseInt(cursor)),
+      });
+    }
+
+    if (guests) {
+      qb = qb.andWhere('l.guests = :guests', { guests });
+    }
+    if (beds) {
+      qb = qb.andWhere('l.beds = :beds', { beds });
+    }
+    if (title) {
+      qb = qb.andWhere('l.title ilike :title', {
+        title: `%${title}%`,
+      });
+    }
+
+    const listings = await qb.getMany();
+
+    return {
+      listings: listings.slice(0, realLimit),
+      hasMore: listings.length === realLimitPlusOne,
+    };
   }
 
   @Mutation(() => String)

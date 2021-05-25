@@ -142,10 +142,17 @@ export type MutationDeleteUserArgs = {
   email: Scalars['String'];
 };
 
+export type PaginatedListings = {
+  __typename?: 'PaginatedListings';
+  listings: Array<Listing>;
+  hasMore: Scalars['Boolean'];
+};
+
 export type Query = {
   __typename?: 'Query';
   listings: Array<Listing>;
   listing?: Maybe<Listing>;
+  searchListings: PaginatedListings;
   messages: Array<Message>;
   users: Array<User>;
   me?: Maybe<User>;
@@ -157,8 +164,21 @@ export type QueryListingArgs = {
 };
 
 
+export type QuerySearchListingsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+  input: SearchInput;
+};
+
+
 export type QueryMessagesArgs = {
   listingId: Scalars['String'];
+};
+
+export type SearchInput = {
+  title?: Maybe<Scalars['String']>;
+  beds?: Maybe<Scalars['Int']>;
+  guests?: Maybe<Scalars['Int']>;
 };
 
 export type Subscription = {
@@ -405,6 +425,25 @@ export type MessagesQuery = (
     { __typename?: 'Message' }
     & Pick<Message, 'id' | 'text' | 'creatorId' | 'listingId'>
   )> }
+);
+
+export type SearchListingsQueryVariables = Exact<{
+  input: SearchInput;
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type SearchListingsQuery = (
+  { __typename?: 'Query' }
+  & { searchListings: (
+    { __typename?: 'PaginatedListings' }
+    & Pick<PaginatedListings, 'hasMore'>
+    & { listings: Array<(
+      { __typename?: 'Listing' }
+      & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'beds' | 'guests' | 'createdAt'>
+    )> }
+  ) }
 );
 
 export type NewMessageSubscriptionVariables = Exact<{
@@ -962,6 +1001,53 @@ export function useMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
 export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
 export type MessagesLazyQueryHookResult = ReturnType<typeof useMessagesLazyQuery>;
 export type MessagesQueryResult = Apollo.QueryResult<MessagesQuery, MessagesQueryVariables>;
+export const SearchListingsDocument = gql`
+    query SearchListings($input: SearchInput!, $limit: Int!, $cursor: String) {
+  searchListings(input: $input, limit: $limit, cursor: $cursor) {
+    listings {
+      id
+      title
+      description
+      category
+      photoUrl
+      beds
+      guests
+      createdAt
+    }
+    hasMore
+  }
+}
+    `;
+
+/**
+ * __useSearchListingsQuery__
+ *
+ * To run a query within a React component, call `useSearchListingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchListingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchListingsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useSearchListingsQuery(baseOptions: Apollo.QueryHookOptions<SearchListingsQuery, SearchListingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchListingsQuery, SearchListingsQueryVariables>(SearchListingsDocument, options);
+      }
+export function useSearchListingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchListingsQuery, SearchListingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchListingsQuery, SearchListingsQueryVariables>(SearchListingsDocument, options);
+        }
+export type SearchListingsQueryHookResult = ReturnType<typeof useSearchListingsQuery>;
+export type SearchListingsLazyQueryHookResult = ReturnType<typeof useSearchListingsLazyQuery>;
+export type SearchListingsQueryResult = Apollo.QueryResult<SearchListingsQuery, SearchListingsQueryVariables>;
 export const NewMessageDocument = gql`
     subscription NewMessage($listingId: String!) {
   newMessage(listingId: $listingId) {
