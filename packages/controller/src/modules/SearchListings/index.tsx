@@ -2,14 +2,22 @@ import React from 'react';
 import {
   SearchInput,
   SearchListingsQuery,
+  SearchListingsQueryVariables,
   useSearchListingsQuery,
 } from '../../generated/graphql';
+import { ApolloFetchMoreType } from '../../types';
 
 interface SearchListingsProps {
   input: SearchInput;
   limit: number;
   cursor: string | null;
-  children: (data: SearchListingsQuery) => React.ReactNode;
+  children: (
+    data: SearchListingsQuery,
+    fetchMore: ApolloFetchMoreType<
+      SearchListingsQuery,
+      SearchListingsQueryVariables
+    >
+  ) => React.ReactNode;
 }
 
 export const SearchListings: React.FC<SearchListingsProps> = ({
@@ -18,7 +26,7 @@ export const SearchListings: React.FC<SearchListingsProps> = ({
   cursor,
   children,
 }) => {
-  const { data, error, loading } = useSearchListingsQuery({
+  const { data, error, loading, fetchMore } = useSearchListingsQuery({
     variables: { input, limit, cursor },
     notifyOnNetworkStatusChange: true,
   });
@@ -36,5 +44,5 @@ export const SearchListings: React.FC<SearchListingsProps> = ({
     );
   }
 
-  return <>{children(data!)}</>;
+  return <>{children(data!, fetchMore)}</>;
 };

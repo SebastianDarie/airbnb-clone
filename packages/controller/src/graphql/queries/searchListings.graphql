@@ -3,7 +3,6 @@ query SearchListings($input: SearchInput!, $limit: Int!, $cursor: String) {
     listings {
       id
       title
-      description
       category
       photoUrl
       beds

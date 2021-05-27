@@ -441,7 +441,7 @@ export type SearchListingsQuery = (
     & Pick<PaginatedListings, 'hasMore'>
     & { listings: Array<(
       { __typename?: 'Listing' }
-      & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'beds' | 'guests' | 'createdAt'>
+      & Pick<Listing, 'id' | 'title' | 'category' | 'photoUrl' | 'beds' | 'guests' | 'createdAt'>
     )> }
   ) }
 );
@@ -1007,7 +1007,6 @@ export const SearchListingsDocument = gql`
     listings {
       id
       title
-      description
       category
       photoUrl
       beds

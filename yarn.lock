@@ -16,12 +16,15 @@ __metadata:
     "@hookform/error-message": ^2.0.0
     "@react-native-async-storage/async-storage": ^1.15.4
     "@react-native-community/eslint-config": ^2.0.0
+    "@react-native-community/slider": ^3.0.3
     "@react-native-masked-view/masked-view": ^0.2.4
+    "@react-navigation/bottom-tabs": next
     "@react-navigation/native": next
     "@react-navigation/stack": next
     "@types/jest": ^26.0.22
     "@types/react": ^17.0.3
     "@types/react-native": ^0.64.4
+    "@types/react-native-vector-icons": ^6.4.6
     "@types/react-test-renderer": ^17.0.1
     babel-jest: ^26.6.3
     eslint: ^7.25.0
@@ -2776,6 +2779,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/slider@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@react-native-community/slider@npm:3.0.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 89a1c72c18febe26ae3ff2daa848d676fd1c889f68ca9bfa189031fae2de0f5171a772794578e8f6c9be9a9dc3644e7906ae10f82f41ac0ab7df117ad7078a8e
+  languageName: node
+  linkType: hard
+
 "@react-native-masked-view/masked-view@npm:^0.2.4":
   version: 0.2.4
   resolution: "@react-native-masked-view/masked-view@npm:0.2.4"
@@ -2807,6 +2820,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-navigation/bottom-tabs@npm:next":
+  version: 6.0.0-next.15
+  resolution: "@react-navigation/bottom-tabs@npm:6.0.0-next.15"
+  dependencies:
+    "@react-navigation/elements": ^1.0.0-next.14
+    color: ^3.1.3
+    warn-once: ^0.1.0
+  peerDependencies:
+    "@react-navigation/native": ^6.0.0
+    react: "*"
+    react-native: "*"
+    react-native-safe-area-context: ">= 3.0.0"
+    react-native-screens: ">= 3.0.0"
+  checksum: d0a3b729adc63dda057eb538e66d54f1fd8581fd16bfc3d1f421f1c7095fd4cd22d0e497c98e275259382bbb724ab2713029adf875bd30f670beb3b7f93a663a
+  languageName: node
+  linkType: hard
+
 "@react-navigation/core@npm:^6.0.0-next.2":
   version: 6.0.0-next.2
   resolution: "@react-navigation/core@npm:6.0.0-next.2"
@@ -2819,6 +2849,18 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: a4bc50a06b2ac4709bbd474f95e65a7e8156d69335ef44708f8b921427a0b3aa19a43cc61b8d258e74ba0994134c21f2037bf757668c6f29c8a0014f903d43ff
+  languageName: node
+  linkType: hard
+
+"@react-navigation/elements@npm:^1.0.0-next.14":
+  version: 1.0.0-next.14
+  resolution: "@react-navigation/elements@npm:1.0.0-next.14"
+  peerDependencies:
+    "@react-navigation/native": ^6.0.0
+    react: "*"
+    react-native: "*"
+    react-native-safe-area-context: ">= 3.0.0"
+  checksum: 86b6c6fc62f440e1026f47a5941d9e283012cd7b2a6074c3d8eaf180c36b5f0b9d87367f2857c967c1b5e4ab08d2b0854a922c7385d7f901db50bde0085fc2b1
   languageName: node
   linkType: hard
 
@@ -3492,6 +3534,25 @@ __metadata:
     "@types/google.maps": "*"
     "@types/react": "*"
   checksum: a1b13ee82c5f15f04053518ba604680255e05b5834f0903408dca6fb3be619514be7af60f69edf1b3c65b77acffc49008223890ab9fe1a9416fd708092245090
+  languageName: node
+  linkType: hard
+
+"@types/react-native-vector-icons@npm:^6.4.6":
+  version: 6.4.6
+  resolution: "@types/react-native-vector-icons@npm:6.4.6"
+  dependencies:
+    "@types/react": "*"
+    "@types/react-native": "*"
+  checksum: 373863d5408563a0913dd463ef5aea95218f1ec21af22471ab9cc32be9514c410ea4b9f44c3587638b8c0e938a8ea919c30ac0066b60c968cf38655c5792536f
+  languageName: node
+  linkType: hard
+
+"@types/react-native@npm:*":
+  version: 0.64.7
+  resolution: "@types/react-native@npm:0.64.7"
+  dependencies:
+    "@types/react": "*"
+  checksum: ed0538eaa6dfec68815a1f5b3e77f6c8b48db8ffed82e742a91995ea8de02adca6218400b9f38f4e419817642f10fa69d081938d94ec7c6d6ee052856fdcc4c3
   languageName: node
   linkType: hard
 
@@ -17397,6 +17458,13 @@ typescript@^4.2.4:
   version: 0.0.1
   resolution: "warn-once@npm:0.0.1"
   checksum: 791f2b8c94b603f40ad9b04742c21a82b82121ab848ac392497b332684713eaad9e5d5606a5d8c2f69a8c27ec2167f26f85a7891e853a2031857b5a699446de9
+  languageName: node
+  linkType: hard
+
+"warn-once@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "warn-once@npm:0.1.0"
+  checksum: f3f2df4773b82234ab5f6c7f52100557c279c25d3aef3128437b7c4c5f5337aa8e64075378e61405c2f68dd1d7c9717a938b8490f5c0adb5a5c14e279d703cec
   languageName: node
   linkType: hard
 

@@ -1,5 +1,6 @@
 import {Platform} from 'react-native';
 import {ApolloClient, InMemoryCache} from '@apollo/client';
+import {PaginatedListings} from '@airbnb-clone/controller';
 
 const host =
   Platform.OS === 'ios'
@@ -11,6 +12,24 @@ export const client = new ApolloClient({
   queryDeduplication: true,
   uri: host,
   credentials: 'include',
-
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          listings: {
+            keyArgs: [''],
+            merge(
+              existing: PaginatedListings | undefined,
+              incoming: PaginatedListings,
+            ): PaginatedListings {
+              return {
+                ...incoming,
+                listings: [...(existing?.listings || []), ...incoming.listings],
+              };
+            },
+          },
+        },
+      },
+    },
+  }),
 });
