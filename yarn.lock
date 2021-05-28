@@ -76,6 +76,7 @@ __metadata:
     react-dom: ^17.0.2
     react-geosuggest: ^2.14.1
     react-hook-form: ^7.3.6
+    sass: ^1.34.0
     subscriptions-transport-ws: ^0.9.18
     typescript: ^4.2.4
   languageName: unknown
@@ -5630,7 +5631,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:3.5.1, chokidar@npm:^3.2.2, chokidar@npm:^3.4.3":
+"chokidar@npm:3.5.1, chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.2.2, chokidar@npm:^3.4.3":
   version: 3.5.1
   resolution: "chokidar@npm:3.5.1"
   dependencies:
@@ -15227,6 +15228,17 @@ resolve@^2.0.0-next.3:
   bin:
     sane: ./src/cli.js
   checksum: e384e252021b1afef7459e994fe3ea79d114a0e7d23a03e660444abf15a2b4c50ce7eac2810b2c289e857c618d96fb35ee66356ebd4d6cb97cb11b54b2b29600
+  languageName: node
+  linkType: hard
+
+"sass@npm:^1.34.0":
+  version: 1.34.0
+  resolution: "sass@npm:1.34.0"
+  dependencies:
+    chokidar: ">=3.0.0 <4.0.0"
+  bin:
+    sass: sass.js
+  checksum: abc3e39a8500cb7d3498b69aaa9ba8af391a186956bf9121790f5f27497a5d6a245273476d5b6b1fd8b696b490c44b05a7bfcc8334fe4ae7e3d894fe9d161ac6
   languageName: node
   linkType: hard
 
