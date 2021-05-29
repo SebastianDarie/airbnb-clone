@@ -1,16 +1,18 @@
+import styles from '../../sass/components/Searchbar.module.scss';
+
 interface SearchbarProps {}
 
 export const Searchbar: React.FC<SearchbarProps> = ({}) => {
   return (
-    <div className='Searchbar'>
-      <div className='Searchbar__container'>
-        <div className='Searchbar__part1'>
-          <div className='Searchbar__part1__container'>
-            <label className='Searchbar__location'>
-              <div className='Searchbar__location__label'>Location</div>
+    <div className={styles.Searchbar}>
+      <div className={styles.Searchbar__container}>
+        <div className={styles.Searchbar__part1}>
+          <div className={styles.Searchbar__part1__container}>
+            <label className={styles.Searchbar__location}>
+              <div className={styles.Searchbar__location__label}>Location</div>
               {/* Switch to react hook form */}
               <input
-                className='Searchbar__location__input'
+                className={styles.Searchbar__location__input}
                 aria-expanded='false'
                 autoComplete='off'
                 autoCorrect='off'
@@ -20,40 +22,44 @@ export const Searchbar: React.FC<SearchbarProps> = ({}) => {
           </div>
         </div>
 
-        <div className='Searchbar__part2__container'>
-          <div className='Searchbar__part2__checkin'>
-            <div className='Searchbar__btn'>
-              <div className='Searchbar__text__container'>
-                <div className='Searchbar__text__bold'>Check in</div>
-                <div className='Searchbar__text__gray'>Add dates</div>
+        <div className={styles.vline}></div>
+
+        <div className={styles.Searchbar__part2__container}>
+          <div className={styles.Searchbar__part2__checkin}>
+            <div className={styles.Searchbar__btn} role='button'>
+              <div className={styles.Searchbar__text__container}>
+                <div className={styles.Searchbar__text__bold}>Check in</div>
+                <div className={styles.Searchbar__text__gray}>Add dates</div>
               </div>
             </div>
           </div>
 
-          <div className='vline'></div>
+          <div className={styles.vline}></div>
 
-          <div className='Searchbar__part2__checkout'>
-            <div className='Searchbar__btn'>
-              <div className='Searchbar__text__container'>
-                <div className='Searchbar__text__bold'>Check out</div>
-                <div className='Searchbar__text__gray'>Add dates</div>
+          <div className={styles.Searchbar__part2__checkin}>
+            <div className={styles.Searchbar__btn} role='button'>
+              <div className={styles.Searchbar__text__container}>
+                <div className={styles.Searchbar__text__bold}>Check out</div>
+                <div className={styles.Searchbar__text__gray}>Add dates</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className='Searchbar__part3__container'>
-          <div className='Searchbar__btn'>
-            <div className='Searchbar__text-container'>
-              <div className='Searchbar__text__bold'>Guests</div>
-              <div className='Searchbar__text__gray'>Add guests</div>
+        <div className={styles.vline}></div>
+
+        <div className={styles.Searchbar__part3__container}>
+          <div className={styles.Searchbar__btn}>
+            <div className={styles.Searchbar__text__container}>
+              <div className={styles.Searchbar__text__bold}>Guests</div>
+              <div className={styles.Searchbar__text__gray}>Add guests</div>
             </div>
           </div>
 
-          <div className='Searchbar__icon__btn__container'>
-            <button className='Searchbar__icon__btn'>
-              <div className='Searchbar__inner__icon__container'>
-                <div className='Searchbar__search__icon'>
+          <div className={styles.Searchbar__icon__btn__container}>
+            <button className={styles.Searchbar__icon__btn}>
+              <div className={styles.Searchbar__inner__icon__container}>
+                <div>
                   <svg
                     viewBox='0 0 32 32'
                     xmlns='http://www.w3.org/2000/svg'
@@ -73,7 +79,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({}) => {
                   </svg>
                 </div>
 
-                <div className='Searchbar__hidden__text'>Search</div>
+                <div className={styles.Searchbar__hidden__text}>Search</div>
               </div>
             </button>
           </div>

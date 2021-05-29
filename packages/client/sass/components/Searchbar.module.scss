@@ -1,0 +1,249 @@
+@use '../utilities/bootstrap.scss';
+
+.Searchbar {
+  display: flex;
+  background-color: bootstrap.$default-color;
+  border: 1px solid #dddddd;
+  border-radius: 32px;
+  box-shadow: 0px 16px 32px rgb(0 0 0 / 15%), 0px 3px 8px rgb(0 0 0 / 10%);
+  color: #222222;
+  height: 66px;
+  width: 100%;
+  position: relative;
+}
+
+.Searchbar__container {
+  display: flex;
+  flex: 1 1 0%;
+  height: 100%;
+  min-width: 0px;
+  pointer-events: auto;
+}
+
+.Searchbar__part1 {
+  flex: 1 0 0%;
+  min-width: 0px;
+
+  @include bootstrap.media($name: 'desktop') {
+    flex: 1.5 0 0%;
+  }
+}
+
+.Searchbar__part1__container {
+  display: flex;
+  flex: 1 0 0%;
+  align-items: center;
+  margin: -1px;
+  min-width: 0px;
+  position: relative;
+}
+
+.Searchbar__location {
+  display: block;
+  flex: 1 0 0%;
+  background-clip: padding-box;
+  border: 1px solid transparent;
+  border-radius: 32px;
+  min-width: 0px;
+  padding: 14px 32px;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    background-clip: padding-box;
+    border: 1px solid transparent;
+    border-radius: 32px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 0;
+  }
+}
+
+// .Searchbar__location__label {
+//   font-size: 12px;
+//   font-weight: 800;
+//   letter-spacing: 0.04em;
+//   line-height: 16px;
+//   padding-bottom: 2px;
+// }
+
+.Searchbar__location__input {
+  display: block;
+  background: none;
+  border: 0px;
+  color: #222222;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  text-overflow: ellipsis;
+}
+
+.vline {
+  flex: 0 0 0px;
+  align-self: center;
+  border-right: 1px solid #dddddd;
+  height: 32px;
+}
+
+.Searchbar__part2__container {
+  display: flex;
+  flex: 2 0 0%;
+  min-width: 0px;
+}
+
+.Searchbar__part2__checkin {
+  display: flex;
+  flex: 1 0 0%;
+  align-items: center;
+  margin: -1px;
+  min-width: 0px;
+  position: relative;
+}
+
+.Searchbar__btn {
+  appearance: none;
+  background: transparent;
+  border: 0px;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  flex: 1 0 0%;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0px;
+  outline: none;
+  overflow: visible;
+  padding: 1px;
+  text-align: left;
+  text-decoration: none;
+  user-select: auto;
+  width: 0px;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    background-clip: padding-box;
+    border: 1px solid transparent;
+    border-radius: 32px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 0;
+  }
+}
+
+.Searchbar__text__container {
+  padding: 14px 24px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+}
+
+.Searchbar__text__bold {
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  padding-bottom: 2px;
+}
+
+.Searchbar__text__gray {
+  color: #717171;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.Searchbar__part3__container {
+  display: flex;
+  flex: 0.95 0 auto;
+  align-items: center;
+  margin: -1px;
+  min-width: 0px;
+  position: relative;
+}
+
+.Searchbar__icon__btn__container {
+  flex: 0 0 auto;
+  margin-left: -6px;
+  padding-right: 9px;
+  position: relative;
+  z-index: 5;
+}
+
+.Searchbar__icon__btn {
+  appearance: none;
+  background: transparent;
+  border: 0px;
+  color: bootstrap.$default-color;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  margin: 0px;
+  outline: none;
+  overflow: hidden;
+  padding: 0px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  background-color: bootstrap.$brand-color;
+  border-radius: 24px;
+  height: 48px;
+  max-width: 48px;
+  position: relative;
+  transition: 0.2s max-width cubic-bezier(0.35, 0, 0.65, 1);
+  vertical-align: middle;
+  z-index: 0;
+
+  &::before {
+    content: '';
+    background: linear-gradient(
+      to right,
+      #e61e4d 0%,
+      #e31c5f 50%,
+      #d70466 100%
+    );
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    transition: 0.2s opacity cubic-bezier(0.35, 0, 0.65, 1);
+    will-change: opacity;
+    z-index: 0;
+    opacity: 0;
+  }
+}
+
+.Searchbar__inner__icon__container {
+  display: inline-flex;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.Searchbar__hidden__text {
+  opacity: 0;
+  padding-left: 8px;
+  padding-right: 4px;
+  transition: 0.1s opacity cubic-bezier(0.35, 0, 0.65, 1);
+  transition-delay: 0.1s;
+}

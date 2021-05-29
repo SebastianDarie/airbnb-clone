@@ -1,0 +1,270 @@
+@use '../utilities/bootstrap.scss';
+
+.Navbar__header {
+  color: bootstrap.$brand-color;
+  height: bootstrap.em(80px);
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+
+  &::before {
+    content: '';
+    background-image: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0));
+    height: 140%;
+    width: 100%;
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
+    transition: 150ms opacity ease;
+    // -webkit-transition: 150ms opacity ease;
+    opacity: 0.4;
+  }
+
+  &::after {
+    content: '';
+    background: bootstrap.$default-color;
+    box-shadow: rgb(0 0 0 / 8%) bootstrap.em(0px) bootstrap.em(1px)
+      bootstrap.em(12px);
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    z-index: 0;
+    transform-origin: 50% 0%;
+    transition-duration: 150ms;
+    transition-property: opacity, transform;
+    transition-timing-function: ease;
+    // -webkit-transform-origin: 50% 0%;
+    // -webkit-transition-duration: 150ms;
+    // -webkit-transition-property: opacity, transform;
+    // -webkit-transition-timing-function: ease;
+  }
+}
+
+.Navbar__container {
+  // -webkit-box-align: center;
+  // -webkit-box-pack: justify;
+  // -webkit-justify-content: space-between;
+  // -webkit-align-items: center;
+  // display: -webkit-box;
+  // display: -webkit-flex;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: bootstrap.em(1440px);
+  height: 100%;
+  width: 100%;
+  padding-left: bootstrap.rem(24px);
+  padding-right: bootstrap.rem(24px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+
+  @include bootstrap.media($name: 'mobile') {
+    padding-left: bootstrap.rem(24px);
+    padding-right: bootstrap.rem(24px);
+  }
+
+  @media screen and (min-width: 768px) {
+    padding-left: bootstrap.rem(40px);
+    padding-right: bootstrap.rem(40px);
+  }
+
+  @media screen and (min-width: 950px) {
+    padding-left: bootstrap.rem(40px);
+    padding-right: bootstrap.rem(40px);
+  }
+}
+
+.Navbar__icon__wrapper {
+  // -webkit-flex: 0 0 auto;
+  flex: 0 0 auto;
+
+  @media screen and (min-width: 950px) {
+    // -webkit-flex: 1 0 140px;
+    flex: 1 0 bootstrap.em(140px);
+  }
+}
+
+.Navbar__link {
+  // -webkit-box-align: center;
+  // -webkit-align-items: center;
+  // display: -webkit-inline-box;
+  // display: -webkit-inline-flex;
+
+  color: bootstrap.$default-color;
+  display: inline-flex;
+  align-items: center;
+  height: bootstrap.em(80px);
+  outline: none;
+  position: relative;
+  vertical-align: middle;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    border-radius: bootstrap.em(12px);
+    position: absolute;
+    top: bootstrap.rem(8px);
+    bottom: bootstrap.rem(8px);
+    left: bootstrap.rem(-8px);
+    right: bootstrap.rem(-8px);
+  }
+}
+
+.Navbar__links {
+  // -webkit-flex: 0 1 auto ;
+  flex: 0 1 auto;
+  min-width: 0px;
+  padding: 0 bootstrap.rem(24px);
+
+  @media screen and (min-width: 950px) {
+    text-align: center;
+  }
+}
+
+.Navbar__searchbar__small {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  will-change: transform, opacity;
+  transform-origin: 0% 0%;
+  transform: scale(2.5, 1.375) translate(-60px, 122px);
+  transition: transform 150ms ease, opacity 50ms ease 20ms, visibility 0ms 150ms;
+
+  @include bootstrap.media($name: 'desktop') {
+    margin: 0 auto;
+    transform-origin: 50% 0%;
+    transform: scale(2.857142857142857, 1.375) translateY(58px);
+  }
+}
+
+.Navbar__search__small {
+  // -webkit-box-align: center;
+  // -webkit-align-items: center;
+  // display: -webkit-inline-box;
+  // display: -webkit-inline-flex;
+  display: flex;
+  align-items: center;
+  background-color: bootstrap.$default-color;
+  border: 1px solid #dddddd;
+  border-radius: 40px;
+  box-shadow: 0px 1px 2px rgb(0 0 0 / 8%), 0px 4px 12px rgb(0 0 0 / 5%);
+  color: #222222;
+  max-width: 100%;
+  text-align: left;
+  // -webkit-transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease;
+  vertical-align: middle;
+}
+
+.Navbar__search__small__btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: -1px;
+  outline: none;
+  overflow: visible;
+  padding: 0px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  height: 48px;
+  min-width: 0px;
+  position: relative;
+  z-index: 1;
+
+  &:only-of-type {
+    width: 300px;
+  }
+
+  &:first-of-type {
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    padding-left: 8px;
+  }
+
+  &:last-of-type {
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+}
+
+.Navbar__search__small__text {
+  flex: 1 1 auto;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  min-width: 0px;
+  padding: 0 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Navbar__search__small__icon {
+  flex: 0 0 32;
+  background-color: bootstrap.$brand-color;
+  border-radius: 50%;
+  color: bootstrap.$default-color;
+  height: 32px;
+  margin: 7px 7px 7px 0;
+  padding: 10px;
+  width: 32px;
+}
+
+.Navbar__search__container {
+  text-align: left;
+  padding-left: 24px;
+  padding-right: 24px;
+  position: absolute;
+  top: 64px;
+  left: 0px;
+  width: 100%;
+  pointer-events: none;
+  transform-origin: 60px 0%;
+  transition: transform 150ms ease 0s, opacity 50ms ease 20ms,
+    visibility 0ms ease 150ms;
+  z-index: 2;
+
+  @include bootstrap.media($name: 'mobile') {
+    padding-left: bootstrap.rem(24px);
+    padding-right: bootstrap.rem(24px);
+  }
+
+  @include bootstrap.media($name: 'tablet') {
+    padding-left: bootstrap.rem(40px);
+    padding-right: bootstrap.rem(40px);
+  }
+
+  @include bootstrap.media($name: 'desktop') {
+    top: 0px;
+    transform-origin: 50% 0%;
+  }
+}
+
+.Navbar__search__form {
+  margin: 0 auto;
+  max-width: 850px;
+}
+
+.Navbar__search__fieldset {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+}

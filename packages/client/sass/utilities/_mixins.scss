@@ -1,0 +1,36 @@
+$breakpoints: (
+  //  'small'  : ( max-width:  20em ),
+  'mobile': screen and
+    (
+      min-width: (
+        375px,
+      ),
+    ),
+  'tablet': screen and
+    (
+      min-width: (
+        768px,
+      ),
+    ),
+  'desktop': screen and
+    (
+      min-width: (
+        950px,
+      ),
+    ),
+  //  'wide'    : ( min-width: 75em ),
+  //  'height'    : ( min-width: 75em ) and (min-height: 62.5em)
+);
+
+@mixin media($name) {
+  @if map-has-key($breakpoints, $name) {
+    $value: map-get($breakpoints, $name);
+    $query: if(type-of($value) == 'string', $value, inspect($value));
+    @media #{$query} {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+          + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
