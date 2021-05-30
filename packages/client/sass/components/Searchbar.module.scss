@@ -24,7 +24,7 @@
   flex: 1 0 0%;
   min-width: 0px;
 
-  @include bootstrap.media($name: 'desktop') {
+  @media screen and (min-width: 950px) {
     flex: 1.5 0 0%;
   }
 }
@@ -48,6 +48,31 @@
   padding: 14px 32px;
   cursor: pointer;
 
+  &:hover {
+    &::before {
+      display: block;
+    }
+
+    &::after {
+      background-color: #ebebeb;
+    }
+  }
+
+  &::before {
+    content: '';
+    display: none;
+    border-left: 0px;
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: transparent;
+    height: 32px;
+    margin-top: -16px;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    z-index: 0;
+  }
+
   &::after {
     content: '';
     background-clip: padding-box;
@@ -62,13 +87,18 @@
   }
 }
 
-// .Searchbar__location__label {
-//   font-size: 12px;
-//   font-weight: 800;
-//   letter-spacing: 0.04em;
-//   line-height: 16px;
-//   padding-bottom: 2px;
-// }
+.Searchbar__location__position {
+  position: relative;
+  z-index: 1;
+}
+
+.Searchbar__location__label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 16px;
+  padding-bottom: 2px;
+}
 
 .Searchbar__location__input {
   display: block;
@@ -76,7 +106,7 @@
   border: 0px;
   color: #222222;
   font-size: 14px;
-  font-weight: 600;
+  //   font-weight: 600;
   line-height: 18px;
   margin: 0px;
   padding: 0px;
@@ -127,6 +157,31 @@
   user-select: auto;
   width: 0px;
   z-index: 1;
+
+  &:hover {
+    &::before {
+      display: block;
+    }
+
+    &::after {
+      background-color: #ebebeb;
+    }
+  }
+
+  &::before {
+    content: '';
+    display: none;
+    border-left: 0px;
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: transparent;
+    height: 32px;
+    margin-top: -16px;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    z-index: 0;
+  }
 
   &::after {
     content: '';
@@ -212,6 +267,12 @@
   transition: 0.2s max-width cubic-bezier(0.35, 0, 0.65, 1);
   vertical-align: middle;
   z-index: 0;
+
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
+  }
 
   &::before {
     content: '';

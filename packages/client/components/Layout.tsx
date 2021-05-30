@@ -18,6 +18,76 @@ const Layout = ({
   return (
     <div>
       <Navbar />
+
+      <main>
+        <div style={{ minHeight: 400 }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'stretch',
+              position: 'relative',
+              height: '554px',
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 0,
+              }}
+            >
+              <div
+                style={{
+                  height: '100%',
+                  width: '100%',
+                }}
+              >
+                <picture>
+                  <source
+                    srcSet='https://a0.muscache.com/im/pictures/415fe2dc-98a1-4565-a702-70b03ae757d7.jpg?im_w=2560 1x, https://a0.muscache.com/im/pictures/415fe2dc-98a1-4565-a702-70b03ae757d7.jpg?im_w=2560 2x'
+                    media='(min-width: 1440px)'
+                  />
+                  <source
+                    srcSet='https://a0.muscache.com/im/pictures/415fe2dc-98a1-4565-a702-70b03ae757d7.jpg?im_w=960 1x, https://a0.muscache.com/im/pictures/415fe2dc-98a1-4565-a702-70b03ae757d7.jpg?im_w=1920 2x'
+                    media='(min-width: 950px)'
+                  />
+                  <source
+                    srcSet='https://a0.muscache.com/im/pictures/090a6d00-576a-465e-b946-8d26ebedbe10.jpg?im_w=720 1x, https://a0.muscache.com/im/pictures/090a6d00-576a-465e-b946-8d26ebedbe10.jpg?im_w=1440 2x'
+                    media='(min-width: 744px)'
+                  />
+                  <source srcSet='https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_w=320 1x, https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_w=720 2x' />
+                  <img
+                    style={{
+                      position: 'absolute',
+                      objectFit: 'cover',
+                      verticalAlign: 'bottom',
+                      height: '100%',
+                      width: '100%',
+                    }}
+                    src='https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_q=highq&im_w=720'
+                  />
+                </picture>
+                <div
+                  style={{
+                    display: 'none',
+                    backgroundPosition: '50% 50%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    height: '100%',
+                    width: '100%',
+                    backgroundImage:
+                      'url(https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_w=720)',
+                  }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
     // <div>
     //   <Head>

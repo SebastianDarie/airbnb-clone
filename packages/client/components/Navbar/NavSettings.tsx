@@ -1,17 +1,19 @@
+import styles from '../../sass/components/NavSettings.module.scss';
+
 interface NavSettingsProps {}
 
 export const NavSettings: React.FC<NavSettingsProps> = ({}) => {
   return (
-    <div className='UtilsNav__container'>
-      <nav className='UtilsNav__nav'>
-        <div className='UtilsNav__btn__container'>
-          <a className='UtilsNav__host__link' href='/host/homes'>
-            <div className='UtilsNav__link__text'>Become a host</div>
+    <div className={styles.UtilsNav__container}>
+      <nav className={styles.UtilsNav__nav}>
+        <div className={styles.UtilsNav__btn__container}>
+          <a className={styles.UtilsNav__host__link} href='/host/homes'>
+            <div className={styles.UtilsNav__link__text}>Become a host</div>
           </a>
-          <div className='UtilsNav__globe__container'>
-            <button className='UtilsNav__globe__btn'>
-              <div className='UtilsNav__link__text'>
-                <div className='UtilsNav__icon__container'>
+          <div>
+            <button className={styles.UtilsNav__globe__btn}>
+              <div className={styles.UtilsNav__link__text}>
+                <div className={styles.UtilsNav__icon__container}>
                   <svg
                     viewBox='0 0 16 16'
                     xmlns='http://www.w3.org/2000/svg'
@@ -30,38 +32,48 @@ export const NavSettings: React.FC<NavSettingsProps> = ({}) => {
           </div>
         </div>
 
-        <div className='UtilsNav__widget__container'>
-          <div className='UtilsNav__widget__container--inline'>
-            <button className='UtilsNav__widget__btn'>
-              <div className='UtilsNav__hamburger__container'>
-                <svg
-                  viewBox='0 0 32 32'
-                  xmlns='http://www.w3.org/2000/svg'
-                  aria-hidden='true'
-                  role='presentation'
-                  focusable='false'
-                  fill='none'
-                  height='16'
-                  width='16'
-                  stroke='currentColor'
-                  strokeWidth='3'
-                  overflow='visible'
-                >
-                  <g fill='none' fillRule='nonzero'>
-                    <path d='m2 16h28'></path>
-                    <path d='m2 24h28'></path>
-                    <path d='m2 8h28'></path>
-                  </g>
-                </svg>
+        <div>
+          <div className={styles.UtilsNav__widget__container}>
+            <button className={styles.UtilsNav__widget__btn}>
+              <svg
+                viewBox='0 0 32 32'
+                xmlns='http://www.w3.org/2000/svg'
+                aria-hidden='true'
+                role='presentation'
+                focusable='false'
+                fill='none'
+                height='16'
+                width='16'
+                stroke='currentColor'
+                strokeWidth='3'
+                overflow='visible'
+              >
+                <g fill='none' fillRule='nonzero'>
+                  <path d='m2 16h28'></path>
+                  <path d='m2 24h28'></path>
+                  <path d='m2 8h28'></path>
+                </g>
+              </svg>
+              <div className={styles.UtilsNav__profile__container}>
+                <img
+                  className={styles.UtilsNav__profile__img}
+                  src='https://res.cloudinary.com/dryhgptoc/image/upload/v1622364566/jngkp0wf1yvgbfpcjb9n.png'
+                />
               </div>
-              <div className='UtilsNav__profile__container'>
-                <img src='' />
-              </div>
+
+              <div className={styles.UtilsNav__notification}>1</div>
             </button>
           </div>
         </div>
 
-        <div className='UtilsNav__notification'></div>
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(100%-8px)',
+            right: '0px',
+            zIndex: 100,
+          }}
+        ></div>
       </nav>
     </div>
   );

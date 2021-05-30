@@ -1,0 +1,191 @@
+@use '../utilities/bootstrap.scss';
+
+.UtilsNav__container {
+  flex: 1 0 auto;
+
+  @media screen and (min-width: 950px) {
+    flex: 1 0 140px;
+  }
+}
+
+.UtilsNav__nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 80px;
+  position: relative;
+}
+
+.UtilsNav__btn__container {
+  display: flex;
+  flex: auto;
+  justify-content: flex-end;
+  margin-right: 8px;
+}
+
+.UtilsNav__host__link {
+  appearance: none;
+  background: transparent;
+  border: 0px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  margin: 0px;
+  outline: none;
+  overflow: visible;
+  padding: 12px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  position: relative;
+  white-space: nowrap;
+  z-index: 1;
+  color: bootstrap.$default-color !important;
+
+  &:hover {
+    &::before {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  &::before {
+    content: '';
+    border-radius: 22px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: -3px;
+    right: -3px;
+    z-index: 0;
+  }
+}
+
+.UtilsNav__link__text {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.UtilsNav__globe__btn {
+  appearance: none;
+  background: transparent;
+  border: 0px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  margin: 0px;
+  outline: none;
+  overflow: visible;
+  padding: 12px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  position: relative;
+  white-space: nowrap;
+  z-index: 1;
+  color: bootstrap.$default-color;
+
+  &:hover {
+    &::before {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  &::before {
+    content: '';
+    border-radius: 22px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: -3px;
+    right: -3px;
+    z-index: 0;
+  }
+}
+
+.UtilsNav__icon__container {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.UtilsNav__widget__container {
+  display: inline;
+  position: relative;
+}
+
+.UtilsNav__widget__btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid #dddddd;
+  color: #222222;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0px;
+  outline: none;
+  overflow: visible;
+  padding: 5px 5px 5px 12px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 21px;
+  height: 42px;
+  position: relative;
+  vertical-align: middle;
+  transition: box-shadow 0.2s ease;
+  z-index: 1;
+}
+
+.UtilsNav__profile__container {
+  color: #717171;
+  flex: 0 0 30px;
+  margin-left: 12px;
+  height: 30px;
+  width: 30px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.UtilsNav__profile__img {
+  background-color: currentcolor;
+  border-radius: 50%;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.UtilsNav__notification {
+  background-color: bootstrap.$brand-color;
+  box-shadow: rgb(255 255 255) 0px 0px 0px 1.5px;
+  position: absolute;
+  z-index: 1;
+  border-radius: 9px;
+  color: bootstrap.$default-color;
+  font-size: 10px;
+  font-weight: 800;
+  height: 16px;
+  left: 100%;
+  line-height: 16px;
+  margin-left: -14px;
+  min-width: 16px;
+  padding: 0px 5px;
+  text-align: center;
+  top: -2px;
+}

@@ -16,6 +16,11 @@ export default class Document extends NextDocument {
           {/* <script
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_KEY}&libraries=drawing,geometry,places`}
           ></script> */}
+          <link rel='preconnect' href='https://fonts.gstatic.com' />
+          <link
+            href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'
+            rel='stylesheet'
+          />
 
           <link
             href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css'

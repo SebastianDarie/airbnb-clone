@@ -57,7 +57,41 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           {/* change this one as well */}
           <div className={styles.Navbar__search__container}>
             <form className={styles.Navbar__search__form}>
-              <fieldset className={styles.Navbar__search__fieldset}></fieldset>
+              <fieldset className={styles.Navbar__search__fieldset}>
+                <div className={styles.Navbar__search__options}>
+                  <label htmlFor='stays'>
+                    <input
+                      className={styles.Navbar__search__radio}
+                      id='stays'
+                      type='radio'
+                      role='tab'
+                      value='/homes'
+                      checked
+                      defaultChecked
+                      aria-selected
+                    />
+                    <span className={styles.Navbar__search__fieldset__text}>
+                      Places to stay
+                    </span>
+                  </label>
+                  <label>
+                    <input
+                      className={styles.Navbar__search__radio}
+                      type='radio'
+                    />
+                    <span className={styles.Navbar__search__fieldset__text}>
+                      Experiences
+                    </span>
+                  </label>
+                  <div>
+                    <a className={styles.Navbar__search__link} href='/'>
+                      <div className={styles.Navbar__search__div}>
+                        Online Experiences
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </fieldset>
 
               <Searchbar />
             </form>

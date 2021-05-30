@@ -52,7 +52,7 @@
 
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  // align-items: center;
   max-width: bootstrap.em(1440px);
   height: 100%;
   width: 100%;
@@ -62,7 +62,7 @@
   position: relative;
   z-index: 1;
 
-  @include bootstrap.media($name: 'mobile') {
+  @media screen and (min-width: 375px) {
     padding-left: bootstrap.rem(24px);
     padding-right: bootstrap.rem(24px);
   }
@@ -137,7 +137,7 @@
   transform: scale(2.5, 1.375) translate(-60px, 122px);
   transition: transform 150ms ease, opacity 50ms ease 20ms, visibility 0ms 150ms;
 
-  @include bootstrap.media($name: 'desktop') {
+  @media screen and (min-width: 950px) {
     margin: 0 auto;
     transform-origin: 50% 0%;
     transform: scale(2.857142857142857, 1.375) translateY(58px);
@@ -242,17 +242,17 @@
     visibility 0ms ease 150ms;
   z-index: 2;
 
-  @include bootstrap.media($name: 'mobile') {
+  @media screen and (min-width: 375px) {
     padding-left: bootstrap.rem(24px);
     padding-right: bootstrap.rem(24px);
   }
 
-  @include bootstrap.media($name: 'tablet') {
+  @media screen and (min-width: 768px) {
     padding-left: bootstrap.rem(40px);
     padding-right: bootstrap.rem(40px);
   }
 
-  @include bootstrap.media($name: 'desktop') {
+  @media screen and (min-width: 950px) {
     top: 0px;
     transform-origin: 50% 0%;
   }
@@ -267,4 +267,159 @@
   border: 0px;
   margin: 0px;
   padding: 0px;
+}
+
+.Navbar__search__options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.Navbar__search__radio {
+  outline: none;
+  appearance: none;
+  border: 0px;
+  border-radius: 0px;
+  margin: 0px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  padding: 0px;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+
+  &:checked {
+    + .Navbar__search__fieldset__text::before {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.Navbar__search__fieldset__text {
+  display: inline-block;
+  color: bootstrap.$default-color;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 10px 12px;
+  pointer-events: auto;
+  text-align: center;
+  position: relative;
+  z-index: 0;
+  cursor: pointer;
+
+  // ~ #stays:checked {
+  //   cursor: default;
+  //   opacity: 1;
+
+  //   &::before {
+  //     transform: scaleX(1);
+  //   }
+  // }
+
+  &:hover {
+    opacity: 0.8;
+    text-decoration: none;
+
+    &::before {
+      transform: scaleX(0.22);
+    }
+  }
+
+  &::before {
+    background-color: currentcolor;
+    border-radius: 1px;
+    bottom: 0px;
+    content: '';
+    height: 2px;
+    left: 50%;
+    margin-left: -9px;
+    position: absolute;
+    transform: scaleX(0);
+    transition: 0.2s transform cubic-bezier(0, 0, 0.1, 1);
+    width: 18px;
+  }
+
+  @media screen and (min-width: 950px) {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+  }
+}
+
+.Navbar__search__link {
+  cursor: pointer;
+  position: relative;
+  border-color: black;
+  touch-action: manipulation;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  outline: none;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 24px;
+  padding-right: 24px;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  text-align: inherit;
+  text-decoration: none;
+  height: 100%;
+  width: 100%;
+}
+
+.Navbar__search__div {
+  outline: none;
+  font-size: 16px;
+  line-height: 20px;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  padding: 10px 12px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  z-index: 0;
+  color: bootstrap.$default-color;
+
+  &:hover {
+    opacity: 0.8;
+    text-decoration: none;
+
+    &::before {
+      transform: scaleX(0.22);
+    }
+  }
+
+  &::before {
+    background-color: currentcolor;
+    border-radius: 1px;
+    bottom: 0px;
+    content: '';
+    height: 2px;
+    left: 50%;
+    margin-left: -9px;
+    position: absolute;
+    transform: scaleX(0);
+    transition: 0.2s transform cubic-bezier(0, 0, 0.1, 1);
+    width: 18px;
+  }
+
+  @media screen and (min-width: 950px) {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+  }
 }

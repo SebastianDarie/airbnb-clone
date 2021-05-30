@@ -9,15 +9,20 @@ export const Searchbar: React.FC<SearchbarProps> = ({}) => {
         <div className={styles.Searchbar__part1}>
           <div className={styles.Searchbar__part1__container}>
             <label className={styles.Searchbar__location}>
-              <div className={styles.Searchbar__location__label}>Location</div>
-              {/* Switch to react hook form */}
-              <input
-                className={styles.Searchbar__location__input}
-                aria-expanded='false'
-                autoComplete='off'
-                autoCorrect='off'
-                spellCheck='false'
-              />
+              <div className={styles.Searchbar__location__position}>
+                <div className={styles.Searchbar__location__label}>
+                  Location
+                </div>
+                {/* Switch to react hook form */}
+                <input
+                  className={styles.Searchbar__location__input}
+                  aria-expanded='false'
+                  autoComplete='off'
+                  autoCorrect='off'
+                  spellCheck='false'
+                  placeholder='Where are you going?'
+                />
+              </div>
             </label>
           </div>
         </div>
