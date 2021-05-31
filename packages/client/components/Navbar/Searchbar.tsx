@@ -1,10 +1,12 @@
 import styles from '../../sass/components/Searchbar.module.scss';
 
-interface SearchbarProps {}
+interface SearchbarProps {
+  scrolled: boolean;
+}
 
-export const Searchbar: React.FC<SearchbarProps> = ({}) => {
+export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
   return (
-    <div className={styles.Searchbar}>
+    <div className={scrolled ? styles.Searchbar__scroll : styles.Searchbar}>
       <div className={styles.Searchbar__container}>
         <div className={styles.Searchbar__part1}>
           <div className={styles.Searchbar__part1__container}>

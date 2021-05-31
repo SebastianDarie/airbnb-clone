@@ -1,18 +1,13 @@
 import React, { ReactNode } from 'react';
-import { withLogout, WithLogoutProps } from '@airbnb-clone/controller';
 import { useApolloClient } from '@apollo/client';
-import { Navbar } from './Navbar/Navbar';
+import Navbar from './Navbar/Navbar';
 
 type Props = {
   children?: ReactNode;
   title?: string;
-} & WithLogoutProps;
+};
 
-const Layout = ({
-  children,
-  title = 'This is the default title',
-  logout,
-}: Props) => {
+const Layout = ({ children, title = 'This is the default title' }: Props) => {
   const apolloClient = useApolloClient();
 
   return (
@@ -20,7 +15,7 @@ const Layout = ({
       <Navbar />
 
       <main>
-        <div style={{ minHeight: 400 }}>
+        <div style={{ minHeight: 400, overflowAnchor: 'none' }}>
           <div
             style={{
               display: 'flex',
@@ -86,55 +81,85 @@ const Layout = ({
               </div>
             </div>
           </div>
+
+          <div>
+            <div className=''>
+              {/* add pd and mg */}
+              <div style={{ width: '100%' }}>
+                <section>
+                  <div></div>
+                  <div></div>
+                </section>
+                <div>
+                  <div className='_1dv5cye'>
+                    <a
+                      className='_1tp1o9s'
+                      href='/s/Chișinau/homes?place_id=ChIJoWm3KDZ8yUARPN1JVzDW0Tc&amp;refinement_paths%5B%5D=%2Fhomes&amp;search_type=section_navigation'
+                    >
+                      <span className='_14aq8wg'>
+                        <div className='_1h6n1zu'>
+                          <picture>
+                            <source
+                              srcSet='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 1x, https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 2x'
+                              media='(max-width: 743px)'
+                            />
+                            <source
+                              srcSet='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 1x, https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 2x'
+                              media='(min-width: 743.1px) and (max-width: 1127px)'
+                            />
+                            <source
+                              srcSet='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 1x, https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 2x'
+                              media='(min-width: 1127.1px) and (max-width: 1439px)'
+                            />
+                            <source
+                              srcSet='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 1x, https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=240 2x'
+                              media='(min-width: 1439.1px)'
+                            />
+                            <img
+                              className='_6tbg2q'
+                              aria-hidden='true'
+                              alt=''
+                              decoding='async'
+                              src='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=720'
+                              data-original-uri='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?aki_policy=large'
+                            />
+                          </picture>
+                          <div className='_15p4g025'></div>
+                        </div>
+                      </span>
+                    </a>
+                    <span className='_1i13tcg'>
+                      <span className='_pihus2'>
+                        <b>Chișinau</b>
+                      </span>
+                      <span className='_pihus2'>15 minute drive</span>
+                    </span>
+                  </div>
+
+                  <img
+                    className='_6tbg2q'
+                    aria-hidden='true'
+                    alt=''
+                    decoding='async'
+                    src='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=720'
+                    data-original-uri='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?aki_policy=large'
+                  />
+                  <img
+                    className='_6tbg2q'
+                    aria-hidden='true'
+                    alt=''
+                    decoding='async'
+                    src='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?im_q=medq&amp;im_w=720'
+                    data-original-uri='https://a0.muscache.com/im/pictures/be4d3ba5-08d7-4afe-95a7-f2da6453886a.jpg?aki_policy=large'
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>
-    // <div>
-    //   <Head>
-    //     <title>{title}</title>
-    //     <meta charSet='utf-8' />
-    //     <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-    //   </Head>
-    //   <header>
-    //     <nav>
-    //       <Link href='/'>
-    //         <a>Home</a>
-    //       </Link>{' '}
-    //       |{' '}
-    //       <Link href='/about'>
-    //         <a>About</a>
-    //       </Link>{' '}
-    //       |{' '}
-    //       <Link href='/register'>
-    //         <a>Register</a>
-    //       </Link>{' '}
-    //       |{' '}
-    //       <Link href='/login'>
-    //         <a>Login</a>
-    //       </Link>{' '}
-    //       |{' '}
-    //       <Link href='/users'>
-    //         <a>Users List</a>
-    //       </Link>{' '}
-    //       | <a href='/api/users'>Users API</a>|{' '}
-    //       <Button
-    //         type='link'
-    //         onClick={async () => {
-    //           await logout();
-    //           await apolloClient.resetStore();
-    //         }}
-    //       >
-    //         Logout
-    //       </Button>{' '}
-    //     </nav>
-    //   </header>
-    //   {children}
-    //   <footer>
-    //     <hr />
-    //     <span>I'm here to stay (Footer)</span>
-    //   </footer>
-    // </div>
   );
 };
 
-export default withLogout(Layout);
+export default Layout;

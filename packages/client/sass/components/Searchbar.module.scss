@@ -12,6 +12,17 @@
   position: relative;
 }
 
+.Searchbar__scroll {
+  background-color: bootstrap.$default-color;
+  border: 1px solid #dddddd;
+  border-radius: 32px;
+  color: rgb(34, 34, 34);
+  display: flex;
+  height: 66px;
+  position: relative;
+  width: 100%;
+}
+
 .Searchbar__container {
   display: flex;
   flex: 1 1 0%;
