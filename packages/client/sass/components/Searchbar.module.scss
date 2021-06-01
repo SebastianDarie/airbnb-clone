@@ -23,6 +23,11 @@
   width: 100%;
 }
 
+.Searchbar__active {
+  background-color: rgb(247, 247, 247);
+  box-shadow: rgb(0 0 0 / 15%) 0px 16px 32px, rgb(0 0 0 / 10%) 0px 3px 8px;
+}
+
 .Searchbar__container {
   display: flex;
   flex: 1 1 0%;
@@ -58,6 +63,26 @@
   min-width: 0px;
   padding: 14px 32px;
   cursor: pointer;
+
+  &:focus-within {
+    &:hover {
+      &::after {
+        background-color: bootstrap.$default-color;
+      }
+    }
+
+    &::before {
+      display: block;
+    }
+
+    &::after {
+      background-color: bootstrap.$default-color;
+      border-color: bootstrap.$default-color;
+      box-shadow: 0px 6px 20px rgb(0 0 0 / 20%);
+      left: 0px;
+      right: 0px;
+    }
+  }
 
   &:hover {
     &::before {
@@ -123,9 +148,14 @@
   padding: 0px;
   width: 100%;
   text-overflow: ellipsis;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .vline {
+  display: none;
   flex: 0 0 0px;
   align-self: center;
   border-right: 1px solid #dddddd;
@@ -205,6 +235,56 @@
     left: 0px;
     right: 0px;
     z-index: 0;
+  }
+}
+
+.Searchbar__btn__clicked {
+  appearance: none;
+  background: transparent;
+  border: 0px;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0px;
+  outline: none;
+  overflow: visible;
+  padding: 1px;
+  text-align: left;
+  text-decoration: none;
+  user-select: auto;
+  flex: 1 0 0%;
+  width: 0px;
+  z-index: 3;
+
+  &::before {
+    content: '';
+    height: 32px;
+    left: 0px;
+    margin-top: -16px;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    z-index: 0;
+    display: block;
+    border-width: 0px 0px 0px 1px;
+    //  border-style: solid solid solid;
+    border-right: 0px;
+  }
+
+  &::after {
+    background-clip: padding-box;
+    border: 1px solid bootstrap.$default-color;
+    border-radius: 32px;
+    inset: 0px;
+    content: '';
+    position: absolute;
+    z-index: 0;
+    background-color: bootstrap.$default-color;
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px;
   }
 }
 
@@ -305,11 +385,64 @@
   }
 }
 
+.Searchbar__icon__btn__active {
+  appearance: none;
+  background: bootstrap.$brand-color;
+  border: 0px;
+  color: bootstrap.$default-color;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  margin: 0px;
+  outline: none;
+  overflow: hidden;
+  padding: 0px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  border-radius: 24px;
+  height: 48px;
+  max-width: 48px;
+  position: relative;
+  transition: max-width 0.2s cubic-bezier(0.35, 0, 0.65, 1) 0s;
+  vertical-align: middle;
+  z-index: 0;
+
+  &::before {
+    background: linear-gradient(
+      to right,
+      rgb(230, 30, 77) 0%,
+      rgb(227, 28, 95) 50%,
+      rgb(215, 4, 102) 100%
+    );
+    inset: 0px;
+    content: '';
+    position: absolute;
+    transition: opacity 0.2s cubic-bezier(0.35, 0, 0.65, 1) 0s;
+    will-change: opacity;
+    z-index: 0;
+  }
+
+  @media screen and (min-width: 950px) {
+    max-width: 200px;
+    transition: none 0s ease 0s;
+  }
+}
+
 .Searchbar__inner__icon__container {
   display: inline-flex;
   padding: 16px;
   position: relative;
   z-index: 1;
+}
+
+.Searchbar__hidden__span {
+  display: block;
+  position: relative;
+  pointer-events: none;
 }
 
 .Searchbar__hidden__text {
@@ -318,4 +451,70 @@
   padding-right: 4px;
   transition: 0.1s opacity cubic-bezier(0.35, 0, 0.65, 1);
   transition-delay: 0.1s;
+}
+
+.Searchbar__hidden__text__active {
+  opacity: 0;
+  padding-left: 8px;
+  padding-right: 4px;
+  transition: opacity 0.1s cubic-bezier(0.35, 0.65, 1) 0s;
+
+  @media screen and (min-width: 950px) {
+    opacity: 1;
+    transition: none 0s ease 0s;
+  }
+}
+
+.Searchbar__guests__menu {
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  right: 0px;
+  z-index: 4;
+}
+
+.Searchbar__guests__container {
+  position: absolute;
+  left: 0px;
+  top: 100%;
+  z-index: 1;
+  background: bootstrap.$default-color;
+  border-radius: 32px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px;
+  margin-top: 12px;
+  max-height: calc(100vh - 220px);
+  overflow: hidden auto;
+  padding: 16px 32px;
+}
+
+.Searchbar__guests__age {
+  color: rgb(34, 34, 34);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 330px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgb(235, 235, 235);
+  }
+}
+
+.Searchbar__guests__group {
+  flex-grow: 1;
+}
+
+.Searchbar__guests__input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 104px;
+  height: 32px;
+  color: rgb(34, 34, 34);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: 'Montserrat', sans-serif;
 }

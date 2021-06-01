@@ -271,7 +271,7 @@
 .Navbar__search__small__text {
   flex: 1 1 auto;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 18px;
   min-width: 0px;
   padding: 0 16px;
@@ -433,8 +433,8 @@
   }
 
   @media screen and (min-width: 950px) {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     line-height: 18px;
   }
 }
@@ -511,8 +511,8 @@
   }
 
   @media screen and (min-width: 950px) {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     line-height: 18px;
   }
 }
