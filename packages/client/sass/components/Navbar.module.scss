@@ -93,7 +93,7 @@
     padding-right: bootstrap.rem(24px);
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 744px) {
     padding-left: bootstrap.rem(40px);
     padding-right: bootstrap.rem(40px);
   }
@@ -101,6 +101,11 @@
   @media screen and (min-width: 950px) {
     padding-left: bootstrap.rem(40px);
     padding-right: bootstrap.rem(40px);
+  }
+
+  @media screen and (min-width: 1128px) {
+    padding-left: bootstrap.rem(80px);
+    padding-right: bootstrap.rem(80px);
   }
 }
 
@@ -310,7 +315,7 @@
     padding-right: bootstrap.rem(24px);
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 744px) {
     padding-left: bootstrap.rem(40px);
     padding-right: bootstrap.rem(40px);
   }
@@ -344,7 +349,7 @@
     padding-right: bootstrap.rem(24px);
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 744px) {
     padding-left: bootstrap.rem(40px);
     padding-right: bootstrap.rem(40px);
   }

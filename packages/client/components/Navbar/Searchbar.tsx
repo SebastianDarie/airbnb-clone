@@ -16,6 +16,8 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
     el: '',
   });
   const ref = useRef<HTMLDivElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const searchRef = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = () => {
     setActiveElement({
@@ -27,7 +29,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
   useClickAway(ref, handleClickOutside);
 
   //const { activeElement, ref, toggle } = useClickAway();
-  console.log(activeElement);
+  // console.log(activeElement);
 
   const barScroll = scrolled ? styles.Searchbar__scroll : styles.Searchbar;
   const barActive = activeElement.active ? styles.Searchbar__active : '';
@@ -37,6 +39,15 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
   //   Searchbar__scroll: scrolled,
   //   Searchbar__active: active,
   // });
+
+  const menuOffsets = menuRef.current?.getBoundingClientRect();
+  const searchOffsets = searchRef.current?.getBoundingClientRect();
+  // let left = 0;
+  // if (menuRef.current) {
+  //   left = menuRef.current.getBoundingClientRect().right;
+  //   //  menuRef.current?.ownerDocument.documentElement.clientLeft;
+  // }
+  // console.log(menuOffsets?.right, searchOffsets?.right);
 
   return (
     <div className={`${barScroll} ${barActive}`} ref={ref}>
@@ -97,7 +108,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
 
         <div className={styles.vline}></div>
 
-        <div className={styles.Searchbar__part3__container}>
+        <div className={styles.Searchbar__part3__container} ref={searchRef}>
           <div
             className={
               activeElement.el === 'guests' && activeElement.active
@@ -113,15 +124,198 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
             </div>
           </div>
 
-          <div className={styles.Searchbar__guests__menu}>
+          <div
+            className={styles.Searchbar__guests__menu}
+            ref={menuRef}
+            style={{
+              display: `${activeElement.el === 'guests' ? 'block' : 'none'}`,
+            }}
+          >
             <div className={styles.Searchbar__guests__container}>
               <section>
                 <div className={styles.Searchbar__guests__age}>
-                  <div className={styles.Searchbar__guests__group}></div>
-                  <div className={styles.Searchbar__guests__input}></div>
+                  <div className={styles.Searchbar__guests__group}>
+                    <div className={styles.Searchbar__guests__title}>
+                      Adults
+                    </div>
+                    <div className={styles.Searchbar__guests__variant}>
+                      Ages 13 or above
+                    </div>
+                  </div>
+                  <div className={styles.Searchbar__guests__input}>
+                    <button
+                      className={styles.Searchbar__guests__minus}
+                      disabled
+                    >
+                      <span className={styles.Searchbar__guests__icon}>
+                        <svg
+                          viewBox='0 0 32 32'
+                          xmlns='http://www.w3.org/2000/svg'
+                          aria-hidden='true'
+                          role='presentation'
+                          focusable='false'
+                          display='block'
+                          fill='none'
+                          height='12'
+                          width='12'
+                          stroke='currentColor'
+                          strokeWidth='5.3'
+                          overflow='visible'
+                        >
+                          <path d='m2 16h28'></path>
+                        </svg>
+                      </span>
+                    </button>
+                    <div className={styles.Searchbar__guests__count}>
+                      <span>0</span>
+                      <span className={styles.Searchbar__guests__value__hidden}>
+                        0 or more Adults
+                      </span>
+                    </div>
+                    <button className={styles.Searchbar__guests__plus}>
+                      <span className={styles.Searchbar__guests__icon}>
+                        <svg
+                          viewBox='0 0 32 32'
+                          xmlns='http://www.w3.org/2000/svg'
+                          aria-hidden='true'
+                          role='presentation'
+                          focusable='false'
+                          display='block'
+                          fill='none'
+                          height='12'
+                          width='12'
+                          stroke='currentColor'
+                          strokeWidth='5.3'
+                          overflow='visible'
+                        >
+                          <path d='m2 16h28m-14-14v28'></path>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </div>
-                <div className={styles.Searchbar__guests__age}></div>
-                <div className={styles.Searchbar__guests__age}></div>
+                <div className={styles.Searchbar__guests__age}>
+                  <div className={styles.Searchbar__guests__group}>
+                    <div className={styles.Searchbar__guests__title}>
+                      Children
+                    </div>
+                    <div className={styles.Searchbar__guests__variant}>
+                      Ages 2-12
+                    </div>
+                  </div>
+                  <div className={styles.Searchbar__guests__input}>
+                    <button
+                      className={styles.Searchbar__guests__minus}
+                      disabled
+                    >
+                      <span className={styles.Searchbar__guests__icon}>
+                        <svg
+                          viewBox='0 0 32 32'
+                          xmlns='http://www.w3.org/2000/svg'
+                          aria-hidden='true'
+                          role='presentation'
+                          focusable='false'
+                          display='block'
+                          fill='none'
+                          height='12'
+                          width='12'
+                          stroke='currentColor'
+                          strokeWidth='5.3'
+                          overflow='visible'
+                        >
+                          <path d='m2 16h28'></path>
+                        </svg>
+                      </span>
+                    </button>
+                    <div className={styles.Searchbar__guests__count}>
+                      <span>0</span>
+                      <span className={styles.Searchbar__guests__value__hidden}>
+                        0 or more Adults
+                      </span>
+                    </div>
+                    <button className={styles.Searchbar__guests__plus}>
+                      <span className={styles.Searchbar__guests__icon}>
+                        <svg
+                          viewBox='0 0 32 32'
+                          xmlns='http://www.w3.org/2000/svg'
+                          aria-hidden='true'
+                          role='presentation'
+                          focusable='false'
+                          display='block'
+                          fill='none'
+                          height='12'
+                          width='12'
+                          stroke='currentColor'
+                          strokeWidth='5.3'
+                          overflow='visible'
+                        >
+                          <path d='m2 16h28m-14-14v28'></path>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div className={styles.Searchbar__guests__age}>
+                  <div className={styles.Searchbar__guests__group}>
+                    <div className={styles.Searchbar__guests__title}>
+                      Infants
+                    </div>
+                    <div className={styles.Searchbar__guests__variant}>
+                      Under 2
+                    </div>
+                  </div>
+                  <div className={styles.Searchbar__guests__input}>
+                    <button
+                      className={styles.Searchbar__guests__minus}
+                      disabled
+                    >
+                      <span className={styles.Searchbar__guests__icon}>
+                        <svg
+                          viewBox='0 0 32 32'
+                          xmlns='http://www.w3.org/2000/svg'
+                          aria-hidden='true'
+                          role='presentation'
+                          focusable='false'
+                          display='block'
+                          fill='none'
+                          height='12'
+                          width='12'
+                          stroke='currentColor'
+                          strokeWidth='5.3'
+                          overflow='visible'
+                        >
+                          <path d='m2 16h28'></path>
+                        </svg>
+                      </span>
+                    </button>
+                    <div className={styles.Searchbar__guests__count}>
+                      <span>0</span>
+                      <span className={styles.Searchbar__guests__value__hidden}>
+                        0 or more Adults
+                      </span>
+                    </div>
+                    <button className={styles.Searchbar__guests__plus}>
+                      <span className={styles.Searchbar__guests__icon}>
+                        <svg
+                          viewBox='0 0 32 32'
+                          xmlns='http://www.w3.org/2000/svg'
+                          aria-hidden='true'
+                          role='presentation'
+                          focusable='false'
+                          display='block'
+                          fill='none'
+                          height='12'
+                          width='12'
+                          stroke='currentColor'
+                          strokeWidth='5.3'
+                          overflow='visible'
+                        >
+                          <path d='m2 16h28m-14-14v28'></path>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </section>
             </div>
           </div>

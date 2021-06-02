@@ -1,8 +1,9 @@
 import { WithLogoutProps } from '@airbnb-clone/controller';
 import { useApolloClient } from '@apollo/client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRef } from 'react';
 import styles from '../../sass/components/NavSettings.module.scss';
+import useClickAway from '../../shared-hooks/useClickAway';
 
 type NavSettingsProps = {
   scrolled: boolean;
@@ -12,6 +13,15 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
   ({ scrolled, logout }) => {
     const apolloClient = useApolloClient();
     const menu = useRef<HTMLDivElement | null>(null);
+
+    const [active, setActive] = useState<boolean>(false);
+    const ref = useRef<HTMLDivElement | null>(null);
+
+    const handleClickOutside = () => {
+      setActive(false);
+    };
+
+    useClickAway(ref, handleClickOutside);
 
     return (
       <div className={styles.UtilsNav__container}>
@@ -56,16 +66,17 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
           </div>
 
           <div>
-            <div className={styles.UtilsNav__widget__container}>
+            <div className={styles.UtilsNav__widget__container} ref={ref}>
               <button
                 className={styles.UtilsNav__widget__btn}
                 id={scrolled ? styles.UtilsNav__btn : undefined}
                 onClick={() => {
-                  if (menu.current) {
-                    menu.current.style.display === 'block'
-                      ? (menu.current.style.display = 'none')
-                      : (menu.current.style.display = 'block');
-                  }
+                  // if (menu.current) {
+                  //   menu.current.style.display === 'block'
+                  //     ? (menu.current.style.display = 'none')
+                  //     : (menu.current.style.display = 'block');
+                  // }
+                  setActive(!active);
                 }}
               >
                 <svg
@@ -97,7 +108,13 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                 <div className={styles.UtilsNav__notification}>1</div>
               </button>
 
-              <div className={styles.UtilsNav__menu} ref={menu}>
+              <div
+                className={styles.UtilsNav__menu}
+                ref={menu}
+                style={{
+                  display: `${active ? 'block' : 'none'}`,
+                }}
+              >
                 <div>
                   <a className={styles.UtilsNav__menu__link}>Messages</a>
                   <a className={styles.UtilsNav__menu__link}>
