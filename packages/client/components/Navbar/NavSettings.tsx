@@ -1,4 +1,4 @@
-import { WithLogoutProps } from '@airbnb-clone/controller';
+import { MeQuery, WithLogoutProps } from '@airbnb-clone/controller';
 import { useApolloClient } from '@apollo/client';
 import React, { useState } from 'react';
 import { useRef } from 'react';
@@ -6,11 +6,13 @@ import styles from '../../sass/components/NavSettings.module.scss';
 import useClickAway from '../../shared-hooks/useClickAway';
 
 type NavSettingsProps = {
+  data: MeQuery | undefined;
+  loading: boolean;
   scrolled: boolean;
 } & WithLogoutProps;
 
 export const NavSettings: React.FC<NavSettingsProps> = React.memo(
-  ({ scrolled, logout }) => {
+  ({ data, loading, scrolled, logout }) => {
     const apolloClient = useApolloClient();
     const menu = useRef<HTMLDivElement | null>(null);
 
@@ -22,6 +24,8 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
     };
 
     useClickAway(ref, handleClickOutside);
+
+    console.log(data, loading);
 
     return (
       <div className={styles.UtilsNav__container}>
@@ -99,13 +103,31 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                   </g>
                 </svg>
                 <div className={styles.UtilsNav__profile__container}>
-                  <img
-                    className={styles.UtilsNav__profile__img}
-                    src='https://res.cloudinary.com/dryhgptoc/image/upload/v1622364566/jngkp0wf1yvgbfpcjb9n.png'
-                  />
+                  {data?.me ? (
+                    <img
+                      className={styles.UtilsNav__profile__img}
+                      src='https://res.cloudinary.com/dryhgptoc/image/upload/v1622364566/jngkp0wf1yvgbfpcjb9n.png'
+                    />
+                  ) : (
+                    <svg
+                      viewBox='0 0 32 32'
+                      xmlns='http://www.w3.org/2000/svg'
+                      aria-hidden='true'
+                      role='presentation'
+                      focusable='false'
+                      display='block'
+                      height='100%'
+                      width='100%'
+                      fill='currentColor'
+                    >
+                      <path d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'></path>
+                    </svg>
+                  )}
                 </div>
 
-                <div className={styles.UtilsNav__notification}>1</div>
+                {data?.me ? (
+                  <div className={styles.UtilsNav__notification}>1</div>
+                ) : null}
               </button>
 
               <div
@@ -116,13 +138,29 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                 }}
               >
                 <div>
-                  <a className={styles.UtilsNav__menu__link}>Messages</a>
-                  <a className={styles.UtilsNav__menu__link}>
-                    Notifications
-                    <div className={styles.UtilsNav__menu__notif}></div>
-                  </a>
-                  <a className={styles.UtilsNav__menu__link}>Trips</a>
-                  <a className={styles.UtilsNav__menu__link}>Wishlists</a>
+                  {data?.me ? (
+                    <>
+                      <a className={styles.UtilsNav__menu__link}>Messages</a>
+                      <a className={styles.UtilsNav__menu__link}>
+                        Notifications
+                        <div className={styles.UtilsNav__menu__notif}></div>
+                      </a>
+                      <a className={styles.UtilsNav__menu__link}>Trips</a>
+                      <a className={styles.UtilsNav__menu__link}>
+                        Wishlists
+                      </a>{' '}
+                    </>
+                  ) : (
+                    <>
+                      <a className={styles.UtilsNav__menu__link}>Log in</a>
+                      <a
+                        className={styles.UtilsNav__menu__link}
+                        id={styles.thin}
+                      >
+                        Sign up
+                      </a>
+                    </>
+                  )}
                   <div className={styles.hline}></div>
                   <a className={styles.UtilsNav__menu__link} id={styles.thin}>
                     Host your home
@@ -131,22 +169,29 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                     Host an experience
                   </a>
                   <a className={styles.UtilsNav__menu__link} id={styles.thin}>
-                    Account
+                    {data?.me ? 'Account' : 'Help'}
                   </a>
-                  <div className={styles.hline}></div>
-                  <a className={styles.UtilsNav__menu__link} id={styles.thin}>
-                    Help
-                  </a>
-                  <a
-                    className={styles.UtilsNav__menu__link}
-                    id={styles.thin}
-                    onClick={async () => {
-                      await logout();
-                      await apolloClient.resetStore();
-                    }}
-                  >
-                    Logout
-                  </a>
+                  {data?.me ? (
+                    <>
+                      <div className={styles.hline}></div>
+                      <a
+                        className={styles.UtilsNav__menu__link}
+                        id={styles.thin}
+                      >
+                        Help
+                      </a>
+                      <a
+                        className={styles.UtilsNav__menu__link}
+                        id={styles.thin}
+                        onClick={async () => {
+                          await logout();
+                          await apolloClient.resetStore();
+                        }}
+                      >
+                        Logout
+                      </a>{' '}
+                    </>
+                  ) : null}
                 </div>
               </div>
             </div>

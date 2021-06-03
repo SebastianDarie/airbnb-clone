@@ -54,3 +54,8 @@ export interface MessageFormProps {
   text: string;
   listingId: string;
 }
+
+export type ActiveElement = {
+  active: boolean;
+  el: string;
+};
