@@ -1,4 +1,4 @@
-import { ActiveElement } from '@airbnb-clone/controller';
+import { ActiveElement, MinusSvg, PlusSvg } from '@airbnb-clone/controller';
 import { MutableRefObject } from 'react';
 import styles from '../../sass/components/GuestsMenu.module.scss';
 
@@ -35,22 +35,7 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
                 type='button'
               >
                 <span className={styles.Searchbar__guests__icon}>
-                  <svg
-                    viewBox='0 0 32 32'
-                    xmlns='http://www.w3.org/2000/svg'
-                    aria-hidden='true'
-                    role='presentation'
-                    focusable='false'
-                    display='block'
-                    fill='none'
-                    height='12'
-                    width='12'
-                    stroke='currentColor'
-                    strokeWidth='5.3'
-                    overflow='visible'
-                  >
-                    <path d='m2 16h28'></path>
-                  </svg>
+                  <MinusSvg />
                 </span>
               </button>
               <div className={styles.Searchbar__guests__count}>
@@ -61,22 +46,7 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               </div>
               <button className={styles.Searchbar__guests__plus} type='button'>
                 <span className={styles.Searchbar__guests__icon}>
-                  <svg
-                    viewBox='0 0 32 32'
-                    xmlns='http://www.w3.org/2000/svg'
-                    aria-hidden='true'
-                    role='presentation'
-                    focusable='false'
-                    display='block'
-                    fill='none'
-                    height='12'
-                    width='12'
-                    stroke='currentColor'
-                    strokeWidth='5.3'
-                    overflow='visible'
-                  >
-                    <path d='m2 16h28m-14-14v28'></path>
-                  </svg>
+                  <PlusSvg />
                 </span>
               </button>
             </div>
@@ -93,22 +63,7 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
                 type='button'
               >
                 <span className={styles.Searchbar__guests__icon}>
-                  <svg
-                    viewBox='0 0 32 32'
-                    xmlns='http://www.w3.org/2000/svg'
-                    aria-hidden='true'
-                    role='presentation'
-                    focusable='false'
-                    display='block'
-                    fill='none'
-                    height='12'
-                    width='12'
-                    stroke='currentColor'
-                    strokeWidth='5.3'
-                    overflow='visible'
-                  >
-                    <path d='m2 16h28'></path>
-                  </svg>
+                  <MinusSvg />
                 </span>
               </button>
               <div className={styles.Searchbar__guests__count}>
@@ -119,22 +74,7 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               </div>
               <button className={styles.Searchbar__guests__plus} type='button'>
                 <span className={styles.Searchbar__guests__icon}>
-                  <svg
-                    viewBox='0 0 32 32'
-                    xmlns='http://www.w3.org/2000/svg'
-                    aria-hidden='true'
-                    role='presentation'
-                    focusable='false'
-                    display='block'
-                    fill='none'
-                    height='12'
-                    width='12'
-                    stroke='currentColor'
-                    strokeWidth='5.3'
-                    overflow='visible'
-                  >
-                    <path d='m2 16h28m-14-14v28'></path>
-                  </svg>
+                  <PlusSvg />
                 </span>
               </button>
             </div>
@@ -151,22 +91,7 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
                 type='button'
               >
                 <span className={styles.Searchbar__guests__icon}>
-                  <svg
-                    viewBox='0 0 32 32'
-                    xmlns='http://www.w3.org/2000/svg'
-                    aria-hidden='true'
-                    role='presentation'
-                    focusable='false'
-                    display='block'
-                    fill='none'
-                    height='12'
-                    width='12'
-                    stroke='currentColor'
-                    strokeWidth='5.3'
-                    overflow='visible'
-                  >
-                    <path d='m2 16h28'></path>
-                  </svg>
+                  <MinusSvg />
                 </span>
               </button>
               <div className={styles.Searchbar__guests__count}>
@@ -177,22 +102,7 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               </div>
               <button className={styles.Searchbar__guests__plus} type='button'>
                 <span className={styles.Searchbar__guests__icon}>
-                  <svg
-                    viewBox='0 0 32 32'
-                    xmlns='http://www.w3.org/2000/svg'
-                    aria-hidden='true'
-                    role='presentation'
-                    focusable='false'
-                    display='block'
-                    fill='none'
-                    height='12'
-                    width='12'
-                    stroke='currentColor'
-                    strokeWidth='5.3'
-                    overflow='visible'
-                  >
-                    <path d='m2 16h28m-14-14v28'></path>
-                  </svg>
+                  <PlusSvg />
                 </span>
               </button>
             </div>

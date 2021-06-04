@@ -1,0 +1,118 @@
+@use 'sass:math';
+@use '../utilities/bootstrap.scss';
+
+.HomeView__container {
+  min-height: 400px;
+  overflow-anchor: none;
+}
+
+.HomeView__bg__container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  height: calc(#{math.div(bootstrap.$sm-height, bootstrap.$sm-width)} * 100vw);
+
+  @media screen and (min-width: 744px) {
+    height: max(
+      550px,
+      min(
+        85vh,
+        calc(#{math.div(bootstrap.$md-height, bootstrap.$md-width)} * 100vw)
+      )
+    );
+  }
+
+  @media screen and (min-width: 950px) {
+    height: max(
+      550px,
+      min(
+        85vh,
+        calc(#{math.div(bootstrap.$lg-height, bootstrap.$lg-width)} * 100vw)
+      )
+    );
+  }
+}
+
+.HomeView__img__container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  inset: 0;
+  z-index: 0;
+}
+
+.HomeView__img__config {
+  display: inline-block;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.HomeView__img {
+  position: absolute;
+  object-fit: cover;
+  vertical-align: bottom;
+  height: 100%;
+  width: 100%;
+}
+
+.HomeView__service__container {
+  position: relative;
+  max-width: 1760px;
+  padding: 96px 24px 32px;
+  width: 100%;
+
+  @media screen and (min-width: 744px) {
+    padding: 250px 40px 40px;
+  }
+
+  @media screen and (min-width: 950px) {
+    padding: 191px 40px 45px;
+  }
+}
+
+.HomeView__flexer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  @media screen and (min-width: 744px) {
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  @media screen and (min-width: 950px) {
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+
+.HomeView__text__container {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: start;
+  width: 280px;
+  z-index: 0;
+
+  @media screen and (min-width: 744px) {
+    align-items: flex-start;
+    text-align: start;
+    width: 338px;
+  }
+
+  @media screen and (min-width: 950px) {
+    display: flex;
+    align-items: flex-start;
+    text-align: start;
+    width: 383px;
+  }
+}

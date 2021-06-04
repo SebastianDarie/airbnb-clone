@@ -1,9 +1,16 @@
-import { MeQuery, WithLogoutProps } from '@airbnb-clone/controller';
+import {
+  AnonymousUserSvg,
+  GlobeSvg,
+  HamburgerSvg,
+  MeQuery,
+  WithLogoutProps,
+} from '@airbnb-clone/controller';
 import { useApolloClient } from '@apollo/client';
 import React, { useState } from 'react';
 import { useRef } from 'react';
 import styles from '../../sass/components/NavSettings.module.scss';
 import useClickAway from '../../shared-hooks/useClickAway';
+import { MenuLink } from './MenuLink';
 
 type NavSettingsProps = {
   data: MeQuery | undefined;
@@ -51,18 +58,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
               >
                 <div className={styles.UtilsNav__link__text}>
                   <div className={styles.UtilsNav__icon__container}>
-                    <svg
-                      viewBox='0 0 16 16'
-                      xmlns='http://www.w3.org/2000/svg'
-                      aria-hidden='true'
-                      role='presentation'
-                      focusable='false'
-                      fill='currentColor'
-                      height='16'
-                      width='16'
-                    >
-                      <path d='m8.002.25a7.77 7.77 0 0 1 7.748 7.776 7.75 7.75 0 0 1 -7.521 7.72l-.246.004a7.75 7.75 0 0 1 -7.73-7.513l-.003-.245a7.75 7.75 0 0 1 7.752-7.742zm1.949 8.5h-3.903c.155 2.897 1.176 5.343 1.886 5.493l.068.007c.68-.002 1.72-2.365 1.932-5.23zm4.255 0h-2.752c-.091 1.96-.53 3.783-1.188 5.076a6.257 6.257 0 0 0 3.905-4.829zm-9.661 0h-2.75a6.257 6.257 0 0 0 3.934 5.075c-.615-1.208-1.036-2.875-1.162-4.686l-.022-.39zm1.188-6.576-.115.046a6.257 6.257 0 0 0 -3.823 5.03h2.75c.085-1.83.471-3.54 1.059-4.81zm2.262-.424c-.702.002-1.784 2.512-1.947 5.5h3.904c-.156-2.903-1.178-5.343-1.892-5.494l-.065-.007zm2.28.432.023.05c.643 1.288 1.069 3.084 1.157 5.018h2.748a6.275 6.275 0 0 0 -3.929-5.068z'></path>
-                    </svg>
+                    <GlobeSvg />
                   </div>
                 </div>
               </button>
@@ -75,33 +71,10 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                 className={styles.UtilsNav__widget__btn}
                 id={scrolled ? styles.UtilsNav__btn : undefined}
                 onClick={() => {
-                  // if (menu.current) {
-                  //   menu.current.style.display === 'block'
-                  //     ? (menu.current.style.display = 'none')
-                  //     : (menu.current.style.display = 'block');
-                  // }
                   setActive(!active);
                 }}
               >
-                <svg
-                  viewBox='0 0 32 32'
-                  xmlns='http://www.w3.org/2000/svg'
-                  aria-hidden='true'
-                  role='presentation'
-                  focusable='false'
-                  fill='none'
-                  height='16'
-                  width='16'
-                  stroke='currentColor'
-                  strokeWidth='3'
-                  overflow='visible'
-                >
-                  <g fill='none' fillRule='nonzero'>
-                    <path d='m2 16h28'></path>
-                    <path d='m2 24h28'></path>
-                    <path d='m2 8h28'></path>
-                  </g>
-                </svg>
+                <HamburgerSvg />
                 <div className={styles.UtilsNav__profile__container}>
                   {data?.me ? (
                     <img
@@ -109,19 +82,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                       src='https://res.cloudinary.com/dryhgptoc/image/upload/v1622364566/jngkp0wf1yvgbfpcjb9n.png'
                     />
                   ) : (
-                    <svg
-                      viewBox='0 0 32 32'
-                      xmlns='http://www.w3.org/2000/svg'
-                      aria-hidden='true'
-                      role='presentation'
-                      focusable='false'
-                      display='block'
-                      height='100%'
-                      width='100%'
-                      fill='currentColor'
-                    >
-                      <path d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'></path>
-                    </svg>
+                    <AnonymousUserSvg />
                   )}
                 </div>
 
@@ -140,56 +101,59 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                 <div>
                   {data?.me ? (
                     <>
-                      <a className={styles.UtilsNav__menu__link}>Messages</a>
-                      <a className={styles.UtilsNav__menu__link}>
+                      <MenuLink href='/inbox' light={false}>
+                        Messages
+                      </MenuLink>
+                      <MenuLink href='/notifications' light={false}>
                         Notifications
                         <div className={styles.UtilsNav__menu__notif}></div>
-                      </a>
-                      <a className={styles.UtilsNav__menu__link}>Trips</a>
-                      <a className={styles.UtilsNav__menu__link}>
+                      </MenuLink>
+                      <MenuLink href='/trips' light={false}>
+                        Trips
+                      </MenuLink>
+                      <MenuLink href='/wishlists' light={false}>
                         Wishlists
-                      </a>{' '}
+                      </MenuLink>
                     </>
                   ) : (
                     <>
-                      <a className={styles.UtilsNav__menu__link}>Log in</a>
-                      <a
-                        className={styles.UtilsNav__menu__link}
-                        id={styles.thin}
-                      >
+                      <MenuLink href='/login' light={false}>
+                        Log in
+                      </MenuLink>
+                      <MenuLink href='/signup' light>
                         Sign up
-                      </a>
+                      </MenuLink>
                     </>
                   )}
                   <div className={styles.hline}></div>
-                  <a className={styles.UtilsNav__menu__link} id={styles.thin}>
+                  <MenuLink href='/host/homes' light>
                     Host your home
-                  </a>
-                  <a className={styles.UtilsNav__menu__link} id={styles.thin}>
+                  </MenuLink>
+                  <MenuLink href='/host/experiences' light>
                     Host an experience
-                  </a>
-                  <a className={styles.UtilsNav__menu__link} id={styles.thin}>
+                  </MenuLink>
+                  <MenuLink
+                    href={data?.me ? '/account-settings' : '/help'}
+                    light
+                  >
                     {data?.me ? 'Account' : 'Help'}
-                  </a>
+                  </MenuLink>
                   {data?.me ? (
                     <>
                       <div className={styles.hline}></div>
-                      <a
-                        className={styles.UtilsNav__menu__link}
-                        id={styles.thin}
-                      >
+                      <MenuLink href='/help' light>
                         Help
-                      </a>
-                      <a
-                        className={styles.UtilsNav__menu__link}
-                        id={styles.thin}
+                      </MenuLink>
+                      <MenuLink
+                        href=''
+                        light
                         onClick={async () => {
                           await logout();
                           await apolloClient.resetStore();
                         }}
                       >
                         Logout
-                      </a>{' '}
+                      </MenuLink>{' '}
                     </>
                   ) : null}
                 </div>
@@ -197,14 +161,14 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
             </div>
           </div>
 
-          <div
+          {/* <div
             style={{
               position: 'absolute',
               top: 'calc(100%-8px)',
               right: '0px',
               zIndex: 100,
             }}
-          ></div>
+          ></div> */}
         </nav>
       </div>
     );

@@ -1,0 +1,46 @@
+@use '../utilities/bootstrap.scss';
+
+.UtilsNav__menu__link {
+  appearance: none;
+  background: transparent;
+  border: 0px;
+  color: #222222;
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  margin: 0px;
+  outline: none;
+  overflow: visible;
+  padding: 12px 16px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  white-space: nowrap;
+  width: 100%;
+  align-items: center;
+
+  &:hover {
+    background-color: #ebebeb;
+  }
+}
+
+#thin {
+  font-weight: 400;
+}
+
+.UtilsNav__menu__notif {
+  background-color: bootstrap.$brand-color;
+  border-radius: 50%;
+  display: inline-block;
+  height: 6px;
+  left: 1px;
+  margin-right: -6px;
+  position: relative;
+  right: 6px;
+  top: -7px;
+  vertical-align: top;
+  width: 6px;
+}
