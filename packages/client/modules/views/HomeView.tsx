@@ -46,9 +46,49 @@ export const HomeView: React.FC<HomeViewProps> = ({}) => {
           <div className={styles.HomeView__service__container}>
             <div className={styles.HomeView__flexer}>
               <div className={styles.HomeView__text__container}>
-                <div></div>
-                <div></div>
-                <span></span>
+                <div className={styles.HomeView__logo__container}>
+                  <picture>
+                    <source
+                      srcSet='https://airbnb-photos.s3.amazonaws.com/pictures/Storefronts/may2021_HP_clearLogo_en_l/original/9850ff2c-bd0b-4f37-9d33-84f10a566045.svg'
+                      media='(min-width: 950px)'
+                    />
+                    <source
+                      srcSet='https://airbnb-photos.s3.amazonaws.com/pictures/Storefronts/may2021_HP_clearLogo_en_s/original/85600273-0e2c-49b6-b44e-6d260b61826c.svg'
+                      media='(min-width: 744px)'
+                    />
+                    <source srcSet='https://airbnb-photos.s3.amazonaws.com/pictures/Storefronts/may2021_HP_clearLogo_en_s/original/85600273-0e2c-49b6-b44e-6d260b61826c.svg' />
+                    <img
+                      aria-hidden='true'
+                      alt='Airbnb 2021'
+                      src='https://airbnb-photos.s3.amazonaws.com/pictures/Storefronts/may2021_HP_clearLogo_en_s/original/85600273-0e2c-49b6-b44e-6d260b61826c.svg'
+                      style={{
+                        position: 'static',
+                        objectFit: 'contain',
+                        verticalAlign: 'bottom',
+                      }}
+                    />
+                  </picture>
+                </div>
+                <div>
+                  <span>
+                    <span className={styles.HomeView__service__text}>
+                      Introducing 100+ upgrades across our entire service
+                    </span>
+                  </span>
+                </div>
+                <span className={styles.HomeView__learnnew}>
+                  <a
+                    href='https://www.airbnb.com/2021'
+                    target='blank'
+                    className={styles.HomeView__new__btn}
+                  >
+                    <div className={styles.HomeView__btn__bg}>
+                      <span className={styles.HomeView__btn__text}>
+                        Learn what's new
+                      </span>
+                    </div>
+                  </a>
+                </span>
               </div>
             </div>
           </div>

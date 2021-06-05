@@ -1,18 +1,20 @@
 import React, { ReactNode } from 'react';
-import { useApolloClient } from '@apollo/client';
 import Navbar from './Navbar/Navbar';
 
-type Props = {
+type LayoutProps = {
+  search?: boolean;
   children?: ReactNode;
   title?: string;
 };
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => {
-  const apolloClient = useApolloClient();
-
+const Layout: React.FC<LayoutProps> = ({
+  search,
+  children,
+  title = 'This is the default title',
+}) => {
   return (
     <div>
-      <Navbar />
+      <Navbar search={search} />
 
       <main>{children}</main>
     </div>

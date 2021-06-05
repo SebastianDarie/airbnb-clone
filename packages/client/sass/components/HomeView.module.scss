@@ -14,9 +14,9 @@
   height: calc(#{math.div(bootstrap.$sm-height, bootstrap.$sm-width)} * 100vw);
 
   @media screen and (min-width: 744px) {
-    height: max(
+    height: Max(
       550px,
-      min(
+      Min(
         85vh,
         calc(#{math.div(bootstrap.$md-height, bootstrap.$md-width)} * 100vw)
       )
@@ -24,9 +24,9 @@
   }
 
   @media screen and (min-width: 950px) {
-    height: max(
+    height: Max(
       550px,
-      min(
+      Min(
         85vh,
         calc(#{math.div(bootstrap.$lg-height, bootstrap.$lg-width)} * 100vw)
       )
@@ -115,4 +115,74 @@
     text-align: start;
     width: 383px;
   }
+}
+
+.HomeView__logo__container {
+  display: inline-block;
+  vertical-align: bottom;
+  min-height: 1px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.HomeView__service__text {
+  white-space: pre-line;
+  max-width: 100%;
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 52.8px;
+  color: #222222;
+}
+
+.HomeView__learnnew {
+  line-height: initial;
+  padding-top: 12px;
+
+  @media screen and (min-width: 950px) {
+    padding-top: 16px;
+  }
+}
+
+.HomeView__new__btn {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  width: auto;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: black;
+  font-size: 14px;
+  font-family: inherit;
+  touch-action: manipulation;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+}
+
+.HomeView__btn__bg {
+  justify-content: flex-start;
+  padding: 8px 16px;
+  background-color: #222222;
+  border-radius: 8px;
+}
+
+.HomeView__btn__text {
+  white-space: pre-line;
+  max-width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0em;
+  line-height: 18px;
+  color: bootstrap.$default-color;
 }

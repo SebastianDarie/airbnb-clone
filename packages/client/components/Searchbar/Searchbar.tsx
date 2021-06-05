@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useState, useRef } from 'react';
 import styles from '../../sass/components/Searchbar.module.scss';
 import useClickAway from '../../shared-hooks/useClickAway';
-import { GuestsMenu } from '../Searchbar/GuestsMenu';
+import { GuestsMenu } from './GuestsMenu';
 
 interface SearchbarProps {
   scrolled: boolean;

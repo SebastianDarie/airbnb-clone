@@ -1,5 +1,6 @@
 *
 !./package.json 
 !./yarn.lock 
+!./packages/common
 !./packages/server
 !./packages/server/.env.production
