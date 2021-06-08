@@ -55,6 +55,7 @@ const main = async () => {
         httpOnly: true,
         sameSite: 'lax',
         secure: __prod__,
+        domain: __prod__ ? '.mernlabs.team' : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SECRET,
@@ -89,7 +90,7 @@ const main = async () => {
     }),
     subscriptions: {
       path: '/subscriptions',
-      onConnect: (connectionParams, webSocket, context) =>
+      onConnect: (_connectionParams, _webSocket, _context) =>
         console.log('subscriptions connect'),
       onDisconnect: (webSocket, context) =>
         console.log('subscriptions disconnect', webSocket, context),

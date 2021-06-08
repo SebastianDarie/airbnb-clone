@@ -7,7 +7,7 @@ import { User } from '../entity/User';
 export const createTypeormConn = () => {
   return createConnection({
     type: 'postgres',
-    url: process.env.DATABASE_URL,
+    url: process.env.AWS_DATABASE_URL,
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, '../migrations/*')],

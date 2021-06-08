@@ -4,25 +4,15 @@ import {
   ArgsType,
   Ctx,
   Field,
-  FieldResolver,
-  Float,
   InputType,
-  Int,
   Mutation,
-  ObjectType,
-  Publisher,
-  PubSub,
-  PubSubEngine,
   Query,
   Resolver,
-  ResolverFilterData,
   Root,
   Subscription,
   UseMiddleware,
 } from 'type-graphql';
-import { Listing } from '../entity/Listing';
 import { Message } from '../entity/Message';
-import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
 
@@ -41,20 +31,20 @@ class MessageInput {
   listingId: string;
 }
 
-@ObjectType()
-class MessagePayload {
-  @Field()
-  id: string;
+// @ObjectType()
+// class MessagePayload {
+//   @Field()
+//   id: string;
 
-  @Field()
-  text: string;
+//   @Field()
+//   text: string;
 
-  @Field()
-  creatorId: string;
+//   @Field()
+//   creatorId: string;
 
-  @Field()
-  createdAt: Date;
-}
+//   @Field()
+//   createdAt: Date;
+// }
 
 @Resolver(Message)
 export class MessageResolver {
@@ -98,7 +88,7 @@ export class MessageResolver {
     },
   })
   newMessage(
-    @Args() listingId: NewMessageArgs,
+    @Args() _listingId: NewMessageArgs,
     //@Ctx() { redisPubsub }: MyContext,
     //@PubSub() pubsub: PubSubEngine,
     @Root() message: Message

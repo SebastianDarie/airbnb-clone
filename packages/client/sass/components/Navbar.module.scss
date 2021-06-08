@@ -82,30 +82,30 @@
   max-width: bootstrap.em(1440px);
   height: 100%;
   width: 100%;
-  padding-left: bootstrap.rem(24px);
-  padding-right: bootstrap.rem(24px);
+  padding-left: 24px;
+  padding-right: 24px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 
   @media screen and (min-width: 375px) {
-    padding-left: bootstrap.rem(24px);
-    padding-right: bootstrap.rem(24px);
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   @media screen and (min-width: 744px) {
-    padding-left: bootstrap.rem(40px);
-    padding-right: bootstrap.rem(40px);
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   @media screen and (min-width: 950px) {
-    padding-left: bootstrap.rem(40px);
-    padding-right: bootstrap.rem(40px);
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   @media screen and (min-width: 1128px) {
-    padding-left: bootstrap.rem(80px);
-    padding-right: bootstrap.rem(80px);
+    padding-left: 80px;
+    padding-right: 80px;
   }
 }
 
@@ -160,8 +160,8 @@
   }
 }
 
-// .Navbar__icon__small {
-//   @media screen and (min-width: 1128px) {
-//     display: none;
-//   }
-// }
+.Navbar__icon__small {
+  @media screen and (min-width: 1128px) {
+    display: none;
+  }
+}

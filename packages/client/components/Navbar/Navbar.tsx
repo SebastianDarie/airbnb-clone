@@ -11,6 +11,7 @@ import { useScrollHandler } from '../../shared-hooks/useScrollHandler';
 import { isServer } from '../../utils/isServer';
 import Link from 'next/link';
 import { SearchForm } from '../Searchbar/SearchForm';
+import { getInitialCln } from '../../utils/getInitialCln';
 
 type NavbarProps = {
   search?: boolean;
@@ -24,37 +25,43 @@ const Navbar: React.FC<NavbarProps> = ({ search = false, logout }) => {
 
   return (
     <header
-      className={
-        scrolled ? styles.Navbar__header__scroll : styles.Navbar__header
-      }
+      className={getInitialCln(
+        styles.Navbar__header,
+        styles.Navbar__header__scroll,
+        search,
+        scrolled
+      )}
     >
       <div className={styles.Navbar__container}>
         <div className={styles.Navbar__icon__wrapper}>
           <Link href='/'>
             <a
-              className={
-                scrolled ? styles.Navbar__link__scroll : styles.Navbar__link
-              }
+              className={getInitialCln(
+                styles.Navbar__link,
+                styles.Navbar__link__scroll,
+                search,
+                scrolled
+              )}
               id={styles.Navbar__link}
             >
-              {data?.me ? <AirbnbSvg classname={styles.Navbar__icon} /> : null}
+              {/* {data?.me ? <AirbnbSvg classname={styles.Navbar__icon} /> : null} */}
+              <AirbnbSvg classname={styles.Navbar__icon} />
               <AirbnbSmallSvg
-                fill={data?.me ? 'currentColor' : '#222222'}
-                // classname={
-                //   data?.me ? styles.Navbar__icon__small : styles.Navbar__icon
-                // }
-                classname={''}
+                fill='currentColor'
+                //fill={data?.me ? 'currentColor' : '#222222'}
+                classname={styles.Navbar__icon__small}
               />
             </a>
           </Link>
         </div>
 
-        {search ? <SearchForm scrolled={scrolled} /> : null}
+        <SearchForm search={search} scrolled={scrolled} />
 
         <NavSettings
           data={data}
           loading={loading}
           scrolled={scrolled}
+          search={search}
           logout={logout}
         />
       </div>

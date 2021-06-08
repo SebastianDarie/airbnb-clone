@@ -6,20 +6,23 @@ import {
   WithLogoutProps,
 } from '@airbnb-clone/controller';
 import { useApolloClient } from '@apollo/client';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRef } from 'react';
 import styles from '../../sass/components/NavSettings.module.scss';
 import useClickAway from '../../shared-hooks/useClickAway';
+import { getInitialCln } from '../../utils/getInitialCln';
 import { MenuLink } from './MenuLink';
 
 type NavSettingsProps = {
   data: MeQuery | undefined;
   loading: boolean;
   scrolled: boolean;
+  search: boolean;
 } & WithLogoutProps;
 
 export const NavSettings: React.FC<NavSettingsProps> = React.memo(
-  ({ data, loading, scrolled, logout }) => {
+  ({ data, loading, scrolled, search, logout }) => {
     const apolloClient = useApolloClient();
     const menu = useRef<HTMLDivElement | null>(null);
 
@@ -38,23 +41,26 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
       <div className={styles.UtilsNav__container}>
         <nav className={styles.UtilsNav__nav}>
           <div className={styles.UtilsNav__btn__container}>
-            <a
-              className={
-                scrolled
-                  ? styles.UtilsNav__link__scroll
-                  : styles.UtilsNav__host__link
-              }
-              href='/host/homes'
-            >
-              <div className={styles.UtilsNav__link__text}>Become a host</div>
-            </a>
+            <Link href='/host/homes'>
+              <a
+                className={getInitialCln(
+                  styles.UtilsNav__host__link,
+                  styles.UtilsNav__link__scroll,
+                  search,
+                  scrolled
+                )}
+              >
+                <div className={styles.UtilsNav__link__text}>Become a host</div>
+              </a>
+            </Link>
             <div>
               <button
-                className={
+                className={getInitialCln(
+                  styles.UtilsNav__globe__btn,
+                  styles.UtilsNav__link__scroll,
+                  search,
                   scrolled
-                    ? styles.UtilsNav__link__scroll
-                    : styles.UtilsNav__globe__btn
-                }
+                )}
               >
                 <div className={styles.UtilsNav__link__text}>
                   <div className={styles.UtilsNav__icon__container}>
@@ -69,7 +75,12 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
             <div className={styles.UtilsNav__widget__container} ref={ref}>
               <button
                 className={styles.UtilsNav__widget__btn}
-                id={scrolled ? styles.UtilsNav__btn : undefined}
+                id={getInitialCln(
+                  undefined,
+                  styles.UtilsNav__btn,
+                  search,
+                  scrolled
+                )}
                 onClick={() => {
                   setActive(!active);
                 }}
@@ -160,15 +171,6 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
               </div>
             </div>
           </div>
-
-          {/* <div
-            style={{
-              position: 'absolute',
-              top: 'calc(100%-8px)',
-              right: '0px',
-              zIndex: 100,
-            }}
-          ></div> */}
         </nav>
       </div>
     );

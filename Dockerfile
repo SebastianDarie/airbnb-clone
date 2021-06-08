@@ -6,7 +6,7 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY packages/common ./packages/common
 COPY packages/server ./packages/server
-# COPY packages/server/.env.production ./packages/server/.env
+COPY packages/server/.env.production ./packages/server/.env
 
 RUN yarn install --pure-lockfile --non-interactive
 
@@ -23,7 +23,7 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY yarn.lock ./
-COPY .env.production .env
+# COPY .env.production .env
 
 COPY --from=build /usr/src/app/packages/common/package.json /usr/src/app/packages/common/package.json
 COPY --from=build /usr/src/app/packages/common/dist /usr/src/app/packages/common/dist
