@@ -4,7 +4,7 @@ import {
   UpdateListingController,
 } from '@airbnb-clone/controller';
 import { Button, Form, Steps } from 'antd';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Control,
   DeepMap,
@@ -21,6 +21,7 @@ import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 import { TextPage } from './TextPage';
 import { NumberPage } from './NumberPage';
 import { AmenitiesPage } from './AmenitiesPage';
+import Dropzone, { FileRejection } from 'react-dropzone';
 
 const { Step } = Steps;
 
@@ -49,6 +50,25 @@ export const ListingFormView: React.FC<ComponentListingFormProps> = ({
   setCurrImg,
   setValue,
 }) => {
+  const preview = useRef<HTMLImageElement>(null);
+
+  const getUploadParams = async (data: any) => {
+    console.log(data, typeof data);
+
+    const options = {
+      method: 'PUT',
+      headers: {
+        //  'Content-Type': `${file.type}`,
+      },
+      //body: file,
+    };
+
+    //await fetch(signedRequest, options);
+
+    // const { fields, uploadUrl, fileUrl } = await myApiService.getPresignedUploadParams(name)
+    // return { fields, meta: { fileUrl }, url: uploadUrl }
+  };
+
   const pages = [
     {
       title: 'General',
@@ -154,7 +174,7 @@ export const ListingFormView: React.FC<ComponentListingFormProps> = ({
                   !isDirty || !isValid ? undefined : 'space-between',
               }}
             >
-              <Form.Item
+              {/* <Form.Item
                 style={{
                   display: !isDirty || !isValid ? 'none' : '',
                   marginLeft: '200px',
@@ -167,7 +187,26 @@ export const ListingFormView: React.FC<ComponentListingFormProps> = ({
                 >
                   Add image
                 </Button>
-              </Form.Item>
+              </Form.Item> */}
+
+              <Dropzone
+                disabled={!isDirty || !isValid}
+                maxFiles={1}
+                onDrop={(files: File[], rejections: FileRejection[]) => {
+                  console.log(files[0], rejections);
+                  const reader = new FileReader();
+
+                  reader.onload = (e) => {
+                    if (preview.current && e.target?.result) {
+                      preview.current.src = e.target.result.toString();
+                    }
+                  };
+
+                  reader.readAsDataURL(files[0]);
+                }}
+              />
+
+              <img ref={preview} />
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {currPage < pages.length - 1 && (
                   <Button type='primary' onClick={nextPage}>

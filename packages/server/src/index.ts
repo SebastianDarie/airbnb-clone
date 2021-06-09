@@ -28,7 +28,7 @@ import { createTypeormConn } from './utils/createTypeormConn';
 const main = async () => {
   const conn = await createTypeormConn();
 
-  await conn.runMigrations();
+  //await conn.runMigrations();
 
   const app = express();
 

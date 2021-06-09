@@ -3,8 +3,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  Float,
-  InputType,
   Int,
   Mutation,
   ObjectType,
@@ -13,6 +11,7 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
+import S3 from 'aws-sdk/clients/s3';
 import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
@@ -20,84 +19,7 @@ import { MyContext } from '../types';
 import cloudinary from 'cloudinary';
 import { getConnection } from 'typeorm';
 import { REDIS_CACHE_PREFIX } from '../constants';
-
-@InputType()
-class ListingInput {
-  @Field()
-  title: string;
-
-  @Field()
-  description: string;
-
-  @Field()
-  category: string;
-
-  @Field()
-  photoUrl: string;
-
-  @Field(() => Int)
-  price: number;
-
-  @Field(() => Int)
-  beds: number;
-
-  @Field(() => Int)
-  guests: number;
-
-  @Field(() => Float)
-  latitude: number;
-
-  @Field(() => Float)
-  longitude: number;
-
-  @Field(() => [String])
-  amenities: string[];
-}
-
-@InputType()
-class UpdateListing {
-  @Field({ nullable: true })
-  title?: string;
-
-  @Field({ nullable: true })
-  description?: string;
-
-  @Field({ nullable: true })
-  category?: string;
-
-  @Field({ nullable: true })
-  photoUrl?: string;
-
-  @Field(() => Int, { nullable: true })
-  price?: number;
-
-  @Field(() => Int, { nullable: true })
-  beds?: number;
-
-  @Field(() => Int, { nullable: true })
-  guests?: number;
-
-  @Field(() => Float, { nullable: true })
-  latitude?: number;
-
-  @Field(() => Float, { nullable: true })
-  longitude?: number;
-
-  @Field(() => [String], { nullable: true })
-  amenities?: string[];
-}
-
-@InputType()
-class SearchInput {
-  @Field(() => String, { nullable: true })
-  title?: string;
-
-  @Field(() => Int, { nullable: true })
-  beds?: number;
-
-  @Field(() => Int, { nullable: true })
-  guests?: number;
-}
+import { SearchInput, ListingInput, UpdateListing } from './input';
 
 @ObjectType()
 class PaginatedListings {
@@ -106,6 +28,14 @@ class PaginatedListings {
 
   @Field()
   hasMore: boolean;
+}
+
+@ObjectType()
+class S3Payload {
+  @Field()
+  signedRequest: string;
+  @Field()
+  url: string;
 }
 
 @Resolver(Listing)
@@ -122,7 +52,6 @@ export class ListingResolver {
   async listings(@Ctx() { redis }: MyContext): Promise<Listing[]> {
     const listings = (await redis.lrange(REDIS_CACHE_PREFIX, 0, -1)) || [];
     return listings.map((listing) => JSON.parse(listing));
-    //return Listing.find({});
   }
 
   @Query(() => Listing, { nullable: true })
@@ -193,6 +122,34 @@ export class ListingResolver {
     );
 
     return res.secure_url;
+  }
+
+  @Mutation(() => S3Payload)
+  @UseMiddleware(isAuth)
+  async signS3(
+    @Arg('filename') filename: string,
+    @Arg('filetype') filetype: string
+  ): Promise<S3Payload> {
+    const s3 = new S3({
+      signatureVersion: 'v4',
+      region: 'us-east-1',
+    });
+
+    const s3Params = {
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: filename,
+      Expires: 60,
+      ContentType: filetype,
+      ACL: 'public-read',
+    };
+
+    const signedRequest = s3.getSignedUrl('putObject', s3Params);
+    const url = `https://${process.env.CF_DOMAIN_NAME}/${filename}`;
+
+    return {
+      signedRequest,
+      url,
+    };
   }
 
   @Mutation(() => Listing)

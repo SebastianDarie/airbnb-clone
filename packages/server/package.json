@@ -41,6 +41,7 @@
     "@airbnb-clone/common": "1.0.0",
     "apollo-server-express": "^2.23.0",
     "argon2": "^0.27.2",
+    "aws-sdk": "^2.924.0",
     "cloudinary": "^1.25.1",
     "connect-redis": "^5.1.0",
     "cors": "^2.8.5",
