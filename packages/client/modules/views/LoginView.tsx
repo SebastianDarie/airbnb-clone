@@ -1,13 +1,11 @@
-import { Form, Button, Checkbox } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { InputField } from '../../components/InputField';
 import { AuthFormProps, LoginMutation } from '@airbnb-clone/controller';
 import Link from 'next/link';
-import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '@airbnb-clone/common';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import styles from '../../sass/pages/Auth.module.scss';
 
 interface LoginViewProps {
   data?: LoginMutation | null | undefined;
@@ -21,14 +19,20 @@ export const LoginView: React.FC<LoginViewProps> = ({
   submit,
 }) => {
   const {
-    handleSubmit,
     control,
     formState: { errors, isDirty, isSubmitting, isValid },
+    handleSubmit,
     setError,
   } = useForm<AuthFormProps>({
-    mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
     resolver: yupResolver(loginSchema),
   });
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   useEffect(() => {
     if (data?.login.errors) {
@@ -41,57 +45,48 @@ export const LoginView: React.FC<LoginViewProps> = ({
     }
   }, [data?.login.errors]);
 
+  // console.log(errors);
+
   return (
-    <Form
-      {...formItemLayout}
-      name='login'
-      initialValues={{ remember: true }}
-      onFinish={handleSubmit((values) => submit(values))}
-      scrollToFirstError
-    >
-      <InputField
-        control={control}
-        errors={errors.email?.message}
-        name='email'
-        label='E-mail'
-        placeholder='e.g. bob@bob.com'
-        prefix={<UserOutlined />}
-      />
-      <InputField
-        control={control}
-        errors={errors.password?.message}
-        name='password'
-        label='Password'
-        hasFeedback
-        placeholder='e.g. secret-password'
-        prefix={<LockOutlined />}
-      />
+    <div className={styles.center}>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit(submit)}>
+        <InputField
+          control={control}
+          errors={errors}
+          label='E-mail'
+          name='email'
+          placeholder=' '
+          type='email'
+        />
 
-      <Form.Item
-        style={{
-          marginLeft: 133,
-          maxWidth: '100%',
-          width: '100%',
-        }}
-      >
-        <Form.Item name='remember' valuePropName='checked' noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
+        <InputField
+          control={control}
+          errors={errors}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          label='Password'
+          name='password'
+          placeholder=' '
+          type={showPassword ? 'text' : 'password'}
+        />
 
-        <Link href='/forgot-password'>Forgot password</Link>
-      </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
-        <Button
-          type='primary'
-          htmlType='submit'
-          disabled={!isDirty || !isValid}
-          loading={loading || isSubmitting}
-          style={{ width: '100%' }}
-        >
-          Log in
-        </Button>
-        Or <Link href='/register'>register now!</Link>
-      </Form.Item>
-    </Form>
+        <Link href='/forgot-password'>
+          <a style={{ marginTop: '1rem' }}>Forgot Password?</a>
+        </Link>
+        <input
+          type='submit'
+          value='Login'
+          className={styles.submit}
+          disabled={!isDirty || isSubmitting || !isValid}
+        />
+        <div className={styles.signup__link}>
+          Not a member?{' '}
+          <Link href='/register'>
+            <a>Register now!</a>
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 };

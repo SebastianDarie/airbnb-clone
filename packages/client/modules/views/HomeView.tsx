@@ -1,4 +1,4 @@
-import styles from '../../sass/components/HomeView.module.scss';
+import styles from '../../sass/pages/Home.module.scss';
 
 interface HomeViewProps {}
 

@@ -8,11 +8,11 @@ interface LoginProps {}
 const Login: React.FC<LoginProps> = ({}) => {
   return (
     <Layout search={false}>
-      {/* <LoginController>
+      <LoginController>
         {({ data, loading, submit }) => (
           <LoginView data={data} loading={loading} submit={submit} />
         )}
-      </LoginController> */}
+      </LoginController>
     </Layout>
   );
 };

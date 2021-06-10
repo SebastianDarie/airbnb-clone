@@ -1,0 +1,66 @@
+@use '../utilities/bootstrap.scss';
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  max-width: 500px;
+  background: bootstrap.$default-color;
+  border-radius: 10px;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+
+  h1 {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid silver;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    padding: 0 40px;
+  }
+}
+
+.submit {
+  margin-top: 1rem;
+  padding: 10px 30px;
+  font-weight: bold;
+  background: linear-gradient(
+    to right,
+    rgb(230, 30, 77) 0%,
+    rgb(227, 28, 95) 50%,
+    rgb(215, 4, 102) 100%
+  );
+  border: 2px solid greenyellow;
+  color: greenyellow;
+  border-radius: 100px;
+  transition: all 1000ms;
+  cursor: pointer;
+
+  &:disabled {
+    background: transparent;
+    border-color: bootstrap.$form-txt;
+    color: bootstrap.$form-txt;
+    cursor: not-allowed;
+  }
+}
+
+.signup__link {
+  margin: 30px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666666;
+
+  a {
+    color: #2691d9;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

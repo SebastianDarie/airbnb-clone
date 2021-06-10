@@ -1,5 +1,5 @@
 import { NavSettings } from './NavSettings';
-import styles from '../../sass/components/Navbar.module.scss';
+import styles from '../../sass/layout/Navbar.module.scss';
 import {
   AirbnbSmallSvg,
   AirbnbSvg,

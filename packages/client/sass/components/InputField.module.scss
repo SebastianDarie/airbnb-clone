@@ -1,0 +1,96 @@
+@use '../utilities/bootstrap.scss';
+
+.field {
+  width: 100%;
+  position: relative;
+  border-bottom: 2px dashed bootstrap.$form-txt;
+  margin: 4rem auto 1rem;
+  transition: 500ms;
+
+  &:focus-within {
+    border-color: transparent;
+    &::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+
+    .label {
+      //  color: bootstrap.$brand-color;
+      transform: scale(0.8) translateY(-5rem);
+      opacity: 1;
+    }
+  }
+
+  &::after {
+    content: '';
+    position: relative;
+    display: block;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(
+      to right,
+      rgb(230, 30, 77) 0%,
+      rgb(227, 28, 95) 50%,
+      rgb(215, 4, 102) 100%
+    );
+    transform: scaleX(0);
+    transform-origin: 0%;
+    opacity: 0;
+    transition: all 500ms ease;
+    top: 2px;
+  }
+}
+
+.label {
+  display: block;
+  color: bootstrap.$form-txt;
+  font-size: 1.2rem;
+  position: absolute;
+  transform: translateY(-2rem);
+  transform-origin: 0%;
+  transition: transform 400ms;
+  z-index: -1;
+}
+
+.input {
+  outline: none;
+  border: none;
+  overflow: hidden;
+  margin: 0;
+  width: 100%;
+  padding: 0.25rem 0;
+  background: none;
+  color: bootstrap.$default-color;
+  font-size: 1.2em;
+  font-weight: bold;
+  transition: border 500ms;
+
+  &:valid {
+    color: bootstrap.$valid-green;
+  }
+
+  &:invalid {
+    color: bootstrap.$invalid-red;
+  }
+
+  &:not(:placeholder-shown) {
+    + {
+      .label {
+        transform: scale(0.8) translateY(-5rem);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.toggle__password {
+  position: absolute;
+  cursor: help;
+  font-size: 0.8rem;
+  right: 0.25rem;
+  bottom: 0.5rem;
+}
+
+.err__message {
+  color: bootstrap.$brand-color;
+}

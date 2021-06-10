@@ -1,71 +1,85 @@
+import { DeepPartial } from '@airbnb-clone/controller';
 import { Form, Input, InputNumber } from 'antd';
 import { NamePath } from 'antd/lib/form/interface';
-import { ReactNode } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import {
+  DetailedHTMLProps,
+  Dispatch,
+  InputHTMLAttributes,
+  SetStateAction,
+  SyntheticEvent,
+} from 'react';
+import {
+  Control,
+  Controller,
+  DeepMap,
+  FieldError,
+  UseFormRegister,
+} from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+import styles from '../sass/components/InputField.module.scss';
 
-interface InputFieldProps {
+type InputFieldProps = {
   control: Control<any>;
-  errors?: any;
+  errors: DeepMap<any, FieldError>;
+  label: string;
   name: string;
-  label: ReactNode;
-  dependecies?: NamePath[] | undefined;
-  hasFeedback?: boolean | undefined;
-  placeholder?: string | undefined;
-  prefix?: ReactNode;
-  number?: boolean;
-  min?: number;
-  max?: number;
-}
+  showPassword?: boolean;
+  setShowPassword?: Dispatch<SetStateAction<boolean>>;
+} & DeepPartial<
+  DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+>;
 
 export const InputField: React.FC<InputFieldProps> = ({
   control,
   errors,
-  name,
   label,
-  dependecies,
-  hasFeedback,
-  placeholder,
-  prefix,
-  number,
+  name,
+  showPassword,
+  setShowPassword,
   ...props
 }) => {
   return (
-    <Form.Item
-      label={label}
-      dependencies={dependecies}
-      hasFeedback={hasFeedback}
-      help={errors}
-      validateStatus={errors ? 'error' : ''}
-    >
-      {name === 'password' || name === 'confirm' ? (
-        <Controller
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <Input.Password
-              {...field}
-              placeholder={placeholder}
-              prefix={prefix}
-            />
-          )}
-        />
-      ) : number ? (
-        <Controller
-          control={control}
-          name={name}
-          render={({ field }) => <InputNumber {...field} {...props} />}
-        />
-      ) : (
+    <>
+      <div className={styles.field}>
         <Controller
           control={control}
           name={name}
           render={({ field }) => (
             <>
-              <Input {...field} placeholder={placeholder} prefix={prefix} />
+              <input
+                {...field}
+                {...props}
+                className={styles.input}
+                // placeholder=''
+                // onBlur={(e) => {
+                //   e.target.placeholder = '';
+                // }}
+                // onFocus={(e) => {
+                //   e.target.placeholder = props.placeholder!;
+                // }}
+              />
+              <label className={styles.label}>{label}</label>
+              {name === 'password' && setShowPassword ? (
+                <span
+                  className={styles.toggle__password}
+                  onMouseEnter={() => setShowPassword(true)}
+                  onMouseLeave={() => setShowPassword(false)}
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </span>
+              ) : null}
             </>
           )}
         />
-      )}
-    </Form.Item>
+      </div>
+
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => (
+          <p className={styles.err__message}>{message}</p>
+        )}
+      />
+    </>
   );
 };
