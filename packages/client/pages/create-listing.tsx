@@ -1,57 +1,39 @@
-import { textPageSchema } from '@airbnb-clone/common';
 import { ListingFormProps, useIsAuth } from '@airbnb-clone/controller';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Layout } from 'antd';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Layout from '../components/Layout';
 import { ListingFormView } from '../modules/listing/ListingForm';
+import { defaultListingState } from '../stores/useListingStore';
 import { withApollo } from '../utils/withApollo';
-
-const { Content } = Layout;
 
 interface CreateListingProps {}
 
 const CreateListing: React.FC<CreateListingProps> = ({}) => {
   useIsAuth();
-  const {
-    handleSubmit,
-    control,
-    formState: { errors, isDirty, isSubmitting, isValid },
-    setValue,
-  } = useForm<ListingFormProps>({
-    mode: 'onBlur',
-    resolver: yupResolver(textPageSchema),
-  });
-
-  const [currImg, setCurrImg] = useState('');
+  // const {
+  //   handleSubmit,
+  //   control,
+  //   formState: { errors, isDirty, isSubmitting },
+  //   setValue,
+  // } = useForm<ListingFormProps>({
+  //   defaultValues: defaultListingState,
+  //   mode: 'onBlur',
+  //   resolver: yupResolver(ListingSchema),
+  // });
 
   return (
-    <Layout>
-      <Content
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          maxWidth: '800px',
-          width: '100%',
-        }}
-      >
-        <ListingFormView
-          update={false}
-          control={control}
-          errors={errors}
-          isDirty={isDirty}
-          isSubmitting={isSubmitting}
-          isValid={isValid}
-          currImg={currImg}
-          setCurrImg={setCurrImg}
-          handleSubmit={handleSubmit}
-          setValue={setValue}
-        />
-      </Content>
+    <Layout search={false}>
+      <ListingFormView
+        update={false}
+        // control={control}
+        // errors={errors}
+        // isDirty={isDirty}
+        // isSubmitting={isSubmitting}
+
+        // handleSubmit={handleSubmit}
+        // setValue={setValue}
+      />
     </Layout>
   );
 };

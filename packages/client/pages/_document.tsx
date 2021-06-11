@@ -13,15 +13,8 @@ export default class Document extends NextDocument {
             content='Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.'
           />
 
-          {/* <script
-            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_KEY}&libraries=drawing,geometry,places`}
-          ></script> */}
           <link rel='preconnect' href='https://fonts.gstatic.com' />
-          <link
-            href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'
-            rel='stylesheet'
-          />
-          <link rel='preconnect' href='https://fonts.gstatic.com' />
+
           <link
             href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap'
             rel='stylesheet'
@@ -32,10 +25,6 @@ export default class Document extends NextDocument {
             rel='stylesheet'
           />
 
-          <script
-            src='https://widget.cloudinary.com/v2.0/global/all.js'
-            type='text/javascript'
-          ></script>
           {/* <link
             rel="apple-touch-icon"
             sizes="180x180"

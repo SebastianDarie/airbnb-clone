@@ -4,18 +4,14 @@
 //
 // import { User } from 'path/to/interfaces';
 
-import { ListingFormProps } from '@airbnb-clone/controller';
-import { Control, DeepMap, FieldError, UseFormSetValue } from 'react-hook-form';
-
 export type User = {
   id: number;
   name: string;
 };
 
 export interface StepForm {
-  control: Control<ListingFormProps>;
-  errors: (string | undefined)[] | (FieldError | undefined)[];
-  isDirty?: boolean;
-  isValid?: boolean;
-  setValue?: UseFormSetValue<ListingFormProps>;
+  className: string;
+  currPage: number;
+  nextPage?: () => void;
+  prevPage?: () => void;
 }

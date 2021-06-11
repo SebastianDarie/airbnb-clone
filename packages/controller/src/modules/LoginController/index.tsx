@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useRouter } from 'next/router';
 import { AuthFormProps } from '../../types';
 import {
   LoginMutation,
@@ -7,7 +6,6 @@ import {
   MeQuery,
   useLoginMutation,
 } from '../../generated/graphql';
-import { useRouter } from 'next/router';
 
 interface LoginControllerProps {
   onSessionId?: (sessionId: string) => void;
@@ -24,7 +22,6 @@ export const LoginController: React.FC<LoginControllerProps> = ({
   children,
   //onSessionId,
 }) => {
-  const router = useRouter();
   const [login, { data, loading }] = useLoginMutation({
     notifyOnNetworkStatusChange: true,
   });
@@ -43,13 +40,13 @@ export const LoginController: React.FC<LoginControllerProps> = ({
       },
     });
 
-    if (data?.login.user) {
-      if (typeof router.query.next === 'string') {
-        router.push(router.query.next);
-      } else {
-        router.push('/');
-      }
-    }
+    // if (data?.login.user) {
+    //   if (typeof router.query.next === 'string') {
+    //     router.push(router.query.next);
+    //   } else {
+    //     router.push('/');
+    //   }
+    // }
 
     // if (data?.login.sessionID && onSessionId) {
     //   onSessionId(data.login.sessionID);

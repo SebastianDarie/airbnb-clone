@@ -1,4 +1,4 @@
-import { textPageSchema } from '@airbnb-clone/common';
+import { ListingSchema } from '@airbnb-clone/common';
 import { ListingFormProps, useIsAuth } from '@airbnb-clone/controller';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Layout } from 'antd';
@@ -23,7 +23,7 @@ const UpdateListing: React.FC<UpdateListingProps> = ({}) => {
   } = useForm<ListingFormProps>({
     defaultValues: { ...data?.listing },
     mode: 'onBlur',
-    resolver: yupResolver(textPageSchema),
+    resolver: yupResolver(ListingSchema),
   });
 
   const [currImg, setCurrImg] = useState('');

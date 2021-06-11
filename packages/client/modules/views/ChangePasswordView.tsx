@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Form } from 'antd';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { InputField } from '../../components/InputField';
+import { InputField } from '../../components/Fields/InputField';
 import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 
 interface ChangePasswordViewProps {

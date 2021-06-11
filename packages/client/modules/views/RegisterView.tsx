@@ -1,6 +1,6 @@
 import { Form, Button } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { InputField } from '../../components/InputField';
+import { InputField } from '../../components/Fields/InputField';
 import { RegisterFormProps, RegisterMutation } from '@airbnb-clone/controller';
 import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 import { useForm } from 'react-hook-form';

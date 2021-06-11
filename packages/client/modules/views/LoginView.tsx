@@ -1,21 +1,23 @@
-import { InputField } from '../../components/InputField';
+import { InputField } from '../../components/Fields/InputField';
 import { AuthFormProps, LoginMutation } from '@airbnb-clone/controller';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '@airbnb-clone/common';
 import { useEffect, useState } from 'react';
-import styles from '../../sass/pages/Auth.module.scss';
+import styles from '../../sass/layout/Form.module.scss';
 
 interface LoginViewProps {
   data?: LoginMutation | null | undefined;
   loading?: boolean;
+  onFinish: () => void;
   submit: (values: AuthFormProps) => Promise<LoginMutation | null | undefined>;
 }
 
 export const LoginView: React.FC<LoginViewProps> = ({
   data,
   loading,
+  onFinish,
   submit,
 }) => {
   const {
@@ -42,10 +44,10 @@ export const LoginView: React.FC<LoginViewProps> = ({
           message: err.message,
         })
       );
+    } else if (data?.login.user) {
+      onFinish();
     }
   }, [data?.login.errors]);
-
-  // console.log(errors);
 
   return (
     <div className={styles.center}>

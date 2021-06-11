@@ -1,35 +1,66 @@
-import { Form, Select } from 'antd';
-import { Controller } from 'react-hook-form';
-import { InputField } from '../../components/InputField';
-import { LocationField } from '../../components/LocationField';
+import { PropertyTypeSchema } from '@airbnb-clone/common';
+import { PropertyTypeFormProps } from '@airbnb-clone/controller';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { InputField } from '../../components/Fields/InputField';
+import { LocationField } from '../../components/Fields/LocationField';
 import { StepForm } from '../../interfaces';
+import { useListingStore } from '../../stores/useListingStore';
 
-const { Option } = Select;
+export const TextPage: React.FC<StepForm> = ({
+  currPage,
+  className,
+  nextPage,
+}) => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isSubmitting },
+    setValue,
+  } = useForm<PropertyTypeFormProps>({
+    defaultValues: {
+      category: '',
+      description: '',
+      title: '',
+    },
+    mode: 'onBlur',
+    resolver: yupResolver(PropertyTypeSchema),
+  });
 
-export const TextPage: React.FC<StepForm> = ({ control, errors, setValue }) => {
+  const title = useListingStore((state) => state.title);
+  const updateForm = useListingStore((state) => state.updateForm);
+
+  if (currPage !== 1) {
+    return null;
+  }
+  //console.log(title);
   return (
-    <>
+    <form
+      onSubmit={handleSubmit((data) => {
+        console.log(data);
+        updateForm(data);
+        if (nextPage) {
+          nextPage();
+        }
+      })}
+    >
       <InputField
         control={control}
-        errors={errors[0]}
+        errors={errors}
         name='title'
         label='Title'
-        placeholder='e.g. Lovely Studio Flat in the Center of the City'
+        placeholder=' '
       />
 
       <InputField
         control={control}
-        errors={errors[1]}
+        errors={errors}
         name='description'
         label='Description'
-        placeholder='e.g. details to persuade customers'
+        placeholder=' '
       />
 
-      <Form.Item
-        label='Category'
-        help={errors[2]}
-        validateStatus={errors[2] ? 'error' : ''}
-      >
+      {/* <Form.Item label='Category' help={errors}>
         <Controller
           control={control}
           name='category'
@@ -40,9 +71,21 @@ export const TextPage: React.FC<StepForm> = ({ control, errors, setValue }) => {
             </Select>
           )}
         />
-      </Form.Item>
+      </Form.Item> */}
 
-      <LocationField setValue={setValue} />
-    </>
+      {/* <LocationField setValue={setValue} /> */}
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: 10,
+        }}
+      >
+        {currPage < 3 && (
+          <input className={className} type='submit' value='Next' />
+        )}
+      </div>
+    </form>
   );
 };

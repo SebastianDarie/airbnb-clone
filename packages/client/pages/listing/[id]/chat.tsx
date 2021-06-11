@@ -1,6 +1,6 @@
 import { Button, Form, Layout } from 'antd';
 import { useForm } from 'react-hook-form';
-import { InputField } from '../../../components/InputField';
+import { InputField } from '../../../components/Fields/InputField';
 import { useGetMessagesFromUrl } from '../../../shared-hooks/useGetMessagesFromUrl';
 import { formItemLayout, tailFormItemLayout } from '../../../styles/formStyles';
 import { withApollo } from '../../../utils/withApollo';
@@ -8,8 +8,8 @@ import {
   CreateMessageController,
   NewMessageDocument,
   useIsAuth,
-  useNewMessageSubscription,
 } from '@airbnb-clone/controller';
+import { useEffect } from 'react';
 
 interface ListingChatProps {}
 
@@ -34,25 +34,25 @@ const ListingChat: React.FC<ListingChatProps> = () => {
   } = useGetMessagesFromUrl();
   console.log(data, error);
 
-  // useEffect(() => {
-  //   const subscribeToNewMessages = () => {
-  //     subscribeToMore({
-  //       document: NewMessageDocument,
-  //       variables,
-  //       updateQuery: (prev, { subscriptionData }) => {
-  //         if (!subscriptionData.data) return prev;
-  //         const newMsg = subscriptionData.data.messages.filter((msg) =>
-  //           prev.messages.includes(msg)
-  //         );
-  //         return Object.assign({}, prev, {
-  //           messages: [...prev.messages, newMsg],
-  //         });
-  //       },
-  //     });
-  //   };
+  useEffect(() => {
+    const subscribeToNewMessages = () => {
+      subscribeToMore({
+        document: NewMessageDocument,
+        variables,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const newMsg = subscriptionData.data.messages.filter((msg) =>
+            prev.messages.includes(msg)
+          );
+          return Object.assign({}, prev, {
+            messages: [...prev.messages, newMsg],
+          });
+        },
+      });
+    };
 
-  //   subscribeToNewMessages();
-  // }, []);
+    subscribeToNewMessages();
+  }, []);
 
   if ((!data && !loading) || error) {
     return (
@@ -67,23 +67,21 @@ const ListingChat: React.FC<ListingChatProps> = () => {
     return <div>loading...</div>;
   }
 
-  let unsubscribe: () => void;
-
-  const subscribeToNewMessages = () => {
-    subscribeToMore({
-      document: NewMessageDocument,
-      variables,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const newMsg = subscriptionData.data.messages.filter((msg) =>
-          prev.messages.includes(msg)
-        );
-        return Object.assign({}, prev, {
-          messages: [...prev.messages, newMsg],
-        });
-      },
-    });
-  };
+  // const subscribeToNewMessages = () => {
+  //   subscribeToMore({
+  //     document: NewMessageDocument,
+  //     variables,
+  //     updateQuery: (prev, { subscriptionData }) => {
+  //       if (!subscriptionData.data) return prev;
+  //       const newMsg = subscriptionData.data.messages.filter((msg) =>
+  //         prev.messages.includes(msg)
+  //       );
+  //       return Object.assign({}, prev, {
+  //         messages: [...prev.messages, newMsg],
+  //       });
+  //     },
+  //   });
+  // };
 
   return (
     <Layout>
@@ -105,10 +103,6 @@ const ListingChat: React.FC<ListingChatProps> = () => {
         {variables && (
           <CreateMessageController>
             {({ submit, loading }) => {
-              if (!unsubscribe) {
-                unsubscribe = subscribeToNewMessages;
-              }
-
               return (
                 <Form
                   {...formItemLayout}
@@ -120,7 +114,7 @@ const ListingChat: React.FC<ListingChatProps> = () => {
                 >
                   <InputField
                     control={control}
-                    errors={errors.text?.message}
+                    errors={errors}
                     name='text'
                     label=''
                   />
@@ -136,16 +130,6 @@ const ListingChat: React.FC<ListingChatProps> = () => {
                       Send
                     </Button>
                   </Form.Item>
-                  <Form.Item {...tailFormItemLayout}>
-                    <Button
-                      type='ghost'
-                      loading={loading || isSubmitting}
-                      style={{ width: '100%' }}
-                      onClick={unsubscribe}
-                    >
-                      Unsubscribe
-                    </Button>
-                  </Form.Item>
                 </Form>
               );
             }}
@@ -156,4 +140,4 @@ const ListingChat: React.FC<ListingChatProps> = () => {
   );
 };
 
-export default withApollo({ ssr: false })(ListingChat);
+export default withApollo({ ssr: true })(ListingChat);

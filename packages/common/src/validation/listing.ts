@@ -1,16 +1,19 @@
 import * as yup from 'yup';
 
-export const textPageSchema = yup.object().shape({
+export const PropertyTypeSchema = yup.object().shape({
   title: yup
     .string()
     .min(3, 'Name should be more descriptive')
     .max(50, 'This is where you need to stop')
-    .required('Every house has a name'),
+    .required('Every listing has a name'),
   description: yup
     .string()
     .max(255, 'This is where you need to stop')
-    .required('A descrition is needed'),
+    .required('A description is needed'),
   category: yup.string().required('Please choose one category'),
+});
+
+export const FloorPlanSchema = yup.object().shape({
   price: yup
     .number()
     .typeError('Price must be a number')
@@ -23,6 +26,9 @@ export const textPageSchema = yup.object().shape({
     .number()
     .typeError('Number of guests must be a number')
     .required('How many guests?'),
+});
+
+export const LocationSchema = yup.object().shape({
   latitude: yup
     .number()
     .typeError('Latitude must be a number')

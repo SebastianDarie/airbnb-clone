@@ -1,35 +1,56 @@
-import { Form, Select } from 'antd';
-import { Controller } from 'react-hook-form';
-import { InputField } from '../../components/InputField';
+import { LocationSchema } from '@airbnb-clone/common';
+import { LocationFormProps } from '@airbnb-clone/controller';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { NumberField } from '../../components/Fields/NumberField';
 import { StepForm } from '../../interfaces';
+import { useListingStore } from '../../stores/useListingStore';
 
-export const AmenitiesPage: React.FC<StepForm> = ({ control, errors }) => {
+export const AmenitiesPage: React.FC<StepForm> = ({
+  currPage,
+  className,
+  prevPage,
+}) => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isSubmitting },
+  } = useForm<LocationFormProps>({
+    defaultValues: {
+      amenities: [''],
+      latitude: 40,
+      longitude: -74.5,
+    },
+    mode: 'onBlur',
+    resolver: yupResolver(LocationSchema),
+  });
+
+  const updateForm = useListingStore((state) => state.updateForm);
+
+  if (currPage !== 3) {
+    return null;
+  }
+
   return (
-    <>
-      <InputField
-        number
+    <form onSubmit={handleSubmit((data) => updateForm(data))}>
+      <NumberField
         control={control}
-        errors={errors[0]}
+        errors={errors}
         name='latitude'
         label='Latitude'
         min={-90}
         max={90}
       />
-      <InputField
-        number
+      <NumberField
         control={control}
-        errors={errors[1]}
+        errors={errors}
         name='longitude'
         label='Longitude'
         min={-180}
         max={180}
       />
 
-      <Form.Item
-        label='Amenities'
-        help={errors[2]}
-        validateStatus={errors[2] ? 'error' : ''}
-      >
+      {/* <Form.Item label='Amenities' help={errors}>
         <Controller
           control={control}
           name='amenities'
@@ -42,7 +63,26 @@ export const AmenitiesPage: React.FC<StepForm> = ({ control, errors }) => {
             />
           )}
         />
-      </Form.Item>
-    </>
+      </Form.Item> */}
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: 10,
+        }}
+      >
+        {currPage > 1 && (
+          <button style={{ margin: '0 8px' }} onClick={prevPage}>
+            Previous
+          </button>
+        )}
+        {currPage === 3 && (
+          <button type='submit' className={className}>
+            Create Listing
+          </button>
+        )}
+      </div>
+    </form>
   );
 };

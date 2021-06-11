@@ -36,8 +36,8 @@
     rgb(227, 28, 95) 50%,
     rgb(215, 4, 102) 100%
   );
-  border: 2px solid greenyellow;
-  color: greenyellow;
+  border: 2px solid bootstrap.$btn-yellow;
+  color: bootstrap.$btn-yellow;
   border-radius: 100px;
   transition: all 1000ms;
   cursor: pointer;

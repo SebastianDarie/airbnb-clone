@@ -16,7 +16,7 @@ import {
   UseFormRegister,
 } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import styles from '../sass/components/InputField.module.scss';
+import styles from '../../sass/components/InputField.module.scss';
 
 type InputFieldProps = {
   control: Control<any>;
