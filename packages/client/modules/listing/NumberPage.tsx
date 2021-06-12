@@ -12,6 +12,10 @@ export const NumberPage: React.FC<StepForm> = ({
   nextPage,
   prevPage,
 }) => {
+  if (currPage !== 2) {
+    return null;
+  }
+
   const {
     handleSubmit,
     control,
@@ -27,10 +31,6 @@ export const NumberPage: React.FC<StepForm> = ({
   });
 
   const updateForm = useListingStore((state) => state.updateForm);
-
-  if (currPage !== 2) {
-    return null;
-  }
 
   return (
     <form onSubmit={handleSubmit((data) => updateForm(data))}>

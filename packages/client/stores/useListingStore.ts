@@ -4,7 +4,7 @@ import {
   PropertyTypeFormProps,
 } from '@airbnb-clone/controller';
 import create from 'zustand';
-import { combine, devtools } from 'zustand/middleware';
+import { combine } from 'zustand/middleware';
 
 const initialState = {
   amenities: [''],

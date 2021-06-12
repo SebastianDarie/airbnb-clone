@@ -57,23 +57,23 @@ const createClient = (ctx: NextPageContext | undefined) =>
     uri: process.env.NEXT_PUBLIC_API_URL as string,
     link: linkCreate(ctx),
     cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            messages: {
-              keyArgs: ['listingId'],
-              merge(
-                existing: Message[] | undefined,
-                incoming: Message[]
-              ): Message[] {
-                return {
-                  ...[...(existing || []), ...incoming],
-                };
-              },
-            },
-          },
-        },
-      },
+      // typePolicies: {
+      //   Query: {
+      //     fields: {
+      //       messages: {
+      //         keyArgs: ['listingId'],
+      //         merge(
+      //           existing: Message[] | undefined,
+      //           incoming: Message[]
+      //         ): Message[] {
+      //           return {
+      //             ...[...(existing || []), ...incoming],
+      //           };
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
     }),
   });
 

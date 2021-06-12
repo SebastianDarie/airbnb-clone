@@ -34,25 +34,25 @@ const ListingChat: React.FC<ListingChatProps> = () => {
   } = useGetMessagesFromUrl();
   console.log(data, error);
 
-  useEffect(() => {
-    const subscribeToNewMessages = () => {
-      subscribeToMore({
-        document: NewMessageDocument,
-        variables,
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) return prev;
-          const newMsg = subscriptionData.data.messages.filter((msg) =>
-            prev.messages.includes(msg)
-          );
-          return Object.assign({}, prev, {
-            messages: [...prev.messages, newMsg],
-          });
-        },
-      });
-    };
+  // useEffect(() => {
+  //   const subscribeToNewMessages = () => {
+  //     subscribeToMore({
+  //       document: NewMessageDocument,
+  //       variables,
+  //       updateQuery: (prev, { subscriptionData }) => {
+  //         if (!subscriptionData.data) return prev;
+  //         const newMsg = subscriptionData.data.messages.filter((msg) =>
+  //           prev.messages.includes(msg)
+  //         );
+  //         return Object.assign({}, prev, {
+  //           messages: [...prev.messages, newMsg],
+  //         });
+  //       },
+  //     });
+  //   };
 
-    subscribeToNewMessages();
-  }, []);
+  //   subscribeToNewMessages();
+  // }, []);
 
   if ((!data && !loading) || error) {
     return (

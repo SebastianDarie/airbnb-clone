@@ -78,6 +78,7 @@ __metadata:
     react-dropzone: ^11.3.2
     react-geosuggest: ^2.14.1
     react-hook-form: ^7.3.6
+    react-yandex-maps: ^4.6.0
     sass: ^1.34.0
     subscriptions-transport-ws: ^0.9.18
     typescript: ^4.2.4
@@ -6315,6 +6316,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"create-react-context@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "create-react-context@npm:0.3.0"
+  dependencies:
+    gud: ^1.0.0
+    warning: ^4.0.3
+  peerDependencies:
+    prop-types: ^15.0.0
+    react: ^0.14.0 || ^15.0.0 || ^16.0.0
+  checksum: dfb153bbcfe44fb0b5d74e097f41fef382c9ea513084f604fea1759aea6683da0eef13b02ede2f0672c4eeacdd8efce0023935ca02909fcb2ae8be28b9aa63f5
+  languageName: node
+  linkType: hard
+
 "create-require@npm:^1.1.0":
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
@@ -8576,6 +8590,13 @@ __metadata:
   version: 1.3.0
   resolution: "growly@npm:1.3.0"
   checksum: c87f7e8c785cac6ee60719c9d62f7d790a85dafa13d62c4667664e3a21ee771f5fd19df3f374d2f7bdf297b8f687cf70e19bb066aba4832e6f6caa5190812578
+  languageName: node
+  linkType: hard
+
+"gud@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "gud@npm:1.0.0"
+  checksum: 08be6bf30eb713b0e115a4676418b3805b739703956fd861710f59ce355c047102954e4d79172b180912d06794e8d94f702e9367ac6843c2fae40c8c726a4907
   languageName: node
   linkType: hard
 
@@ -14334,6 +14355,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-display-name@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "react-display-name@npm:0.2.5"
+  checksum: cadfbf2d2f050165cd247452051e11de00092aa527ae28e47a935eb2e91f00169e98158a848a477e274f15e6ae9cc7b5b2f990c41419c0ef27806fe5c2b714d2
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
@@ -14599,6 +14627,19 @@ __metadata:
   peerDependencies:
     react: 17.0.2
   checksum: 9e79031ad20f9c20941aec1eda32d39eb558e9130740013e5a7b53367cf0eb8f7505c8034fec7da47cdcd80b254f20f1311c250bb586323bec7fbf7d97a90a1e
+  languageName: node
+  linkType: hard
+
+"react-yandex-maps@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "react-yandex-maps@npm:4.6.0"
+  dependencies:
+    create-react-context: ^0.3.0
+    prop-types: ^15.7.2
+    react-display-name: ^0.2.5
+  peerDependencies:
+    react: ^0.14.9 || ^15.x || ^16.x || ^17.x
+  checksum: 51dc5545512bfa4a8c4a86374e56c2c4bbff9d79b4e6e355512dd719892839d5e29baf62fd3d8229c51e1f9c4d044fc96fe2c459fdeb677c278202d2255b8a45
   languageName: node
   linkType: hard
 

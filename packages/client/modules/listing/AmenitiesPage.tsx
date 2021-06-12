@@ -11,6 +11,10 @@ export const AmenitiesPage: React.FC<StepForm> = ({
   className,
   prevPage,
 }) => {
+  if (currPage !== 3) {
+    return null;
+  }
+
   const {
     handleSubmit,
     control,
@@ -26,10 +30,6 @@ export const AmenitiesPage: React.FC<StepForm> = ({
   });
 
   const updateForm = useListingStore((state) => state.updateForm);
-
-  if (currPage !== 3) {
-    return null;
-  }
 
   return (
     <form onSubmit={handleSubmit((data) => updateForm(data))}>
