@@ -20,7 +20,7 @@ export const ListingFormView: React.FC<ComponentListingFormProps> = ({
   const preview = useRef<HTMLImageElement>(null);
 
   const [currImg, setCurrImg] = useState('');
-  const [currPage, setCurrPage] = useState(1);
+  const [currPage, setCurrPage] = useState(2);
 
   const nextPage = () => {
     setCurrPage(currPage + 1);

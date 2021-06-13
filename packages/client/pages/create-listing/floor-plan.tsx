@@ -7,7 +7,7 @@ import { StepForm } from '../../interfaces';
 import { useListingStore } from '../../stores/useListingStore';
 import shallow from 'zustand/shallow';
 
-export const NumberPage: React.FC<StepForm> = ({
+const FloorPlan: React.FC<StepForm> = ({
   currPage,
   className,
   nextPage,
@@ -86,3 +86,5 @@ export const NumberPage: React.FC<StepForm> = ({
     </form>
   );
 };
+
+export default FloorPlan;

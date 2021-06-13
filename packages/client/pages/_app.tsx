@@ -4,16 +4,10 @@ import { YMaps } from 'react-yandex-maps';
 
 import '../sass/base/base.scss';
 //import 'antd/dist/antd.css';
-import '../styles/Geosuggest.scss';
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
-    <YMaps
-    // query={{
-    //   apikey: process.env.NEXT_PUBLIC_YANDEX_API_KEY,
-    //   lang: 'en_US',
-    // }}
-    >
+    <>
       <Head>
         <meta
           name='viewport'
@@ -24,8 +18,15 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
         </title>
       </Head>
 
-      <Component {...pageProps} />
-    </YMaps>
+      <YMaps
+        query={{
+          apikey: process.env.NEXT_PUBLIC_YANDEX_API_KEY,
+          lang: 'en_US',
+        }}
+      >
+        <Component {...pageProps} />
+      </YMaps>
+    </>
   );
 };
 

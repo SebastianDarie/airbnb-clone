@@ -19,7 +19,7 @@ export const TextPage: React.FC<StepForm> = ({
   const {
     handleSubmit,
     control,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isSubmitting },
     setValue,
   } = useForm<PropertyTypeFormProps>({
     defaultValues: {
@@ -31,16 +31,13 @@ export const TextPage: React.FC<StepForm> = ({
     resolver: yupResolver(PropertyTypeSchema),
   });
 
-  const title = useListingStore((state) => state.title);
   const updateForm = useListingStore((state) => state.updateForm);
 
   const onSubmit = (data: PropertyTypeFormProps) => {
     console.log('submitting');
     console.log(data);
     updateForm(data);
-    if (nextPage) {
-      nextPage();
-    }
+    nextPage!();
   };
 
   return (
@@ -76,7 +73,7 @@ export const TextPage: React.FC<StepForm> = ({
         />
       </Form.Item> */}
 
-      <LocationField setValue={setValue} />
+      {/* <LocationField setValue={setValue} /> */}
 
       <div
         style={{
@@ -85,9 +82,10 @@ export const TextPage: React.FC<StepForm> = ({
           marginBottom: 10,
         }}
       >
-        {currPage < 3 && (
-          <input className={className} type='submit' value='Next' />
-        )}
+        <button className={className} disabled={isSubmitting} type='submit'>
+          Next
+        </button>
+        <button></button>
       </div>
     </form>
   );
