@@ -27,9 +27,35 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
             </h1>
           </div>
         </div>
+        <div className={styles.sticky__bar}>
+          <div className={styles.bar__padding}></div>
+        </div>
         <div className={styles.right__side}>
-          {children}
-          <div className={styles.right__nav}></div>
+          <div className={styles.right__margin}>
+            <div>
+              <div className={styles.select__container}>
+                <div className={styles.items__container}>{children}</div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.right__nav}>
+            <div>
+              <div className={styles.flex__bar}>
+                <div className={styles.bar__wrapper}>
+                  <div className={styles.progress__bar}></div>
+                </div>
+              </div>
+
+              <div className={styles.btn__container}>
+                <div className={styles.btn__left}>
+                  <button className={styles.btn__back}>Back</button>
+                </div>
+                <div className={styles.btn__right}>
+                  <button className={styles.btn__next}>Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

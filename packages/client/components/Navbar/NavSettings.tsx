@@ -41,7 +41,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
       <div className={styles.UtilsNav__container}>
         <nav className={styles.UtilsNav__nav}>
           <div className={styles.UtilsNav__btn__container}>
-            <Link href='/host/homes'>
+            <Link href='/create-listing/property-type-group'>
               <a
                 className={getInitialCln(
                   styles.UtilsNav__host__link,
