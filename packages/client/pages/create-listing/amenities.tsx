@@ -2,10 +2,11 @@ import { LocationSchema } from '@airbnb-clone/common';
 import { LocationFormProps } from '@airbnb-clone/controller';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { StepForm } from '../../interfaces';
 import { useListingStore } from '../../stores/useListingStore';
 
-const Amenities: React.FC<StepForm> = ({ className, prevPage }) => {
+const Amenities: React.FC<StepForm> = ({}) => {
   const {
     handleSubmit,
     control,
@@ -23,22 +24,9 @@ const Amenities: React.FC<StepForm> = ({ className, prevPage }) => {
   const updateForm = useListingStore((state) => state.updateForm);
 
   return (
-    <form onSubmit={handleSubmit((data) => updateForm(data))}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: 10,
-        }}
-      >
-        <button className={className} disabled={isSubmitting} type='submit'>
-          Next
-        </button>
-        <button style={{ margin: '0 8px' }} onClick={prevPage}>
-          Back
-        </button>
-      </div>
-    </form>
+    <CreateListingLayout>
+      <form onSubmit={handleSubmit((data) => updateForm(data))}></form>
+    </CreateListingLayout>
   );
 };
 

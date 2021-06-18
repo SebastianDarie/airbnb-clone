@@ -15,8 +15,14 @@
     padding-top: 32px;
   }
 
+  &:last-child {
+    padding-bottom: 40px;
+  }
+
   @media screen and (min-width: 744px) {
-    padding-top: 16px;
+    &:first-child {
+      padding-top: 16px;
+    }
   }
 }
 
@@ -122,6 +128,27 @@
   height: 100%;
   width: 100%;
   position: static;
+}
+
+.type__margin {
+  margin: 24px 16px;
+  text-align: left;
+  width: 100%;
+
+  @media screen and (min-width: 744px) {
+    margin: 24px;
+  }
+}
+
+.option__description {
+  color: rgb(113, 113, 113);
+  font-size: 14px;
+  line-height: 20px;
+  margin-top: 4px;
+
+  @media screen and (min-width: 744px) {
+    margin-top: 8px;
+  }
 }
 
 @keyframes fade-in {

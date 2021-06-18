@@ -183,8 +183,12 @@
   display: flex;
   flex-direction: column;
   overflow-y: visible;
-  scrollbar-width: none;
   z-index: inherit;
+
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
 
   @media screen and (min-width: 744px) {
     overflow-y: auto;
@@ -254,7 +258,7 @@
   height: 100%;
   border-radius: 2px;
   background: #000000;
-  transition: transform 0.6s;
+  transition: transform 0.6s ease 0s;
   transform: translateX(0%);
 }
 

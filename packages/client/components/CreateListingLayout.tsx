@@ -1,12 +1,17 @@
 import { AirbnbSmallSvg } from '@airbnb-clone/controller';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from '../sass/pages/CreateListing.module.scss';
+import { useListingNavigation } from '../shared-hooks/useListingNavigation';
 
 interface CreateListingLayoutProps {}
 
 export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
   children,
 }) => {
+  const router = useRouter();
+  const [placeholderText, progressBar, nextPage] = useListingNavigation(router);
+
   return (
     <div>
       <div className={styles.bg__gradient}></div>
@@ -22,9 +27,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
             </Link>
           </div>
           <div className={styles.placeholder__container}>
-            <h1 className={styles.placeholder__text}>
-              What kind of place will you host?
-            </h1>
+            <h1 className={styles.placeholder__text}>{placeholderText}</h1>
           </div>
         </div>
         <div className={styles.sticky__bar}>
@@ -32,7 +35,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
         </div>
         <div className={styles.right__side}>
           <div className={styles.right__margin}>
-            <div>
+            <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
               <div className={styles.select__container}>
                 <div className={styles.items__container}>{children}</div>
               </div>
@@ -42,16 +45,28 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
             <div>
               <div className={styles.flex__bar}>
                 <div className={styles.bar__wrapper}>
-                  <div className={styles.progress__bar}></div>
+                  <div
+                    className={styles.progress__bar}
+                    style={{
+                      transform: `translateX(${progressBar}%)`,
+                    }}
+                  ></div>
                 </div>
               </div>
 
               <div className={styles.btn__container}>
                 <div className={styles.btn__left}>
-                  <button className={styles.btn__back}>Back</button>
+                  <button
+                    className={styles.btn__back}
+                    onClick={() => router.back()}
+                  >
+                    Back
+                  </button>
                 </div>
                 <div className={styles.btn__right}>
-                  <button className={styles.btn__next}>Next</button>
+                  <button className={styles.btn__next} onClick={nextPage}>
+                    Next
+                  </button>
                 </div>
               </div>
             </div>

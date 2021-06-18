@@ -1,13 +1,9 @@
-import { PropertyTypeFormProps } from '@airbnb-clone/controller';
 import React, { useState } from 'react';
-import { UseFormSetValue } from 'react-hook-form';
-import { Map, Placemark } from 'react-yandex-maps';
+import { Map, Placemark, YMaps } from 'react-yandex-maps';
 
-interface LocationFieldProps {
-  setValue: UseFormSetValue<PropertyTypeFormProps> | undefined;
-}
+interface LocationFieldProps {}
 
-export const LocationField: React.FC<LocationFieldProps> = ({ setValue }) => {
+export const LocationField: React.FC<LocationFieldProps> = ({}) => {
   const [center, setCenter] = useState<number[]>([-74.5, 40]);
 
   return (
@@ -23,19 +19,26 @@ export const LocationField: React.FC<LocationFieldProps> = ({ setValue }) => {
         <div>{center[0]}</div>
         <div>{center[1]}</div>
 
-        <Map
-          state={{
-            center,
-            zoom: 9,
-            controls: ['control.ZoomControl', 'control.FullscreenControl'],
-          }}
+        {/* <YMaps
+        query={{
+          apikey: process.env.NEXT_PUBLIC_YANDEX_API_KEY,
+          lang: 'en_US',
+        }}
         >
-          <Placemark
-            geometry={center}
-            modules={['geoObject.addon.balloon']}
-            properties={{ balloonContentBody: 'Your location' }}
-          />
-        </Map>
+          <Map
+            state={{
+              center,
+              zoom: 9,
+              controls: ['control.ZoomControl', 'control.FullscreenControl'],
+            }}
+          >
+            <Placemark
+              geometry={center}
+              modules={['geoObject.addon.balloon']}
+              properties={{ balloonContentBody: 'Your location' }}
+            />
+          </Map>
+        </YMaps> */}
       </div>
     </div>
   );
