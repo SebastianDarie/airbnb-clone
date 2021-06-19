@@ -14,5 +14,5 @@ export * from './modules/LogoutHoc';
 export * from './modules/LoginController';
 export * from './modules/RegisterController';
 export * from './generated/graphql';
-export * from './svg/index';
+export * from './svg/';
 export * from './types';

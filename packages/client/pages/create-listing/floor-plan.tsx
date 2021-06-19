@@ -5,17 +5,33 @@ import { StepForm } from '../../interfaces';
 import { useListingStore } from '../../stores/useListingStore';
 
 const FloorPlan: React.FC<StepForm> = ({}) => {
-  const [beds, guests, price] = useListingStore(
-    (state) => [state.price, state.beds, state.guests],
+  const [price, beds, guests, bathrooms, bedrooms] = useListingStore(
+    (state) => [
+      state.price,
+      state.beds,
+      state.guests,
+      state.bathrooms,
+      state.bedrooms,
+    ],
     shallow
   );
-  const updateForm = useListingStore((state) => state.updateForm);
-  console.log(beds, guests, price);
+  const updateFloor = useListingStore((state) => state.updateFloor);
+
   return (
     <CreateListingLayout>
-      <NumberField label='Price' />
-      <NumberField label='Beds' />
-      <NumberField label='Guests' />
+      {/* <NumberField label='Price' value={price} updateFloor={updateFloor} /> */}
+      <NumberField label='Guests' value={guests} updateFloor={updateFloor} />
+      <NumberField label='Beds' value={beds} updateFloor={updateFloor} />
+      <NumberField
+        label='Bedrooms'
+        value={bathrooms}
+        updateFloor={updateFloor}
+      />
+      <NumberField
+        label='Bathrooms'
+        value={bedrooms}
+        updateFloor={updateFloor}
+      />
     </CreateListingLayout>
   );
 };

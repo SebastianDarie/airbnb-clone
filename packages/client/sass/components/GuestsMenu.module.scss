@@ -1,6 +1,6 @@
 @use '../utilities/bootstrap.scss';
 
-.Searchbar__guests__menu {
+.guests__menu {
   position: absolute;
   top: 100%;
   left: 0px;
@@ -8,7 +8,7 @@
   z-index: 4;
 }
 
-.Searchbar__guests__container {
+.guests__container {
   position: absolute;
   left: 0px;
   top: 100%;
@@ -23,7 +23,7 @@
   margin-left: -121px;
 }
 
-.Searchbar__guests__age {
+.guests__age {
   color: rgb(34, 34, 34);
   padding-top: 16px;
   padding-bottom: 16px;
@@ -38,11 +38,11 @@
   }
 }
 
-.Searchbar__guests__group {
+.guests__group {
   flex-grow: 1;
 }
 
-.Searchbar__guests__input {
+.guests__input {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -55,20 +55,26 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.Searchbar__guests__title {
+.guests__title {
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
 }
 
-.Searchbar__guests__variant {
+.guests__title__big {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.guests__variant {
   color: rgb(113, 113, 113);
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;
 }
 
-.Searchbar__guests__minus {
+.guests__minus {
   width: 32px;
   height: 32px;
   flex-grow: 0;
@@ -97,9 +103,15 @@
     border-color: rgb(235, 235, 235);
     background: bootstrap.$default-color;
   }
+
+  &:hover {
+    color: #222222;
+    border-color: #222222;
+    background: bootstrap.$default-color;
+  }
 }
 
-.Searchbar__guests__count {
+.guests__count {
   position: relative;
   color: inherit;
   font-family: inherit;
@@ -107,7 +119,7 @@
   line-height: inherit;
 }
 
-.Searchbar__guests__plus {
+.guests__plus {
   width: 32px;
   height: 32px;
   flex-grow: 0;
@@ -129,15 +141,21 @@
   justify-content: center;
   background: bootstrap.$default-color;
   border-radius: 50%;
+
+  &:hover {
+    color: #222222;
+    border-color: #222222;
+    background: bootstrap.$default-color;
+  }
 }
 
-.Searchbar__guests__icon {
+.guests__icon {
   height: 22px;
   width: 22px;
   padding: 5px;
 }
 
-.Searchbar__guests__value__hidden {
+.guests__value__hidden {
   left: 0px;
   border: 0px;
   clip: rect(0px, 0px, 0px, 0px);

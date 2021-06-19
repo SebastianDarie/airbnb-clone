@@ -1,5 +1,7 @@
 @use '../utilities/bootstrap.scss';
 
+@include bootstrap.fade-mixin;
+
 .position__container {
   width: 100%;
   max-width: 464px;
@@ -148,17 +150,5 @@
 
   @media screen and (min-width: 744px) {
     margin-top: 8px;
-  }
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translate(0, 40%);
-  }
-
-  100% {
-    opacity: 1;
-    transform: none;
   }
 }

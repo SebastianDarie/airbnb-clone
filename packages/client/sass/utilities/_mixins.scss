@@ -34,3 +34,17 @@ $breakpoints: (
           + "Please make sure it is defined in `$breakpoints` map.";
   }
 }
+
+@mixin fade-mixin {
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translate(0, 40%);
+    }
+
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
