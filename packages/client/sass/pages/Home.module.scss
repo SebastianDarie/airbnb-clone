@@ -145,11 +145,9 @@
 }
 
 .HomeView__new__btn {
-  cursor: pointer;
   display: inline-block;
   position: relative;
   text-align: center;
-  text-decoration: none;
   border-width: 1px;
   border-style: solid;
   border-color: black;
@@ -164,9 +162,7 @@
   touch-action: manipulation;
   border: none;
   border-radius: 8px;
-  background: transparent;
   padding: 0px;
-  margin: 0px;
   overflow: hidden;
 }
 

@@ -23,6 +23,12 @@
   animation-iteration-count: 1;
   animation-fill-mode: both;
   animation-name: fade-in;
+
+  @media screen and (min-width: 744px) {
+    font-size: 20px;
+    line-height: 26px;
+    padding-left: 8px;
+  }
 }
 
 .amenities__grid {
@@ -42,12 +48,10 @@
   align-items: center;
   width: 30%;
   min-height: 68px;
-  cursor: pointer;
   margin: 0px 6px 12px;
   flex: 0 1 calc(50% - 12px);
   padding-top: 12px;
   padding-bottom: 24px;
-  outline: none;
   animation-duration: 600ms;
   animation-iteration-count: 1;
   animation-fill-mode: both;
@@ -59,7 +63,39 @@
 
     &:hover {
       border-color: transparent;
-      box-shadow: rgb(0 0 0) 0px 0px 0px 2px;
+      box-shadow: rgb(0, 0, 0) 0px 0px 0px 2px;
+    }
+  }
+}
+
+.amenities__btn__checked {
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  min-height: 68px;
+  margin: 0px 6px 12px;
+  flex: 0 1 calc(50% - 12px);
+  padding-top: 12px;
+  padding-bottom: 24px;
+  box-shadow: rgb(0 0 0) 0px 0px 0px 2px;
+  background-color: rgb(247, 247, 247);
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: fade-in;
+
+  @media screen and (min-width: 744px) {
+    flex: 0 1 calc(33% - 16px);
+    margin: 0px 8px 16px;
+
+    &:hover {
+      border-color: transparent;
+      box-shadow: rgb(0, 0, 0) 0px 0px 0px 2px;
     }
   }
 }

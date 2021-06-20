@@ -4,9 +4,12 @@ import { useRouter } from 'next/router';
 import styles from '../sass/pages/CreateListing.module.scss';
 import { useListingNavigation } from '../shared-hooks/useListingNavigation';
 
-interface CreateListingLayoutProps {}
+interface CreateListingLayoutProps {
+  disabled?: boolean;
+}
 
 export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
+  disabled,
   children,
 }) => {
   const router = useRouter();
@@ -64,7 +67,11 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                   </button>
                 </div>
                 <div className={styles.btn__right}>
-                  <button className={styles.btn__next} onClick={nextPage}>
+                  <button
+                    className={styles.btn__next}
+                    disabled={disabled}
+                    onClick={nextPage}
+                  >
                     Next
                   </button>
                 </div>

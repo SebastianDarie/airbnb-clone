@@ -16,6 +16,7 @@ const initialState = {
   guests: 2,
   latitude: 40,
   longitude: -74.5,
+  photos: [] as File[],
   price: 100,
   title: '',
   type: 'rental unit',
@@ -54,14 +55,37 @@ export const useListingStore = create(
 
     selectType: (type: string) => set((state) => ({ ...state, type })),
 
-    updateFloor: (type: string, value: number) => {
+    updateFloor: (type: string, value: number) =>
       set((state) => ({
         ...state,
         beds: type === 'beds' ? value : get().beds,
         guests: type === 'guests' ? value : get().guests,
         price: type === 'price' ? value : get().price,
-      }));
-    },
+      })),
+
+    updateAmenities: (amenity: string) =>
+      set((state) => {
+        //state.amenities.shift();
+        const idx = get().amenities.indexOf(amenity);
+        if (idx !== -1) {
+          state.amenities.splice(idx, 1);
+          return {
+            ...state,
+            amenities: [...state.amenities],
+          };
+        } else {
+          return {
+            ...state,
+            amenities: [...state.amenities, amenity],
+          };
+        }
+      }),
+
+    addPhoto: (photos: File[]) =>
+      set((state) => ({
+        ...state,
+        photos: [...state.photos, ...photos],
+      })),
 
     // updateForm: (
     //   data: PropertyTypeFormProps | FloorPlanFormProps | LocationFormProps

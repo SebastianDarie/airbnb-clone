@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from '../../sass/pages/Home.module.scss';
 
 interface HomeViewProps {}
@@ -23,23 +24,16 @@ export const HomeView: React.FC<HomeViewProps> = ({}) => {
                   media='(min-width: 744px)'
                 />
                 <source srcSet='https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_w=320 1x, https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_w=720 2x' />
+                {/* <Image
+                  layout='fill'
+                  objectFit='cover'
+                  src='https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_q=highq&im_w=720'
+                /> */}
                 <img
                   className={styles.HomeView__img}
                   src='https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_q=highq&im_w=720'
                 />
               </picture>
-              {/* <div
-                style={{
-                  display: 'none',
-                  backgroundPosition: '50% 50%',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'cover',
-                  height: '100%',
-                  width: '100%',
-                  backgroundImage:
-                    'url(https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_w=720)',
-                }}
-              ></div> */}
             </div>
           </div>
 

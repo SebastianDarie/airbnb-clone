@@ -178,24 +178,11 @@
 }
 
 .Searchbar__btn {
-  appearance: none;
-  background: transparent;
-  border: 0px;
   color: inherit;
-  cursor: pointer;
   display: block;
   flex: 1 0 0%;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  margin: 0px;
-  outline: none;
-  overflow: visible;
   padding: 1px;
   text-align: left;
-  text-decoration: none;
-  user-select: auto;
   width: 0px;
   z-index: 1;
 
@@ -239,23 +226,10 @@
 }
 
 .Searchbar__btn__clicked {
-  appearance: none;
-  background: transparent;
-  border: 0px;
   color: inherit;
-  cursor: pointer;
   display: block;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  margin: 0px;
-  outline: none;
-  overflow: visible;
   padding: 1px;
   text-align: left;
-  text-decoration: none;
-  user-select: auto;
   flex: 1 0 0%;
   width: 0px;
   z-index: 3;
@@ -333,23 +307,12 @@
 }
 
 .Searchbar__icon__btn {
-  appearance: none;
-  background: transparent;
-  border: 0px;
   color: bootstrap.$default-color;
-  cursor: pointer;
   display: inline-block;
-  font-family: inherit;
   font-size: 16px;
   font-weight: 600;
   line-height: 16px;
-  margin: 0px;
-  outline: none;
   overflow: hidden;
-  padding: 0px;
-  text-align: inherit;
-  text-decoration: none;
-  user-select: auto;
   background-color: bootstrap.$brand-color;
   border-radius: 24px;
   height: 48px;
@@ -369,9 +332,9 @@
     content: '';
     background: linear-gradient(
       to right,
-      #e61e4d 0%,
-      #e31c5f 50%,
-      #d70466 100%
+      rgb(230, 30, 77) 0%,
+      rgb(227, 28, 95) 50%,
+      rgb(215, 4, 102) 100%
     );
     position: absolute;
     top: 0px;
@@ -386,23 +349,13 @@
 }
 
 .Searchbar__icon__btn__active {
-  appearance: none;
   background: bootstrap.$brand-color;
-  border: 0px;
   color: bootstrap.$default-color;
-  cursor: pointer;
   display: inline-block;
-  font-family: inherit;
   font-size: 16px;
   font-weight: 600;
   line-height: 16px;
-  margin: 0px;
-  outline: none;
   overflow: hidden;
-  padding: 0px;
-  text-align: inherit;
-  text-decoration: none;
-  user-select: auto;
   border-radius: 24px;
   height: 48px;
   max-width: 48px;

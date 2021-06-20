@@ -24,25 +24,13 @@
 }
 
 .UtilsNav__host__link {
-  appearance: none;
-  background: transparent;
-  border: 0px;
-  cursor: pointer;
   display: inline-block;
-  font-family: inherit;
   font-size: 13px;
   font-weight: 500;
   line-height: 18px;
-  margin: 0px;
-  outline: none;
-  overflow: visible;
   padding: 12px;
-  text-align: inherit;
-  text-decoration: none;
-  user-select: auto;
   position: relative;
   white-space: nowrap;
-  z-index: 1;
   color: bootstrap.$default-color;
 
   &:hover {
@@ -64,25 +52,13 @@
 }
 
 .UtilsNav__link__scroll {
-  appearance: none;
-  background: transparent;
-  border: 0px;
-  cursor: pointer;
   display: inline-block;
-  font-family: inherit;
   font-size: 13px;
   font-weight: 600;
   line-height: 18px;
-  margin: 0px;
-  outline: none;
-  overflow: visible;
   padding: 12px;
-  text-align: inherit;
-  text-decoration: none;
-  user-select: auto;
   position: relative;
   white-space: nowrap;
-  z-index: 1;
   color: rgb(34, 34, 34);
 
   &:hover {
@@ -109,25 +85,13 @@
 }
 
 .UtilsNav__globe__btn {
-  appearance: none;
-  background: transparent;
-  border: 0px;
-  cursor: pointer;
   display: inline-block;
-  font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   line-height: 18px;
-  margin: 0px;
-  outline: none;
-  overflow: visible;
   padding: 12px;
-  text-align: inherit;
-  text-decoration: none;
-  user-select: auto;
   position: relative;
   white-space: nowrap;
-  z-index: 1;
   color: bootstrap.$default-color;
 
   &:hover {
@@ -162,22 +126,10 @@
 }
 
 .UtilsNav__widget__btn {
-  appearance: none;
-  background: transparent;
   border: 1px solid #dddddd;
   color: #222222;
-  cursor: pointer;
   display: inline-flex;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  margin: 0px;
-  outline: none;
-  overflow: visible;
   padding: 5px 5px 5px 12px;
-  text-align: inherit;
-  text-decoration: none;
   user-select: auto;
   align-items: center;
   background-color: #ffffff;
@@ -186,7 +138,6 @@
   position: relative;
   vertical-align: middle;
   transition: box-shadow 0.2s ease;
-  z-index: 1;
 }
 
 #UtilsNav__btn {

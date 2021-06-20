@@ -34,26 +34,26 @@ textarea {
   font-size: 100%;
 }
 
-// div[role='button'],
-// button,
-// a {
-//   appearance: none;
-//   background: transparent;
-//   border: 0px;
-//   cursor: pointer;
-//   font-family: inherit;
-//   font-size: inherit;
-//   font-weight: inherit;
-//   line-height: inherit;
-//   outline: none;
-//   overflow: visible;
-//   margin: 0px;
-//   padding: 0px;
-//   text-align: inherit;
-//   text-decoration: none;
-//   user-select: auto;
-//   z-index: 1;
-// }
+div[role='button'],
+button,
+a {
+  appearance: none;
+  background: transparent;
+  border: 0px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  outline: none;
+  overflow: visible;
+  margin: 0px;
+  padding: 0px;
+  text-align: inherit;
+  text-decoration: none;
+  user-select: auto;
+  z-index: 1;
+}
 
 h1,
 h2,

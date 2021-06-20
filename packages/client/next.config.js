@@ -10,7 +10,7 @@ module.exports = (phase, { defaultConfig }) => {
         webpack5: true,
       },
       images: {
-        domains: ['res.cloudinary.com', 'dummyimage.com'],
+        domains: ['res.cloudinary.com', 'dummyimage.com', 'a0.muscache.com'],
       },
     };
   }
@@ -21,7 +21,7 @@ module.exports = (phase, { defaultConfig }) => {
       webpack5: true,
     },
     images: {
-      domains: [''],
+      domains: ['a0.muscache.com'],
     },
   };
 };
