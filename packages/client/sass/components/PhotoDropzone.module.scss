@@ -1,9 +1,12 @@
 @use '../utilities/bootstrap.scss';
 
+@include bootstrap.fade-mixin;
+
 .dropzone {
   vertical-align: top;
   width: 100%;
   height: 220px;
+  margin: auto;
   position: relative;
   overflow-x: hidden;
 
@@ -66,5 +69,241 @@
     padding-bottom: 8px;
     font-size: 22px;
     line-height: 26px;
+  }
+}
+
+.main__container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container__margin {
+  position: relative;
+  margin: 24px 0;
+  max-width: 700px;
+  width: 100%;
+  background-color: bootstrap.$default-color;
+}
+
+.preview__header {
+  position: relative;
+  max-width: 700px;
+  width: 100%;
+  padding-bottom: 24px;
+
+  @media screen and (min-width: 744px) {
+    padding-right: 8px;
+  }
+}
+
+.preview__flexer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: fade-in;
+}
+
+.left__padding {
+  display: flex;
+  flex-direction: column;
+  padding-right: 24px;
+
+  @media screen and (min-width: 744px) {
+    padding-right: 48px;
+  }
+}
+
+.add__text {
+  color: #222222;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  padding: 0px;
+  margin: 0px;
+
+  @media screen and (min-width: 744px) {
+    font-size: 22px;
+    line-height: 26px;
+  }
+}
+
+.reorder__text {
+  color: #717171;
+  padding-top: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+
+  @media screen and (min-width: 744px) {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+.upload__btn {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  width: auto;
+  touch-action: manipulation;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 15px;
+  padding-right: 15px;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  border-color: #222222;
+  background: bootstrap.$default-color;
+  color: #222222;
+
+  &:hover {
+    border-color: #000000;
+    background: #f7f7f7;
+    color: #222222;
+  }
+}
+
+.align__span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.icon__margin {
+  margin-left: -6px;
+  margin-right: 4px;
+}
+
+.preview__section {
+  margin-bottom: -16px;
+  max-height: calc(100vh - 88px - 124px - 82px);
+
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+
+  @media screen and (min-width: 744px) {
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+}
+
+.preview__grid {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  margin-right: -6px;
+
+  @media screen and (min-width: 375px) {
+    margin-left: -6px;
+    margin-right: -6px;
+    width: calc(100% + 12px);
+  }
+
+  @media screen and (min-width: 744px) {
+    margin-left: -8px;
+    margin-right: -8px;
+    width: calc(100% + 16px);
+  }
+
+  @media screen and (min-width: 950px) {
+    margin-left: -8px;
+    margin-right: -8px;
+    width: calc(100% + 16px);
+  }
+}
+
+.cover {
+  position: relative;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 0%;
+  padding-left: 6px;
+  padding-right: 6px;
+
+  @media screen and (min-width: 375px) {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  @media screen and (min-width: 744px) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  @media screen and (min-width: 950px) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.draggable {
+  position: relative;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 0%;
+  padding-left: 6px;
+  padding-right: 6px;
+
+  @media screen and (min-width: 375px) {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  @media screen and (min-width: 744px) {
+    padding-left: 8px;
+    padding-right: 8px;
+    width: 50%;
+  }
+
+  @media screen and (min-width: 950px) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.draggable__padding {
+  position: relative;
+  padding-bottom: 66, 67%;
+}
+
+.draggable__inset {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.draggable__border {
+  box-sizing: content-box;
+  color: #222222;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 1px dashed #222222;
+
+  &:hover {
+    border: 2px solid rgb(34, 34, 34);
+    color: rgb(34, 34, 34);
+    margin: -1px;
   }
 }

@@ -1,66 +1,141 @@
-import Dropzone from 'react-dropzone';
+import { useCallback, useState } from 'react';
+import { useDrop } from 'react-dnd';
+import update from 'immutability-helper';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
-import styles from '../../sass/components/PhotoDropzone.module.scss';
 import { useListingStore } from '../../stores/useListingStore';
+import styles from '../../sass/components/PhotoDropzone.module.scss';
+import { DraggablePhoto } from '../../components/Fields/DraggablePhoto';
+import { DropzoneField } from '../../components/Fields/DropzoneField';
 
 interface PhotosProps {}
 
+const items = [
+  {
+    id: 1,
+    cover: true,
+    delay: '400ms',
+  },
+  {
+    id: 2,
+    cover: false,
+    delay: '449ms',
+  },
+  {
+    id: 3,
+    cover: false,
+    delay: '497ms',
+  },
+  {
+    id: 4,
+    cover: false,
+    delay: '543ms',
+  },
+  {
+    id: 5,
+    cover: false,
+    delay: '584ms',
+  },
+];
+
 const Photos: React.FC<PhotosProps> = ({}) => {
+  const [draggables, setDraggables] = useState<
+    { id: number; cover: boolean; delay: string }[]
+  >(items);
   const photos = useListingStore((state) => state.photos);
   const addPhoto = useListingStore((state) => state.addPhoto);
-  console.log(photos);
 
+  const findImage = useCallback(
+    (id: string) => {
+      const image = draggables.filter((i) => `${i.id}` === id)[0];
+      return {
+        image,
+        index: draggables.indexOf(image),
+      };
+    },
+    [draggables]
+  );
+
+  const moveImage = useCallback(
+    (id: string, atIndex: number) => {
+      const { image, index } = findImage(id);
+      setDraggables(
+        update(draggables, {
+          $splice: [
+            [index, 1],
+            [atIndex, 0, image],
+          ],
+        })
+      );
+    },
+    [findImage, draggables, setDraggables]
+  );
+
+  const [, drop] = useDrop(() => ({ accept: 'preview' }));
   return (
     <CreateListingLayout disabled={photos.length !== 5}>
-      <Dropzone
-        onDrop={(acceptedFiles) => {
-          console.log(acceptedFiles);
-          addPhoto(acceptedFiles);
-        }}
-        accept='image/jpeg, image/jpg, image/png'
-        maxFiles={5}
-        noClick={photos.length === 5}
-        noDrag={photos.length === 5}
-      >
-        {({ getRootProps, getInputProps }) => (
-          <section className={styles.dropzone}>
-            <div
-              className={styles.side__padding}
-              {...getRootProps({
-                // onClick: (e) => {
-                //   if (photos.length === 5) {
-                //     e.stopPropagation();
-                //   }
-                // },
-              })}
-            >
-              <div className={styles.border__div}>
-                <div className={styles.inner__margin}>
-                  <svg
-                    viewBox='0 0 64 64'
-                    xmlns='http://www.w3.org/2000/svg'
-                    aria-hidden='true'
-                    role='presentation'
-                    focusable='false'
-                    display='block'
-                    height='64px'
-                    width='64px'
-                    fill='currentColor'
-                  >
-                    <path
-                      d='M41.636 8.404l1.017 7.237 17.579 4.71a5 5 0 0 1 3.587 5.914l-.051.21-6.73 25.114A5.002 5.002 0 0 1 53 55.233V56a5 5 0 0 1-4.783 4.995L48 61H16a5 5 0 0 1-4.995-4.783L11 56V44.013l-1.69.239a5 5 0 0 1-5.612-4.042l-.034-.214L.045 14.25a5 5 0 0 1 4.041-5.612l.215-.035 31.688-4.454a5 5 0 0 1 5.647 4.256zm-20.49 39.373l-.14.131L13 55.914V56a3 3 0 0 0 2.824 2.995L16 59h21.42L25.149 47.812a3 3 0 0 0-4.004-.035zm16.501-9.903l-.139.136-9.417 9.778L40.387 59H48a3 3 0 0 0 2.995-2.824L51 56v-9.561l-9.3-8.556a3 3 0 0 0-4.053-.009zM53 34.614V53.19a3.003 3.003 0 0 0 2.054-1.944l.052-.174 2.475-9.235L53 34.614zM48 27H31.991c-.283.031-.571.032-.862 0H16a3 3 0 0 0-2.995 2.824L13 30v23.084l6.592-6.59a5 5 0 0 1 6.722-.318l.182.159.117.105 9.455-9.817a5 5 0 0 1 6.802-.374l.184.162L51 43.721V30a3 3 0 0 0-2.824-2.995L48 27zm-37 5.548l-5.363 7.118.007.052a3 3 0 0 0 3.388 2.553L11 41.994v-9.446zM25.18 15.954l-.05.169-2.38 8.876h5.336a4 4 0 1 1 6.955 0L48 25.001a5 5 0 0 1 4.995 4.783L53 30v.88l5.284 8.331 3.552-13.253a3 3 0 0 0-1.953-3.624l-.169-.05L28.804 14a3 3 0 0 0-3.623 1.953zM21 31a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM36.443 6.11l-.175.019-31.69 4.453a3 3 0 0 0-2.572 3.214l.02.175 3.217 22.894 5.833-7.74a5.002 5.002 0 0 1 4.707-4.12L16 25h4.68l2.519-9.395a5 5 0 0 1 5.913-3.587l.21.051 11.232 3.01-.898-6.397a3 3 0 0 0-3.213-2.573zm-6.811 16.395a2 2 0 0 0 1.64 2.496h.593a2 2 0 1 0-2.233-2.496zM10 13a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z'
-                      fill='#222'
-                    ></path>
-                  </svg>
-                  <div className={styles.drag__text}>Drag your photos here</div>
-                  <p style={{ fontSize: 16 }}>Add at least 5 photos</p>
-                  <input {...getInputProps()} />
+      {photos.length === 0 ? (
+        <DropzoneField addPhoto={addPhoto} />
+      ) : (
+        <div className={styles.main__container}>
+          <div className={styles.container__margin}>
+            <div>
+              <div>
+                <div className={styles.preview__header}>
+                  <div className={styles.preview__flexer}>
+                    <div className={styles.left__padding}>
+                      <h2 className={styles.add__text}>
+                        Add at least 5 photos
+                      </h2>
+                      <div className={styles.reorder__text}>
+                        Drag to reorder
+                      </div>
+                    </div>
+
+                    <div>
+                      <button className={styles.upload__btn}>
+                        <span className={styles.align__span}>
+                          <span className={styles.icon__margin}>
+                            <svg
+                              viewBox='0 0 32 32'
+                              xmlns='http://www.w3.org/2000/svg'
+                              aria-hidden='true'
+                              role='presentation'
+                              focusable='false'
+                              height='24px'
+                              width='24px'
+                              fill='currentColor'
+                            >
+                              <path d='m17.2869988 6.88316725.1272148.11683275 9.2928932 9.2928932-1.4142136 1.4142136-8.293-8.29289324.0001068 20.58578644h-2l-.0001068-20.58578644-8.29278642 8.29289324-1.41421356-1.4142136 9.29289318-9.2928932c.7399408-.73994076 1.915425-.77888501 2.7012124-.11683275zm10.7130012-4.88316725v2h-24v-2z'></path>
+                            </svg>
+                          </span>
+                          <span>Upload</span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.preview__section}>
+                <div className={styles.preview__grid} ref={drop}>
+                  {draggables.map((el) => (
+                    <DraggablePhoto
+                      key={el.id}
+                      id={`${el.id}`}
+                      cover={el.cover}
+                      delay={el.delay}
+                      src={photos[el.id - 1]}
+                      addPhoto={addPhoto}
+                      findImage={findImage}
+                      moveImage={moveImage}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
-          </section>
-        )}
-      </Dropzone>
+          </div>
+        </div>
+      )}
     </CreateListingLayout>
   );
 };

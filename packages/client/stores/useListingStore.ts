@@ -16,7 +16,7 @@ const initialState = {
   guests: 2,
   latitude: 40,
   longitude: -74.5,
-  photos: [] as File[],
+  photos: [] as string[],
   price: 100,
   title: '',
   type: 'rental unit',
@@ -81,10 +81,10 @@ export const useListingStore = create(
         }
       }),
 
-    addPhoto: (photos: File[]) =>
+    addPhoto: (photo: string) =>
       set((state) => ({
         ...state,
-        photos: [...state.photos, ...photos],
+        photos: [...state.photos, photo],
       })),
 
     // updateForm: (
