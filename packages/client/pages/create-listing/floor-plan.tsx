@@ -1,10 +1,10 @@
 import shallow from 'zustand/shallow';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { NumberField } from '../../components/Fields/NumberField';
-import { StepForm } from '../../interfaces';
 import { useListingStore } from '../../stores/useListingStore';
+import { withApollo } from '../../utils/withApollo';
 
-const FloorPlan: React.FC<StepForm> = ({}) => {
+const FloorPlan: React.FC<{}> = ({}) => {
   const [price, beds, guests, bathrooms, bedrooms] = useListingStore(
     (state) => [
       state.price,
@@ -36,4 +36,4 @@ const FloorPlan: React.FC<StepForm> = ({}) => {
   );
 };
 
-export default FloorPlan;
+export default withApollo({ ssr: false })(FloorPlan);

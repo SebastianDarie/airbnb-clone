@@ -1,9 +1,4 @@
-import {
-  FloorPlanFormProps,
-  LocationFormProps,
-  PropertyTypeFormProps,
-} from '@airbnb-clone/controller';
-import create, { GetState } from 'zustand';
+import create from 'zustand';
 import { combine } from 'zustand/middleware';
 
 const initialState = {
@@ -11,42 +6,17 @@ const initialState = {
   bathrooms: 1,
   bedrooms: 1,
   beds: 1,
-  category: 'apartment',
+  category: 'Apartment',
   description: '',
   guests: 2,
+  highlights: [] as string[],
   latitude: 40,
   longitude: -74.5,
   photos: [] as string[],
   price: 100,
   title: '',
-  type: 'rental unit',
+  type: 'Rental unit',
 };
-
-// const isType = (
-//   type: string,
-//   get: GetState<{
-//     beds: number;
-//     guests: number;
-//     price: number;
-//   }>
-// ) => {
-//   switch (type) {
-//     case 'beds':
-//       return {
-//         stateBeds: get().beds,
-//       };
-
-//     case 'guests':
-//       return {
-//         stateGuests: get().guests,
-//       };
-
-//     case 'price':
-//       return {
-//         statePrice: get().price,
-//       };
-//   }
-// };
 
 export const useListingStore = create(
   combine(initialState, (set, get) => ({
@@ -58,14 +28,13 @@ export const useListingStore = create(
     updateFloor: (type: string, value: number) =>
       set((state) => ({
         ...state,
-        beds: type === 'beds' ? value : get().beds,
-        guests: type === 'guests' ? value : get().guests,
-        price: type === 'price' ? value : get().price,
+        beds: type === 'Beds' ? value : get().beds,
+        guests: type === 'Guests' ? value : get().guests,
+        price: type === 'Price' ? value : get().price,
       })),
 
     updateAmenities: (amenity: string) =>
       set((state) => {
-        //state.amenities.shift();
         const idx = get().amenities.indexOf(amenity);
         if (idx !== -1) {
           state.amenities.splice(idx, 1);
@@ -87,8 +56,39 @@ export const useListingStore = create(
         photos: [...state.photos, photo],
       })),
 
-    // updateForm: (
-    //   data: PropertyTypeFormProps | FloorPlanFormProps | LocationFormProps
-    // ) => set((state) => ({ ...state, ...data })),
+    removePhoto: (id: string) =>
+      set((state) => ({
+        ...state,
+        photos: state.photos.filter((_p, i) => i !== parseInt(id) - 1),
+      })),
+
+    addTitle: (title: string) =>
+      set((state) => ({
+        ...state,
+        title,
+      })),
+
+    updateHighlights: (highlight: string) =>
+      set((state) => {
+        const idx = get().highlights.indexOf(highlight);
+        if (idx !== -1) {
+          state.highlights.splice(idx, 1);
+          return {
+            ...state,
+            highlights: [...state.highlights],
+          };
+        } else if (state.highlights.length === 2) {
+          state.highlights.shift();
+          return {
+            ...state,
+            highlights: [...state.highlights, highlight],
+          };
+        } else {
+          return {
+            ...state,
+            highlights: [...state.highlights, highlight],
+          };
+        }
+      }),
   }))
 );

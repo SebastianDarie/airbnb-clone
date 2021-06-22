@@ -3,6 +3,7 @@ import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { RadioButton } from '../../components/RadioButton';
 import styles from '../../sass/pages/CreateListing.module.scss';
 import { useListingStore } from '../../stores/useListingStore';
+import { withApollo } from '../../utils/withApollo';
 
 interface PropertyTypeProps {}
 
@@ -28,7 +29,7 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
           delay='400ms'
           option='Rental unit'
           description='A rented place within a multi-unit residential building or complex.'
-          selected={type === 'rental unit'}
+          selected={type === 'Rental unit'}
           withImage={false}
           select={selectType}
         />
@@ -36,7 +37,7 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
           delay='449ms'
           option='Condomium (Condo)'
           description='A place within a multi-unit building or complex owned by the residents.'
-          selected={type === 'condomium (condo)'}
+          selected={type === 'Condomium (Condo)'}
           withImage={false}
           select={selectType}
         />
@@ -44,7 +45,7 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
           delay='497ms'
           option='Loft'
           description='An open layout apartment or condo, which may have short interior walls.'
-          selected={type === 'loft'}
+          selected={type === 'Loft'}
           withImage={false}
           select={selectType}
         />
@@ -52,7 +53,7 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
           delay='543ms'
           option='Serviced apartment'
           description='An open layout apartment or condo, which may have short interior walls.'
-          selected={type === 'serviced apartment'}
+          selected={type === 'Serviced apartment'}
           withImage={false}
           select={selectType}
         />
@@ -60,7 +61,7 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
           delay='584ms'
           option='Casa particular'
           description='A private room in a home that feels like a bed and breakfast in Cuba.'
-          selected={type === 'casa particular'}
+          selected={type === 'Casa particular'}
           withImage={false}
           select={selectType}
         />
@@ -69,4 +70,4 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
   );
 };
 
-export default PropertyType;
+export default withApollo({ ssr: false })(PropertyType);

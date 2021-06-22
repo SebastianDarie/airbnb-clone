@@ -12,7 +12,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   value,
   updateFloor,
 }) => {
-  //console.log(label.toLowerCase(), value + 1);
+  //console.log(label, value + 1);
   return (
     <>
       <div className={styles.field}>
@@ -25,7 +25,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
               className={styles.guests__minus}
               disabled={value === 1}
               type='button'
-              onClick={() => updateFloor(label.toLowerCase(), value - 1)}
+              onClick={() => updateFloor(label, value - 1)}
             >
               <span className={styles.guests__icon}>
                 <MinusSvg />
@@ -38,7 +38,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             <button
               className={styles.guests__plus}
               type='button'
-              onClick={() => updateFloor(label.toLowerCase(), value + 1)}
+              onClick={() => updateFloor(label, value + 1)}
             >
               <span className={styles.guests__icon}>
                 <PlusSvg />

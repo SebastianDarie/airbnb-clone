@@ -4,11 +4,11 @@ import {
   safetyItems,
   standoutAmenities,
 } from '../../constants/amenityList';
-import { StepForm } from '../../interfaces';
 import styles from '../../sass/pages/Amenities.module.scss';
 import { useListingStore } from '../../stores/useListingStore';
+import { withApollo } from '../../utils/withApollo';
 
-const Amenities: React.FC<StepForm> = ({}) => {
+const Amenities: React.FC<{}> = ({}) => {
   // const poolSvg = useRef<HTMLObjectElement | null>(null);
   const amenities = useListingStore((state) => state.amenities);
   const updateAmenities = useListingStore((state) => state.updateAmenities);
@@ -35,11 +35,11 @@ const Amenities: React.FC<StepForm> = ({}) => {
               <button
                 key={i}
                 className={
-                  amenities.includes(amenity.title.toLowerCase())
+                  amenities.includes(amenity.title)
                     ? styles.amenities__btn__checked
                     : styles.amenities__btn
                 }
-                onClick={() => updateAmenities(amenity.title.toLowerCase())}
+                onClick={() => updateAmenities(amenity.title)}
                 style={{ animationDelay: `calc(${i} * 40ms + 400ms)` }}
               >
                 <div className={styles.svg__container}>
@@ -66,11 +66,11 @@ const Amenities: React.FC<StepForm> = ({}) => {
               <button
                 key={i}
                 className={
-                  amenities.includes(favorite.title.toLowerCase())
+                  amenities.includes(favorite.title)
                     ? styles.amenities__btn__checked
                     : styles.amenities__btn
                 }
-                onClick={() => updateAmenities(favorite.title.toLowerCase())}
+                onClick={() => updateAmenities(favorite.title)}
                 style={{ animationDelay: `calc(${i} * 40ms + 400ms)` }}
               >
                 <div className={styles.svg__container}>
@@ -97,11 +97,11 @@ const Amenities: React.FC<StepForm> = ({}) => {
               <button
                 key={i}
                 className={
-                  amenities.includes(item.title.toLowerCase())
+                  amenities.includes(item.title)
                     ? styles.amenities__btn__checked
                     : styles.amenities__btn
                 }
-                onClick={() => updateAmenities(item.title.toLowerCase())}
+                onClick={() => updateAmenities(item.title)}
                 style={{ animationDelay: `calc(${i} * 40ms + 400ms)` }}
               >
                 <div className={styles.svg__container}>
@@ -123,4 +123,4 @@ const Amenities: React.FC<StepForm> = ({}) => {
   );
 };
 
-export default Amenities;
+export default withApollo({ ssr: false })(Amenities);

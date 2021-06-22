@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import update from 'immutability-helper';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
@@ -6,6 +6,8 @@ import { useListingStore } from '../../stores/useListingStore';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
 import { DraggablePhoto } from '../../components/Fields/DraggablePhoto';
 import { DropzoneField } from '../../components/Fields/DropzoneField';
+import { UploadSvg } from '../../../controller/dist';
+import { withApollo } from '../../utils/withApollo';
 
 interface PhotosProps {}
 
@@ -37,7 +39,7 @@ const items = [
   },
 ];
 
-const Photos: React.FC<PhotosProps> = ({}) => {
+const Photos: React.FC<PhotosProps> = memo(({}) => {
   const [draggables, setDraggables] = useState<
     { id: number; cover: boolean; delay: string }[]
   >(items);
@@ -95,18 +97,7 @@ const Photos: React.FC<PhotosProps> = ({}) => {
                       <button className={styles.upload__btn}>
                         <span className={styles.align__span}>
                           <span className={styles.icon__margin}>
-                            <svg
-                              viewBox='0 0 32 32'
-                              xmlns='http://www.w3.org/2000/svg'
-                              aria-hidden='true'
-                              role='presentation'
-                              focusable='false'
-                              height='24px'
-                              width='24px'
-                              fill='currentColor'
-                            >
-                              <path d='m17.2869988 6.88316725.1272148.11683275 9.2928932 9.2928932-1.4142136 1.4142136-8.293-8.29289324.0001068 20.58578644h-2l-.0001068-20.58578644-8.29278642 8.29289324-1.41421356-1.4142136 9.29289318-9.2928932c.7399408-.73994076 1.915425-.77888501 2.7012124-.11683275zm10.7130012-4.88316725v2h-24v-2z'></path>
-                            </svg>
+                            <UploadSvg />
                           </span>
                           <span>Upload</span>
                         </span>
@@ -125,7 +116,6 @@ const Photos: React.FC<PhotosProps> = ({}) => {
                       cover={el.cover}
                       delay={el.delay}
                       src={photos[el.id - 1]}
-                      addPhoto={addPhoto}
                       findImage={findImage}
                       moveImage={moveImage}
                     />
@@ -138,6 +128,6 @@ const Photos: React.FC<PhotosProps> = ({}) => {
       )}
     </CreateListingLayout>
   );
-};
+});
 
-export default Photos;
+export default withApollo({ ssr: false })(Photos);

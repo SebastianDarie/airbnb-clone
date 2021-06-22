@@ -1,0 +1,124 @@
+@use '../utilities/bootstrap.scss';
+
+@include bootstrap.fade-mixin;
+
+.padding {
+  margin: 0px;
+  padding-top: 32px;
+
+  @media screen and (min-width: 744px) {
+    margin: auto;
+    padding-top: 0px;
+  }
+}
+
+.flex {
+  background-color: bootstrap.$default-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 720px;
+  min-width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.width {
+  width: 100%;
+
+  @media screen and(min-width: 744px) {
+    width: 80%;
+  }
+}
+
+.three__flex {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.box__title {
+  margin: 0px;
+  padding-bottom: 24px;
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: fade-in;
+}
+
+.label__title {
+  font-size: 18px;
+  line-height: 24px;
+  color: rgb(34, 34, 34);
+  font-weight: 600;
+  padding: 0px;
+
+  @media screen and (min-width: 744px) {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+.textbox__container {
+  width: 100%;
+  animation-delay: 449ms;
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: fade-in;
+}
+
+.textarea {
+  color: rgb(34, 34, 34);
+  display: block;
+  min-width: 100%;
+  max-width: 100%;
+  outline: none;
+  border: 1px solid rgb(176, 176, 176);
+  margin: 0px;
+  box-sizing: border-box;
+  background-color: transparent;
+  appearance: none;
+  resize: vertical;
+  max-height: 25vh;
+  min-height: 144px;
+  padding: 16px;
+  border-radius: 8px;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 38px;
+  overflow-y: hidden;
+
+  @media screen and (min-width: 744px) {
+    max-height: 50vh;
+    padding: 24px;
+  }
+}
+
+.count__flex {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 16px;
+  width: 100%;
+  animation-delay: 497ms;
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: fade-in;
+}
+
+.count__font {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 800;
+  color: rgb(113, 113, 113);
+
+  @media screen and (min-width: 744px) {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

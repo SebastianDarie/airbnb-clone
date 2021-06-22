@@ -46,7 +46,7 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
     >
       <button
         className={selected ? styles.btn__radio__checked : styles.btn__radio}
-        onClick={() => select(option.toLowerCase())}
+        onClick={() => select(option)}
       >
         {content}
       </button>

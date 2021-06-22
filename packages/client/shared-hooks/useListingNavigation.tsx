@@ -1,53 +1,80 @@
 import { NextRouter } from 'next/router';
+import { useMemo } from 'react';
 
-// interface useListingNavigationProps {
-//   router: NextRouter;
-// }
+const rootPath = '/create-listing';
+
+let placeholderText: string = 'What kind of place will you host?';
+let progressBar = 9;
 
 export const useListingNavigation = (
   router: NextRouter
 ): [string, number, () => void] => {
-  const rootPath = '/create-listing';
-
   let nextPage: () => void = () => router.push(`${rootPath}/property-type`);
-  let placeholderText: string = 'What kind of place will you host?';
-  let progressBar = 9;
 
-  switch (router.pathname) {
-    case `${rootPath}/property-type-group`:
-      nextPage = () => router.push(`${rootPath}/property-type`);
-      placeholderText = 'What kind of place will you host?';
-      progressBar = 9;
-      break;
+  return useMemo(() => {
+    switch (router.pathname) {
+      case `${rootPath}/property-type-group`:
+        return [
+          (placeholderText = 'What kind of place will you host?'),
+          (progressBar = 9),
+          (nextPage = () => router.push(`${rootPath}/property-type`)),
+        ];
 
-    case `${rootPath}/property-type`:
-      nextPage = () => router.push(`${rootPath}/location`);
-      placeholderText = 'Which of these best describes your place?';
-      progressBar = 18;
-      break;
+      case `${rootPath}/property-type`:
+        return [
+          (placeholderText = 'Which of these best describes your place?'),
+          (progressBar = 18),
+          (nextPage = () => router.push(`${rootPath}/location`)),
+        ];
 
-    case `${rootPath}/location`:
-      nextPage = () => router.push(`${rootPath}/floor-plan`);
-      placeholderText = "Where's your place located?";
-      progressBar = 27;
-      break;
+      case `${rootPath}/location`:
+        return [
+          (placeholderText = "Where's your place located?"),
+          (progressBar = 27),
+          (nextPage = () => router.push(`${rootPath}/floor-plan`)),
+        ];
 
-    case `${rootPath}/floor-plan`:
-      nextPage = () => router.push(`${rootPath}/amenities`);
-      placeholderText = 'How many guests would you like to welcome?';
-      progressBar = 36;
-      break;
+      case `${rootPath}/floor-plan`:
+        return [
+          (placeholderText = 'How many guests would you like to welcome?'),
+          (progressBar = 36),
+          (nextPage = () => router.push(`${rootPath}/amenities`)),
+        ];
 
-    case `${rootPath}/amenities`:
-      nextPage = () => router.push(`${rootPath}/photos`);
-      placeholderText = 'Let guests know what your place has to offer';
-      progressBar = 45;
-      break;
+      case `${rootPath}/amenities`:
+        return [
+          (placeholderText = 'Let guests know what your place has to offer'),
+          (progressBar = 45),
+          (nextPage = () => router.push(`${rootPath}/photos`)),
+        ];
 
-    case `${rootPath}/photos`:
-      placeholderText = "Next, let's add some photos of your place";
-      progressBar = 55;
-  }
+      case `${rootPath}/photos`:
+        return [
+          (placeholderText = "Next, let's add some photos of your place"),
+          (progressBar = 55),
+          (nextPage = () => router.push(`${rootPath}/title`)),
+        ];
 
-  return [placeholderText, progressBar, nextPage];
+      case `${rootPath}/title`:
+        return [
+          (placeholderText = "Let's give your place a name"),
+          (progressBar = 64),
+          (nextPage = () => router.push(`${rootPath}/description`)),
+        ];
+
+      case `${rootPath}/description`:
+        return [
+          (placeholderText = "Now, let's describe your place"),
+          (progressBar = 73),
+          (nextPage = () => router.push(`${rootPath}/description`)),
+        ];
+
+      default:
+        return [
+          (placeholderText = 'What kind of place will you host?'),
+          (progressBar = 9),
+          (nextPage = () => router.push(`${rootPath}/property-type`)),
+        ];
+    }
+  }, [router.pathname]);
 };
