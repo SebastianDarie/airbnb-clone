@@ -1,19 +1,23 @@
 import { AirbnbSmallSvg } from '@airbnb-clone/controller';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import styles from '../sass/pages/CreateListing.module.scss';
 import { useListingNavigation } from '../shared-hooks/useListingNavigation';
 
 interface CreateListingLayoutProps {
   disabled?: boolean;
+  final?: boolean;
 }
 
 export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
-  disabled,
+  disabled = false,
+  final = false,
   children,
 }) => {
   const router = useRouter();
   const [placeholderText, progressBar, nextPage] = useListingNavigation(router);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
 
   return (
     <div>
@@ -67,13 +71,37 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                   </button>
                 </div>
                 <div className={styles.btn__right}>
-                  <button
-                    className={styles.btn__next}
-                    disabled={disabled}
-                    onClick={nextPage}
-                  >
-                    Next
-                  </button>
+                  {final ? (
+                    <button
+                      className={styles.btn__save}
+                      onMouseMove={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        setCoords({ x, y });
+                      }}
+                    >
+                      <span className={styles.absolute__span}>
+                        <span
+                          className={styles.radial__span}
+                          style={{
+                            backgroundPosition: `calc((100 - ${coords.x}) * 1%) calc((100 - ${coords.y}) * 1%)`,
+                          }}
+                        ></span>
+                      </span>
+                      <span className={styles.text__span}>
+                        Save your listing
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      className={styles.btn__next}
+                      disabled={disabled}
+                      onClick={nextPage}
+                    >
+                      Next
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

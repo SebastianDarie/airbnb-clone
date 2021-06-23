@@ -20,11 +20,12 @@ interface Image {
   originalIndex: number;
 }
 
-const selector = (state: any) => [state.addPhoto, state.removePhoto];
-
 export const DraggablePhoto: React.FC<DraggablePhotoProps> = memo(
   ({ id, cover, delay, src, findImage, moveImage }) => {
-    const [addPhoto, removePhoto] = useListingStore(selector, shallow);
+    const [addPhoto, removePhoto] = useListingStore(
+      (state) => [state.addPhoto, state.removePhoto],
+      shallow
+    );
 
     const originalIndex = findImage(id).index;
     const [{ isDragging }, drag] = useDrag(
@@ -118,7 +119,11 @@ export const DraggablePhoto: React.FC<DraggablePhotoProps> = memo(
 
                   reader.onload = () => {
                     if (reader.result) {
-                      addPhoto(reader.result.toString());
+                      addPhoto({
+                        name: acceptedFiles[0].name,
+                        src: reader.result.toString(),
+                        type: acceptedFiles[0].type,
+                      });
                     }
                   };
 

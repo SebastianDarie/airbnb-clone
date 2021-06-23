@@ -20,11 +20,6 @@ export default class Document extends NextDocument {
             rel='stylesheet'
           ></link>
 
-          <link
-            href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css'
-            rel='stylesheet'
-          />
-
           {/* <link
             rel="apple-touch-icon"
             sizes="180x180"

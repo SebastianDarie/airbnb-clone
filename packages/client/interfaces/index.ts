@@ -15,3 +15,9 @@ export interface StepForm {
   nextPage?: () => void;
   prevPage?: () => void;
 }
+
+export interface Photo {
+  name: string;
+  src: string;
+  type: string;
+}

@@ -1,5 +1,6 @@
 import create from 'zustand';
 import { combine } from 'zustand/middleware';
+import { Photo } from '../interfaces';
 
 const initialState = {
   amenities: [''],
@@ -12,8 +13,8 @@ const initialState = {
   highlights: [] as string[],
   latitude: 40,
   longitude: -74.5,
-  photos: [] as string[],
-  price: 100,
+  photos: [] as Photo[],
+  price: '$10',
   title: '',
   type: 'Rental unit',
 };
@@ -28,9 +29,10 @@ export const useListingStore = create(
     updateFloor: (type: string, value: number) =>
       set((state) => ({
         ...state,
-        beds: type === 'Beds' ? value : get().beds,
         guests: type === 'Guests' ? value : get().guests,
-        price: type === 'Price' ? value : get().price,
+        beds: type === 'Beds' ? value : get().beds,
+        bedrooms: type === 'Bedrooms' ? value : get().bedrooms,
+        bathrooms: type === 'Bathrooms' ? value : get().bathrooms,
       })),
 
     updateAmenities: (amenity: string) =>
@@ -50,7 +52,7 @@ export const useListingStore = create(
         }
       }),
 
-    addPhoto: (photo: string) =>
+    addPhoto: (photo: Photo) =>
       set((state) => ({
         ...state,
         photos: [...state.photos, photo],
@@ -90,5 +92,17 @@ export const useListingStore = create(
           };
         }
       }),
+
+    addDescription: (description: string) =>
+      set((state) => ({
+        ...state,
+        description,
+      })),
+
+    updatePrice: (price: string) =>
+      set((state) => ({
+        ...state,
+        price,
+      })),
   }))
 );

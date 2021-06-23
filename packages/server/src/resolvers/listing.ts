@@ -3,6 +3,7 @@ import {
   Ctx,
   Field,
   FieldResolver,
+  InputType,
   Int,
   Mutation,
   ObjectType,
@@ -21,6 +22,18 @@ import { getConnection } from 'typeorm';
 import { REDIS_CACHE_PREFIX } from '../constants';
 import { SearchInput, ListingInput, UpdateListing } from './input';
 
+@InputType()
+class Photo {
+  @Field()
+  name: string;
+
+  @Field()
+  src: string;
+
+  @Field()
+  type: string;
+}
+
 @ObjectType()
 class PaginatedListings {
   @Field(() => [Listing])
@@ -30,13 +43,21 @@ class PaginatedListings {
   hasMore: boolean;
 }
 
-@ObjectType()
-class S3Payload {
-  @Field()
-  signedRequest: string;
-  @Field()
-  url: string;
-}
+// @ObjectType()
+// class S3Payload {
+//   @Field()
+//   signedRequest: string;
+//   @Field()
+//   url: string;
+// }
+
+// type Photos = [
+//   {
+//     name: string;
+//     src: string;
+//     type: string;
+//   }
+// ];
 
 @Resolver(Listing)
 export class ListingResolver {
@@ -100,56 +121,57 @@ export class ListingResolver {
     };
   }
 
-  @Mutation(() => String)
-  @UseMiddleware(isAuth)
-  async uploadPhoto(
-    @Arg('photo') photo: string,
-    @Arg('publicId') publicId: string
-  ): Promise<String> {
-    cloudinary.v2.config({
-      cloud_name: process.env.CLOUDINARY_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
-    });
-    const res = await cloudinary.v2.uploader.unsigned_upload(
-      photo,
-      'ml_default',
-      {
-        public_id: publicId,
-        folder: 'listings',
-        // invalidate: true,
-      }
-    );
+  // @Mutation(() => String)
+  // @UseMiddleware(isAuth)
+  // async uploadPhoto(
+  //   @Arg('photo') photo: string,
+  //   @Arg('publicId') publicId: string
+  // ): Promise<String> {
+  //   cloudinary.v2.config({
+  //     cloud_name: process.env.CLOUDINARY_NAME,
+  //     api_key: process.env.CLOUDINARY_API_KEY,
+  //     api_secret: process.env.CLOUDINARY_API_SECRET,
+  //   });
+  //   const res = await cloudinary.v2.uploader.unsigned_upload(
+  //     photo,
+  //     'ml_default',
+  //     {
+  //       public_id: publicId,
+  //       folder: 'listings',
+  //       // invalidate: true,
+  //     }
+  //   );
 
-    return res.secure_url;
-  }
+  //   return res.secure_url;
+  // }
 
-  @Mutation(() => S3Payload)
+  @Mutation(() => [String])
   @UseMiddleware(isAuth)
   async signS3(
-    @Arg('filename') filename: string,
-    @Arg('filetype') filetype: string
-  ): Promise<S3Payload> {
+    @Arg('photos', () => [Photo])
+    photos: Photo[]
+  ): Promise<string[]> {
     const s3 = new S3({
       signatureVersion: 'v4',
       region: 'us-east-1',
     });
 
-    const s3Params = {
-      Bucket: process.env.S3_BUCKET_NAME,
-      Key: filename,
-      Expires: 60,
-      ContentType: filetype,
-      ACL: 'public-read',
-    };
+    const requests = photos.flatMap((p) => {
+      const s3Params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: p.name,
+        Expires: 60,
+        ContentType: p.type,
+        ACL: 'public-read',
+      };
 
-    const signedRequest = s3.getSignedUrl('putObject', s3Params);
-    const url = `https://${process.env.CF_DOMAIN_NAME}/${filename}`;
+      const signedRequest = s3.getSignedUrl('putObject', s3Params);
+      const url = `https://${process.env.CF_DOMAIN_NAME}/${p.name}`;
 
-    return {
-      signedRequest,
-      url,
-    };
+      return [signedRequest, url];
+    });
+
+    return requests;
   }
 
   @Mutation(() => Listing)

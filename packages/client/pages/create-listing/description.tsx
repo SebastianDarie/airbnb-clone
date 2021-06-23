@@ -9,9 +9,12 @@ import {
   PeopleSvg,
   SlippersSvg,
 } from '@airbnb-clone/controller';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Highlight } from '../../components/Highlight';
 import { useListingStore } from '../../stores/useListingStore';
+import { useRouter } from 'next/router';
+import { TitleDescription } from '../../components/Fields/TitleDescription';
+import { descriptionsList } from '../../constants/descriptionsList';
 
 interface DescriptionProps {}
 
@@ -55,33 +58,47 @@ const items = [
 ];
 
 const Description: React.FC<DescriptionProps> = ({}) => {
+  const router = useRouter();
   const [highlights, _setHighlights] = useState(items);
   const stateHighlights = useListingStore((state) => state.highlights);
-  const updateHighlights = useListingStore((state) => state.updateHighlights);
+  const description = useListingStore((state) => state.description);
+
+  useEffect(() => {
+    if (stateHighlights.length === 2) {
+      useListingStore.getState().addDescription(
+        descriptionsList.find((el) => {
+          return el.combo.every((item) => stateHighlights.includes(item));
+        })!.content
+      );
+    }
+  }, [stateHighlights]);
 
   return (
     <CreateListingLayout>
-      <div className={styles.padding__container}>
-        <div>
-          <div className={styles.header__container}>
-            <h2 className={styles.description}>Choose up to 2 highlights</h2>
-          </div>
+      {router.query.highlights ? (
+        <div className={styles.padding__container}>
+          <div>
+            <div className={styles.header__container}>
+              <h2 className={styles.description}>Choose up to 2 highlights</h2>
+            </div>
 
-          <div className={styles.highlights__grid}>
-            {highlights.map((h) => (
-              <Highlight
-                key={h.id}
-                delay={h.delay}
-                styles={styles}
-                svg={h.svg}
-                text={h.text}
-                highlights={stateHighlights}
-                updateHighlights={updateHighlights}
-              />
-            ))}
+            <div className={styles.highlights__grid}>
+              {highlights.map((h) => (
+                <Highlight
+                  key={h.id}
+                  delay={h.delay}
+                  styles={styles}
+                  svg={h.svg}
+                  text={h.text}
+                  highlights={stateHighlights}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <TitleDescription description={description} />
+      )}
     </CreateListingLayout>
   );
 };

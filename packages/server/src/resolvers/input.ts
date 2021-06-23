@@ -12,10 +12,19 @@ export class ListingInput {
   category: string;
 
   @Field()
-  photoUrl: string;
+  type: string;
+
+  @Field(() => [String])
+  photos: string[];
+
+  @Field()
+  price: string;
 
   @Field(() => Int)
-  price: number;
+  bathrooms: number;
+
+  @Field(() => Int)
+  bedrooms: number;
 
   @Field(() => Int)
   beds: number;
@@ -31,6 +40,9 @@ export class ListingInput {
 
   @Field(() => [String])
   amenities: string[];
+
+  @Field(() => [String])
+  highlights: string[];
 }
 
 @InputType()
@@ -45,10 +57,19 @@ export class UpdateListing {
   category?: string;
 
   @Field({ nullable: true })
-  photoUrl?: string;
+  type?: string;
+
+  @Field(() => [String], { nullable: true })
+  photos?: string[];
+
+  @Field({ nullable: true })
+  price?: string;
 
   @Field(() => Int, { nullable: true })
-  price?: number;
+  bathrooms?: number;
+
+  @Field(() => Int, { nullable: true })
+  bedrooms?: number;
 
   @Field(() => Int, { nullable: true })
   beds?: number;
@@ -64,6 +85,9 @@ export class UpdateListing {
 
   @Field(() => [String], { nullable: true })
   amenities?: string[];
+
+  @Field(() => [String], { nullable: true })
+  highlights?: string[];
 }
 
 @InputType()

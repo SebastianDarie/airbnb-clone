@@ -1,3 +1,4 @@
+import { useIsAuth } from '../../../controller/dist';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { RadioButton } from '../../components/RadioButton';
 import styles from '../../sass/pages/CreateListing.module.scss';
@@ -7,6 +8,7 @@ import { withApollo } from '../../utils/withApollo';
 interface PropertyTypeGroupProps {}
 
 const PropertyTypeGroup: React.FC<PropertyTypeGroupProps> = ({}) => {
+  useIsAuth();
   const category = useListingStore((state) => state.category);
   const selectCategory = useListingStore((state) => state.selectCategory);
 

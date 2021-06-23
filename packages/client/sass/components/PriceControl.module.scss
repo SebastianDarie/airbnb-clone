@@ -1,0 +1,147 @@
+@use '../utilities/bootstrap.scss';
+
+@include bootstrap.fade-mixin;
+
+.price__container {
+  background-color: bootstrap.$default-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  margin: auto;
+  transition-property: transform;
+  transition-duration: 0.6s;
+}
+
+.price__divider {
+  padding-top: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: fade-in;
+
+  @media screen and (min-width: 744px) {
+    padding-top: 0px;
+  }
+}
+
+.price__control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: unset;
+  height: unset;
+  color: rgb(34, 34, 34);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.control__btn {
+  width: 48px;
+  height: 48px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: inline-flex;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(176, 176, 176);
+  color: rgb(113, 113, 113);
+  font-family: inherit;
+  touch-action: manipulation;
+  align-items: center;
+  justify-content: center;
+  background: bootstrap.$default-color;
+  border-radius: 50%;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: rgb(235, 235, 235);
+    border-color: rgb(235, 235, 235);
+    background: bootstrap.$default-color;
+
+    &:hover {
+      color: rgb(235, 235, 235);
+      border-color: rgb(235, 235, 235);
+      background: bootstrap.$default-color;
+    }
+  }
+
+  &:hover {
+    color: rgb(34, 34, 34);
+    border-color: rgb(34, 34, 34);
+    background: bootstrap.$default-color;
+  }
+}
+
+.svg__container {
+  height: 22px;
+  width: 22px;
+  padding: 5px;
+}
+
+.side__margin {
+  text-align: center;
+  min-width: 48px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.label__container {
+  position: relative;
+  cursor: text;
+  display: flex;
+  height: auto;
+  width: 100%;
+  margin: 0px;
+  border: none;
+  color: black;
+  background-color: bootstrap.$default-color;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.input__container {
+  display: flex;
+  margin-top: 0px;
+  border-radius: 8px;
+  box-shadow: rgb(176 176 176) 0px 0px 0px 1px inset;
+  color: rgb(34, 34, 34);
+  background-color: bootstrap.$default-color;
+  margin-left: 32px;
+  margin-right: 32px;
+  opacity: 1;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0px;
+  margin: 8px 12px;
+  min-height: 1px;
+  color: inherit;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 80px;
+  appearance: none;
+  text-align: inherit;
+}
+
+.sub__text {
+  padding-top: 12px;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+}

@@ -6,7 +6,6 @@ interface HighlightProps {
   svg: JSX.Element;
   text: string;
   highlights: string[];
-  updateHighlights: (highlight: string) => void;
 }
 
 export const Highlight: React.FC<HighlightProps> = ({
@@ -15,7 +14,6 @@ export const Highlight: React.FC<HighlightProps> = ({
   svg,
   text,
   highlights,
-  updateHighlights,
 }) => {
   return (
     <div
@@ -28,18 +26,17 @@ export const Highlight: React.FC<HighlightProps> = ({
             ? styles.highlight__btn__selected
             : styles.highlight__btn
         }
-        onClick={() => updateHighlights(text)}
+        onClick={async () =>
+          (await import('../stores/useListingStore')).useListingStore
+            .getState()
+            .updateHighlights(text)
+        }
       >
         <div className={styles.content__flexer}>
-          {/* <div> */}
           <div className={styles.content__divider}>
             <div style={{ marginRight: 16 }}>{svg}</div>
             {text}
           </div>
-          {/* </div> */}
-          {/* <span className={styles.hidden__line}>
-            <div className={styles.content__divider}></div>
-          </span> */}
         </div>
       </button>
     </div>

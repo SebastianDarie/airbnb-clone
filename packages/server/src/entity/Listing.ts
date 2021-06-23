@@ -24,7 +24,7 @@ export class Listing extends BaseEntity {
   title!: string;
 
   @Field()
-  @Column({ length: 255 })
+  @Column({ length: 500 })
   description!: string;
 
   @Field()
@@ -33,11 +33,23 @@ export class Listing extends BaseEntity {
 
   @Field()
   @Column()
-  photoUrl!: string;
+  type!: string;
+
+  @Field(() => [String])
+  @Column({ type: 'text', array: true })
+  photos!: string[];
+
+  @Field()
+  @Column()
+  price!: string;
 
   @Field()
   @Column({ type: 'int' })
-  price!: number;
+  bathrooms!: number;
+
+  @Field()
+  @Column({ type: 'int' })
+  bedrooms!: number;
 
   @Field()
   @Column({ type: 'int' })
@@ -58,6 +70,10 @@ export class Listing extends BaseEntity {
   @Field(() => [String])
   @Column({ type: 'text', array: true })
   amenities: string[];
+
+  @Field(() => [String])
+  @Column({ type: 'text', array: true })
+  highlights: string[];
 
   @Field()
   @Column('uuid')

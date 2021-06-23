@@ -12,7 +12,7 @@ export const useListingNavigation = (
   let nextPage: () => void = () => router.push(`${rootPath}/property-type`);
 
   return useMemo(() => {
-    switch (router.pathname) {
+    switch (router.asPath) {
       case `${rootPath}/property-type-group`:
         return [
           (placeholderText = 'What kind of place will you host?'),
@@ -59,6 +59,14 @@ export const useListingNavigation = (
         return [
           (placeholderText = "Let's give your place a name"),
           (progressBar = 64),
+          (nextPage = () =>
+            router.push(`${rootPath}/description?highlights=true`)),
+        ];
+
+      case `${rootPath}/description?highlights=true`:
+        return [
+          (placeholderText = "Now, let's describe your place"),
+          (progressBar = 73),
           (nextPage = () => router.push(`${rootPath}/description`)),
         ];
 
@@ -66,7 +74,21 @@ export const useListingNavigation = (
         return [
           (placeholderText = "Now, let's describe your place"),
           (progressBar = 73),
-          (nextPage = () => router.push(`${rootPath}/description`)),
+          (nextPage = () => router.push(`${rootPath}/price`)),
+        ];
+
+      case `${rootPath}/price`:
+        return [
+          (placeholderText = 'Now for the fun part—set your price'),
+          (progressBar = 82),
+          (nextPage = () => router.push(`${rootPath}/preview`)),
+        ];
+
+      case `${rootPath}/preview`:
+        return [
+          (placeholderText = 'Check out your listing!'),
+          (progressBar = 100),
+          (nextPage = () => null),
         ];
 
       default:
@@ -76,5 +98,5 @@ export const useListingNavigation = (
           (nextPage = () => router.push(`${rootPath}/property-type`)),
         ];
     }
-  }, [router.pathname]);
+  }, [router.asPath]);
 };
