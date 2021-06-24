@@ -68,12 +68,6 @@ const Photos: React.FC<PhotosProps> = memo(({}) => {
           ],
         })
       );
-      // update(photos, {
-      //   $splice: [
-      //     [index, 1],
-      //     [atIndex, 0, photos.filter((p) => `${p.id}` === id)[0]],
-      //   ],
-      // });
     },
     [findImage, draggables, setDraggables]
   );
@@ -122,7 +116,7 @@ const Photos: React.FC<PhotosProps> = memo(({}) => {
                       id={`${el.id}`}
                       cover={el.cover}
                       delay={el.delay}
-                      src={photos[el.id - 1]?.src}
+                      src={photos[el.id - 1]?.[1].src}
                       findImage={findImage}
                       moveImage={moveImage}
                     />

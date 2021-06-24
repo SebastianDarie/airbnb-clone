@@ -4,8 +4,10 @@ query Listing($id: String!) {
     title
     description
     category
-    photoUrl
+    photos
     price
+    bathrooms
+    bedrooms
     beds
     guests
     latitude

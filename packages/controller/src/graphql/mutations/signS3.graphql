@@ -1,0 +1,3 @@
+mutation signS3($photos: [Photo!]!) {
+  signS3(photos: $photos)
+}

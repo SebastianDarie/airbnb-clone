@@ -1,3 +1,0 @@
-mutation UploadPhoto($publicId: String!, $photo: String!) {
-  uploadPhoto(publicId: $publicId, photo: $photo)
-}

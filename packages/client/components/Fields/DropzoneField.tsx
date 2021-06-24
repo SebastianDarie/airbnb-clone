@@ -1,10 +1,10 @@
 import Dropzone from 'react-dropzone';
 import { DropImagesSvg } from '@airbnb-clone/controller';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
-import { Photo } from '../../interfaces';
+import { Photo } from '@airbnb-clone/common';
 
 interface DropzoneFieldProps {
-  addPhoto: (photo: Photo) => void;
+  addPhoto: (file: File, photo: Photo) => void;
 }
 
 export const DropzoneField: React.FC<DropzoneFieldProps> = ({ addPhoto }) => {
@@ -16,7 +16,7 @@ export const DropzoneField: React.FC<DropzoneFieldProps> = ({ addPhoto }) => {
 
           reader.onload = () => {
             if (reader.result) {
-              addPhoto({
+              addPhoto(file, {
                 name: file.name,
                 src: reader.result.toString(),
                 type: /[^/]*$/.exec(file.type)![0],

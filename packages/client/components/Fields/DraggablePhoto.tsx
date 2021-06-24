@@ -119,7 +119,7 @@ export const DraggablePhoto: React.FC<DraggablePhotoProps> = memo(
 
                   reader.onload = () => {
                     if (reader.result) {
-                      addPhoto({
+                      addPhoto(acceptedFiles[0], {
                         name: acceptedFiles[0].name,
                         src: reader.result.toString(),
                         type: acceptedFiles[0].type,

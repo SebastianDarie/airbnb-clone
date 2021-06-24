@@ -4,20 +4,9 @@
 //
 // import { User } from 'path/to/interfaces';
 
-export type User = {
-  id: number;
-  name: string;
-};
-
 export interface StepForm {
   className: string;
   currPage: number;
   nextPage?: () => void;
   prevPage?: () => void;
-}
-
-export interface Photo {
-  name: string;
-  src: string;
-  type: string;
 }

@@ -5,6 +5,6 @@ query Listings {
     description
     category
     price
-    photoUrl
+    photos
   }
 }

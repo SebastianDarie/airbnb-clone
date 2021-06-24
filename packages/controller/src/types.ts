@@ -38,27 +38,20 @@ export interface RegisterFormProps extends AuthFormProps {
 export type ChangePasswordProps = Omit<AuthFormProps, 'email' | 'confirm'>;
 export type ForgotPasswordProps = Omit<AuthFormProps, 'password' | 'confirm'>;
 
-export interface ListingFormProps
-  extends PropertyTypeFormProps,
-    FloorPlanFormProps,
-    LocationFormProps {}
-
-export interface PropertyTypeFormProps {
+export interface ListingFormProps {
   title: string;
   description: string;
   category: string;
-}
-
-export interface FloorPlanFormProps {
-  price: number;
+  type: string;
+  price: string;
+  bathrooms: number;
+  bedrooms: number;
   beds: number;
   guests: number;
-}
-
-export interface LocationFormProps {
   latitude: number;
   longitude: number;
   amenities: string[];
+  highlights: string[];
 }
 
 export interface MessageFormProps {

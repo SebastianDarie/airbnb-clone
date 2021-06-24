@@ -9,7 +9,7 @@ import { withApollo } from '../../utils/withApollo';
 interface PreviewProps {}
 
 const Preview: React.FC<PreviewProps> = ({}) => {
-  const { data, loading } = useMeQuery();
+  const { data } = useMeQuery();
   const cover = useListingStore(useCallback((state) => state.photos[0], [0]));
   const [
     bathrooms,
@@ -41,7 +41,10 @@ const Preview: React.FC<PreviewProps> = ({}) => {
               <div className={styles.image__border}>
                 <div className={styles.image__padding}>
                   <div className={styles.image__flex}>
-                    <img src={cover} className={styles.image__preview} />
+                    <img
+                      src={cover[1]?.src}
+                      className={styles.image__preview}
+                    />
                   </div>
                 </div>
               </div>

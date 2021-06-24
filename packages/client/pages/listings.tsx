@@ -29,8 +29,9 @@ const RealListings: React.FC<ListingsProps> = ({ data, error, loading }) => {
             hoverable={true}
             style={{ width: 240 }}
             cover={
-              <Image
-                src={listing.photoUrl}
+              <img
+                //src={listing.photos[0]}
+                src=''
                 alt={listing.title}
                 height={200}
                 width={300}

@@ -16,13 +16,13 @@ import { MenuLink } from './MenuLink';
 
 type NavSettingsProps = {
   data: MeQuery | undefined;
-  loading: boolean;
+  //  loading: boolean;
   scrolled: boolean;
   search: boolean;
 } & WithLogoutProps;
 
 export const NavSettings: React.FC<NavSettingsProps> = React.memo(
-  ({ data, loading, scrolled, search, logout }) => {
+  ({ data, scrolled, search, logout }) => {
     const apolloClient = useApolloClient();
     const menu = useRef<HTMLDivElement | null>(null);
 
@@ -34,8 +34,6 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
     };
 
     useClickAway(ref, handleClickOutside);
-
-    console.log(data, loading);
 
     return (
       <div className={styles.UtilsNav__container}>

@@ -10,7 +10,12 @@ module.exports = (phase, { defaultConfig }) => {
         webpack5: true,
       },
       images: {
-        domains: ['res.cloudinary.com', 'dummyimage.com', 'a0.muscache.com'],
+        domains: [
+          'res.cloudinary.com',
+          'dummyimage.com',
+          'a0.muscache.com',
+          'd9r6g0xftldzw.cloudfront.net',
+        ],
       },
     };
   }

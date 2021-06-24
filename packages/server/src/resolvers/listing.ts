@@ -1,3 +1,4 @@
+import S3 from 'aws-sdk/clients/s3';
 import {
   Arg,
   Ctx,
@@ -12,15 +13,13 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
-import S3 from 'aws-sdk/clients/s3';
+import { getConnection } from 'typeorm';
+import { REDIS_CACHE_PREFIX } from '../constants';
 import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
-import cloudinary from 'cloudinary';
-import { getConnection } from 'typeorm';
-import { REDIS_CACHE_PREFIX } from '../constants';
-import { SearchInput, ListingInput, UpdateListing } from './input';
+import { ListingInput, SearchInput, UpdateListing } from './input';
 
 @InputType()
 class Photo {
@@ -42,22 +41,6 @@ class PaginatedListings {
   @Field()
   hasMore: boolean;
 }
-
-// @ObjectType()
-// class S3Payload {
-//   @Field()
-//   signedRequest: string;
-//   @Field()
-//   url: string;
-// }
-
-// type Photos = [
-//   {
-//     name: string;
-//     src: string;
-//     type: string;
-//   }
-// ];
 
 @Resolver(Listing)
 export class ListingResolver {
@@ -121,30 +104,6 @@ export class ListingResolver {
     };
   }
 
-  // @Mutation(() => String)
-  // @UseMiddleware(isAuth)
-  // async uploadPhoto(
-  //   @Arg('photo') photo: string,
-  //   @Arg('publicId') publicId: string
-  // ): Promise<String> {
-  //   cloudinary.v2.config({
-  //     cloud_name: process.env.CLOUDINARY_NAME,
-  //     api_key: process.env.CLOUDINARY_API_KEY,
-  //     api_secret: process.env.CLOUDINARY_API_SECRET,
-  //   });
-  //   const res = await cloudinary.v2.uploader.unsigned_upload(
-  //     photo,
-  //     'ml_default',
-  //     {
-  //       public_id: publicId,
-  //       folder: 'listings',
-  //       // invalidate: true,
-  //     }
-  //   );
-
-  //   return res.secure_url;
-  // }
-
   @Mutation(() => [String])
   @UseMiddleware(isAuth)
   async signS3(
@@ -156,7 +115,9 @@ export class ListingResolver {
       region: 'us-east-1',
     });
 
-    const requests = photos.flatMap((p) => {
+    let sArr: string[] = [];
+    let uArr: string[] = [];
+    photos.map((p) => {
       const s3Params = {
         Bucket: process.env.S3_BUCKET_NAME,
         Key: p.name,
@@ -168,13 +129,14 @@ export class ListingResolver {
       const signedRequest = s3.getSignedUrl('putObject', s3Params);
       const url = `https://${process.env.CF_DOMAIN_NAME}/${p.name}`;
 
-      return [signedRequest, url];
+      sArr.push(signedRequest);
+      uArr.push(url);
     });
 
-    return requests;
+    return [...sArr, ...uArr];
   }
 
-  @Mutation(() => Listing)
+  @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   async createListing(
     @Arg('input') input: ListingInput,

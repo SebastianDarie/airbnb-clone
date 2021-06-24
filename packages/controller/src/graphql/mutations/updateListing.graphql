@@ -4,8 +4,11 @@ mutation UpdateListing($id: String!, $input: UpdateListing!) {
     title
     description
     category
-    photoUrl
+    type
+    photos
     price
+    bathrooms
+    bedrooms
     beds
     guests
     latitude

@@ -26,13 +26,17 @@ export type Listing = {
   title: Scalars['String'];
   description: Scalars['String'];
   category: Scalars['String'];
-  photoUrl: Scalars['String'];
-  price: Scalars['Float'];
+  type: Scalars['String'];
+  photos: Array<Scalars['String']>;
+  price: Scalars['String'];
+  bathrooms: Scalars['Float'];
+  bedrooms: Scalars['Float'];
   beds: Scalars['Float'];
   guests: Scalars['Float'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   amenities: Array<Scalars['String']>;
+  highlights: Array<Scalars['String']>;
   creatorId: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -43,13 +47,17 @@ export type ListingInput = {
   title: Scalars['String'];
   description: Scalars['String'];
   category: Scalars['String'];
-  photoUrl: Scalars['String'];
-  price: Scalars['Int'];
+  type: Scalars['String'];
+  photos: Array<Scalars['String']>;
+  price: Scalars['String'];
+  bathrooms: Scalars['Int'];
+  bedrooms: Scalars['Int'];
   beds: Scalars['Int'];
   guests: Scalars['Int'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   amenities: Array<Scalars['String']>;
+  highlights: Array<Scalars['String']>;
 };
 
 export type Message = {
@@ -69,8 +77,8 @@ export type MessageInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  uploadPhoto: Scalars['String'];
-  createListing: Listing;
+  signS3: Array<Scalars['String']>;
+  createListing: Scalars['Boolean'];
   updateListing?: Maybe<Listing>;
   deleteListing: Scalars['Boolean'];
   createMessage: Message;
@@ -84,9 +92,8 @@ export type Mutation = {
 };
 
 
-export type MutationUploadPhotoArgs = {
-  publicId: Scalars['String'];
-  photo: Scalars['String'];
+export type MutationSignS3Args = {
+  photos: Array<Photo>;
 };
 
 
@@ -148,6 +155,12 @@ export type PaginatedListings = {
   hasMore: Scalars['Boolean'];
 };
 
+export type Photo = {
+  name: Scalars['String'];
+  src: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   listings: Array<Listing>;
@@ -195,13 +208,17 @@ export type UpdateListing = {
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   category?: Maybe<Scalars['String']>;
-  photoUrl?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+  photos?: Maybe<Array<Scalars['String']>>;
+  price?: Maybe<Scalars['String']>;
+  bathrooms?: Maybe<Scalars['Int']>;
+  bedrooms?: Maybe<Scalars['Int']>;
   beds?: Maybe<Scalars['Int']>;
   guests?: Maybe<Scalars['Int']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   amenities?: Maybe<Array<Scalars['String']>>;
+  highlights?: Maybe<Array<Scalars['String']>>;
 };
 
 export type User = {
@@ -282,10 +299,7 @@ export type CreateListingMutationVariables = Exact<{
 
 export type CreateListingMutation = (
   { __typename?: 'Mutation' }
-  & { createListing: (
-    { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'price' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities' | 'creatorId'>
-  ) }
+  & Pick<Mutation, 'createListing'>
 );
 
 export type CreateMessageMutationVariables = Exact<{
@@ -350,6 +364,16 @@ export type RegisterMutation = (
   ) }
 );
 
+export type SignS3MutationVariables = Exact<{
+  photos: Array<Photo> | Photo;
+}>;
+
+
+export type SignS3Mutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'signS3'>
+);
+
 export type UpdateListingMutationVariables = Exact<{
   id: Scalars['String'];
   input: UpdateListing;
@@ -360,19 +384,8 @@ export type UpdateListingMutation = (
   { __typename?: 'Mutation' }
   & { updateListing?: Maybe<(
     { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'price' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities'>
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'type' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities'>
   )> }
-);
-
-export type UploadPhotoMutationVariables = Exact<{
-  publicId: Scalars['String'];
-  photo: Scalars['String'];
-}>;
-
-
-export type UploadPhotoMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'uploadPhoto'>
 );
 
 export type ListingQueryVariables = Exact<{
@@ -384,7 +397,7 @@ export type ListingQuery = (
   { __typename?: 'Query' }
   & { listing?: Maybe<(
     { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photoUrl' | 'price' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities' | 'createdAt'>
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities' | 'createdAt'>
     & { creator: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'confirmed' | 'email'>
@@ -399,7 +412,7 @@ export type ListingsQuery = (
   { __typename?: 'Query' }
   & { listings: Array<(
     { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'price' | 'photoUrl'>
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'price' | 'photos'>
   )> }
 );
 
@@ -441,7 +454,7 @@ export type SearchListingsQuery = (
     & Pick<PaginatedListings, 'hasMore'>
     & { listings: Array<(
       { __typename?: 'Listing' }
-      & Pick<Listing, 'id' | 'title' | 'category' | 'photoUrl' | 'beds' | 'guests' | 'createdAt'>
+      & Pick<Listing, 'id' | 'title' | 'category' | 'photos' | 'beds' | 'guests' | 'createdAt'>
     )> }
   ) }
 );
@@ -553,20 +566,7 @@ export type ConfirmEmailMutationResult = Apollo.MutationResult<ConfirmEmailMutat
 export type ConfirmEmailMutationOptions = Apollo.BaseMutationOptions<ConfirmEmailMutation, ConfirmEmailMutationVariables>;
 export const CreateListingDocument = gql`
     mutation CreateListing($input: ListingInput!) {
-  createListing(input: $input) {
-    id
-    title
-    description
-    category
-    photoUrl
-    price
-    beds
-    guests
-    latitude
-    longitude
-    amenities
-    creatorId
-  }
+  createListing(input: $input)
 }
     `;
 export type CreateListingMutationFn = Apollo.MutationFunction<CreateListingMutation, CreateListingMutationVariables>;
@@ -763,6 +763,37 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const SignS3Document = gql`
+    mutation signS3($photos: [Photo!]!) {
+  signS3(photos: $photos)
+}
+    `;
+export type SignS3MutationFn = Apollo.MutationFunction<SignS3Mutation, SignS3MutationVariables>;
+
+/**
+ * __useSignS3Mutation__
+ *
+ * To run a mutation, you first call `useSignS3Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignS3Mutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signS3Mutation, { data, loading, error }] = useSignS3Mutation({
+ *   variables: {
+ *      photos: // value for 'photos'
+ *   },
+ * });
+ */
+export function useSignS3Mutation(baseOptions?: Apollo.MutationHookOptions<SignS3Mutation, SignS3MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignS3Mutation, SignS3MutationVariables>(SignS3Document, options);
+      }
+export type SignS3MutationHookResult = ReturnType<typeof useSignS3Mutation>;
+export type SignS3MutationResult = Apollo.MutationResult<SignS3Mutation>;
+export type SignS3MutationOptions = Apollo.BaseMutationOptions<SignS3Mutation, SignS3MutationVariables>;
 export const UpdateListingDocument = gql`
     mutation UpdateListing($id: String!, $input: UpdateListing!) {
   updateListing(id: $id, input: $input) {
@@ -770,8 +801,11 @@ export const UpdateListingDocument = gql`
     title
     description
     category
-    photoUrl
+    type
+    photos
     price
+    bathrooms
+    bedrooms
     beds
     guests
     latitude
@@ -807,38 +841,6 @@ export function useUpdateListingMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateListingMutationHookResult = ReturnType<typeof useUpdateListingMutation>;
 export type UpdateListingMutationResult = Apollo.MutationResult<UpdateListingMutation>;
 export type UpdateListingMutationOptions = Apollo.BaseMutationOptions<UpdateListingMutation, UpdateListingMutationVariables>;
-export const UploadPhotoDocument = gql`
-    mutation UploadPhoto($publicId: String!, $photo: String!) {
-  uploadPhoto(publicId: $publicId, photo: $photo)
-}
-    `;
-export type UploadPhotoMutationFn = Apollo.MutationFunction<UploadPhotoMutation, UploadPhotoMutationVariables>;
-
-/**
- * __useUploadPhotoMutation__
- *
- * To run a mutation, you first call `useUploadPhotoMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUploadPhotoMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [uploadPhotoMutation, { data, loading, error }] = useUploadPhotoMutation({
- *   variables: {
- *      publicId: // value for 'publicId'
- *      photo: // value for 'photo'
- *   },
- * });
- */
-export function useUploadPhotoMutation(baseOptions?: Apollo.MutationHookOptions<UploadPhotoMutation, UploadPhotoMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UploadPhotoMutation, UploadPhotoMutationVariables>(UploadPhotoDocument, options);
-      }
-export type UploadPhotoMutationHookResult = ReturnType<typeof useUploadPhotoMutation>;
-export type UploadPhotoMutationResult = Apollo.MutationResult<UploadPhotoMutation>;
-export type UploadPhotoMutationOptions = Apollo.BaseMutationOptions<UploadPhotoMutation, UploadPhotoMutationVariables>;
 export const ListingDocument = gql`
     query Listing($id: String!) {
   listing(id: $id) {
@@ -846,8 +848,10 @@ export const ListingDocument = gql`
     title
     description
     category
-    photoUrl
+    photos
     price
+    bathrooms
+    bedrooms
     beds
     guests
     latitude
@@ -898,7 +902,7 @@ export const ListingsDocument = gql`
     description
     category
     price
-    photoUrl
+    photos
   }
 }
     `;
@@ -1008,7 +1012,7 @@ export const SearchListingsDocument = gql`
       id
       title
       category
-      photoUrl
+      photos
       beds
       guests
       createdAt

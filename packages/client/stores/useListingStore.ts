@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { combine } from 'zustand/middleware';
-import { Photo } from '../interfaces';
+import { Photo } from '@airbnb-clone/common';
 
 const initialState = {
   amenities: [''],
@@ -13,7 +13,7 @@ const initialState = {
   highlights: [] as string[],
   latitude: 40,
   longitude: -74.5,
-  photos: [] as Photo[],
+  photos: [] as [File, Photo][],
   price: '$10',
   title: '',
   type: 'Rental unit',
@@ -52,10 +52,10 @@ export const useListingStore = create(
         }
       }),
 
-    addPhoto: (photo: Photo) =>
+    addPhoto: (file: File, photo: Photo) =>
       set((state) => ({
         ...state,
-        photos: [...state.photos, photo],
+        photos: [...state.photos, [file, photo]],
       })),
 
     removePhoto: (id: string) =>
