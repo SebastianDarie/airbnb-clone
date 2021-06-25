@@ -5,10 +5,7 @@ import { withApollo } from '../utils/withApollo';
 type IndexProps = {};
 
 const IndexPage: React.FC<IndexProps> = () => (
-  <Layout
-    search
-    title='Vacations Rentals, Homes, Hotels, Experiences & More - Airbnb'
-  >
+  <Layout search>
     <HomeView />
   </Layout>
 );

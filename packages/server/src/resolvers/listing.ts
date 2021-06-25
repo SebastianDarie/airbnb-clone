@@ -19,19 +19,7 @@ import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
-import { ListingInput, SearchInput, UpdateListing } from './input';
-
-@InputType()
-class Photo {
-  @Field()
-  name: string;
-
-  @Field()
-  src: string;
-
-  @Field()
-  type: string;
-}
+import { ListingInput, Photo, SearchInput, UpdateListing } from './input';
 
 @ObjectType()
 class PaginatedListings {
@@ -65,7 +53,7 @@ export class ListingResolver {
 
   @Query(() => PaginatedListings)
   async searchListings(
-    @Arg('input') { title, beds, guests }: SearchInput,
+    @Arg('input') { latitude, longitude, title, beds, guests }: SearchInput,
     @Arg('limit', () => Int) limit: number,
     @Arg('cursor', () => String, { nullable: true }) cursor: string | null
   ): Promise<PaginatedListings> {
@@ -76,10 +64,12 @@ export class ListingResolver {
       .getRepository(Listing)
       .createQueryBuilder('l')
       .orderBy('l."createdAt"', 'DESC')
-      .take(realLimitPlusOne);
+      .take(realLimitPlusOne)
+      .where('l.latitude = :latitude', { latitude })
+      .andWhere('l.longitude = :longitude', { longitude });
 
     if (cursor) {
-      qb.where('l."createdAt" < :cursor ', {
+      qb.andWhere('l."createdAt" < :cursor ', {
         cursor: new Date(parseInt(cursor)),
       });
     }

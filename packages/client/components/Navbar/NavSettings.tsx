@@ -16,7 +16,6 @@ import { MenuLink } from './MenuLink';
 
 type NavSettingsProps = {
   data: MeQuery | undefined;
-  //  loading: boolean;
   scrolled: boolean;
   search: boolean;
 } & WithLogoutProps;

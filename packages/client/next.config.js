@@ -1,11 +1,17 @@
 //const path = require('path');
 //const withTM = require('next-transpile-modules')(['@airbnb-clone/controller']);
+const fs = require('fs');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
 module.exports = (phase, { defaultConfig }) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     return {
       ...defaultConfig,
+      env: {
+        loadMapScenario: fs
+          .readFileSync('./public/loadMapScenario.js')
+          .toString(),
+      },
       future: {
         webpack5: true,
       },

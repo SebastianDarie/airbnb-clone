@@ -48,3 +48,17 @@ $breakpoints: (
     }
   }
 }
+
+@mixin dot-mixin {
+  @keyframes dot-loading {
+    0%,
+    80%,
+    100% {
+      opacity: 0;
+    }
+    30%,
+    50% {
+      opacity: 1;
+    }
+  }
+}

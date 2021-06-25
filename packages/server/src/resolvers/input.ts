@@ -92,6 +92,12 @@ export class UpdateListing {
 
 @InputType()
 export class SearchInput {
+  @Field(() => Float)
+  latitude: number;
+
+  @Field(() => Float)
+  longitude: number;
+
   @Field(() => String, { nullable: true })
   title?: string;
 
@@ -100,4 +106,16 @@ export class SearchInput {
 
   @Field(() => Int, { nullable: true })
   guests?: number;
+}
+
+@InputType()
+export class Photo {
+  @Field()
+  name: string;
+
+  @Field()
+  src: string;
+
+  @Field()
+  type: string;
 }

@@ -24,27 +24,23 @@ const RealListings: React.FC<ListingsProps> = ({ data, error, loading }) => {
     <>
       {data &&
         data.listings.map((listing) => (
-          <Card
-            key={listing.id}
-            hoverable={true}
-            style={{ width: 240 }}
-            cover={
+          <>
+            {listing.photos.length > 0 && (
               <img
-                //src={listing.photos[0]}
-                src=''
+                src={listing.photos[0]}
                 alt={listing.title}
                 height={200}
                 width={300}
               />
-            }
-          >
+            )}
+
             <Link href={`/listing/${listing.id}`}>
               <Card.Meta
                 title={listing.title}
                 description={listing.description}
               />
             </Link>
-          </Card>
+          </>
         ))}
     </>
   );

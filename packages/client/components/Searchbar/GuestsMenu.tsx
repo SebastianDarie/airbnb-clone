@@ -1,6 +1,8 @@
 import { ActiveElement, MinusSvg, PlusSvg } from '@airbnb-clone/controller';
 import { MutableRefObject } from 'react';
+import shallow from 'zustand/shallow';
 import styles from '../../sass/components/GuestsMenu.module.scss';
+import { useSearchStore } from '../../stores/useSearchStore';
 
 interface GuestsMenuProps {
   activeElement: ActiveElement;
@@ -11,6 +13,25 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
   activeElement,
   menuRef,
 }) => {
+  const [
+    adults,
+    children,
+    infants,
+    updateAdults,
+    updateChildren,
+    updateInfants,
+  ] = useSearchStore(
+    (state) => [
+      state.adults,
+      state.children,
+      state.infants,
+      state.updateAdults,
+      state.updateChildren,
+      state.updateInfants,
+    ],
+    shallow
+  );
+
   return (
     <div
       className={styles.guests__menu}
@@ -27,18 +48,27 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               <div className={styles.guests__variant}>Ages 13 or above</div>
             </div>
             <div className={styles.guests__input}>
-              <button className={styles.guests__minus} disabled type='button'>
+              <button
+                className={styles.guests__minus}
+                disabled={adults === 0}
+                type='button'
+                onClick={() => updateAdults(adults - 1)}
+              >
                 <span className={styles.guests__icon}>
                   <MinusSvg />
                 </span>
               </button>
               <div className={styles.guests__count}>
-                <span>0</span>
+                <span>{adults}</span>
                 <span className={styles.guests__value__hidden}>
                   0 or more Adults
                 </span>
               </div>
-              <button className={styles.guests__plus} type='button'>
+              <button
+                className={styles.guests__plus}
+                type='button'
+                onClick={() => updateAdults(adults + 1)}
+              >
                 <span className={styles.guests__icon}>
                   <PlusSvg />
                 </span>
@@ -51,18 +81,27 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               <div className={styles.guests__variant}>Ages 2-12</div>
             </div>
             <div className={styles.guests__input}>
-              <button className={styles.guests__minus} disabled type='button'>
+              <button
+                className={styles.guests__minus}
+                disabled={children === 0}
+                type='button'
+                onClick={() => updateChildren(children - 1)}
+              >
                 <span className={styles.guests__icon}>
                   <MinusSvg />
                 </span>
               </button>
               <div className={styles.guests__count}>
-                <span>0</span>
+                <span>{children}</span>
                 <span className={styles.guests__value__hidden}>
-                  0 or more Adults
+                  0 or more Children
                 </span>
               </div>
-              <button className={styles.guests__plus} type='button'>
+              <button
+                className={styles.guests__plus}
+                type='button'
+                onClick={() => updateChildren(children + 1)}
+              >
                 <span className={styles.guests__icon}>
                   <PlusSvg />
                 </span>
@@ -75,18 +114,27 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               <div className={styles.guests__variant}>Under 2</div>
             </div>
             <div className={styles.guests__input}>
-              <button className={styles.guests__minus} disabled type='button'>
+              <button
+                className={styles.guests__minus}
+                disabled={infants === 0}
+                type='button'
+                onClick={() => updateInfants(infants - 1)}
+              >
                 <span className={styles.guests__icon}>
                   <MinusSvg />
                 </span>
               </button>
               <div className={styles.guests__count}>
-                <span>0</span>
+                <span>{infants}</span>
                 <span className={styles.guests__value__hidden}>
-                  0 or more Adults
+                  0 or more Infants
                 </span>
               </div>
-              <button className={styles.guests__plus} type='button'>
+              <button
+                className={styles.guests__plus}
+                type='button'
+                onClick={() => updateInfants(infants + 1)}
+              >
                 <span className={styles.guests__icon}>
                   <PlusSvg />
                 </span>

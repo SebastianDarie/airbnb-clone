@@ -12,7 +12,7 @@
   position: relative;
 }
 
-.Searchbar__scroll {
+.scroll {
   background-color: bootstrap.$default-color;
   border: 1px solid #dddddd;
   border-radius: 32px;
@@ -23,12 +23,12 @@
   width: 100%;
 }
 
-.Searchbar__active {
+.active {
   background-color: rgb(247, 247, 247);
   box-shadow: rgb(0 0 0 / 15%) 0px 16px 32px, rgb(0 0 0 / 10%) 0px 3px 8px;
 }
 
-.Searchbar__container {
+.container {
   display: flex;
   flex: 1 1 0%;
   height: 100%;
@@ -36,7 +36,7 @@
   pointer-events: auto;
 }
 
-.Searchbar__part1 {
+.part1 {
   flex: 1 0 0%;
   min-width: 0px;
 
@@ -45,7 +45,7 @@
   }
 }
 
-.Searchbar__part1__container {
+.part1__container {
   display: flex;
   flex: 1 0 0%;
   align-items: center;
@@ -54,7 +54,7 @@
   position: relative;
 }
 
-.Searchbar__location {
+.location {
   display: block;
   flex: 1 0 0%;
   background-clip: padding-box;
@@ -123,12 +123,12 @@
   }
 }
 
-.Searchbar__location__position {
+.location__position {
   position: relative;
   z-index: 1;
 }
 
-.Searchbar__location__label {
+.location__label {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -136,7 +136,7 @@
   padding-bottom: 2px;
 }
 
-.Searchbar__location__input {
+.location__input {
   display: block;
   background: none;
   border: 0px;
@@ -162,13 +162,13 @@
   height: 32px;
 }
 
-.Searchbar__part2__container {
+.part2__container {
   display: flex;
   flex: 2 0 0%;
   min-width: 0px;
 }
 
-.Searchbar__part2__checkin {
+.part2__checkin {
   display: flex;
   flex: 1 0 0%;
   align-items: center;
@@ -177,7 +177,7 @@
   position: relative;
 }
 
-.Searchbar__btn {
+.btn {
   color: inherit;
   display: block;
   flex: 1 0 0%;
@@ -225,7 +225,7 @@
   }
 }
 
-.Searchbar__btn__clicked {
+.btn__clicked {
   color: inherit;
   display: block;
   padding: 1px;
@@ -262,7 +262,7 @@
   }
 }
 
-.Searchbar__text__container {
+.text__container {
   padding: 14px 24px;
   width: 100%;
   overflow: hidden;
@@ -271,7 +271,7 @@
   z-index: 1;
 }
 
-.Searchbar__text__bold {
+.text__bold {
   font-size: 12px;
   font-weight: 800;
   line-height: 16px;
@@ -279,7 +279,7 @@
   padding-bottom: 2px;
 }
 
-.Searchbar__text__gray {
+.text__gray {
   color: #717171;
   font-size: 14px;
   font-weight: 400;
@@ -289,7 +289,63 @@
   width: 100%;
 }
 
-.Searchbar__part3__container {
+.text__guests {
+  font-size: 13px;
+  line-height: 18px;
+  color: rgb(34, 34, 34);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding-right: 16px;
+}
+
+.clear__container {
+  flex: 0 0 0%;
+  position: relative;
+  z-index: 5;
+}
+
+.clearbtn__container {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+}
+
+.clear__btn {
+  display: inline-block;
+  border: none;
+  border-radius: 50%;
+  color: rgb(34, 34, 34);
+  touch-action: manipulation;
+  position: relative;
+  background: transparent;
+  transition: transform 0.25s ease 0s;
+
+  &:hover {
+    color: rgb(0, 0, 0);
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgb(235, 235, 235);
+
+    &:hover {
+      background: rgb(221, 221, 221);
+    }
+  }
+}
+
+.part3__container {
   display: flex;
   flex: 0.95 0 auto;
   align-items: center;
@@ -298,7 +354,7 @@
   position: relative;
 }
 
-.Searchbar__icon__btn__container {
+.icon__btn__container {
   flex: 0 0 auto;
   margin-left: -6px;
   padding-right: 9px;
@@ -306,7 +362,7 @@
   z-index: 5;
 }
 
-.Searchbar__icon__btn {
+.icon__btn {
   color: bootstrap.$default-color;
   display: inline-block;
   font-size: 16px;
@@ -348,7 +404,7 @@
   }
 }
 
-.Searchbar__icon__btn__active {
+.icon__btn__active {
   background: bootstrap.$brand-color;
   color: bootstrap.$default-color;
   display: inline-block;
@@ -385,20 +441,20 @@
   }
 }
 
-.Searchbar__inner__icon__container {
+.inner__icon__container {
   display: inline-flex;
   padding: 16px;
   position: relative;
   z-index: 1;
 }
 
-.Searchbar__hidden__span {
+.hidden__span {
   display: block;
   position: relative;
   pointer-events: none;
 }
 
-.Searchbar__hidden__text {
+.hidden__text {
   opacity: 0;
   padding-left: 8px;
   padding-right: 4px;
@@ -406,7 +462,7 @@
   transition-delay: 0.1s;
 }
 
-.Searchbar__hidden__text__active {
+.hidden__text__active {
   opacity: 0;
   padding-left: 8px;
   padding-right: 4px;

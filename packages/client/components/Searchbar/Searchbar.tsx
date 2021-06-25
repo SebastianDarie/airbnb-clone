@@ -1,8 +1,14 @@
-import { ActiveElement, BigSearchSvg } from '@airbnb-clone/controller';
-import classNames from 'classnames';
+import {
+  ActiveElement,
+  BigSearchSvg,
+  ClearSvg,
+} from '@airbnb-clone/controller';
+import { useRouter } from 'next/router';
 import { useState, useRef } from 'react';
+import shallow from 'zustand/shallow';
 import styles from '../../sass/components/Searchbar.module.scss';
 import useClickAway from '../../shared-hooks/useClickAway';
+import { useSearchStore } from '../../stores/useSearchStore';
 import { GuestsMenu } from './GuestsMenu';
 
 interface SearchbarProps {
@@ -10,6 +16,7 @@ interface SearchbarProps {
 }
 
 export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
+  const router = useRouter();
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     active: false,
     el: '',
@@ -27,43 +34,66 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
 
   useClickAway(ref, handleClickOutside);
 
-  //const { activeElement, ref, toggle } = useClickAway();
-  // console.log(activeElement);
+  const barScroll = scrolled ? styles.scroll : styles.Searchbar;
+  const barActive = activeElement.active ? styles.active : '';
 
-  const barScroll = scrolled ? styles.Searchbar__scroll : styles.Searchbar;
-  const barActive = activeElement.active ? styles.Searchbar__active : '';
-  // const cx = classNames.bind(styles);
-  // const barClass = cx({
-  //   Searchbar: !scrolled,
-  //   Searchbar__scroll: scrolled,
-  //   Searchbar__active: active,
-  // });
+  const [adults, children, infants] = useSearchStore(
+    (state) => [state.adults, state.children, state.infants],
+    shallow
+  );
 
-  const menuOffsets = menuRef.current?.getBoundingClientRect();
-  const searchOffsets = searchRef.current?.getBoundingClientRect();
-  // let left = 0;
-  // if (menuRef.current) {
-  //   left = menuRef.current.getBoundingClientRect().right;
-  //   //  menuRef.current?.ownerDocument.documentElement.clientLeft;
+  // if (typeof window !== 'undefined') {
+  //   function loadMapScenario() {
+  //     window.Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', {
+  //       callback: onLoad,
+  //       errorCallback: onError,
+  //     });
+  //     function onLoad() {
+  //       const options = { maxResults: 5 };
+  //       const manager = new Microsoft.Maps.AutosuggestManager(options);
+  //       manager.attachAutosuggest(
+  //         '#location',
+  //         '#location_box',
+  //         selectedSuggestion
+  //       );
+  //     }
+  //     function onError(message: any) {
+  //       //document.getElementById('printoutPanel').innerHTML = message;
+  //       console.log(message);
+  //     }
+  //     function selectedSuggestion(suggestionResult: {
+  //       formattedSuggestion: string;
+  //       location: { latitude: string; longitude: string };
+  //     }) {
+  //       // document.getElementById('printoutPanel').innerHTML =
+  //       //   'Suggestion: ' +
+  //       //   suggestionResult.formattedSuggestion +
+  //       //   '<br> Lat: ' +
+  //       //   suggestionResult.location.latitude +
+  //       //   '<br> Lon: ' +
+  //       //   suggestionResult.location.longitude;
+  //       console.log(suggestionResult);
+  //     }
+  //   }
+
+  //   loadMapScenario();
   // }
-  // console.log(menuOffsets?.right, searchOffsets?.right);
 
   return (
     <div className={`${barScroll} ${barActive}`} ref={ref}>
-      <div className={styles.Searchbar__container}>
-        <div className={styles.Searchbar__part1}>
+      <div className={styles.container}>
+        <div className={styles.part1}>
           <div
-            className={styles.Searchbar__part1__container}
+            className={styles.part1__container}
             onClick={() => setActiveElement({ active: true, el: 'searchbar' })}
           >
-            <label className={styles.Searchbar__location}>
-              <div className={styles.Searchbar__location__position}>
-                <div className={styles.Searchbar__location__label}>
-                  Location
-                </div>
+            <label className={styles.location}>
+              <div className={styles.location__position} id='location_box'>
+                <div className={styles.location__label}>Location</div>
                 {/* Switch to react hook form */}
                 <input
-                  className={styles.Searchbar__location__input}
+                  className={styles.location__input}
+                  id='location'
                   aria-expanded='false'
                   autoComplete='off'
                   autoCorrect='off'
@@ -77,15 +107,15 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
 
         <div className={styles.vline}></div>
 
-        <div className={styles.Searchbar__part2__container}>
+        <div className={styles.part2__container}>
           <div
-            className={styles.Searchbar__part2__checkin}
+            className={styles.part2__checkin}
             onClick={() => setActiveElement({ active: true, el: 'checkin' })}
           >
-            <div className={styles.Searchbar__btn} role='button'>
-              <div className={styles.Searchbar__text__container}>
-                <div className={styles.Searchbar__text__bold}>Check in</div>
-                <div className={styles.Searchbar__text__gray}>Add dates</div>
+            <div className={styles.btn} role='button'>
+              <div className={styles.text__container}>
+                <div className={styles.text__bold}>Check in</div>
+                <div className={styles.text__gray}>Add dates</div>
               </div>
             </div>
           </div>
@@ -93,13 +123,13 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
           <div className={styles.vline}></div>
 
           <div
-            className={styles.Searchbar__part2__checkin}
+            className={styles.part2__checkin}
             onClick={() => setActiveElement({ active: true, el: 'checkout' })}
           >
-            <div className={styles.Searchbar__btn} role='button'>
-              <div className={styles.Searchbar__text__container}>
-                <div className={styles.Searchbar__text__bold}>Check out</div>
-                <div className={styles.Searchbar__text__gray}>Add dates</div>
+            <div className={styles.btn} role='button'>
+              <div className={styles.text__container}>
+                <div className={styles.text__bold}>Check out</div>
+                <div className={styles.text__gray}>Add dates</div>
               </div>
             </div>
           </div>
@@ -107,40 +137,65 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
 
         <div className={styles.vline}></div>
 
-        <div className={styles.Searchbar__part3__container} ref={searchRef}>
+        <div className={styles.part3__container} ref={searchRef}>
           <div
             className={
               activeElement.el === 'guests' && activeElement.active
-                ? styles.Searchbar__btn__clicked
-                : styles.Searchbar__btn
+                ? styles.btn__clicked
+                : styles.btn
             }
             onClick={() => setActiveElement({ active: true, el: 'guests' })}
             role='button'
           >
-            <div className={styles.Searchbar__text__container}>
-              <div className={styles.Searchbar__text__bold}>Guests</div>
-              <div className={styles.Searchbar__text__gray}>Add guests</div>
+            <div className={styles.text__container}>
+              <div className={styles.text__bold}>Guests</div>
+              {adults || children || infants > 0 ? (
+                <div className={styles.text__guests}>
+                  {adults + children} guests
+                  {infants ? ', ' + infants + ' infants' : null}
+                </div>
+              ) : (
+                <div className={styles.text__gray}>Add guests</div>
+              )}
             </div>
           </div>
 
+          {adults || children || infants > 0 ? (
+            <div className={styles.clear__container}>
+              <div className={styles.clearbtn__container}>
+                <button
+                  className={styles.clear__btn}
+                  onClick={useSearchStore.getState().resetGuests}
+                >
+                  <span style={{ position: 'relative' }}>
+                    <ClearSvg />
+                  </span>
+                </button>
+              </div>
+            </div>
+          ) : null}
+
           <GuestsMenu activeElement={activeElement} menuRef={menuRef} />
 
-          <div className={styles.Searchbar__icon__btn__container}>
+          <div className={styles.icon__btn__container}>
             <button
               className={
                 activeElement.el === 'guests' && activeElement.active
-                  ? styles.Searchbar__icon__btn__active
-                  : styles.Searchbar__icon__btn
+                  ? styles.icon__btn__active
+                  : styles.icon__btn
               }
+              onClick={() => {
+                router.push('/search');
+              }}
             >
-              <div className={styles.Searchbar__inner__icon__container}>
+              <div className={styles.inner__icon__container}>
                 <BigSearchSvg />
 
                 <div
                   className={
                     activeElement.el === 'guests' && activeElement.active
-                      ? styles.Searchbar__hidden__text__active
-                      : styles.Searchbar__hidden__text
+                      ? styles.hidden__text__active
+                      : styles.hidden__text
                   }
                 >
                   Search

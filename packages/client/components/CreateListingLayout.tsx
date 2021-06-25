@@ -6,7 +6,6 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Photo } from '@airbnb-clone/common';
 import styles from '../sass/pages/CreateListing.module.scss';
 import { useListingNavigation } from '../shared-hooks/useListingNavigation';
 import { formatFilenames } from '../utils/formatFilenames';
@@ -14,17 +13,19 @@ import { formatFilenames } from '../utils/formatFilenames';
 interface CreateListingLayoutProps {
   disabled?: boolean;
   final?: boolean;
+  location?: boolean;
 }
 
 export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
   disabled = false,
   final = false,
+  location = false,
   children,
 }) => {
   const router = useRouter();
   const [placeholderText, progressBar, nextPage] = useListingNavigation(router);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [createListing] = useCreateListingMutation();
+  const [createListing, { loading }] = useCreateListingMutation();
   const [s3Sign] = useSignS3Mutation();
 
   const uploadToS3 = async (files: File[], signedRequests: string[]) => {
@@ -63,7 +64,10 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
           <div className={styles.bar__padding}></div>
         </div>
         <div className={styles.right__side}>
-          <div className={styles.right__margin}>
+          <div
+            className={styles.right__margin}
+            style={{ padding: location ? 0 : '' }}
+          >
             <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
               <div className={styles.select__container}>
                 <div className={styles.items__container}>{children}</div>
@@ -116,7 +120,6 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                         const { data } = await s3Sign({
                           variables: { photos: purePhotos },
                         });
-                        console.log(data?.signS3);
 
                         await uploadToS3(pureFiles, data!.signS3);
 
@@ -149,13 +152,32 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                         }
                       }}
                     >
-                      <span className={styles.absolute__span}>
+                      <span
+                        className={
+                          loading ? styles.inset__span : styles.absolute__span
+                        }
+                      >
                         <span
                           className={styles.radial__span}
                           style={{
                             backgroundPosition: `calc((100 - ${coords.x}) * 1%) calc((100 - ${coords.y}) * 1%)`,
+                            display: loading ? 'none' : '',
                           }}
                         ></span>
+                        <span
+                          className={styles.dot__loader}
+                          style={{ display: !loading ? 'none' : '' }}
+                        >
+                          <span
+                            className={styles.dot}
+                            style={{ animationDelay: '-0.3s' }}
+                          ></span>
+                          <span
+                            className={styles.dot}
+                            style={{ animationDelay: '-0.15s' }}
+                          ></span>
+                          <span className={styles.dot}></span>
+                        </span>
                       </span>
                       <span className={styles.text__span}>
                         Save your listing

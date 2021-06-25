@@ -44,11 +44,9 @@ const Navbar: React.FC<NavbarProps> = ({ search = false, logout }) => {
               )}
               id={styles.Navbar__link}
             >
-              {/* {data?.me ? <AirbnbSvg classname={styles.Navbar__icon} /> : null} */}
               <AirbnbSvg classname={styles.Navbar__icon} />
               <AirbnbSmallSvg
                 fill='currentColor'
-                //fill={data?.me ? 'currentColor' : '#222222'}
                 classname={styles.Navbar__icon__small}
               />
             </a>
@@ -59,7 +57,6 @@ const Navbar: React.FC<NavbarProps> = ({ search = false, logout }) => {
 
         <NavSettings
           data={data}
-          loading={loading}
           scrolled={scrolled}
           search={search}
           logout={logout}

@@ -1,5 +1,7 @@
 @use '../utilities/bootstrap.scss';
 
+@include bootstrap.dot-mixin;
+
 .bg__gradient {
   background: url(https://a0.muscache.com/im/pictures/Hosting/Gradient/original/8e01f282-bf93-4c7b-b76c-cedded38823c.png)
     no-repeat;
@@ -371,7 +373,15 @@
   );
   color: bootstrap.$default-color;
 
-  &:hover {
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 1;
+    border: none;
+    background: rgb(221, 221, 221);
+    color: bootstrap.$default-color;
+  }
+
+  &:hover:enabled {
     border: none;
     background: linear-gradient(
       to right,
@@ -428,4 +438,34 @@
   display: block;
   position: relative;
   pointer-events: none;
+}
+
+.inset__span {
+  position: absolute;
+  inset: 0px;
+}
+
+.dot__loader {
+  margin: 0px auto;
+  text-align: center;
+  white-space: nowrap;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.dot {
+  background-color: rgb(34, 34, 34);
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+  border-radius: 100%;
+  display: inline-block;
+  animation-name: dot-loading;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  vertical-align: middle;
 }
