@@ -13,13 +13,13 @@ function loadMapScenario() {
     console.log(message);
   }
   function selectedSuggestion(suggestionResult) {
-    // document.getElementById('printoutPanel').innerHTML =
-    //   'Suggestion: ' +
-    //   suggestionResult.formattedSuggestion +
-    //   '<br> Lat: ' +
-    //   suggestionResult.location.latitude +
-    //   '<br> Lon: ' +
-    //   suggestionResult.location.longitude;
+    document.getElementById('output').innerHTML =
+      'Suggestion: ' +
+      suggestionResult.formattedSuggestion +
+      '<br> Lat: ' +
+      suggestionResult.location.latitude +
+      '<br> Lon: ' +
+      suggestionResult.location.longitude;
     console.log(suggestionResult);
   }
 }

@@ -189,6 +189,8 @@ export type QueryMessagesArgs = {
 };
 
 export type SearchInput = {
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
   title?: Maybe<Scalars['String']>;
   beds?: Maybe<Scalars['Int']>;
   guests?: Maybe<Scalars['Int']>;

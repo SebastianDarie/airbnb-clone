@@ -3,8 +3,9 @@ import {
   BigSearchSvg,
   ClearSvg,
 } from '@airbnb-clone/controller';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import shallow from 'zustand/shallow';
 import styles from '../../sass/components/Searchbar.module.scss';
 import useClickAway from '../../shared-hooks/useClickAway';
@@ -24,6 +25,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLDivElement | null>(null);
+  const geoRef = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = () => {
     setActiveElement({
@@ -37,47 +39,18 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
   const barScroll = scrolled ? styles.scroll : styles.Searchbar;
   const barActive = activeElement.active ? styles.active : '';
 
-  const [adults, children, infants] = useSearchStore(
-    (state) => [state.adults, state.children, state.infants],
+  const [adults, children, infants, setLocation] = useSearchStore(
+    (state) => [state.adults, state.children, state.infants, state.setLocation],
     shallow
   );
 
-  // if (typeof window !== 'undefined') {
-  //   function loadMapScenario() {
-  //     window.Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', {
-  //       callback: onLoad,
-  //       errorCallback: onError,
-  //     });
-  //     function onLoad() {
-  //       const options = { maxResults: 5 };
-  //       const manager = new Microsoft.Maps.AutosuggestManager(options);
-  //       manager.attachAutosuggest(
-  //         '#location',
-  //         '#location_box',
-  //         selectedSuggestion
-  //       );
-  //     }
-  //     function onError(message: any) {
-  //       //document.getElementById('printoutPanel').innerHTML = message;
-  //       console.log(message);
-  //     }
-  //     function selectedSuggestion(suggestionResult: {
-  //       formattedSuggestion: string;
-  //       location: { latitude: string; longitude: string };
-  //     }) {
-  //       // document.getElementById('printoutPanel').innerHTML =
-  //       //   'Suggestion: ' +
-  //       //   suggestionResult.formattedSuggestion +
-  //       //   '<br> Lat: ' +
-  //       //   suggestionResult.location.latitude +
-  //       //   '<br> Lon: ' +
-  //       //   suggestionResult.location.longitude;
-  //       console.log(suggestionResult);
-  //     }
-  //   }
-
-  //   loadMapScenario();
-  // }
+  useEffect(() => {
+    const location = geoRef.current?.textContent
+      ?.replace(/Lat:.*/, '')
+      .replace(/Suggestion:/, '');
+    const coords = geoRef.current?.textContent?.split(/[^\d]+/);
+    setLocation(location!, parseFloat(coords?.[1]!), parseFloat(coords?.[3]!));
+  }, [geoRef.current?.textContent]);
 
   return (
     <div className={`${barScroll} ${barActive}`} ref={ref}>
@@ -94,15 +67,13 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
                 <input
                   className={styles.location__input}
                   id='location'
-                  aria-expanded='false'
-                  autoComplete='off'
-                  autoCorrect='off'
-                  spellCheck='false'
                   placeholder='Where are you going?'
                 />
               </div>
             </label>
           </div>
+
+          <div id='output' style={{ visibility: 'hidden' }} ref={geoRef}></div>
         </div>
 
         <div className={styles.vline}></div>
@@ -178,30 +149,29 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
           <GuestsMenu activeElement={activeElement} menuRef={menuRef} />
 
           <div className={styles.icon__btn__container}>
-            <button
-              className={
-                activeElement.el === 'guests' && activeElement.active
-                  ? styles.icon__btn__active
-                  : styles.icon__btn
-              }
-              onClick={() => {
-                router.push('/search');
-              }}
-            >
-              <div className={styles.inner__icon__container}>
-                <BigSearchSvg />
+            <Link href='/search'>
+              <button
+                className={
+                  activeElement.el === 'guests' && activeElement.active
+                    ? styles.icon__btn__active
+                    : styles.icon__btn
+                }
+              >
+                <div className={styles.inner__icon__container}>
+                  <BigSearchSvg />
 
-                <div
-                  className={
-                    activeElement.el === 'guests' && activeElement.active
-                      ? styles.hidden__text__active
-                      : styles.hidden__text
-                  }
-                >
-                  Search
+                  <div
+                    className={
+                      activeElement.el === 'guests' && activeElement.active
+                        ? styles.hidden__text__active
+                        : styles.hidden__text
+                    }
+                  >
+                    Search
+                  </div>
                 </div>
-              </div>
-            </button>
+              </button>
+            </Link>
           </div>
         </div>
       </div>

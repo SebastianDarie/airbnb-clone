@@ -4,7 +4,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  InputType,
   Int,
   Mutation,
   ObjectType,
@@ -59,6 +58,45 @@ export class ListingResolver {
   ): Promise<PaginatedListings> {
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
+
+    const distance = await getConnection().query(
+      `
+      select *, ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
+      cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
+      sin( radians( $1 ) ) ) )
+      as pos from listing
+      having ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
+      cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
+      sin( radians( $1 ) ) ) ) < 25;
+      order by pos;
+      limit 20
+    `,
+      [latitude, longitude]
+    );
+    //console.log(distance);
+
+    // CREATE OR REPLACE FUNCTION distance(lat1 FLOAT, lon1 FLOAT, lat2 FLOAT, lon2 FLOAT) RETURNS FLOAT AS $$
+    //   DECLARE
+    //       x float = 69.1 * (lat2 - lat1);
+    //       y float = 69.1 * (lon2 - lon1) * cos(lat1 / 57.3);
+    //   BEGIN
+    //       RETURN sqrt(x * x + y * y);
+    //   END
+    //   $$ LANGUAGE plpgsql;
+
+    //sqrt(69.1 * (50 - 40) * 69.1 * (50 - 40) + 69.1 * (-65.4 - -74.5) * cos(40 / 57.3))
+    // ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
+    //   cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
+    //   sin( radians( $1 ) ) ) )
+    const nearListings: Listing[] = await getConnection().query(
+      `
+      select *,
+      sqrt(69.1 * (50 - $1) * 69.1 * (50 - $1) + 69.1 * (-65.4 - $2) * cos($1 / 57.3))
+      as pos from listing;
+      `,
+      [latitude, longitude]
+    );
+    //console.log(nearListings, nearListings.length);
 
     let qb = getConnection()
       .getRepository(Listing)

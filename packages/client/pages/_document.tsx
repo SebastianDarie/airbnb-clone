@@ -25,13 +25,6 @@ export default class Document extends NextDocument {
             dangerouslySetInnerHTML={{ __html: process.env.loadMapScenario! }}
           ></script>
 
-          {/* <script
-            type='text/javascript'
-            src={`https://www.bing.com/api/maps/mapcontrol?key=${process.env.NEXT_PUBLIC_BING_MAPS_API_KEY}&callback=loadMapScenario`}
-            async
-            defer
-          ></script> */}
-
           {/* <link
             rel="apple-touch-icon"
             sizes="180x180"
