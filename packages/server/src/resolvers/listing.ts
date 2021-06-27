@@ -1,9 +1,11 @@
 import S3 from 'aws-sdk/clients/s3';
+import { Point } from 'geojson';
 import {
   Arg,
   Ctx,
   Field,
   FieldResolver,
+  Float,
   Int,
   Mutation,
   ObjectType,
@@ -59,20 +61,20 @@ export class ListingResolver {
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
 
-    const distance = await getConnection().query(
-      `
-      select *, ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
-      cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
-      sin( radians( $1 ) ) ) )
-      as pos from listing
-      having ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
-      cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
-      sin( radians( $1 ) ) ) ) < 25;
-      order by pos;
-      limit 20
-    `,
-      [latitude, longitude]
-    );
+    // const distance = await getConnection().query(
+    //   `
+    //   select *, ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
+    //   cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
+    //   sin( radians( $1 ) ) ) )
+    //   as pos from listing
+    //   having ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
+    //   cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
+    //   sin( radians( $1 ) ) ) ) < 25
+    //   order by pos
+    //   limit 20
+    // `,
+    //   [latitude, longitude]
+    // );
     //console.log(distance);
 
     // CREATE OR REPLACE FUNCTION distance(lat1 FLOAT, lon1 FLOAT, lat2 FLOAT, lon2 FLOAT) RETURNS FLOAT AS $$
@@ -88,23 +90,47 @@ export class ListingResolver {
     // ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
     //   cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
     //   sin( radians( $1 ) ) ) )
-    const nearListings: Listing[] = await getConnection().query(
-      `
-      select *,
-      sqrt(69.1 * (50 - $1) * 69.1 * (50 - $1) + 69.1 * (-65.4 - $2) * cos($1 / 57.3))
-      as pos from listing;
-      `,
-      [latitude, longitude]
-    );
+    // const nearListings: Listing[] = await getConnection().query(
+    //   `
+    //   select *,
+    //   sqrt(69.1 * (50 - $1) * 69.1 * (50 - $1) + 69.1 * (-65.4 - $2) * cos($1 / 57.3))
+    //   as pos from listing;
+    //   `,
+    //   [latitude, longitude]
+    // );
     //console.log(nearListings, nearListings.length);
+
+    const origin = {
+      type: 'Point',
+      coordinates: [longitude, latitude],
+    };
+
+    const locations = await getConnection()
+      .getRepository(Listing)
+      .createQueryBuilder('t')
+      .select([
+        't AS city',
+        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)))/1000 AS distance`,
+      ])
+      .where(
+        `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)) , 100000)`
+      )
+      .orderBy('distance', 'ASC')
+      .setParameters({
+        origin: JSON.stringify(origin),
+        range: 100000 * 1000,
+      })
+      .getRawMany();
+
+    console.log(locations);
 
     let qb = getConnection()
       .getRepository(Listing)
       .createQueryBuilder('l')
       .orderBy('l."createdAt"', 'DESC')
-      .take(realLimitPlusOne)
-      .where('l.latitude = :latitude', { latitude })
-      .andWhere('l.longitude = :longitude', { longitude });
+      .take(realLimitPlusOne);
+    // .where('l.latitude = :latitude', { latitude })
+    // .andWhere('l.longitude = :longitude', { longitude });
 
     if (cursor) {
       qb.andWhere('l."createdAt" < :cursor ', {
@@ -125,6 +151,7 @@ export class ListingResolver {
     }
 
     const listings = await qb.getMany();
+    console.log(listings[0].location);
 
     return {
       listings: listings.slice(0, realLimit),
@@ -202,6 +229,27 @@ export class ListingResolver {
     const idx = listings.findIndex((listing) => JSON.parse(listing).id === id);
     await redis.lset(REDIS_CACHE_PREFIX, idx, JSON.stringify(result.raw[0]));
 
+    return result.raw[0];
+  }
+
+  @Mutation(() => Listing)
+  async createLocation(
+    @Arg('id') id: string,
+    @Arg('latitude', () => Float) latitude: number,
+    @Arg('longitude', () => Float) longitude: number
+  ): Promise<Listing> {
+    const location: Point = {
+      type: 'Point',
+      coordinates: [longitude, latitude],
+    };
+
+    const result = await getConnection()
+      .createQueryBuilder()
+      .update(Listing)
+      .set({ location })
+      .where('id = :id', { id })
+      .returning('*')
+      .execute();
     return result.raw[0];
   }
 

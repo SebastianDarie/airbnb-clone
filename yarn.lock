@@ -122,6 +122,7 @@ __metadata:
     "@types/express-rate-limit": ^5.1.1
     "@types/express-session": ^1.17.3
     "@types/faker": ^5.5.3
+    "@types/geojson": ^7946.0.7
     "@types/ioredis": ^4.26.0
     "@types/jest": ^26.0.22
     "@types/node": ^14.14.41
@@ -3031,6 +3032,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 2fed98a117ded3af250ae87193c716f41ac8e688eeacb73107688113d15d6bf8ad384c2319e7b430a8c1444197a34c274fed7ff75dab0de49844e841a629c0b0
+  languageName: node
+  linkType: hard
+
+"@types/geojson@npm:^7946.0.7":
+  version: 7946.0.7
+  resolution: "@types/geojson@npm:7946.0.7"
+  checksum: b0a614f58a169069d9978af24c4b816bc7140a722829d8786ad1ff22d8362b429c56170326c836ce661a0307f8e35820a055966c2eedc21b62671a56c472263e
   languageName: node
   linkType: hard
 
