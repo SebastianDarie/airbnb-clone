@@ -49,7 +49,11 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
       ?.replace(/Lat:.*/, '')
       .replace(/Suggestion:/, '');
     const coords = geoRef.current?.textContent?.split(/[^\d]+/);
-    setLocation(location!, parseFloat(coords?.[1]!), parseFloat(coords?.[3]!));
+    setLocation(
+      location!,
+      parseFloat(coords?.[1]! + '.' + coords?.[2]),
+      parseFloat(coords?.[3]! + '.' + coords?.[4])
+    );
   }, [geoRef.current?.textContent]);
 
   return (
@@ -67,6 +71,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
                 <input
                   className={styles.location__input}
                   id='location'
+                  autoComplete='off'
                   placeholder='Where are you going?'
                 />
               </div>

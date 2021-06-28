@@ -5,12 +5,14 @@ import 'dotenv-safe/config';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import session from 'express-session';
+import { Point } from 'geojson';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { createServer } from 'http';
 import Redis from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
+import { getConnection } from 'typeorm';
 import {
   COOKIE_NAME,
   REDIS_CACHE_PREFIX,
@@ -110,6 +112,23 @@ const main = async () => {
   await redis.del(REDIS_CACHE_PREFIX);
 
   const listings = await Listing.find({});
+  //console.log(listings.length);
+  listings.map(async (listing) => {
+    if (listing.location === null) {
+      const location: Point = {
+        type: 'Point',
+        coordinates: [listing.longitude, listing.latitude],
+      };
+
+      await getConnection()
+        .createQueryBuilder()
+        .update(Listing)
+        .set({ location })
+        .where('id = :id', { id: listing.id })
+        .returning('*')
+        .execute();
+    }
+  });
   const listingStrings = listings.map((listing) => JSON.stringify(listing));
   await redis.lpush(REDIS_CACHE_PREFIX, ...listingStrings);
 

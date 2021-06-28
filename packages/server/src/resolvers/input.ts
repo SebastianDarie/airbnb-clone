@@ -32,6 +32,9 @@ export class ListingInput {
   @Field(() => Int)
   guests: number;
 
+  @Field()
+  city: string;
+
   @Field(() => Float)
   latitude: number;
 
@@ -76,6 +79,9 @@ export class UpdateListing {
 
   @Field(() => Int, { nullable: true })
   guests?: number;
+
+  @Field(() => String, { nullable: true })
+  city?: string;
 
   @Field(() => Float, { nullable: true })
   latitude?: number;

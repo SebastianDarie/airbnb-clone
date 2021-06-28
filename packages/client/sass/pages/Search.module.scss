@@ -1,0 +1,126 @@
+@use '../utilities/bootstrap.scss';
+
+.inset__div {
+  inset: 105px 0px 0px;
+  padding-bottom: 56px;
+
+  @media screen and (min-width: 1128px) {
+    padding-bottom: 0px;
+  }
+
+  &::before {
+    content: ' ';
+    display: table;
+  }
+
+  &::after {
+    content: ' ';
+    display: table;
+    clear: both;
+  }
+}
+
+.options__bar {
+  display: none;
+
+  @media screen and (min-width: 744px) {
+    display: block;
+  }
+}
+
+.stays__container {
+  min-height: calc(100vh - 80px);
+  position: relative;
+  width: 100%;
+  z-index: 2;
+  background: bootstrap.$default-color;
+  transition: transform 850ms cubic-bezier(0.25, 1, 0.5, 1) 0s;
+
+  @media screen and (min-width: 744px) {
+    min-width: 547px;
+  }
+
+  @media screen and (min-width: 1128px) {
+    width: 58vw;
+  }
+}
+
+.meta__padding {
+  padding-left: 24px;
+  padding-right: 24px;
+  max-width: none;
+
+  @media screen and (min-width: 1128px) {
+    margin: 0px auto;
+    position: relative;
+  }
+}
+
+.top__padding {
+  padding-top: 32px;
+
+  @media screen and (min-width: 744px) {
+    padding-top: 50px;
+  }
+}
+
+.stays__count {
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(34, 34, 34);
+  padding-bottom: 8px;
+}
+
+.stays__header {
+  font-size: 26px;
+  line-height: 30px;
+  color: rgb(34, 34, 34);
+  font-weight: 800;
+
+  @media screen and(min-width: 744px) {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}
+
+.heading {
+  font-size: 1em;
+  margin: 0px;
+}
+
+.listings__container {
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.listings__section {
+  &::before {
+    content: ' ';
+    display: flex;
+  }
+
+  &::after {
+    content: ' ';
+    display: flex;
+  }
+}
+
+.listings__padding {
+  background-color: transparent;
+  padding-left: 24px;
+  padding-right: 24px;
+  max-width: none;
+
+  @media screen and (min-width: 1128px) {
+    margin: 0px auto;
+    position: relative;
+  }
+}
+
+.listings__margin {
+  @media screen and (min-width: 744px) {
+    padding: 0px;
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+}

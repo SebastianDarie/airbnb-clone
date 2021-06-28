@@ -100,35 +100,48 @@ export class ListingResolver {
     // );
     //console.log(nearListings, nearListings.length);
 
+    //ST_GeomFromGeoJSON(:origin), ST_SRID(location)
+
     const origin = {
       type: 'Point',
       coordinates: [longitude, latitude],
     };
 
-    const locations = await getConnection()
-      .getRepository(Listing)
-      .createQueryBuilder('t')
-      .select([
-        't AS city',
-        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)))/1000 AS distance`,
-      ])
-      .where(
-        `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)) , 100000)`
-      )
-      .orderBy('distance', 'ASC')
-      .setParameters({
-        origin: JSON.stringify(origin),
-        range: 100000 * 1000,
-      })
-      .getRawMany();
+    // const locations = await getConnection()
+    //   .getRepository(Listing)
+    //   .createQueryBuilder('t')
+    //   .select([
+    //     '*',
+    //     `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+    //   ])
+    //   .where(
+    //     ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+    //   )
+    //   .orderBy('distance', 'ASC')
+    //   .setParameters({
+    //     longitude,
+    //     latitude,
+    //     origin: JSON.stringify(origin),
+    //     range: 300 * 1000,
+    //   })
+    //   .getRawMany();
 
-    console.log(locations);
+    // console.log(locations, locations.length);
 
     let qb = getConnection()
       .getRepository(Listing)
       .createQueryBuilder('l')
-      .orderBy('l."createdAt"', 'DESC')
+      .select([
+        '*',
+        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+      ])
+      .where(
+        ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+      )
+      .orderBy('distance', 'ASC')
+      .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 })
       .take(realLimitPlusOne);
+
     // .where('l.latitude = :latitude', { latitude })
     // .andWhere('l.longitude = :longitude', { longitude });
 
@@ -150,8 +163,7 @@ export class ListingResolver {
       });
     }
 
-    const listings = await qb.getMany();
-    console.log(listings[0].location);
+    const listings = await qb.getRawMany();
 
     return {
       listings: listings.slice(0, realLimit),
@@ -260,6 +272,49 @@ export class ListingResolver {
     @Ctx() { req }: MyContext
   ): Promise<boolean> {
     await Listing.delete({ id, creatorId: req.session.userId });
+    return true;
+  }
+
+  @Query(() => Boolean) async getDBInfo(): Promise<boolean> {
+    const res = await getConnection().query(`
+    SELECT CONCAT('{"columns": [',COALESCE(cols_metadata,''),'], "indexes": [',COALESCE(indexes_metadata,''),'], "tables":[',COALESCE(tbls_metadata,''),'], "server_name": "', '', '", "version": "', '', '"}') 
+    FROM 
+    (
+      SELECT array_to_string(array_agg(CONCAT('{"schema":"',cols.table_schema,'","table":"',cols.table_name,'","name":"', cols.column_name, '","type":"', REPLACE(cols.data_type, '"', ''), '","nullable":', CASE WHEN(cols.IS_NULLABLE = 'YES') THEN 'true' ELSE 'false' END, ',"collation":"', COALESCE(cols.COLLATION_NAME, ''), '"}') ), ',') as cols_metadata
+      FROM information_schema.columns cols
+      WHERE cols.table_schema not in ('information_schema', 'pg_catalog')
+    ) cols,
+    (
+    select
+      array_to_string(array_agg(CONCAT('{"schema":"',ns.nspname,'","table":"',t.relname,'","name":"', i.relname, '","column":"', a.attname, '","index_type":"', LOWER(am.amname), '","cardinality":', 0, ',"unique":', case when ix.indisunique = true then 'true' else 'false' end, '}')), ',') as indexes_metadata
+    from
+        pg_class t,
+        pg_class i,
+        pg_index ix,
+        pg_attribute a,
+        pg_catalog.pg_namespace ns,
+        pg_am am
+    where
+        t.oid = ix.indrelid
+        and i.oid = ix.indexrelid
+        and a.attrelid = t.oid
+        and a.attnum = ANY(ix.indkey)
+        and t.relkind = 'r'
+        and t.relnamespace = ns.oid
+        and am.oid=i.relam
+    ) indexes_metadata,
+    (
+      SELECT array_to_string(array_agg(CONCAT('{', '"schema":"', TABLE_SCHEMA, '",', '"table":"', TABLE_NAME, 
+                    '",', '"rows":', 
+                    COALESCE((SELECT s.n_live_tup FROM pg_stat_user_tables s where tbls.TABLE_SCHEMA = s.schemaname and tbls.TABLE_NAME = s.relname), 0),
+                    ', "type":"', TABLE_TYPE, '",', '"engine":"",', '"collation":""}')), ',') as tbls_metadata
+      FROM information_schema.tables tbls
+      WHERE tbls.TABLE_SCHEMA not in ('information_schema', 'pg_catalog')
+    ) tbls;
+    `);
+
+    console.log(res);
+
     return true;
   }
 }

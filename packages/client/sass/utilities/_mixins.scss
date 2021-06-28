@@ -62,3 +62,15 @@ $breakpoints: (
     }
   }
 }
+
+@mixin opacity-mixin {
+  @keyframes opacity-appear {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}
