@@ -1,0 +1,42 @@
+@use '../utilities/bootstrap.scss';
+
+.grow__div {
+  flex-grow: 1;
+}
+
+.padding__around {
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  width: 100%;
+}
+
+.amenity__btn {
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid rgb(221, 221, 221);
+  background-color: bootstrap.$default-color;
+  outline: none;
+  margin: 0px;
+  border-radius: 30px;
+  color: rgb(34, 34, 34);
+  position: relative;
+  padding: 10px 16px;
+  font-size: 12px;
+  line-height: 16px;
+  width: 100%;
+
+  &:hover {
+    border-color: rgb(34, 34, 34);
+  }
+}
+
+.amenity__text {
+  display: flex;
+  place-content: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}

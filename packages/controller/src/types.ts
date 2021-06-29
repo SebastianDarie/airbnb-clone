@@ -42,6 +42,7 @@ export interface ListingFormProps {
   title: string;
   description: string;
   category: string;
+  city: string;
   type: string;
   price: string;
   bathrooms: number;

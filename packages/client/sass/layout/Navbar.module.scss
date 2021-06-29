@@ -1,6 +1,26 @@
 @use '../utilities/bootstrap.scss';
 
-.Navbar__header {
+.wrapper {
+  display: none;
+
+  @media screen and (min-width: 744px) {
+    display: block;
+  }
+}
+
+.flex__after {
+  &::before {
+    content: '';
+    display: flex;
+  }
+
+  &::after {
+    content: '';
+    display: flex;
+  }
+}
+
+.header {
   color: bootstrap.$default-color;
   height: 80px;
   width: 100%;
@@ -37,7 +57,7 @@
   }
 }
 
-.Navbar__header__scroll {
+.header__scroll {
   height: 80px;
   width: 100%;
   position: fixed;
@@ -76,7 +96,13 @@
   }
 }
 
-.Navbar__container {
+#header__search {
+  &::after {
+    box-shadow: none;
+  }
+}
+
+.container {
   display: flex;
   justify-content: space-between;
   max-width: bootstrap.em(1440px);
@@ -109,7 +135,7 @@
   }
 }
 
-.Navbar__icon__wrapper {
+.icon__wrapper {
   flex: 0 0 auto;
   margin-right: 15px;
 
@@ -118,7 +144,7 @@
   }
 }
 
-.Navbar__link {
+.link {
   color: bootstrap.$default-color;
   display: inline-flex;
   align-items: center;
@@ -127,7 +153,7 @@
   vertical-align: middle;
 }
 
-.Navbar__link__scroll {
+.link__scroll {
   display: inline-flex;
   align-items: center;
   color: bootstrap.$brand-color;
@@ -136,7 +162,7 @@
   vertical-align: middle;
 }
 
-#Navbar__link {
+#link {
   &::before {
     content: '';
     border-radius: bootstrap.em(12px);
@@ -148,7 +174,7 @@
   }
 }
 
-.Navbar__icon {
+.icon {
   display: none;
 
   @media screen and (min-width: 1128px) {
@@ -156,8 +182,12 @@
   }
 }
 
-.Navbar__icon__small {
+.icon__small {
   @media screen and (min-width: 1128px) {
     display: none;
   }
+}
+
+.height__div {
+  height: 80px;
 }

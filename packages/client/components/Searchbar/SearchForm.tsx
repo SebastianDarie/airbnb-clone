@@ -3,12 +3,17 @@ import { Searchbar } from './Searchbar';
 import styles from '../../sass/components/SearchForm.module.scss';
 
 interface SearchFormProps {
+  filter: boolean;
   search: boolean;
   scrolled: boolean;
 }
 
-export const SearchForm: React.FC<SearchFormProps> = ({ search, scrolled }) => {
-  return (
+export const SearchForm: React.FC<SearchFormProps> = ({
+  filter,
+  search,
+  scrolled,
+}) => {
+  const form = (
     <div className={styles.SearchForm__links}>
       {search ? (
         <>
@@ -107,4 +112,11 @@ export const SearchForm: React.FC<SearchFormProps> = ({ search, scrolled }) => {
       ) : null}
     </div>
   );
+
+  if (filter) {
+    scrolled = true;
+    return form;
+  }
+
+  return form;
 };

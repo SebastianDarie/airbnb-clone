@@ -45,15 +45,17 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
   );
 
   useEffect(() => {
-    const location = geoRef.current?.textContent
-      ?.replace(/Lat:.*/, '')
-      .replace(/Suggestion:/, '');
-    const coords = geoRef.current?.textContent?.split(/[^\d]+/);
-    setLocation(
-      location!,
-      parseFloat(coords?.[1]! + '.' + coords?.[2]),
-      parseFloat(coords?.[3]! + '.' + coords?.[4])
-    );
+    if (geoRef.current?.textContent !== '') {
+      const location = geoRef.current?.textContent
+        ?.replace(/Lat:.*/, '')
+        .replace(/Suggestion:/, '');
+      const coords = geoRef.current?.textContent?.split(/[^\d]+/);
+      setLocation(
+        location!,
+        parseFloat(coords?.[1]! + '.' + coords?.[2]),
+        parseFloat(coords?.[3]! + '.' + coords?.[4])
+      );
+    }
   }, [geoRef.current?.textContent]);
 
   return (

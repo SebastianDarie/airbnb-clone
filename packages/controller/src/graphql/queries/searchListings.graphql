@@ -4,10 +4,13 @@ query SearchListings($input: SearchInput!, $limit: Int!, $cursor: String) {
       id
       title
       category
+      city
       photos
       bathrooms
+      bedrooms
       beds
       guests
+      amenities
       price
       createdAt
     }

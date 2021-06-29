@@ -14,46 +14,52 @@ import { SearchForm } from '../Searchbar/SearchForm';
 import { getInitialCln } from '../../utils/getInitialCln';
 
 type NavbarProps = {
+  filter?: boolean;
   search?: boolean;
 } & WithLogoutProps;
 
-const Navbar: React.FC<NavbarProps> = ({ search = false, logout }) => {
-  const { data, loading } = useMeQuery({
+const Navbar: React.FC<NavbarProps> = ({
+  filter = false,
+  search = false,
+  logout,
+}) => {
+  const { data } = useMeQuery({
     skip: isServer(),
   });
   const scrolled = useScrollHandler();
 
-  return (
+  const Nav = (
     <header
       className={getInitialCln(
-        styles.Navbar__header,
-        styles.Navbar__header__scroll,
+        styles.header,
+        styles.header__scroll,
         search,
         scrolled
       )}
+      id={filter ? styles.header__search : undefined}
     >
-      <div className={styles.Navbar__container}>
-        <div className={styles.Navbar__icon__wrapper}>
+      <div className={styles.container}>
+        <div className={styles.icon__wrapper}>
           <Link href='/'>
             <a
               className={getInitialCln(
-                styles.Navbar__link,
-                styles.Navbar__link__scroll,
+                styles.link,
+                styles.link__scroll,
                 search,
                 scrolled
               )}
-              id={styles.Navbar__link}
+              id={styles.link}
             >
-              <AirbnbSvg classname={styles.Navbar__icon} />
+              <AirbnbSvg classname={styles.icon} />
               <AirbnbSmallSvg
                 fill='currentColor'
-                classname={styles.Navbar__icon__small}
+                classname={styles.icon__small}
               />
             </a>
           </Link>
         </div>
 
-        <SearchForm search={search} scrolled={scrolled} />
+        <SearchForm filter={filter} search={search} scrolled={scrolled} />
 
         <NavSettings
           data={data}
@@ -64,6 +70,20 @@ const Navbar: React.FC<NavbarProps> = ({ search = false, logout }) => {
       </div>
     </header>
   );
+
+  if (filter) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.flex__after}>
+          {Nav}
+
+          <div className={styles.height__div}></div>
+        </div>
+      </div>
+    );
+  }
+
+  return Nav;
 };
 
 export default withLogout(Navbar);

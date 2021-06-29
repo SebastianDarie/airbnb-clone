@@ -33,6 +33,7 @@ export type Listing = {
   bedrooms: Scalars['Float'];
   beds: Scalars['Float'];
   guests: Scalars['Float'];
+  city: Scalars['String'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   amenities: Array<Scalars['String']>;
@@ -54,6 +55,7 @@ export type ListingInput = {
   bedrooms: Scalars['Int'];
   beds: Scalars['Int'];
   guests: Scalars['Int'];
+  city: Scalars['String'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   amenities: Array<Scalars['String']>;
@@ -80,6 +82,7 @@ export type Mutation = {
   signS3: Array<Scalars['String']>;
   createListing: Scalars['Boolean'];
   updateListing?: Maybe<Listing>;
+  createLocation: Listing;
   deleteListing: Scalars['Boolean'];
   createMessage: Message;
   register: UserResponse;
@@ -104,6 +107,13 @@ export type MutationCreateListingArgs = {
 
 export type MutationUpdateListingArgs = {
   input: UpdateListing;
+  id: Scalars['String'];
+};
+
+
+export type MutationCreateLocationArgs = {
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
   id: Scalars['String'];
 };
 
@@ -166,6 +176,7 @@ export type Query = {
   listings: Array<Listing>;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
+  getDBInfo: Scalars['Boolean'];
   messages: Array<Message>;
   users: Array<User>;
   me?: Maybe<User>;
@@ -189,8 +200,8 @@ export type QueryMessagesArgs = {
 };
 
 export type SearchInput = {
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['String']>;
   beds?: Maybe<Scalars['Int']>;
   guests?: Maybe<Scalars['Int']>;
@@ -217,6 +228,7 @@ export type UpdateListing = {
   bedrooms?: Maybe<Scalars['Int']>;
   beds?: Maybe<Scalars['Int']>;
   guests?: Maybe<Scalars['Int']>;
+  city?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   amenities?: Maybe<Array<Scalars['String']>>;
@@ -456,7 +468,7 @@ export type SearchListingsQuery = (
     & Pick<PaginatedListings, 'hasMore'>
     & { listings: Array<(
       { __typename?: 'Listing' }
-      & Pick<Listing, 'id' | 'title' | 'category' | 'photos' | 'bathrooms' | 'beds' | 'guests' | 'price' | 'createdAt'>
+      & Pick<Listing, 'id' | 'title' | 'category' | 'city' | 'photos' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'price' | 'createdAt'>
     )> }
   ) }
 );
@@ -1014,10 +1026,13 @@ export const SearchListingsDocument = gql`
       id
       title
       category
+      city
       photos
       bathrooms
+      bedrooms
       beds
       guests
+      amenities
       price
       createdAt
     }
