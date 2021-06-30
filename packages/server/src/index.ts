@@ -111,6 +111,7 @@ const main = async () => {
 
   await redis.del(REDIS_CACHE_PREFIX);
 
+  await Listing.delete({});
   const listings = await Listing.find({});
   //console.log(listings.length);
   listings.map(async (listing) => {

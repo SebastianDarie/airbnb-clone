@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({
         styles.header,
         styles.header__scroll,
         search,
-        scrolled
+        filter ? filter : scrolled
       )}
       id={filter ? styles.header__search : undefined}
     >
@@ -46,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 styles.link,
                 styles.link__scroll,
                 search,
-                scrolled
+                filter ? filter : scrolled
               )}
               id={styles.link}
             >
@@ -63,6 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
         <NavSettings
           data={data}
+          filter={filter}
           scrolled={scrolled}
           search={search}
           logout={logout}

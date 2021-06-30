@@ -1,6 +1,7 @@
 @use '../utilities/bootstrap.scss';
 
 @include bootstrap.opacity-mixin;
+@include bootstrap.skeleton-mixin;
 
 .size__div {
   display: inline-block;
@@ -38,6 +39,19 @@
 .card__area {
   grid-area: 1 / 1 / 2 / 2;
   opacity: 1;
+}
+
+.card__area__loading {
+  display: flex;
+  flex-direction: column;
+  grid-area: 1 / 1 / 2 / 2;
+  margin: 0px;
+  padding-top: 0px;
+  height: 100%;
+  visibility: visible;
+  content-visibility: visible;
+  opacity: 1;
+  z-index: 2;
 }
 
 .card__container {
@@ -83,6 +97,30 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     pointer-events: none;
   }
+}
+
+.card__image__border__loading {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-color: bootstrap.$default-color;
+  border-radius: 12px;
+}
+
+.card__skeleton {
+  animation-play-state: running;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  animation-direction: alternate;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: skeleton-loading;
+  animation-timing-function: ease-in-out;
+  background-color: currentColor;
+  display: block;
+  position: relative;
 }
 
 .card__image__padding {
@@ -306,6 +344,22 @@
   margin-left: 16px;
 }
 
+.property__type__skeleton {
+  display: block;
+  height: 18px;
+  width: 40%;
+  background-color: bootstrap.$default-color;
+  border-radius: 10px;
+}
+
+.title__skeleton {
+  display: block;
+  height: 24px;
+  width: 90%;
+  background-color: bootstrap.$default-color;
+  border-radius: 10px;
+}
+
 .card__header__flex {
   display: flex;
   align-items: flex-start;
@@ -397,11 +451,34 @@
   text-overflow: ellipsis;
 }
 
+.floor__plan__skeleton {
+  display: block;
+  height: 18px;
+  width: 50%;
+  background-color: bootstrap.$default-color;
+  border-radius: 10px;
+}
+
+.amenities__skeleton {
+  display: block;
+  height: 18px;
+  width: 45%;
+  background-color: bootstrap.$default-color;
+  border-radius: 10px;
+}
+
 .card__footer {
   display: flex;
   align-items: flex-end;
   flex-grow: 1;
   margin-top: -10px;
+}
+
+.reviews__skeleton {
+  display: block;
+  height: 18px;
+  width: 93px;
+  background-color: bootstrap.$default-color;
 }
 
 .reviews__container {

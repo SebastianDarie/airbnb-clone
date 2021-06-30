@@ -1,6 +1,7 @@
 import { SearchSvg } from '@airbnb-clone/controller';
 import { Searchbar } from './Searchbar';
 import styles from '../../sass/components/SearchForm.module.scss';
+import { getInitialCln } from '../../utils/getInitialCln';
 
 interface SearchFormProps {
   filter: boolean;
@@ -14,51 +15,78 @@ export const SearchForm: React.FC<SearchFormProps> = ({
   scrolled,
 }) => {
   const form = (
-    <div className={styles.SearchForm__links}>
+    <div className={styles.links}>
       {search ? (
         <>
           <div
-            className={
-              scrolled
-                ? styles.SearchForm__searchbar__small__scroll
-                : styles.SearchForm__searchbar__small
-            }
+            className={getInitialCln(
+              styles.searchbar__small,
+              styles.searchbar__small__scroll,
+              search,
+              filter ? filter : scrolled
+            )}
           >
             <div
-              className={styles.SearchForm__search__small}
-              id={scrolled ? styles.SearchForm__search : undefined}
+              className={styles.search__small}
+              id={getInitialCln(
+                undefined,
+                styles.search,
+                search,
+                filter ? filter : scrolled
+              )}
               role='search'
             >
-              <button
-                className={styles.SearchForm__search__small__btn}
-                type='button'
-              >
-                <div className={styles.SearchForm__search__small__text}>
-                  Start your search
-                </div>
-                <div
-                  className={styles.SearchForm__search__small__icon}
-                  data-icon='true'
-                >
-                  <SearchSvg />
-                </div>
-              </button>
+              {filter ? (
+                <>
+                  <button className={styles.search__small__btn} type='button'>
+                    <div className={styles.search__small__text}>Map area</div>
+                  </button>
+                  <span className={styles.search__divider}></span>
+                  <button className={styles.search__small__btn} type='button'>
+                    <div className={styles.search__default__text}>
+                      Add dates
+                    </div>
+                  </button>
+                  <span className={styles.search__divider}></span>
+                  <button className={styles.search__small__btn} type='button'>
+                    <div className={styles.search__default__text}>
+                      Add guests
+                    </div>
+                    <div
+                      className={styles.search__small__icon}
+                      data-icon='true'
+                    >
+                      <SearchSvg />
+                    </div>
+                  </button>
+                </>
+              ) : (
+                <button className={styles.search__small__btn} type='button'>
+                  <div className={styles.search__small__text}>
+                    Start your search
+                  </div>
+                  <div className={styles.search__small__icon} data-icon='true'>
+                    <SearchSvg />
+                  </div>
+                </button>
+              )}
             </div>
           </div>
 
           <div
-            className={
-              scrolled
-                ? styles.SearchForm__search__container__scroll
-                : styles.SearchForm__search__container
-            }
+            className={getInitialCln(
+              styles.search__container,
+              styles.search__container__scroll,
+              search,
+              filter ? filter : scrolled
+            )}
           >
-            <form className={styles.SearchForm__search__form}>
-              <fieldset className={styles.SearchForm__search__fieldset}>
-                <div className={styles.SearchForm__search__options}>
+            <form className={styles.search__form}>
+              <fieldset className={styles.search__fieldset}>
+                <div className={styles.search__options}>
                   <label htmlFor='stays'>
                     <input
-                      className={styles.SearchForm__search__radio}
+                      className={styles.search__radio}
                       id='stays'
                       type='radio'
                       role='tab'
@@ -68,35 +96,41 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                       readOnly
                     />
                     <span
-                      className={styles.SearchForm__search__fieldset__text}
-                      id={
-                        scrolled ? styles.SearchForm__text__scroll : undefined
-                      }
+                      className={styles.search__fieldset__text}
+                      id={getInitialCln(
+                        undefined,
+                        styles.text__scroll,
+                        search,
+                        filter ? filter : scrolled
+                      )}
                     >
                       Places to stay
                     </span>
                   </label>
                   <label>
-                    <input
-                      className={styles.SearchForm__search__radio}
-                      type='radio'
-                    />
+                    <input className={styles.search__radio} type='radio' />
                     <span
-                      className={styles.SearchForm__search__fieldset__text}
-                      id={
-                        scrolled ? styles.SearchForm__text__scroll : undefined
-                      }
+                      className={styles.search__fieldset__text}
+                      id={getInitialCln(
+                        undefined,
+                        styles.text__scroll,
+                        search,
+                        filter ? filter : scrolled
+                      )}
                     >
                       Experiences
                     </span>
                   </label>
                   <div>
-                    <a className={styles.SearchForm__search__link} href='/'>
+                    <a className={styles.search__link} href='/'>
                       <div
-                        className={styles.SearchForm__search__div}
-                        id={
-                          scrolled ? styles.SearchForm__text__scroll : undefined
-                        }
+                        className={styles.search__div}
+                        id={getInitialCln(
+                          undefined,
+                          styles.text__scroll,
+                          search,
+                          filter ? filter : scrolled
+                        )}
                       >
                         Online Experiences
                       </div>

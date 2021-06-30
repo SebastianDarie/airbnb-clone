@@ -16,12 +16,13 @@ import { MenuLink } from './MenuLink';
 
 type NavSettingsProps = {
   data: MeQuery | undefined;
+  filter: boolean;
   scrolled: boolean;
   search: boolean;
 } & WithLogoutProps;
 
 export const NavSettings: React.FC<NavSettingsProps> = React.memo(
-  ({ data, scrolled, search, logout }) => {
+  ({ data, filter, scrolled, search, logout }) => {
     const apolloClient = useApolloClient();
     const menu = useRef<HTMLDivElement | null>(null);
 
@@ -37,36 +38,40 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
     return (
       <div className={styles.UtilsNav__container}>
         <nav className={styles.UtilsNav__nav}>
-          <div className={styles.UtilsNav__btn__container}>
-            <Link href='/create-listing/property-type-group'>
-              <a
-                className={getInitialCln(
-                  styles.UtilsNav__host__link,
-                  styles.UtilsNav__link__scroll,
-                  search,
-                  scrolled
-                )}
-              >
-                <div className={styles.UtilsNav__link__text}>Become a host</div>
-              </a>
-            </Link>
-            <div>
-              <button
-                className={getInitialCln(
-                  styles.UtilsNav__globe__btn,
-                  styles.UtilsNav__link__scroll,
-                  search,
-                  scrolled
-                )}
-              >
-                <div className={styles.UtilsNav__link__text}>
-                  <div className={styles.UtilsNav__icon__container}>
-                    <GlobeSvg />
+          {filter ? null : (
+            <div className={styles.UtilsNav__btn__container}>
+              <Link href='/create-listing/property-type-group'>
+                <a
+                  className={getInitialCln(
+                    styles.UtilsNav__host__link,
+                    styles.UtilsNav__link__scroll,
+                    search,
+                    scrolled
+                  )}
+                >
+                  <div className={styles.UtilsNav__link__text}>
+                    Become a host
                   </div>
-                </div>
-              </button>
+                </a>
+              </Link>
+              <div>
+                <button
+                  className={getInitialCln(
+                    styles.UtilsNav__globe__btn,
+                    styles.UtilsNav__link__scroll,
+                    search,
+                    scrolled
+                  )}
+                >
+                  <div className={styles.UtilsNav__link__text}>
+                    <div className={styles.UtilsNav__icon__container}>
+                      <GlobeSvg />
+                    </div>
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           <div>
             <div className={styles.UtilsNav__widget__container} ref={ref}>

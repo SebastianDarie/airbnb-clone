@@ -4,19 +4,17 @@ query Listing($id: String!) {
     title
     description
     category
+    city
+    type
     photos
     price
     bathrooms
     bedrooms
     beds
     guests
-    latitude
-    longitude
     amenities
-    createdAt
     creator {
       id
-      confirmed
       email
     }
   }

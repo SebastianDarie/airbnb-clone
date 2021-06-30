@@ -1,0 +1,355 @@
+@use '../utilities/bootstrap.scss';
+
+@include bootstrap.cover-mixin;
+
+.display__div {
+  display: none;
+
+  @media screen and (min-width: 744px) {
+    display: block;
+  }
+}
+
+.room__section__flex {
+  &::before {
+    content: '';
+    display: flex;
+  }
+
+  &::after {
+    content: '';
+    display: flex;
+  }
+}
+
+.room__section__padding {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-left: 0px;
+  margin-right: 0px;
+
+  @media screen and (min-width: 375px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @media screen and (min-width: 744px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media screen and (min-width: 950px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media screen and (min-width: 1128px) {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    max-width: none;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+.room__section__margin {
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1128px;
+}
+
+.room__section__top {
+  padding-top: 24px;
+}
+
+.room__title__container {
+  @media screen and (min-width: 1128px) {
+    margin-bottom: 4px;
+  }
+}
+
+.room__title {
+  color: inherit;
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 30px;
+  margin: 0px;
+  padding: 0px;
+  display: inline;
+  word-break: break-word;
+}
+
+.room__header__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.room__header__reviews {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 4px;
+
+  @media screen and (min-width: 1128px) {
+    margin-top: 0px;
+  }
+}
+
+.room__header__details {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  min-width: 0px;
+}
+
+.room__header__dot {
+  color: rgb(113, 113, 113);
+  font-weight: 400;
+  margin: 8px 8px 0px;
+}
+
+.room__header__location {
+  line-height: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  position: relative;
+  color: rgb(113, 113, 113);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.room__images__border {
+  overflow-y: hidden;
+
+  @media screen and (min-width: 744px) {
+    border-radius: 12px;
+  }
+}
+
+.room__images__container {
+  overflow-y: hidden;
+  position: relative;
+  max-height: calc(100vh - 144px);
+  min-height: 300px;
+
+  @media screen and (min-width: 1128px) {
+    max-height: calc(60vh - 64px);
+  }
+}
+
+.room__images__padding {
+  height: 0;
+  min-height: 100%;
+  min-width: 100%;
+  position: relative;
+  padding-top: 50%;
+}
+
+.room__images__position {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.room__cover__position {
+  height: 100%;
+  width: 50%;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+}
+
+.room__images__container {
+  height: 100%;
+  width: 100%;
+  max-height: calc(100vh - 144px);
+  min-height: 300px;
+
+  @media screen and (min-width: 1128px) {
+    max-height: calc(60vh - 64px);
+  }
+}
+
+.room__image__relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.room__image__container {
+  display: inline-block;
+  vertical-align: bottom;
+  height: 100%;
+  width: 100%;
+  min-height: 1px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.room__cover__hover {
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  background-color: black;
+  z-index: 2;
+  animation-name: cover-opacity;
+  animation-timing-function: ease-out;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+}
+
+.room__images__flex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 25%;
+  padding-left: 8px;
+  left: 50%;
+  top: 0px;
+  position: absolute;
+}
+
+.room__image__top {
+  height: 100%;
+
+  @media screen and (min-width: 450px) {
+    height: 50%;
+  }
+}
+
+.room__image__bottom {
+  display: none;
+  height: 50%;
+  padding-top: 8px;
+
+  @media screen and (min-width: 450px) {
+    display: block;
+    height: 50%;
+  }
+}
+
+.room__description__section {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media screen and (min-width: 375px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @media screen and (min-width: 744px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media screen and (min-width: 950px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media screen and (min-width: 1128px) {
+    padding-left: 80px;
+    padding-right: 80px;
+    max-width: 1280px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding-left: 80px;
+    padding-right: 80px;
+    max-width: 1280px;
+  }
+}
+
+.description__side {
+  position: relative;
+  width: 58.333333333333336%;
+  margin-left: 0%;
+  margin-right: 0%;
+}
+
+.booking__section {
+  position: relative;
+  width: 33.33333333333333%;
+  margin-left: 8.333333333333332%;
+  margin-right: 0%;
+}
+
+.sticky__menu {
+  position: sticky;
+  top: 80px;
+  z-index: 1;
+  display: inline-block;
+  width: 100%;
+  padding-right: 1px;
+}
+
+.menu__topmargin {
+  margin-top: 48px;
+}
+
+.menu__border {
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+}
+
+.menu__text__style {
+  color: rgb(34, 34, 34);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.menu__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu__price__container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24px;
+}
+
+.menu__price__flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.menu__dates__container {
+  margin-bottom: 16px;
+}
+
+.menu__btn__container {
+  flex-shrink: 0;
+}

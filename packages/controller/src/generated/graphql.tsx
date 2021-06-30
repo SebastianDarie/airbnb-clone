@@ -411,10 +411,10 @@ export type ListingQuery = (
   { __typename?: 'Query' }
   & { listing?: Maybe<(
     { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'latitude' | 'longitude' | 'amenities' | 'createdAt'>
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'city' | 'type' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities'>
     & { creator: (
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'confirmed' | 'email'>
+      & Pick<User, 'id' | 'email'>
     ) }
   )> }
 );
@@ -862,19 +862,17 @@ export const ListingDocument = gql`
     title
     description
     category
+    city
+    type
     photos
     price
     bathrooms
     bedrooms
     beds
     guests
-    latitude
-    longitude
     amenities
-    createdAt
     creator {
       id
-      confirmed
       email
     }
   }

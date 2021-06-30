@@ -74,3 +74,27 @@ $breakpoints: (
     }
   }
 }
+
+@mixin skeleton-mixin {
+  @keyframes skeleton-loading {
+    0% {
+      opacity: 0.09049773755656108;
+    }
+
+    100% {
+      opacity: 0.15384615384615385;
+    }
+  }
+}
+
+@mixin cover-mixin {
+  @keyframes cover-opacity {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 0.15;
+    }
+  }
+}
