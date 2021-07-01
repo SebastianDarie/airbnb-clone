@@ -1,6 +1,7 @@
 @use '../utilities/bootstrap.scss';
 
 @include bootstrap.cover-mixin;
+@include bootstrap.opacity-mixin;
 
 .display__div {
   display: none;
@@ -30,8 +31,8 @@
   width: 100%;
   padding-left: 24px;
   padding-right: 24px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 0;
+  margin-right: 0;
 
   @media screen and (min-width: 375px) {
     padding-left: 24px;
@@ -39,24 +40,24 @@
   }
 
   @media screen and (min-width: 744px) {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 40;
+    padding-right: 40;
   }
 
-  @media screen and (min-width: 950px) {
-    padding-left: 40px;
-    padding-right: 40px;
+  @media screen and (min-width: 950) {
+    padding-left: 40;
+    padding-right: 40;
   }
 
   @media screen and (min-width: 1128px) {
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 80;
+    padding-right: 80;
   }
 
-  @media screen and (min-width: 1440px) {
+  @media screen and (min-width: 1440) {
     max-width: none;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 80;
+    padding-right: 80;
   }
 }
 
@@ -82,9 +83,9 @@
   color: inherit;
   font-size: 1em;
   font-weight: 600;
-  line-height: 30px;
-  margin: 0px;
-  padding: 0px;
+  line-height: 30;
+  margin: 0;
+  padding: 0;
   display: inline;
   word-break: break-word;
 }
@@ -101,7 +102,7 @@
   margin-top: 4px;
 
   @media screen and (min-width: 1128px) {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 
@@ -109,18 +110,18 @@
   display: flex;
   align-items: center;
   margin-top: 8px;
-  min-width: 0px;
+  min-width: 0;
 }
 
 .room__header__dot {
   color: rgb(113, 113, 113);
   font-weight: 400;
-  margin: 8px 8px 0px;
+  margin: 8px 8px 0;
 }
 
 .room__header__location {
-  line-height: 20px;
-  max-height: 20px;
+  line-height: 20;
+  max-height: 20;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 14px;
@@ -142,7 +143,7 @@
   overflow-y: hidden;
   position: relative;
   max-height: calc(100vh - 144px);
-  min-height: 300px;
+  min-height: 300;
 
   @media screen and (min-width: 1128px) {
     max-height: calc(60vh - 64px);
@@ -168,8 +169,8 @@
 .room__cover__position {
   height: 100%;
   width: 50%;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   position: absolute;
 }
 
@@ -177,7 +178,7 @@
   height: 100%;
   width: 100%;
   max-height: calc(100vh - 144px);
-  min-height: 300px;
+  min-height: 300;
 
   @media screen and (min-width: 1128px) {
     max-height: calc(60vh - 64px);
@@ -204,10 +205,10 @@
   pointer-events: none;
   position: absolute;
   display: block;
-  top: 0px;
+  top: 0;
   width: 100%;
   height: 100%;
-  left: 0px;
+  left: 0;
   background-color: black;
   z-index: 2;
   animation-name: cover-opacity;
@@ -223,14 +224,14 @@
   width: 25%;
   padding-left: 8px;
   left: 50%;
-  top: 0px;
+  top: 0;
   position: absolute;
 }
 
 .room__image__top {
   height: 100%;
 
-  @media screen and (min-width: 450px) {
+  @media screen and (min-width: 450) {
     height: 50%;
   }
 }
@@ -240,9 +241,87 @@
   height: 50%;
   padding-top: 8px;
 
-  @media screen and (min-width: 450px) {
+  @media screen and (min-width: 450) {
     display: block;
     height: 50%;
+  }
+}
+
+.room__navbar__container {
+  box-shadow: rgb(0 0 0 / 10%) 0px 1px 0px;
+  background-color: bootstrap.$default-color;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  z-index: 3;
+  animation-name: opacity-appear;
+  animation-duration: 100ms;
+  animation-timing-function: ease-out;
+
+  @media screen and (min-width: 744px) {
+    height: 80px;
+  }
+}
+
+.room__navbar__align {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.room__navbar__font {
+  color: rgb(113, 113, 113);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+
+  @media screen and (min-width: 744px) {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.room__navbar__item {
+  display: block;
+  margin-right: 24px;
+}
+
+.room__navbar__btn {
+  position: relative;
+  touch-action: manipulation;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s;
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.btn__padding {
+  color: rgb(34, 34, 34);
+  font-weight: 600;
+  padding: 30px 0px;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+
+  &::after {
+    background-color: rgb(34, 34, 34);
+    content: '';
+    display: block;
+    bottom: 0px;
+    height: 4px;
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.15s ease 0s;
+    width: 100%;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
@@ -263,25 +342,25 @@
   }
 
   @media screen and (min-width: 744px) {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 40;
+    padding-right: 40;
   }
 
-  @media screen and (min-width: 950px) {
-    padding-left: 40px;
-    padding-right: 40px;
+  @media screen and (min-width: 950) {
+    padding-left: 40;
+    padding-right: 40;
   }
 
   @media screen and (min-width: 1128px) {
-    padding-left: 80px;
-    padding-right: 80px;
-    max-width: 1280px;
+    padding-left: 80;
+    padding-right: 80;
+    max-width: 1280;
   }
 
-  @media screen and (min-width: 1440px) {
-    padding-left: 80px;
-    padding-right: 80px;
-    max-width: 1280px;
+  @media screen and (min-width: 1440) {
+    padding-left: 80;
+    padding-right: 80;
+    max-width: 1280;
   }
 }
 
@@ -292,64 +371,340 @@
   margin-right: 0%;
 }
 
-.booking__section {
-  position: relative;
-  width: 33.33333333333333%;
-  margin-left: 8.333333333333332%;
-  margin-right: 0%;
+.title__padding {
+  padding-top: 48px;
+  padding-bottom: 24px;
 }
 
-.sticky__menu {
-  position: sticky;
-  top: 80px;
-  z-index: 1;
-  display: inline-block;
-  width: 100%;
-  padding-right: 1px;
+.title__profile__flex {
+  display: flex;
 }
 
-.menu__topmargin {
-  margin-top: 48px;
+.title__grow {
+  flex: 0 1 100%;
 }
 
-.menu__border {
-  border: 1px solid rgb(221, 221, 221);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
-}
-
-.menu__text__style {
+.room__title {
   color: rgb(34, 34, 34);
-  font-weight: 400;
+  font-weight: 600;
   font-size: 16px;
-  line-height: 20px;
+  line-height: 20;
+  margin-bottom: 8px;
+
+  @media screen and (min-width: 744px) {
+    color: rgb(34, 34, 34);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 26px;
+  }
 }
 
-.menu__column {
-  display: flex;
-  flex-direction: column;
-}
-
-.menu__price__container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 24px;
-}
-
-.menu__price__flex {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.menu__dates__container {
+.profile__margin {
+  margin-left: 16px;
   margin-bottom: 16px;
 }
 
-.menu__btn__container {
+.profile__font {
+  font-size: 28px;
+}
+
+.profile__size {
+  display: block;
+  height: 56px;
+  width: 56px;
+  position: relative;
+}
+
+.profile__btn {
+  font-style: inherit;
+  font-variant: inherit;
+  color: inherit;
+  text-decoration: underline;
+  user-select: auto;
+  display: block;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  border-radius: 50%;
+
+  &::after {
+    border: 0 solid rgb(0, 0, 0);
+    content: '';
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+  }
+}
+
+.profile {
+  background: rgb(221, 221, 221);
+  overflow: hidden;
+  position: relative;
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
+}
+
+.profile__img {
+  height: 100%;
+  width: 100%;
+  position: static;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+
+.superhost__position {
+  position: absolute;
+  right: -8px;
+  bottom: 0;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.section__divider {
+  border-top-color: rbg(221, 221, 221);
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+.highlights__padding {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.highlight__flex {
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.highlight__svg__container {
   flex-shrink: 0;
+  min-width: 24px;
+}
+
+.highlight__description__container {
+  margin-left: 16px;
+}
+
+.highlight__title {
+  color: rgb(34, 34, 34);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20;
+  margin-bottom: 4px;
+}
+
+.highlight__description {
+  color: rgb(113, 113, 113);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20;
+}
+
+.description__padding {
+  padding-top: 32px;
+  padding-bottom: 48px;
+}
+
+.description__snippet__container {
+  line-height: 24px;
+  max-height: 144px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.show__more__margin {
+  margin-top: 16px;
+}
+
+.show__more__btn {
+  display: inline-block;
+  position: relative;
+  border-radius: 4px;
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: underline;
+  touch-action: manipulation;
+}
+
+.section__padding {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.amenities__heading__padding {
+  padding-bottom: 24px;
+}
+
+.amenities__heading__container {
+  color: rgb(34, 34, 34);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 26px;
+}
+
+.section__heading {
+  color: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.amenities__list__grid {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  margin-right: -6px;
+
+  @media screen and (min-width: 375px) {
+    margin-left: -6px;
+    margin-right: -6px;
+    width: calc(100% + 12px);
+  }
+
+  @media screen and (min-width: 744px) {
+    margin-left: -8px;
+    margin-right: -8px;
+    width: calc(100% + 16px);
+  }
+
+  @media screen and (min-width: 950) {
+    margin-left: -8px;
+    margin-right: -8px;
+    width: calc(100% + 16px);
+  }
+
+  @media screen and (min-width: 1128px) {
+    margin-left: -8px;
+    margin-right: -8px;
+    width: calc(100% + 16px);
+  }
+
+  @media screen and (min-width: 1440) {
+    margin-left: -8px;
+    margin-right: -8px;
+    width: calc(100% + 16px);
+  }
+}
+
+.amenity__item__container {
+  position: relative;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 0%;
+  padding-left: 6px;
+  padding-right: 6px;
+
+  @media screen and (min-width: 375px) {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  @media screen and (min-width: 744px) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  @media screen and (min-width: 950) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  @media screen and (min-width: 1128px) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  @media screen and (min-width: 1440) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.amenity__max__container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 16px;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+
+  @media screen and (min-width: 744px) {
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+    max-width: 83.3333%;
+  }
+}
+
+.amenity__svg__container {
+  min-width: 24px;
+  margin-right: 16px;
+  margin-left: 0;
+
+  @media screen and (min-width: 744px) {
+    margin-right: 16px;
+    margin-left: 0;
+  }
+}
+
+.reviews__padding {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-left: 0;
+  margin-right: 0;
+
+  @media screen and (min-width: 375px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @media screen and (min-width: 744px) {
+    padding-left: 40;
+    padding-right: 40;
+  }
+
+  @media screen and (min-width: 950) {
+    padding-left: 40;
+    padding-right: 40;
+  }
+
+  @media screen and (min-width: 1128px) {
+    padding-left: 80;
+    padding-right: 80;
+  }
+
+  @media screen and (min-width: 1440) {
+    padding-left: 80;
+    padding-right: 80;
+  }
+}
+
+.reviews__margin {
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1128px;
+  width: 100%;
+}
+
+.svg__margin {
+  display: flex;
+  color: bootstrap.$brand-color;
+  margin-right: 8px;
 }

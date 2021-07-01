@@ -1,0 +1,232 @@
+@use '../utilities/bootstrap.scss';
+
+.booking__side {
+  position: relative;
+  width: 33.33333333333333%;
+  margin-left: 8.333333333333332%;
+  margin-right: 0%;
+}
+
+.sticky__menu {
+  position: sticky;
+  top: 80px;
+  z-index: 1;
+  display: inline-block;
+  width: 100%;
+  padding-right: 1px;
+}
+
+.room__section__flex {
+  &::before {
+    content: '';
+    display: flex;
+  }
+
+  &::after {
+    content: '';
+    display: flex;
+  }
+}
+
+.menu__topmargin {
+  margin-top: 48px;
+}
+
+.menu__border {
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+}
+
+.menu__text__style {
+  color: rgb(34, 34, 34);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.menu__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu__price__container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24px;
+}
+
+.menu__price__flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.menu__price__align {
+  color: rgb(34, 34, 34);
+  display: flex;
+  font-weight: 400;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.price__span {
+  font-weight: 600;
+  padding-right: 4px;
+}
+
+.night__span {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.menu__dates__container {
+  margin-bottom: 16px;
+}
+
+.menu__dates__border {
+  background-color: bootstrap.$default-color;
+  border-radius: 8px;
+  position: relative;
+}
+
+.menu__dates__flex {
+  display: flex;
+  width: 100%;
+}
+
+.menu__dates__grow {
+  flex: 1 1 0%;
+  position: relative;
+}
+
+.dates__left__border {
+  position: absolute;
+  pointer-events: none;
+  background: none;
+  border-radius: 8px 8px 0px 0px;
+  inset: 0px 0px -1px;
+}
+
+.dates__container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 0px;
+  border: none transparent;
+  color: rgb(34, 34, 34);
+  background-color: transparent;
+  border-radius: 0px;
+  box-shadow: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  outline: 0px;
+}
+
+.checkin__container {
+  position: relative;
+  flex: 1 1 0%;
+  padding: 0px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.checkin__text {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  margin: 0px;
+  padding: 0px;
+  pointer-events: none;
+  font-size: 10px;
+  line-height: 12px;
+  color: rgb(34, 34, 34);
+  text-transform: uppercase;
+  font-weight: 800;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.add__date {
+  height: 56px;
+  width: 100%;
+  border: none;
+  outline: none;
+  margin: 0px;
+  padding: 26px 12px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: inherit;
+  line-height: 18px;
+  appearance: none;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgb(113, 113, 113);
+}
+
+.checkout__container {
+  position: relative;
+  flex: 1 1 0%;
+  padding: 0px;
+  width: 100%;
+  overflow: hidden;
+  border-left: 1px solid rgb(176, 176, 176);
+}
+
+.dates__right__border {
+  inset: 0px 0px -1px;
+  border-radius: 8px 8px 0px 0px;
+  border-color: rgb(176, 176, 176);
+  border-width: 1px;
+  z-index: 0;
+  position: absolute;
+  pointer-events: none;
+  border-style: solid;
+}
+
+.guest__btn {
+  height: 56px;
+  width: 100%;
+  border: none;
+  padding: 26px 36px 10px 12px;
+  color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guest__span {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.arrow__position {
+  position: absolute;
+  right: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-width: 50%;
+  min-width: 36px;
+  padding-right: 12px;
+  pointer-events: none;
+  color: rgb(34, 34, 34);
+}
+
+.menu__btn__container {
+  flex-shrink: 0;
+}

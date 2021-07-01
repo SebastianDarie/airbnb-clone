@@ -9,6 +9,7 @@ import {
 } from '@airbnb-clone/controller';
 import styles from '../sass/components/ListingCard.module.scss';
 import { useState } from 'react';
+import { FloorPlanDetails } from './FloorPlanDetails';
 
 interface ListingCardProps {
   listing: {
@@ -37,7 +38,12 @@ export const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
   const [showControls, setShowControls] = useState(false);
 
-  console.log(listing?.photos[0]?.replace(/.*(?=listings)/, ''));
+  // console.log(
+  //   'https://d9r6g0xftldzw.cloudfront.net/listings/2021-06-25-yw433-pexels-pixabay-271624-jpg'.replace(
+  //     /.*(?=listings)/,
+  //     ''
+  //   )
+  // );
   const request = {
     bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
     key: 'listings/2021-06-25-yw433-pexels-pixabay-271624-jpg',
@@ -51,7 +57,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   };
   const str = JSON.stringify(request);
   const enc = btoa(str);
-  console.log(enc);
+  //console.log(enc);
 
   const ImageC = (
     <div className={styles.card__image__border}>
@@ -66,19 +72,11 @@ export const ListingCard: React.FC<ListingCardProps> = ({
               <div>
                 <picture>
                   <source srcSet='' media='(max-width: 743px)' />
-                  {listing.photos.length > 0 ? (
-                    <Image
-                      src={listing.photos[0]}
-                      layout='fill'
-                      objectFit='cover'
-                    />
-                  ) : (
-                    <Image
-                      src='https://d9r6g0xftldzw.cloudfront.net/listings/2021-06-25-yw433-pexels-pixabay-271624-jpg'
-                      layout='fill'
-                      objectFit='cover'
-                    />
-                  )}
+                  <Image
+                    src={listing.photos[0]}
+                    layout='fill'
+                    objectFit='cover'
+                  />
                 </picture>
               </div>
             </div>
@@ -88,26 +86,13 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             <div className={styles.image__dots}>
               <div className={styles.image__dots__overflow}>
                 <div className={styles.image__dots__transform}>
-                  {listing.photos.length > 0 ? (
-                    listing.photos.map((_photo, i) => (
-                      <span
-                        key={i}
-                        className={styles.image__dots__dot}
-                        id={i === 0 ? styles.selected__dot : undefined}
-                      ></span>
-                    ))
-                  ) : (
-                    <>
-                      <span
-                        className={styles.image__dots__dot}
-                        id={styles.selected__dot}
-                      ></span>
-                      <span className={styles.image__dots__dot}></span>
-                      <span className={styles.image__dots__dot}></span>
-                      <span className={styles.image__dots__dot}></span>
-                      <span className={styles.image__dots__dot}></span>
-                    </>
-                  )}
+                  {listing.photos.map((_photo, i) => (
+                    <span
+                      key={i}
+                      className={styles.image__dots__dot}
+                      id={i === 0 ? styles.selected__dot : undefined}
+                    ></span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -178,23 +163,21 @@ export const ListingCard: React.FC<ListingCardProps> = ({
       <div className={styles.card__divider__small}></div>
 
       <div className={styles.card__description} style={{ marginTop: 9 }}>
-        <span>{listing.guests} guests</span>
-        <span> · </span>
-        <span>{listing.bedrooms} bedrooms</span>
-        <span> · </span>
-        <span>{listing.beds} beds</span>
-        <span> · </span>
-        <span>{listing.bathrooms} baths</span>
+        <FloorPlanDetails
+          bathrooms={listing.bathrooms}
+          bedrooms={listing.bedrooms}
+          beds={listing.beds}
+          guests={listing.guests}
+        />
       </div>
 
       <div className={styles.card__description} style={{ marginTop: 4 }}>
-        <span>{listing.amenities[0]}</span>
-        <span> · </span>
-        <span>Kitchen</span>
-        <span> · </span>
-        <span>Air conditioning</span>
-        <span> · </span>
-        <span>Washer</span>
+        {listing.amenities.slice(0, 4).map((amenity, i) => (
+          <>
+            <span>{amenity}</span>
+            {i === 3 ? null : <span> · </span>}
+          </>
+        ))}
       </div>
 
       <div className={styles.card__footer}>

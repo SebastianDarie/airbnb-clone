@@ -131,6 +131,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                               bedrooms: store.getState().bedrooms,
                               beds: store.getState().beds,
                               category: store.getState().category,
+                              //city: store.getState().city,
                               description: store.getState().description,
                               guests: store.getState().guests,
                               highlights: store.getState().highlights,
