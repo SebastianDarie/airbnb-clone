@@ -36,7 +36,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   listing,
   loading,
 }) => {
-  const [showControls, setShowControls] = useState(false);
+  //const [showControls, setShowControls] = useState(false);
 
   // console.log(
   //   'https://d9r6g0xftldzw.cloudfront.net/listings/2021-06-25-yw433-pexels-pixabay-271624-jpg'.replace(
@@ -100,7 +100,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
         </div>
       </div>
 
-      <div
+      {/* <div
         className={
           showControls
             ? styles.image__controls__hover
@@ -137,7 +137,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 
@@ -213,8 +213,8 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             <div className={styles.card__divider__margin}>
               <div
                 className={styles.card__container}
-                onMouseEnter={() => setShowControls(true)}
-                onMouseLeave={() => setShowControls(false)}
+                // onMouseEnter={() => setShowControls(true)}
+                // onMouseLeave={() => setShowControls(false)}
               >
                 {loading ? null : (
                   <Link href={`/rooms/${listing.id}`}>

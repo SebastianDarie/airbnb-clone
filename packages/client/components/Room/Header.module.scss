@@ -1,0 +1,91 @@
+@use '../../sass/utilities/bootstrap.scss';
+
+.room__title__container {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 600;
+  word-break: break-word;
+
+  @media screen and (min-width: 1128px) {
+    margin-bottom: 4px;
+  }
+}
+
+.room__title__top {
+  color: inherit;
+  font-size: 1em;
+  font-weight: 600;
+  line-height: 30px;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  word-break: break-word;
+}
+
+.room__header__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.room__header__reviews {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 4px;
+
+  @media screen and (min-width: 1128px) {
+    margin-top: 0;
+  }
+}
+
+.room__header__details {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  min-width: 0;
+}
+
+.header__svg {
+  align-items: center;
+  color: bootstrap.$brand-color;
+  display: inline-flex;
+  margin-right: 4px;
+  min-width: 14px;
+}
+
+.header__rating {
+  line-height: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(34, 34, 34);
+  font-size: 14px;
+  position: relative;
+  font-weight: 600;
+}
+
+.header__reviews__count {
+  color: rgb(113, 113, 113);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  padding-left: 4px;
+}
+
+.room__header__dot {
+  color: rgb(113, 113, 113);
+  font-weight: 400;
+  margin: 8px 8px 0;
+}
+
+.room__header__location {
+  line-height: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  position: relative;
+  color: rgb(113, 113, 113);
+  font-weight: 500;
+  text-decoration: underline;
+}

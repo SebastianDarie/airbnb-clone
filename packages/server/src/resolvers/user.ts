@@ -33,6 +33,9 @@ class UserInput {
   email: string;
 
   @Field()
+  name: string;
+
+  @Field()
   password: string;
 
   @Field()
@@ -105,6 +108,7 @@ export class UserResolver {
         .into(User)
         .values({
           email: credentials.email,
+          name: credentials.name,
           password: hashedPassword,
           //confirmed: true,
         })

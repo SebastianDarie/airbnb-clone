@@ -1,0 +1,131 @@
+@use '../../sass/utilities/bootstrap.scss';
+
+@include bootstrap.cover-mixin;
+
+.room__images__border {
+  overflow-y: hidden;
+
+  @media screen and (min-width: 744px) {
+    border-radius: 12px;
+  }
+}
+
+.room__images__section {
+  overflow-y: hidden;
+  position: relative;
+  max-height: calc(100vh - 144px);
+  min-height: 300px;
+
+  @media screen and (min-width: 1128px) {
+    max-height: calc(60vh - 64px);
+  }
+}
+
+.room__images__padding {
+  height: 0;
+  min-height: 100%;
+  min-width: 100%;
+  position: relative;
+  padding-top: 50%;
+}
+
+.room__images__position {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.room__cover__position {
+  height: 100%;
+  width: 50%;
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+
+.room__images__container {
+  height: 100%;
+  width: 100%;
+  max-height: calc(100vh - 144px);
+  min-height: 300px;
+
+  @media screen and (min-width: 1128px) {
+    max-height: calc(60vh - 64px);
+  }
+}
+
+.room__image__relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.room__image__container {
+  display: inline-block;
+  vertical-align: bottom;
+  height: 100%;
+  width: 100%;
+  min-height: 1px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.room__cover__hover {
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  background-color: black;
+  z-index: 2;
+  animation-name: cover-opacity;
+  animation-timing-function: ease-out;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+}
+
+.room__images__flex__left {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 25%;
+  padding-left: 8px;
+  left: 50%;
+  top: 0;
+  position: absolute;
+}
+
+.room__images__flex__right {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 25%;
+  padding-left: 8px;
+  right: 0;
+  top: 0;
+  position: absolute;
+}
+
+.room__image__top {
+  height: 100%;
+
+  @media screen and (min-width: 450px) {
+    height: 50%;
+  }
+}
+
+.room__image__bottom {
+  display: none;
+  height: 50%;
+  padding-top: 8px;
+
+  @media screen and (min-width: 450px) {
+    display: block;
+    height: 50%;
+  }
+}

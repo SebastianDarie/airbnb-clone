@@ -60,9 +60,6 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               </button>
               <div className={styles.guests__count}>
                 <span>{adults}</span>
-                <span className={styles.guests__value__hidden}>
-                  0 or more Adults
-                </span>
               </div>
               <button
                 className={styles.guests__plus}
@@ -93,9 +90,6 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               </button>
               <div className={styles.guests__count}>
                 <span>{children}</span>
-                <span className={styles.guests__value__hidden}>
-                  0 or more Children
-                </span>
               </div>
               <button
                 className={styles.guests__plus}
@@ -126,9 +120,6 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
               </button>
               <div className={styles.guests__count}>
                 <span>{infants}</span>
-                <span className={styles.guests__value__hidden}>
-                  0 or more Infants
-                </span>
               </div>
               <button
                 className={styles.guests__plus}

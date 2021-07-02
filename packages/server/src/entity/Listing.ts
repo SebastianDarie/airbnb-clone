@@ -14,15 +14,6 @@ import { Point } from 'geojson';
 import { Message } from './Message';
 import { User } from './User';
 
-// @ObjectType()
-// class PointType {
-//   @Field()
-//   type: string;
-
-//   @Field(() => [Number])
-//   coordinates: number[];
-// }
-
 @ObjectType()
 @Entity()
 export class Listing extends BaseEntity {
@@ -82,7 +73,6 @@ export class Listing extends BaseEntity {
   @Column({ type: 'double precision' })
   longitude!: number;
 
-  // @Field(() => PointType, { nullable: true })
   @Index({ spatial: true })
   @Column({
     type: 'geography',

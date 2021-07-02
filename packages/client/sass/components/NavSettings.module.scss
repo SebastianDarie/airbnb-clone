@@ -1,6 +1,6 @@
 @use '../utilities/bootstrap.scss';
 
-.UtilsNav__container {
+.container {
   flex: 1 0 auto;
 
   @media screen and (min-width: 950px) {
@@ -8,7 +8,7 @@
   }
 }
 
-.UtilsNav__nav {
+.nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -16,14 +16,14 @@
   position: relative;
 }
 
-.UtilsNav__btn__container {
+.btn__container {
   display: flex;
   flex: auto;
   justify-content: flex-end;
   margin-right: 8px;
 }
 
-.UtilsNav__host__link {
+.host__link {
   display: inline-block;
   font-size: 13px;
   font-weight: 500;
@@ -51,7 +51,7 @@
   }
 }
 
-.UtilsNav__link__scroll {
+.link__scroll {
   display: inline-block;
   font-size: 13px;
   font-weight: 600;
@@ -76,7 +76,7 @@
   }
 }
 
-.UtilsNav__link__text {
+.link__text {
   display: flex;
   align-items: center;
   height: 100%;
@@ -84,7 +84,7 @@
   z-index: 1;
 }
 
-.UtilsNav__globe__btn {
+.globe__btn {
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
@@ -112,7 +112,7 @@
   }
 }
 
-.UtilsNav__icon__container {
+.icon__container {
   display: flex;
   align-items: center;
   height: 18px;
@@ -120,12 +120,12 @@
   z-index: 1;
 }
 
-.UtilsNav__widget__container {
+.widget__container {
   display: inline;
   position: relative;
 }
 
-.UtilsNav__widget__btn {
+.widget__btn {
   border: 1px solid #dddddd;
   color: #222222;
   display: inline-flex;
@@ -140,13 +140,13 @@
   transition: box-shadow 0.2s ease;
 }
 
-#UtilsNav__btn {
+#btn {
   &:hover {
     box-shadow: 0px 2px 4px rgb(0 0 0 / 18%);
   }
 }
 
-.UtilsNav__profile__container {
+.profile__container {
   color: #717171;
   flex: 0 0 30px;
   margin-left: 12px;
@@ -157,7 +157,7 @@
   z-index: 1;
 }
 
-.UtilsNav__profile__img {
+.profile__img {
   background-color: currentcolor;
   border-radius: 50%;
   display: block;
@@ -165,7 +165,7 @@
   width: 100%;
 }
 
-.UtilsNav__notification {
+.notification {
   background-color: bootstrap.$brand-color;
   box-shadow: rgb(255 255 255) 0px 0px 0px 1.5px;
   position: absolute;
@@ -184,7 +184,7 @@
   top: -2px;
 }
 
-.UtilsNav__menu {
+.menu {
   background: bootstrap.$default-color;
   border-radius: 12px;
   box-shadow: rgb(0 0 0 / 12%) 0px 2px 16px;

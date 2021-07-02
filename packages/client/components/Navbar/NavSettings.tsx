@@ -36,62 +36,58 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
     useClickAway(ref, handleClickOutside);
 
     return (
-      <div className={styles.UtilsNav__container}>
-        <nav className={styles.UtilsNav__nav}>
-          {filter ? null : (
-            <div className={styles.UtilsNav__btn__container}>
-              <Link href='/create-listing/property-type-group'>
-                <a
-                  className={getInitialCln(
-                    styles.UtilsNav__host__link,
-                    styles.UtilsNav__link__scroll,
-                    search,
-                    scrolled
-                  )}
-                >
-                  <div className={styles.UtilsNav__link__text}>
-                    Become a host
+      <div className={styles.container}>
+        <nav className={styles.nav}>
+          <div className={styles.btn__container}>
+            <Link href='/create-listing/property-type-group'>
+              <a
+                className={getInitialCln(
+                  styles.host__link,
+                  styles.link__scroll,
+                  search,
+                  filter ? filter : scrolled
+                )}
+              >
+                <div className={styles.link__text}>Become a host</div>
+              </a>
+            </Link>
+            <div>
+              <button
+                className={getInitialCln(
+                  styles.globe__btn,
+                  styles.link__scroll,
+                  search,
+                  filter ? filter : scrolled
+                )}
+              >
+                <div className={styles.link__text}>
+                  <div className={styles.icon__container}>
+                    <GlobeSvg />
                   </div>
-                </a>
-              </Link>
-              <div>
-                <button
-                  className={getInitialCln(
-                    styles.UtilsNav__globe__btn,
-                    styles.UtilsNav__link__scroll,
-                    search,
-                    scrolled
-                  )}
-                >
-                  <div className={styles.UtilsNav__link__text}>
-                    <div className={styles.UtilsNav__icon__container}>
-                      <GlobeSvg />
-                    </div>
-                  </div>
-                </button>
-              </div>
+                </div>
+              </button>
             </div>
-          )}
+          </div>
 
           <div>
-            <div className={styles.UtilsNav__widget__container} ref={ref}>
+            <div className={styles.widget__container} ref={ref}>
               <button
-                className={styles.UtilsNav__widget__btn}
+                className={styles.widget__btn}
                 id={getInitialCln(
                   undefined,
-                  styles.UtilsNav__btn,
+                  styles.btn,
                   search,
-                  scrolled
+                  filter ? filter : scrolled
                 )}
                 onClick={() => {
                   setActive(!active);
                 }}
               >
                 <HamburgerSvg />
-                <div className={styles.UtilsNav__profile__container}>
+                <div className={styles.profile__container}>
                   {data?.me ? (
                     <img
-                      className={styles.UtilsNav__profile__img}
+                      className={styles.profile__img}
                       src='https://res.cloudinary.com/dryhgptoc/image/upload/v1622364566/jngkp0wf1yvgbfpcjb9n.png'
                     />
                   ) : (
@@ -99,13 +95,11 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                   )}
                 </div>
 
-                {data?.me ? (
-                  <div className={styles.UtilsNav__notification}>1</div>
-                ) : null}
+                {data?.me ? <div className={styles.notification}>1</div> : null}
               </button>
 
               <div
-                className={styles.UtilsNav__menu}
+                className={styles.menu}
                 ref={menu}
                 style={{
                   display: `${active ? 'block' : 'none'}`,
@@ -119,7 +113,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                       </MenuLink>
                       <MenuLink href='/notifications' light={false}>
                         Notifications
-                        <div className={styles.UtilsNav__menu__notif}></div>
+                        <div className={styles.menu__notif}></div>
                       </MenuLink>
                       <MenuLink href='/trips' light={false}>
                         Trips

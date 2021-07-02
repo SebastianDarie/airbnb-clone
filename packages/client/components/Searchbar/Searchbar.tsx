@@ -4,7 +4,6 @@ import {
   ClearSvg,
 } from '@airbnb-clone/controller';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useState, useRef, useEffect } from 'react';
 import shallow from 'zustand/shallow';
 import styles from '../../sass/components/Searchbar.module.scss';
@@ -17,7 +16,6 @@ interface SearchbarProps {
 }
 
 export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
-  const router = useRouter();
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     active: false,
     el: '',

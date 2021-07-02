@@ -15,11 +15,13 @@ import { getInitialCln } from '../../utils/getInitialCln';
 
 type NavbarProps = {
   filter?: boolean;
+  room?: boolean;
   search?: boolean;
 } & WithLogoutProps;
 
 const Navbar: React.FC<NavbarProps> = ({
   filter = false,
+  room = false,
   search = false,
   logout,
 }) => {
@@ -36,7 +38,13 @@ const Navbar: React.FC<NavbarProps> = ({
         search,
         filter ? filter : scrolled
       )}
-      id={filter ? styles.header__search : undefined}
+      id={
+        !room
+          ? filter
+            ? styles.header__search
+            : undefined
+          : styles.header__room
+      }
     >
       <div className={styles.container}>
         <div className={styles.icon__wrapper}>

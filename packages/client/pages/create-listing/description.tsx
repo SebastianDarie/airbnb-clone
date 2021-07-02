@@ -59,7 +59,7 @@ const items = [
 
 const Description: React.FC<DescriptionProps> = ({}) => {
   const router = useRouter();
-  const [highlights, _setHighlights] = useState(items);
+  const [highlights] = useState(items);
   const stateHighlights = useListingStore((state) => state.highlights);
   const description = useListingStore((state) => state.description);
 

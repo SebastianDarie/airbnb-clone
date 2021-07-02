@@ -3,14 +3,15 @@ import Navbar from './Navbar/Navbar';
 
 type LayoutProps = {
   filter?: boolean;
+  room?: boolean;
   search?: boolean;
   children?: ReactNode;
 };
 
-const Layout: React.FC<LayoutProps> = ({ filter, search, children }) => {
+const Layout: React.FC<LayoutProps> = ({ filter, room, search, children }) => {
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <Navbar filter={filter} search={search} />
+      <Navbar filter={filter} room={room} search={search} />
 
       <main>{children}</main>
     </div>

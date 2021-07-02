@@ -1,4 +1,4 @@
-@use '../utilities/bootstrap.scss';
+@use '../../sass/utilities/bootstrap.scss';
 
 .booking__side {
   position: relative;
@@ -69,7 +69,9 @@
 .menu__price__align {
   color: rgb(34, 34, 34);
   display: flex;
+  font-size: 22px;
   font-weight: 400;
+  line-height: 26px;
   align-items: baseline;
   flex-wrap: wrap;
 }
@@ -98,6 +100,10 @@
 
 .menu__dates__flex {
   display: flex;
+}
+
+.menu__dates__relative {
+  position: relative;
   width: 100%;
 }
 
@@ -106,7 +112,7 @@
   position: relative;
 }
 
-.dates__left__border {
+.dates__border__left {
   position: absolute;
   pointer-events: none;
   background: none;
@@ -186,7 +192,7 @@
   border-left: 1px solid rgb(176, 176, 176);
 }
 
-.dates__right__border {
+.dates__border__right {
   inset: 0px 0px -1px;
   border-radius: 8px 8px 0px 0px;
   border-color: rgb(176, 176, 176);
@@ -195,6 +201,14 @@
   position: absolute;
   pointer-events: none;
   border-style: solid;
+}
+
+.guest__label {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 0px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .guest__btn {
@@ -206,6 +220,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .guest__span {
@@ -229,4 +244,81 @@
 
 .menu__btn__container {
   flex-shrink: 0;
+}
+
+#btn__save {
+  width: 100%;
+}
+
+.guest__picker__container {
+  background: bootstrap.$default-color;
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 15%) 0px 2px 6px, rgb(0 0 0 / 7%) 0px 0px 0px 1px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  min-width: 280px;
+  padding: 16px;
+  position: absolute;
+  text-align: left;
+  width: 100%;
+  z-index: 999;
+  right: 0px;
+}
+
+.guest__picker__item__mr {
+  margin-bottom: 24px;
+  margin-top: 8px;
+}
+
+.guest__picker__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: rgb(34, 34, 34);
+  font-weight: 400;
+}
+
+.guest__type__flex {
+  flex: 1 1 0%;
+}
+
+.guest__type__font {
+  font-size: 16px;
+  line-height: 20px;
+  padding-bottom: 4px;
+  font-weight: 600;
+}
+
+#guest__count__flex {
+  display: flex;
+}
+
+.guest__maximum__count {
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(34, 34, 34);
+  margin-bottom: 16px;
+}
+
+.guest__picker__close__flex {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.guest__picker__close {
+  display: inline-block;
+  margin: 0px -10px;
+  position: relative;
+  text-align: center;
+  width: auto;
+  touch-action: manipulation;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px;
+  transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s;
+  border: none;
+  color: rgb(34, 34, 34);
+  text-decoration: underline;
 }
