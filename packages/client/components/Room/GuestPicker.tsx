@@ -24,7 +24,7 @@ export const GuestPicker: React.FC<GuestPickerProps> = ({
       className={styles.guest__picker__container}
       ref={picker}
       style={{ display: active ? 'block' : 'none' }}
-      onMouseDownCapture={handler}
+      //onMouseDownCapture={handler}
     >
       <div className={styles.guest__picker__item__mr}>
         <div className={styles.guest__picker__item}>

@@ -51,7 +51,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
             <Link href='/'>
               <a className={styles.icon__link}>
                 <span>
-                  <AirbnbSmallSvg fill='white' classname='' />
+                  <AirbnbSmallSvg fill='white' />
                 </span>
               </a>
             </Link>

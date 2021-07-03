@@ -1,4 +1,4 @@
-import { useIsAuth } from '../../../controller/dist';
+import { useIsAuth } from '@airbnb-clone/controller';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { RadioButton } from '../../components/RadioButton';
 import styles from '../../sass/pages/CreateListing.module.scss';

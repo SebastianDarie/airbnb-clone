@@ -16,7 +16,7 @@ export const useClickOutside = (callback: (arg0: any) => any) => {
 
   const handleDocumentMouseDown = useCallback(
     (e) =>
-      (isClickedInside.current = !isClickedOutside(isClickedInside.current, e)),
+      (isClickedInside.current = !isClickedOutside(isClickedInside.current)),
     [isClickedInside, isClickedOutside]
   );
 

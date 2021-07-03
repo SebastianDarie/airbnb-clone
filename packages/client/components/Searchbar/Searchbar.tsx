@@ -81,47 +81,72 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
           <div id='output' style={{ visibility: 'hidden' }} ref={geoRef}></div>
         </div>
 
-        <div className={styles.vline}></div>
+        <div
+          className={styles.vline}
+          style={{
+            visibility:
+              activeElement.el === 'searchbar' || activeElement.el === 'checkin'
+                ? 'hidden'
+                : 'visible',
+          }}
+        ></div>
 
         <div className={styles.part2__container}>
           <div
             className={styles.part2__checkin}
             onClick={() => setActiveElement({ active: true, el: 'checkin' })}
           >
-            <div className={styles.btn} role='button'>
+            <button className={styles.btn} type='button'>
               <div className={styles.text__container}>
                 <div className={styles.text__bold}>Check in</div>
                 <div className={styles.text__gray}>Add dates</div>
               </div>
-            </div>
+            </button>
           </div>
 
-          <div className={styles.vline}></div>
+          <div
+            className={styles.vline}
+            style={{
+              visibility:
+                activeElement.el === 'checkin' ||
+                activeElement.el === 'checkout'
+                  ? 'hidden'
+                  : 'visible',
+            }}
+          ></div>
 
           <div
             className={styles.part2__checkin}
             onClick={() => setActiveElement({ active: true, el: 'checkout' })}
           >
-            <div className={styles.btn} role='button'>
+            <button className={styles.btn} type='button'>
               <div className={styles.text__container}>
                 <div className={styles.text__bold}>Check out</div>
                 <div className={styles.text__gray}>Add dates</div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
 
-        <div className={styles.vline}></div>
+        <div
+          className={styles.vline}
+          style={{
+            visibility:
+              activeElement.el === 'checkout' || activeElement.el === 'guests'
+                ? 'hidden'
+                : 'visible',
+          }}
+        ></div>
 
         <div className={styles.part3__container} ref={searchRef}>
-          <div
+          <button
             className={
               activeElement.el === 'guests' && activeElement.active
                 ? styles.btn__clicked
                 : styles.btn
             }
+            type='button'
             onClick={() => setActiveElement({ active: true, el: 'guests' })}
-            role='button'
           >
             <div className={styles.text__container}>
               <div className={styles.text__bold}>Guests</div>
@@ -134,7 +159,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
                 <div className={styles.text__gray}>Add guests</div>
               )}
             </div>
-          </div>
+          </button>
 
           {adults || children || infants > 0 ? (
             <div className={styles.clear__container}>

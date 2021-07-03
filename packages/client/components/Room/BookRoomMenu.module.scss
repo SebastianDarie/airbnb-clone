@@ -88,6 +88,33 @@
   white-space: nowrap;
 }
 
+.menu__rating__margin {
+  margin-top: 8px;
+}
+
+.menu__rating__flex {
+  display: flex;
+  align-items: baseline;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.review__svg {
+  color: bootstrap.$brand-color;
+  font-size: 12px;
+  text-align: center;
+}
+
+.rating {
+  color: rgb(34, 34, 34);
+  padding-left: 4px;
+  font-weight: 600;
+}
+
+.invisible__span {
+  padding-left: 4px;
+}
+
 .menu__dates__container {
   margin-bottom: 16px;
 }
@@ -172,8 +199,8 @@
   padding: 26px 12px 10px;
   background-color: transparent;
   font-family: inherit;
-  font-size: 14px;
-  font-weight: inherit;
+  font-size: 13px;
+  font-weight: 600;
   line-height: 18px;
   appearance: none;
   cursor: pointer;

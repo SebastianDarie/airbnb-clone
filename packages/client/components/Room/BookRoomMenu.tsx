@@ -1,4 +1,4 @@
-import { ArrowDownSvg, ArrowUpSvg } from '@airbnb-clone/controller';
+import { ArrowDownSvg, ArrowUpSvg, ReviewSvg } from '@airbnb-clone/controller';
 import { useCallback, useRef, useState } from 'react';
 import styles from './BookRoomMenu.module.scss';
 import btnStyles from '../../sass/pages/CreateListing.module.scss';
@@ -6,11 +6,13 @@ import useClickAway, { useClickOutside } from '../../shared-hooks/useClickAway';
 import { GuestPicker } from './GuestPicker';
 
 interface BookRoomMenuProps {
+  dates: string[];
   guests: number;
   price: string;
 }
 
 export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
+  dates,
   guests,
   price,
 }) => {
@@ -47,6 +49,16 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                         <span className={styles.night__span}>/ night</span>
                       </div>
                     </div>
+
+                    <div className={styles.menu__rating__margin}>
+                      <div className={styles.menu__rating__flex}>
+                        <span className={styles.review__svg}>
+                          <ReviewSvg />
+                        </span>
+                        <span className={styles.rating}>5.0</span>
+                        <span className={styles.invisible__span}></span>
+                      </div>
+                    </div>
                   </div>
 
                   <div className={styles.menu__dates__container}>
@@ -56,19 +68,27 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                           <div className={styles.menu__dates__grow}>
                             <div className={styles.dates__border__left}></div>
                             <div className={styles.dates__container}>
-                              <div className={styles.checkin__container}>
+                              <div
+                                className={styles.checkin__container}
+                                onClick={() => console.log('date')}
+                              >
                                 <div className={styles.checkin__text}>
                                   Check-in
                                 </div>
-                                <div className={styles.add__date}>Add date</div>
+                                <div className={styles.add__date}>
+                                  {dates[0]}
+                                </div>
                               </div>
                               <div className={styles.checkout__container}>
                                 <div className={styles.checkin__text}>
                                   Checkout
                                 </div>
-                                <div className={styles.add__date}>Add date</div>
+                                <div className={styles.add__date}>
+                                  {dates[1]}
+                                </div>
                               </div>
                             </div>
+
                             <div className={styles.dates__border__right}></div>
                           </div>
                         </div>
@@ -85,7 +105,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                               className={styles.dates__container}
                               ref={picker}
                               onClick={() => setActive(true)}
-                              onMouseDownCapture={handleMouseDown}
+                              //onMouseDownCapture={handleMouseDown}
                             >
                               <label className={styles.guest__label}>
                                 <div className={styles.checkin__text}>

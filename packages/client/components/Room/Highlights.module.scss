@@ -1,0 +1,35 @@
+@use '../../sass/utilities/bootstrap.scss';
+
+.highlights__padding {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.highlight__flex {
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.highlight__svg__container {
+  flex-shrink: 0;
+  min-width: 24px;
+}
+
+.highlight__description__container {
+  margin-left: 16px;
+}
+
+.highlight__title {
+  color: rgb(34, 34, 34);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 4px;
+}
+
+.highlight__description {
+  color: rgb(113, 113, 113);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}

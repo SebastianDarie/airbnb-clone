@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow';
-import { useSearchListingsQuery } from '../../controller/dist';
+import { useSearchListingsQuery } from '@airbnb-clone/controller';
 import { FiltersBar } from '../components/FiltersBar';
 import Layout from '../components/Layout';
 import { ListingCard } from '../components/ListingCard';

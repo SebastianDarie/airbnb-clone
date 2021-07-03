@@ -24,6 +24,7 @@ import { Listing } from './entity/Listing';
 import { createUserLoader } from './loaders/createUserLoader';
 import { ListingResolver } from './resolvers/listing';
 import { MessageResolver } from './resolvers/message';
+import { ReviewResolver } from './resolvers/review';
 import { UserResolver } from './resolvers/user';
 import { createTypeormConn } from './utils/createTypeormConn';
 
@@ -81,7 +82,12 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [ListingResolver, MessageResolver, UserResolver],
+      resolvers: [
+        ListingResolver,
+        MessageResolver,
+        ReviewResolver,
+        UserResolver,
+      ],
       pubSub: redisPubsub,
       validate: false,
     }),

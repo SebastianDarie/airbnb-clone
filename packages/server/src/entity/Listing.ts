@@ -13,6 +13,8 @@ import {
 import { Point } from 'geojson';
 import { Message } from './Message';
 import { User } from './User';
+// import { Review } from './Review';
+// import { Reservation } from './Reservation';
 
 @ObjectType()
 @Entity()
@@ -99,6 +101,12 @@ export class Listing extends BaseEntity {
 
   @OneToMany(() => Message, (message) => message.listing)
   messages: Message[];
+
+  // @OneToMany(() => Reservation, (reservation) => reservation.listing)
+  // reservations: Reservation[];
+
+  // @OneToMany(() => Review, (review) => review.listing)
+  // reviews: Review[];
 
   @Field(() => String)
   @CreateDateColumn()

@@ -96,14 +96,4 @@ export class MessageResolver {
     console.log(message);
     return message;
   }
-
-  // @Mutation(() => Boolean)
-  // @UseMiddleware(isAuth)
-  // async deleteListing(
-  //   @Arg('id') id: string,
-  //   @Ctx() { req }: MyContext
-  // ): Promise<boolean> {
-  //   await Listing.delete({ id, creatorId: req.session.userId });
-  //   return true;
-  // }
 }

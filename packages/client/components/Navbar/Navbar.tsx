@@ -58,11 +58,12 @@ const Navbar: React.FC<NavbarProps> = ({
               )}
               id={styles.link}
             >
-              <AirbnbSvg classname={styles.icon} />
-              <AirbnbSmallSvg
-                fill='currentColor'
-                classname={styles.icon__small}
-              />
+              <span className={styles.icon}>
+                <AirbnbSvg />
+              </span>
+              <span className={styles.icon__small}>
+                <AirbnbSmallSvg fill='currentColor' />
+              </span>
             </a>
           </Link>
         </div>

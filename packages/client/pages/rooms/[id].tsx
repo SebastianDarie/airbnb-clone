@@ -1,23 +1,23 @@
 import {
-  CleanSvg,
-  HomeSvg,
-  LikeSvg,
-  MedalSvg,
   ReviewSvg,
   RightArrowSvg,
   SuperHostSvg,
 } from '@airbnb-clone/controller';
 import dynamic from 'next/dynamic';
+import { memo, useEffect, useRef, useState } from 'react';
+import { FloorPlanDetails } from '../../components/FloorPlanDetails';
 import Layout from '../../components/Layout';
-import { withApollo } from '../../utils/withApollo';
+import { BookRoomMenu } from '../../components/Room/BookRoomMenu';
+import { Header } from '../../components/Room/Header';
+import { Highlights } from '../../components/Room/Highlights';
+import { ImageGallery } from '../../components/Room/ImageGallery';
 import styles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
-import { BookRoomMenu } from '../../components/Room/BookRoomMenu';
-import { FloorPlanDetails } from '../../components/FloorPlanDetails';
-import { memo, useEffect, useRef } from 'react';
 import { useToggle } from '../../shared-hooks/useToggle';
-import { ImageGallery } from '../../components/Room/ImageGallery';
-import { Header } from '../../components/Room/Header';
+import { withApollo } from '../../utils/withApollo';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface RoomProps {}
 
@@ -69,6 +69,10 @@ const SectionWrapper: React.FC<{}> = ({ children }) => {
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl();
+  const [startDate, setStartDate] = useState(new Date());
+  const monthLater = new Date();
+  monthLater.setDate(monthLater.getDate() + 7);
+  const [endDate, setEndDate] = useState(monthLater);
   const [isHovered, toggleHover] = useToggle(false);
   const nav = useRef<HTMLDivElement | null>(null);
 
@@ -197,65 +201,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
 
               <div className={styles.room__section__flex}>
                 <div className={styles.section__divider}></div>
-                <div className={styles.highlights__padding}>
-                  <div className={styles.highlight__flex}>
-                    <div className={styles.highlight__svg__container}>
-                      <HomeSvg />
-                    </div>
-                    <div className={styles.highlight__description__container}>
-                      <div className={styles.highlight__title}>Entire Home</div>
-                      <div className={styles.highlight__description}>
-                        You'll have the {data?.listing?.type.toLowerCase()} to
-                        yourself
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.highlight__flex}>
-                    <div className={styles.highlight__svg__container}>
-                      <CleanSvg />
-                    </div>
-                    <div className={styles.highlight__description__container}>
-                      <div className={styles.highlight__title}>
-                        Enhanced Clean
-                      </div>
-                      <div className={styles.highlight__description}>
-                        This host committed to Airbnb's 5-step enhanced cleaning
-                        process.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.highlight__flex}>
-                    <div className={styles.highlight__svg__container}>
-                      <MedalSvg />
-                    </div>
-                    <div className={styles.highlight__description__container}>
-                      <div className={styles.highlight__title}>
-                        Sergiu is a SuperHost
-                      </div>
-                      <div className={styles.highlight__description}>
-                        Superhosts are experienced, highly rated hosts who are
-                        committed to providing great stays for guests.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.highlight__flex} style={{ margin: 0 }}>
-                    <div className={styles.highlight__svg__container}>
-                      <LikeSvg />
-                    </div>
-                    <div className={styles.highlight__description__container}>
-                      <div className={styles.highlight__title}>
-                        Outstanding hospitality
-                      </div>
-                      <div className={styles.highlight__description}>
-                        4 recent guests complimented Sergiu for outstanding
-                        hospitality.
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Highlights type={data?.listing?.type!} />
               </div>
 
               <div className={styles.room__section__flex}>
@@ -311,17 +257,73 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                   </div>
                 </div>
               </div>
+
+              <div className={styles.room__section__flex}>
+                <div className={styles.section__divider}></div>
+                <div className={styles.section__padding}>
+                  <div>
+                    <div>
+                      <div className={styles.amenities__heading__container}>
+                        <h2 className={styles.section__heading}>
+                          {Math.floor(
+                            (endDate.getTime() - startDate.getTime()) /
+                              (60 * 60 * 24 * 1000)
+                          )}{' '}
+                          nights in {data?.listing?.city}
+                        </h2>
+                      </div>
+
+                      <div className={styles.calendar__range}>
+                        <div className={styles.calendar__availability}>
+                          Jul 9, 2021 - Jul 14, 2021
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.calendar__overflow__container}>
+                      <div className={styles.calendar__margin__container}>
+                        <div className={styles.calendar__minheight}>
+                          <div className={styles.calendar__width}>
+                            <DatePicker
+                              inline
+                              isClearable
+                              selected={startDate}
+                              onChange={(date) => setStartDate(date as any)}
+                              selectsStart
+                              startDate={startDate}
+                              endDate={endDate}
+                            />
+                            <DatePicker
+                              inline
+                              isClearable
+                              selected={endDate}
+                              onChange={(date) => setEndDate(date as any)}
+                              selectsEnd
+                              startDate={startDate}
+                              endDate={endDate}
+                              minDate={startDate}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <BookRoomMenu
+              dates={[
+                startDate.toLocaleDateString('en-GB'),
+                endDate.toLocaleDateString('en-GB'),
+              ]}
               guests={data?.listing?.guests!}
               price={data?.listing?.price!}
             />
           </div>
 
           <div className={styles.room__section__flex}>
-            <div className={styles.reviews__padding}>
-              <div className={styles.reviews__margin}>
+            <div className={styles.room__section__padding}>
+              <div className={styles.room__section__margin}>
                 <div className={styles.section__divider}></div>
                 <div className={styles.section__padding}>
                   <div className={styles.reviews__header__padding}>

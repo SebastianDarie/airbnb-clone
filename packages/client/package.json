@@ -23,6 +23,7 @@
     "next-apollo": "^5.0.4",
     "next-transpile-modules": "^6.4.0",
     "react": "^17.0.2",
+    "react-datepicker": "^4.1.1",
     "react-dnd": "^14.0.2",
     "react-dnd-html5-backend": "^14.0.0",
     "react-dom": "^17.0.2",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@types/node": "^14.14.41",
     "@types/react": "^17.0.3",
+    "@types/react-datepicker": "^4.1.1",
     "@types/react-dom": "^17.0.3",
     "typescript": "^4.2.4"
   },

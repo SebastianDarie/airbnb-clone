@@ -6,7 +6,7 @@ import { useListingStore } from '../../stores/useListingStore';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
 import { DraggablePhoto } from '../../components/Fields/DraggablePhoto';
 import { DropzoneField } from '../../components/Fields/DropzoneField';
-import { UploadSvg } from '../../../controller/dist';
+import { UploadSvg } from '@airbnb-clone/controller';
 import { withApollo } from '../../utils/withApollo';
 
 interface PhotosProps {}
