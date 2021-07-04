@@ -1,4 +1,5 @@
 import S3 from 'aws-sdk/clients/s3';
+import Stripe from 'stripe';
 import { Point } from 'geojson';
 import {
   Arg,
@@ -21,6 +22,10 @@ import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
 import { ListingInput, Photo, SearchInput, UpdateListing } from './input';
+
+const stripe = new Stripe(process.env.STRIPE_API_KEY, {
+  apiVersion: '2020-08-27',
+});
 
 @ObjectType()
 class PaginatedListings {
@@ -275,46 +280,26 @@ export class ListingResolver {
     return true;
   }
 
-  @Query(() => Boolean) async getDBInfo(): Promise<boolean> {
-    const res = await getConnection().query(`
-    SELECT CONCAT('{"columns": [',COALESCE(cols_metadata,''),'], "indexes": [',COALESCE(indexes_metadata,''),'], "tables":[',COALESCE(tbls_metadata,''),'], "server_name": "', '', '", "version": "', '', '"}') 
-    FROM 
-    (
-      SELECT array_to_string(array_agg(CONCAT('{"schema":"',cols.table_schema,'","table":"',cols.table_name,'","name":"', cols.column_name, '","type":"', REPLACE(cols.data_type, '"', ''), '","nullable":', CASE WHEN(cols.IS_NULLABLE = 'YES') THEN 'true' ELSE 'false' END, ',"collation":"', COALESCE(cols.COLLATION_NAME, ''), '"}') ), ',') as cols_metadata
-      FROM information_schema.columns cols
-      WHERE cols.table_schema not in ('information_schema', 'pg_catalog')
-    ) cols,
-    (
-    select
-      array_to_string(array_agg(CONCAT('{"schema":"',ns.nspname,'","table":"',t.relname,'","name":"', i.relname, '","column":"', a.attname, '","index_type":"', LOWER(am.amname), '","cardinality":', 0, ',"unique":', case when ix.indisunique = true then 'true' else 'false' end, '}')), ',') as indexes_metadata
-    from
-        pg_class t,
-        pg_class i,
-        pg_index ix,
-        pg_attribute a,
-        pg_catalog.pg_namespace ns,
-        pg_am am
-    where
-        t.oid = ix.indrelid
-        and i.oid = ix.indexrelid
-        and a.attrelid = t.oid
-        and a.attnum = ANY(ix.indkey)
-        and t.relkind = 'r'
-        and t.relnamespace = ns.oid
-        and am.oid=i.relam
-    ) indexes_metadata,
-    (
-      SELECT array_to_string(array_agg(CONCAT('{', '"schema":"', TABLE_SCHEMA, '",', '"table":"', TABLE_NAME, 
-                    '",', '"rows":', 
-                    COALESCE((SELECT s.n_live_tup FROM pg_stat_user_tables s where tbls.TABLE_SCHEMA = s.schemaname and tbls.TABLE_NAME = s.relname), 0),
-                    ', "type":"', TABLE_TYPE, '",', '"engine":"",', '"collation":""}')), ',') as tbls_metadata
-      FROM information_schema.tables tbls
-      WHERE tbls.TABLE_SCHEMA not in ('information_schema', 'pg_catalog')
-    ) tbls;
-    `);
+  @Mutation(() => String, { nullable: true })
+  @UseMiddleware(isAuth)
+  async createPaymentIntent(
+    @Arg('id') id: string,
+    @Arg('nights', () => Int) nights: number
+  ): Promise<String | null> {
+    const listing = await Listing.findOne(id);
+    if (listing) {
+      const price = parseFloat(listing?.price.slice(1));
+      const amount = Math.floor(price * nights) * 100;
+      console.log(amount);
 
-    console.log(res);
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount,
+        currency: 'usd',
+      });
 
-    return true;
+      return paymentIntent.client_secret;
+    }
+
+    return 'Failed to create intent';
   }
 }

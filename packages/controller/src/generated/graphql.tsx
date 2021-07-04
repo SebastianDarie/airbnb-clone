@@ -84,7 +84,9 @@ export type Mutation = {
   updateListing?: Maybe<Listing>;
   createLocation: Listing;
   deleteListing: Scalars['Boolean'];
+  createPaymentIntent?: Maybe<Scalars['String']>;
   createMessage: Message;
+  createReview: Review;
   register: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
@@ -123,8 +125,19 @@ export type MutationDeleteListingArgs = {
 };
 
 
+export type MutationCreatePaymentIntentArgs = {
+  nights: Scalars['Int'];
+  id: Scalars['String'];
+};
+
+
 export type MutationCreateMessageArgs = {
   input: MessageInput;
+};
+
+
+export type MutationCreateReviewArgs = {
+  input: ReviewInput;
 };
 
 
@@ -176,8 +189,8 @@ export type Query = {
   listings: Array<Listing>;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
-  getDBInfo: Scalars['Boolean'];
   messages: Array<Message>;
+  reviews: Array<Review>;
   users: Array<User>;
   me?: Maybe<User>;
 };
@@ -197,6 +210,42 @@ export type QuerySearchListingsArgs = {
 
 export type QueryMessagesArgs = {
   listingId: Scalars['String'];
+};
+
+
+export type QueryReviewsArgs = {
+  listingId: Scalars['String'];
+};
+
+export type Review = {
+  __typename?: 'Review';
+  id: Scalars['String'];
+  rating: Scalars['Float'];
+  cleanliness: Scalars['Float'];
+  accuracy: Scalars['Float'];
+  checkIn: Scalars['Float'];
+  communication: Scalars['Float'];
+  location: Scalars['Float'];
+  value: Scalars['Float'];
+  amenities: Scalars['Float'];
+  review: Scalars['String'];
+  listingId: Scalars['String'];
+  creatorId: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type ReviewInput = {
+  rating: Scalars['Int'];
+  cleanliness: Scalars['Int'];
+  accuracy: Scalars['Int'];
+  checkIn: Scalars['Int'];
+  communication: Scalars['Int'];
+  location: Scalars['Int'];
+  value: Scalars['Int'];
+  amenities: Scalars['Int'];
+  review: Scalars['Int'];
+  listingId: Scalars['Int'];
 };
 
 export type SearchInput = {
@@ -238,8 +287,10 @@ export type UpdateListing = {
 export type User = {
   __typename?: 'User';
   id: Scalars['String'];
+  name: Scalars['String'];
   confirmed: Scalars['Boolean'];
   forgotPasswordLocked: Scalars['Boolean'];
+  superhost: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   email: Scalars['String'];
@@ -247,6 +298,7 @@ export type User = {
 
 export type UserInput = {
   email: Scalars['String'];
+  name: Scalars['String'];
   password: Scalars['String'];
   confirm: Scalars['String'];
 };
@@ -330,6 +382,17 @@ export type CreateMessageMutation = (
   ) }
 );
 
+export type CreatePaymentIntentMutationVariables = Exact<{
+  id: Scalars['String'];
+  nights: Scalars['Int'];
+}>;
+
+
+export type CreatePaymentIntentMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createPaymentIntent'>
+);
+
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -365,6 +428,7 @@ export type LogoutMutation = (
 
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
+  name: Scalars['String'];
   password: Scalars['String'];
   confirm: Scalars['String'];
 }>;
@@ -646,6 +710,38 @@ export function useCreateMessageMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateMessageMutationHookResult = ReturnType<typeof useCreateMessageMutation>;
 export type CreateMessageMutationResult = Apollo.MutationResult<CreateMessageMutation>;
 export type CreateMessageMutationOptions = Apollo.BaseMutationOptions<CreateMessageMutation, CreateMessageMutationVariables>;
+export const CreatePaymentIntentDocument = gql`
+    mutation CreatePaymentIntent($id: String!, $nights: Int!) {
+  createPaymentIntent(id: $id, nights: $nights)
+}
+    `;
+export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
+
+/**
+ * __useCreatePaymentIntentMutation__
+ *
+ * To run a mutation, you first call `useCreatePaymentIntentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePaymentIntentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPaymentIntentMutation, { data, loading, error }] = useCreatePaymentIntentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      nights: // value for 'nights'
+ *   },
+ * });
+ */
+export function useCreatePaymentIntentMutation(baseOptions?: Apollo.MutationHookOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>(CreatePaymentIntentDocument, options);
+      }
+export type CreatePaymentIntentMutationHookResult = ReturnType<typeof useCreatePaymentIntentMutation>;
+export type CreatePaymentIntentMutationResult = Apollo.MutationResult<CreatePaymentIntentMutation>;
+export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -743,8 +839,10 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const RegisterDocument = gql`
-    mutation Register($email: String!, $password: String!, $confirm: String!) {
-  register(credentials: {email: $email, password: $password, confirm: $confirm}) {
+    mutation Register($email: String!, $name: String!, $password: String!, $confirm: String!) {
+  register(
+    credentials: {email: $email, name: $name, password: $password, confirm: $confirm}
+  ) {
     ...RegularUserResponse
   }
 }
@@ -765,6 +863,7 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * const [registerMutation, { data, loading, error }] = useRegisterMutation({
  *   variables: {
  *      email: // value for 'email'
+ *      name: // value for 'name'
  *      password: // value for 'password'
  *      confirm: // value for 'confirm'
  *   },

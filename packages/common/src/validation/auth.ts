@@ -1,18 +1,8 @@
 import * as yup from 'yup';
+import { emailValidation } from './common';
 
-export const emailNotLongEnough = 'E-mail must be at least 3 characters';
 export const passwordNotLongEnough = 'Password must be at least 3 characters';
 export const passwordTooLong = 'Password is too long';
-export const invalidEmail = 'The input is not a valid E-mail!';
-export const requiredEmail = 'An E-mail is required!';
-export const emailTooLong = 'The email is too long';
-
-export const emailValidation = yup
-  .string()
-  .email(invalidEmail)
-  .min(3, emailNotLongEnough)
-  .max(255, emailTooLong)
-  .required(requiredEmail);
 
 export const registerPasswordValidation = yup
   .string()

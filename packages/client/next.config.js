@@ -11,6 +11,7 @@ module.exports = (phase, { defaultConfig }) => {
         loadMapScenario: fs
           .readFileSync('./public/loadMapScenario.js')
           .toString(),
+        stripe: 'pk_test_dZb4PNLF72WK9NZenscqBEB1008RXx0tOT',
       },
       future: {
         webpack5: true,

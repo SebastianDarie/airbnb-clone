@@ -32,6 +32,7 @@ export interface AuthFormProps {
 }
 
 export interface RegisterFormProps extends AuthFormProps {
+  name: string;
   confirm: string;
 }
 

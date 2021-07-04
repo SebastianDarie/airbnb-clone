@@ -1,0 +1,3 @@
+mutation CreatePaymentIntent($id: String!, $nights: Int!) {
+  createPaymentIntent(id: $id, nights: $nights)
+}

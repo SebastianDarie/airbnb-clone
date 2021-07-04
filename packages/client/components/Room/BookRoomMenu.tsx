@@ -4,6 +4,7 @@ import styles from './BookRoomMenu.module.scss';
 import btnStyles from '../../sass/pages/CreateListing.module.scss';
 import useClickAway, { useClickOutside } from '../../shared-hooks/useClickAway';
 import { GuestPicker } from './GuestPicker';
+import { useGradient } from '../../shared-hooks/useGradient';
 
 interface BookRoomMenuProps {
   dates: string[];
@@ -16,10 +17,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   guests,
   price,
 }) => {
-  const [coords, setCoords] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
+  const [coords, setCoords] = useGradient();
   const [active, setActive] = useState<boolean>(false);
   const picker = useRef<HTMLDivElement | null>(null);
   // const handler = () => {
@@ -145,12 +143,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                     <button
                       className={btnStyles.btn__save}
                       id={styles.btn__save}
-                      onMouseMove={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        setCoords({ x, y });
-                      }}
+                      onMouseMove={(e) => setCoords(e)}
                     >
                       <span className={btnStyles.absolute__span}>
                         <span

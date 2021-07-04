@@ -5,8 +5,8 @@ import {
 } from '@airbnb-clone/controller';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import styles from '../sass/pages/CreateListing.module.scss';
+import { useGradient } from '../shared-hooks/useGradient';
 import { useListingNavigation } from '../shared-hooks/useListingNavigation';
 import { formatFilenames } from '../utils/formatFilenames';
 
@@ -24,7 +24,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
 }) => {
   const router = useRouter();
   const [placeholderText, progressBar, nextPage] = useListingNavigation(router);
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [coords, setCoords] = useGradient();
   const [createListing, { loading }] = useCreateListingMutation();
   const [s3Sign] = useSignS3Mutation();
 
@@ -82,6 +82,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                     className={styles.progress__bar}
                     style={{
                       transform: `translateX(${progressBar}%)`,
+                      transition: 'transform 0.6s ease 0s',
                     }}
                   ></div>
                 </div>
@@ -100,12 +101,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                   {final ? (
                     <button
                       className={styles.btn__save}
-                      onMouseMove={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        setCoords({ x, y });
-                      }}
+                      onMouseMove={(e) => setCoords(e)}
                       onClick={async () => {
                         const store = (
                           await import('../stores/useListingStore')

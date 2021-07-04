@@ -4,7 +4,7 @@ import {
   SuperHostSvg,
 } from '@airbnb-clone/controller';
 import dynamic from 'next/dynamic';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { FloorPlanDetails } from '../../components/FloorPlanDetails';
 import Layout from '../../components/Layout';
 import { BookRoomMenu } from '../../components/Room/BookRoomMenu';
@@ -18,6 +18,8 @@ import { withApollo } from '../../utils/withApollo';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import { useCalendarStore } from '../../stores/useCalendarStore';
+import shallow from 'zustand/shallow';
 
 interface RoomProps {}
 
@@ -69,10 +71,15 @@ const SectionWrapper: React.FC<{}> = ({ children }) => {
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl();
-  const [startDate, setStartDate] = useState(new Date());
-  const monthLater = new Date();
-  monthLater.setDate(monthLater.getDate() + 7);
-  const [endDate, setEndDate] = useState(monthLater);
+  const [startDate, endDate, updateEnd, updateStart] = useCalendarStore(
+    (state) => [
+      state.startDate,
+      state.endDate,
+      state.updateEnd,
+      state.updateStart,
+    ],
+    shallow
+  );
   const [isHovered, toggleHover] = useToggle(false);
   const nav = useRef<HTMLDivElement | null>(null);
 
@@ -125,8 +132,8 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             style={{ visibility: 'hidden' }}
             ref={nav}
           >
-            <div className={styles.reviews__padding}>
-              <div className={styles.reviews__margin}>
+            <div className={styles.room__section__padding}>
+              <div className={styles.room__section__margin}>
                 <div className={styles.room__navbar__align}>
                   <div className={styles.room__section__flex}>
                     <div className={styles.room__navbar__font}>
@@ -285,18 +292,16 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           <div className={styles.calendar__width}>
                             <DatePicker
                               inline
-                              isClearable
                               selected={startDate}
-                              onChange={(date) => setStartDate(date as any)}
+                              onChange={(date) => updateStart(date as Date)}
                               selectsStart
                               startDate={startDate}
                               endDate={endDate}
                             />
                             <DatePicker
                               inline
-                              isClearable
                               selected={endDate}
-                              onChange={(date) => setEndDate(date as any)}
+                              onChange={(date) => updateEnd(date as Date)}
                               selectsEnd
                               startDate={startDate}
                               endDate={endDate}

@@ -2,9 +2,12 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 import '../sass/base/base.scss';
-//import 'antd/dist/antd.css';
+
+const stripe = loadStripe(process.env.stripe!);
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
@@ -19,7 +22,9 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
         </title>
       </Head>
 
-      <Component {...pageProps} />
+      <Elements stripe={stripe}>
+        <Component {...pageProps} />
+      </Elements>
     </DndProvider>
   );
 };

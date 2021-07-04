@@ -1,6 +1,16 @@
-mutation Register($email: String!, $password: String!, $confirm: String!) {
+mutation Register(
+  $email: String!
+  $name: String!
+  $password: String!
+  $confirm: String!
+) {
   register(
-    credentials: { email: $email, password: $password, confirm: $confirm }
+    credentials: {
+      email: $email
+      name: $name
+      password: $password
+      confirm: $confirm
+    }
   ) {
     ...RegularUserResponse
   }

@@ -98,11 +98,11 @@ export class UpdateListing {
 
 @InputType()
 export class SearchInput {
-  @Field(() => Float, { defaultValue: 40, nullable: true })
-  latitude?: number;
+  @Field(() => Float, { defaultValue: 40 })
+  latitude: number;
 
-  @Field(() => Float, { defaultValue: -74.5, nullable: true })
-  longitude?: number;
+  @Field(() => Float, { defaultValue: -74.5 })
+  longitude: number;
 
   @Field(() => String, { nullable: true })
   title?: string;
@@ -124,4 +124,37 @@ export class Photo {
 
   @Field()
   type: string;
+}
+
+@InputType()
+export class ReviewInput {
+  @Field(() => Int)
+  rating: number;
+
+  @Field(() => Int)
+  cleanliness: number;
+
+  @Field(() => Int)
+  accuracy: number;
+
+  @Field(() => Int)
+  checkIn: number;
+
+  @Field(() => Int)
+  communication: number;
+
+  @Field(() => Int)
+  location: number;
+
+  @Field(() => Int)
+  value: number;
+
+  @Field(() => Int)
+  amenities: number;
+
+  @Field()
+  review: string;
+
+  @Field()
+  listingId: string;
 }

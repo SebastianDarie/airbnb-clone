@@ -1,5 +1,4 @@
 import React from 'react';
-//import { useRouter } from 'next/router';
 import { RegisterFormProps } from '../../types';
 import { RegisterMutation, useRegisterMutation } from '../../generated/graphql';
 
@@ -22,7 +21,6 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
     const { data } = await register({
       variables: { ...values },
     });
-    console.log(data);
 
     return data;
   };

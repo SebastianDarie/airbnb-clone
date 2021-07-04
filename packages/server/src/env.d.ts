@@ -10,5 +10,6 @@ declare namespace NodeJS {
     S3_BUCKET_NAME: string;
     CLOUDFRONT_API_ENDPOINT: string;
     CF_DOMAIN_NAME: string;
+    STRIPE_API_KEY: string;
   }
 }
