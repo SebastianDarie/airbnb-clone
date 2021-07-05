@@ -289,8 +289,10 @@ export class ListingResolver {
     const listing = await Listing.findOne(id);
     if (listing) {
       const price = parseFloat(listing?.price.slice(1));
-      const amount = Math.floor(price * nights) * 100;
-      console.log(amount);
+      let amount = Math.floor(price * nights);
+      const fee = Math.floor((amount / 100) * 17);
+      amount += fee;
+      amount *= 100;
 
       const paymentIntent = await stripe.paymentIntents.create({
         amount,

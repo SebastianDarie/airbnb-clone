@@ -10,12 +10,16 @@ interface BookRoomMenuProps {
   dates: string[];
   guests: number;
   price: string;
+  roomStyles: {
+    readonly [key: string]: string;
+  };
 }
 
 export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   dates,
   guests,
   price,
+  roomStyles,
 }) => {
   const [coords, setCoords] = useGradient();
   const [active, setActive] = useState<boolean>(false);
@@ -33,9 +37,9 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   );
 
   return (
-    <div className={styles.booking__side}>
-      <div className={styles.sticky__menu}>
-        <div className={styles.room__section__flex}>
+    <div className={roomStyles.booking__side}>
+      <div className={roomStyles.sticky__menu}>
+        <div className={roomStyles.room__section__flex}>
           <div className={styles.menu__topmargin}>
             <div className={styles.menu__border}>
               <div className={styles.menu__text__style}>

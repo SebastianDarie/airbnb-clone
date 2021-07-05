@@ -6,6 +6,7 @@ import {
 } from '@airbnb-clone/controller';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import shallow from 'zustand/shallow';
 import { StripeCard } from '../../components/Stripe/StripeCard';
@@ -19,6 +20,7 @@ import { withApollo } from '../../utils/withApollo';
 interface BookProps {}
 
 const Book: React.FC<BookProps> = ({}) => {
+  const router = useRouter();
   const [
     createPaymentIntent,
     { data: clientSecret },
@@ -70,13 +72,18 @@ const Book: React.FC<BookProps> = ({}) => {
                   <div className={styles.pay__bottom}>
                     <div className={styles.header__padding}>
                       <div className={styles.link__padding}>
-                        <Link href='/'>
-                          <a className={styles.back__link}>
-                            <span className={styles.relative__color}>
-                              <ArrowLeftSvg />
-                            </span>
-                          </a>
-                        </Link>
+                        <span
+                          className={styles.back__link}
+                          onClick={() => router.back()}
+                        >
+                          <span className={styles.relative__color}>
+                            <ArrowLeftSvg
+                              height='16px'
+                              width='16px'
+                              strokeWidth='3'
+                            />
+                          </span>
+                        </span>
                       </div>
                       <div className={styles.header__container}>
                         <h1 className={roomStyles.section__heading}>

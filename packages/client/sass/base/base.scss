@@ -15,6 +15,7 @@ body {
   background-color: bootstrap.$default-color;
   color: bootstrap.$default-gray;
   margin: 0;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -52,6 +53,12 @@ a {
   text-decoration: none;
   user-select: auto;
   z-index: 1;
+}
+
+input {
+  appearance: none;
+  outline: none;
+  border-style: none;
 }
 
 h1,

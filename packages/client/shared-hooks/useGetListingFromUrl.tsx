@@ -15,5 +15,6 @@ export const useGetListingFromUrl = (): QueryResult<
     variables: {
       id,
     },
+    notifyOnNetworkStatusChange: true,
   });
 };

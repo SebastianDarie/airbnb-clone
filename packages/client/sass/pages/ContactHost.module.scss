@@ -1,0 +1,64 @@
+@use '../utilities/bootstrap.scss';
+
+.back__btn__padding {
+  padding-top: 26px;
+  padding-bottom: 26px;
+}
+
+.back__btn {
+  color: rgb(34, 34, 34);
+  text-decoration: underline;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.back__btn__center {
+  display: flex;
+  align-items: center;
+}
+
+.contact__host__padding {
+  padding-top: 8px;
+  padding-bottom: 32px;
+}
+
+.message__padding {
+  padding-top: 32px;
+  padding-bottom: 24px;
+}
+
+.questions__header {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 600;
+
+  @media screen and (min-width: 744px) {
+    font-size: 22px;
+    line-height: 26px;
+  }
+}
+
+.textarea__shadow {
+  box-shadow: inset 0 0 0 1px #b0b0b0;
+  box-sizing: border-box;
+  color: #222222;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.textarea {
+  color: inherit;
+  display: block;
+  min-height: 116px;
+  min-width: 100%;
+  max-width: 100%;
+  outline: none;
+  border: none;
+  margin: 0px;
+  box-sizing: border-box;
+  background-color: transparent;
+  padding: 8px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+}

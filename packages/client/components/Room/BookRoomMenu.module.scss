@@ -1,33 +1,5 @@
 @use '../../sass/utilities/bootstrap.scss';
 
-.booking__side {
-  position: relative;
-  width: 33.33333333333333%;
-  margin-left: 8.333333333333332%;
-  margin-right: 0%;
-}
-
-.sticky__menu {
-  position: sticky;
-  top: 80px;
-  z-index: 1;
-  display: inline-block;
-  width: 100%;
-  padding-right: 1px;
-}
-
-.room__section__flex {
-  &::before {
-    content: '';
-    display: flex;
-  }
-
-  &::after {
-    content: '';
-    display: flex;
-  }
-}
-
 .menu__topmargin {
   margin-top: 48px;
 }

@@ -1,9 +1,9 @@
 import {
+  ProtectSvg,
   ReviewSvg,
   RightArrowSvg,
   SuperHostSvg,
 } from '@airbnb-clone/controller';
-import dynamic from 'next/dynamic';
 import { memo, useEffect, useRef } from 'react';
 import { FloorPlanDetails } from '../../components/FloorPlanDetails';
 import Layout from '../../components/Layout';
@@ -16,46 +16,16 @@ import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import { useToggle } from '../../shared-hooks/useToggle';
 import { withApollo } from '../../utils/withApollo';
 import DatePicker from 'react-datepicker';
-
-import 'react-datepicker/dist/react-datepicker.css';
 import { useCalendarStore } from '../../stores/useCalendarStore';
 import shallow from 'zustand/shallow';
+import { RoomSkeleton } from '../../components/RoomSkeleton';
+import { dynamicSvgs } from '../../constants/dynamicSvgs';
+import Link from 'next/link';
+import Image from 'next/image';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface RoomProps {}
-
-const dynamicSvgs = {
-  Airconditioning: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.AirConditioningSvg)
-  ),
-  Carbondioxidealarm: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.CarbonSvg)
-  ),
-  //Dryer: dynamic<{}>(() => import('@airbnb-clone/controller').then(mod => mod.DryerSvg)),
-  Freestreetparking: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.CarSvg)
-  ),
-  Kitchen: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.KitchenSvg)
-  ),
-  Microwave: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.MicrowaveSvg)
-  ),
-  Refrigerator: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.RefrigeratorSvg)
-  ),
-  Smokealarm: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.SmokeSvg)
-  ),
-  TV: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.TVSvg)
-  ),
-  Washer: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.WasherSvg)
-  ),
-  Wifi: dynamic<{}>(() =>
-    import('@airbnb-clone/controller').then((mod) => mod.WifiSvg)
-  ),
-};
 
 const SectionWrapper: React.FC<{}> = ({ children }) => {
   return (
@@ -101,12 +71,21 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     };
   }, []);
 
-  if (!data && loading) {
-    return <>loading...</>;
+  if (!loading && !data) {
+    return (
+      <div>
+        <div>Failed to load listing</div>
+        <div>{error?.message}</div>
+      </div>
+    );
   }
 
-  if (!data && error) {
-    return <>error...</>;
+  if (!data && loading) {
+    return (
+      <Layout filter room search>
+        <RoomSkeleton styles={styles} Wrapper={SectionWrapper} />
+      </Layout>
+    );
   }
 
   return (
@@ -323,6 +302,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
               ]}
               guests={data?.listing?.guests!}
               price={data?.listing?.price!}
+              roomStyles={styles}
             />
           </div>
 
@@ -346,6 +326,62 @@ const Room: React.FC<RoomProps> = memo(({}) => {
 
           <div className={styles.room__section__flex}>
             {/* map stuff here */}
+          </div>
+
+          <div className={styles.room__section__flex}>
+            <div className={styles.room__section__padding}>
+              <div className={styles.room__section__margin}>
+                <div className={styles.section__divider}></div>
+                <div className={styles.section__padding}>
+                  <div className={styles.hosted__container}>
+                    <div className={styles.profile__img__margin}>
+                      <Link href='/users/'>
+                        <a className={styles.profile__btn}>
+                          <div className={styles.profile__img}>
+                            <Image
+                              src='https://a0.muscache.com/im/pictures/user/061f66a1-0515-48be-a24a-c6eda9772651.jpg?im_w=240'
+                              height='100%'
+                              width='100%'
+                              layout='responsive'
+                              objectFit='cover'
+                            />
+                          </div>
+                        </a>
+                      </Link>
+                    </div>
+
+                    <div className={styles.amenities__heading__container}>
+                      <h2 className={styles.section__heading}>
+                        Hosted by Sergiu
+                      </h2>
+                      <div className={styles.calendar__range}>
+                        Joined in May 2021
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={styles.amenities__list__grid}>
+                    <div className={styles.amenity__item__container}>
+                      <div className={styles.contact__margin}>
+                        <Link href={`/contact_host/${data?.listing?.id!}`}>
+                          <a className={styles.contact__btn}>Contact host</a>
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div className={styles.protect__payment__margin}>
+                      <div className={styles.protect__payment__flex}>
+                        <div className={styles.protect__svg__margin}>
+                          <ProtectSvg />
+                        </div>
+                        To protect your payment, never transfer money or
+                        communicate outside of the Airbnb website or app.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
