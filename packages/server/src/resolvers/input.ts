@@ -17,8 +17,8 @@ export class ListingInput {
   @Field(() => [String])
   photos: string[];
 
-  @Field()
-  price: string;
+  @Field(() => Float)
+  price: number;
 
   @Field(() => Int)
   bathrooms: number;
@@ -65,8 +65,8 @@ export class UpdateListing {
   @Field(() => [String], { nullable: true })
   photos?: string[];
 
-  @Field({ nullable: true })
-  price?: string;
+  @Field(() => Float, { nullable: true })
+  price?: number;
 
   @Field(() => Int, { nullable: true })
   bathrooms?: number;

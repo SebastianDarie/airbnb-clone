@@ -45,7 +45,7 @@ export interface ListingFormProps {
   category: string;
   city: string;
   type: string;
-  price: string;
+  price: number;
   bathrooms: number;
   bedrooms: number;
   beds: number;
@@ -58,6 +58,8 @@ export interface ListingFormProps {
 
 export interface MessageFormProps {
   text: string;
+  isFromSender: number;
+  headerId: string;
   listingId: string;
 }
 

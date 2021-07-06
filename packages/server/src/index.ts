@@ -22,6 +22,7 @@ import {
 } from './constants';
 import { Listing } from './entity/Listing';
 import { createUserLoader } from './loaders/createUserLoader';
+import { HeaderResolver } from './resolvers/header';
 import { ListingResolver } from './resolvers/listing';
 import { MessageResolver } from './resolvers/message';
 import { ReviewResolver } from './resolvers/review';
@@ -83,6 +84,7 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
+        HeaderResolver,
         ListingResolver,
         MessageResolver,
         ReviewResolver,

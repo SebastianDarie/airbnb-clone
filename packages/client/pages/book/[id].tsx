@@ -7,7 +7,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import shallow from 'zustand/shallow';
 import { StripeCard } from '../../components/Stripe/StripeCard';
 import styles from '../../sass/pages/Book.module.scss';
@@ -26,10 +26,25 @@ const Book: React.FC<BookProps> = ({}) => {
     { data: clientSecret },
   ] = useCreatePaymentIntentMutation();
   const { data, variables } = useGetListingFromUrl();
+  const [succeeded, setSucceeded] = useState<boolean>(false);
   const [startDate, endDate] = useCalendarStore(
     (state) => [state.startDate, state.endDate],
     shallow
   );
+
+  if (!startDate || !endDate) {
+    return (
+      <div>
+        <h3>Something went wrong</h3>
+        <div>
+          Unfortunately, a server error prevented your request from being
+          completed. Airbnb may be undergoing maintenance or your connection may
+          have timed out. Please refresh the page or try again.
+        </div>
+      </div>
+    );
+  }
+
   const nights = Math.ceil(
     (convertToUTC(endDate).getTime() - convertToUTC(startDate).getTime()) /
       (24 * 60 * 60 * 1000)
@@ -99,7 +114,10 @@ const Book: React.FC<BookProps> = ({}) => {
             <div className={roomStyles.room__description__section}>
               <div className={styles.trip__side}>
                 <div>
-                  <div className={roomStyles.room__section__flex}>
+                  <div
+                    className={roomStyles.room__section__flex}
+                    style={{ display: succeeded ? 'none' : '' }}
+                  >
                     <div className={roomStyles.amenities__heading__padding}>
                       <div className={styles.price__details__header}>
                         <h2 className={roomStyles.section__heading}>
@@ -109,7 +127,10 @@ const Book: React.FC<BookProps> = ({}) => {
                     </div>
                   </div>
 
-                  <div className={roomStyles.room__section__flex}>
+                  <div
+                    className={roomStyles.room__section__flex}
+                    style={{ display: succeeded ? 'none' : '' }}
+                  >
                     <div className={roomStyles.amenities__heading__padding}>
                       <div className={styles.guests__count__flex}>
                         <div>
@@ -134,7 +155,10 @@ const Book: React.FC<BookProps> = ({}) => {
                     </div>
                   </div>
 
-                  <div className={roomStyles.room__section__flex}>
+                  <div
+                    className={roomStyles.room__section__flex}
+                    style={{ display: succeeded ? 'none' : '' }}
+                  >
                     <div className={roomStyles.amenities__heading__padding}>
                       <div className={styles.guests__count__flex}>
                         <div>
@@ -153,7 +177,11 @@ const Book: React.FC<BookProps> = ({}) => {
                   </div>
 
                   <div className={roomStyles.room__section__flex}>
-                    <StripeCard clientSecret={clientSecret} />
+                    <StripeCard
+                      clientSecret={clientSecret}
+                      succeeded={succeeded}
+                      setSucceeded={setSucceeded}
+                    />
                   </div>
                 </div>
               </div>

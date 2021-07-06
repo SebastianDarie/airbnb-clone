@@ -17,10 +17,8 @@ const Price: React.FC<PriceProps> = ({}) => {
           <div className={styles.price__control}>
             <button
               className={styles.control__btn}
-              disabled={price === '$10'}
-              onClick={() =>
-                updatePrice('$' + (parseInt(price.substring(1)) - 5))
-              }
+              disabled={price === 10}
+              onClick={() => updatePrice(price - 5)}
             >
               <span className={styles.svg__container}>
                 <MinusSvg />
@@ -39,7 +37,9 @@ const Price: React.FC<PriceProps> = ({}) => {
                           type='text'
                           className={styles.input}
                           value={price}
-                          onChange={(e) => updatePrice(e.currentTarget.value)}
+                          onChange={(e) =>
+                            updatePrice(parseInt(e.currentTarget.value))
+                          }
                         />
                       </div>
                     </div>
@@ -49,9 +49,7 @@ const Price: React.FC<PriceProps> = ({}) => {
             </div>
             <button
               className={styles.control__btn}
-              onClick={() =>
-                updatePrice('$' + (parseInt(price.substring(1)) + 5))
-              }
+              onClick={() => updatePrice(price + 5)}
             >
               <span className={styles.svg__container}>
                 <PlusSvg />

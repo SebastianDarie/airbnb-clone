@@ -1,17 +1,14 @@
 import Image from 'next/image';
+import { useToggle } from '../../shared-hooks/useToggle';
 import styles from './ImageGallery.module.scss';
 
 interface ImageGalleryProps {
-  isHovered: boolean;
   photos: Array<string>;
-  toggleHover: () => void;
 }
 
-export const ImageGallery: React.FC<ImageGalleryProps> = ({
-  isHovered,
-  photos,
-  toggleHover,
-}) => {
+export const ImageGallery: React.FC<ImageGalleryProps> = ({ photos }) => {
+  const [isHovered, toggleHover] = useToggle(false);
+
   return (
     <div className={styles.room__images__border}>
       <div className={styles.room__images__section}>

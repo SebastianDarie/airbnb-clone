@@ -1,35 +1,50 @@
-import {
-  ProtectSvg,
-  ReviewSvg,
-  RightArrowSvg,
-  SuperHostSvg,
-} from '@airbnb-clone/controller';
-import { memo, useEffect, useRef } from 'react';
+import { RightArrowSvg, SuperHostSvg } from '@airbnb-clone/controller';
+import { memo, RefObject, useEffect, useRef, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import shallow from 'zustand/shallow';
 import { FloorPlanDetails } from '../../components/FloorPlanDetails';
 import Layout from '../../components/Layout';
 import { BookRoomMenu } from '../../components/Room/BookRoomMenu';
 import { Header } from '../../components/Room/Header';
 import { Highlights } from '../../components/Room/Highlights';
 import { ImageGallery } from '../../components/Room/ImageGallery';
-import styles from '../../sass/pages/Room.module.scss';
-import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
-import { useToggle } from '../../shared-hooks/useToggle';
-import { withApollo } from '../../utils/withApollo';
-import DatePicker from 'react-datepicker';
-import { useCalendarStore } from '../../stores/useCalendarStore';
-import shallow from 'zustand/shallow';
+import { ProfileSection } from '../../components/Room/ProfileSection';
+import { ReviewsSection } from '../../components/Room/ReviewsSection';
 import { RoomSkeleton } from '../../components/RoomSkeleton';
 import { dynamicSvgs } from '../../constants/dynamicSvgs';
-import Link from 'next/link';
-import Image from 'next/image';
+import styles from '../../sass/pages/Room.module.scss';
+import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
+import { useCalendarStore } from '../../stores/useCalendarStore';
+import { withApollo } from '../../utils/withApollo';
 
-import 'react-datepicker/dist/react-datepicker.css';
+const getDimensions = (el: HTMLDivElement) => {
+  const { height } = el.getBoundingClientRect();
+  const offsetTop = el.offsetTop;
+  const offsetBottom = offsetTop + height;
+
+  return {
+    height,
+    offsetTop,
+    offsetBottom,
+  };
+};
+
+const scrollTo = (el: HTMLDivElement, pos: ScrollLogicalPosition) => {
+  el.scrollIntoView({
+    behavior: 'smooth',
+    block: pos,
+    inline: pos,
+  });
+};
 
 interface RoomProps {}
 
-const SectionWrapper: React.FC<{}> = ({ children }) => {
+const SectionWrapper: React.FC<{
+  photosRef?: RefObject<HTMLDivElement>;
+}> = ({ photosRef, children }) => {
   return (
-    <div className={styles.room__section__flex}>
+    <div className={styles.room__section__flex} ref={photosRef}>
       <div className={styles.room__section__padding}>
         <div className={styles.room__section__margin}>
           <div className={styles.room__section__top}>{children}</div>
@@ -50,26 +65,19 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     ],
     shallow
   );
-  const [isHovered, toggleHover] = useToggle(false);
-  const nav = useRef<HTMLDivElement | null>(null);
+  const [visibleSection, setVisibleSection] = useState<string | undefined>('');
+  const nav = useRef<HTMLDivElement>(null);
+  const photosRef = useRef<HTMLDivElement>(null);
+  const amenitiesRef = useRef<HTMLDivElement>(null);
+  const reviewsRef = useRef<HTMLDivElement>(null);
+  const locationRef = useRef<HTMLDivElement>(null);
 
-  const onScroll = () => {
-    if (nav.current) {
-      if (window.pageYOffset >= 490) {
-        nav.current.style.visibility = 'visible';
-      } else {
-        nav.current.style.visibility = 'hidden';
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll);
-
-    return () => {
-      document.removeEventListener('scroll', onScroll);
-    };
-  }, []);
+  const sectionRefs = [
+    { section: 'Photos', ref: photosRef },
+    { section: 'Amenities', ref: amenitiesRef },
+    { section: 'Reviews', ref: reviewsRef },
+    { section: 'Location', ref: locationRef },
+  ];
 
   if (!loading && !data) {
     return (
@@ -88,6 +96,50 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     );
   }
 
+  const onScroll = () => {
+    if (nav.current) {
+      if (window.pageYOffset >= 490) {
+        nav.current.style.visibility = 'visible';
+      } else {
+        nav.current.style.visibility = 'hidden';
+      }
+    }
+
+    if (nav.current) {
+      const { height: headerHeight } = getDimensions(nav.current);
+      const scrollPosition = window.scrollY + headerHeight;
+
+      const selected = sectionRefs.find(({ ref }) => {
+        const ele = ref.current;
+        if (ele) {
+          const { offsetBottom, offsetTop } = getDimensions(ele);
+          return scrollPosition > offsetTop && scrollPosition < offsetBottom;
+        }
+      });
+
+      if (selected && selected.section !== visibleSection) {
+        setVisibleSection(selected.section);
+      } else if (!selected && visibleSection) {
+        setVisibleSection(undefined);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      document.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
+  let nights: number = 0;
+  if (startDate && endDate) {
+    nights = Math.ceil(
+      Math.abs(endDate.getTime() - startDate.getTime()) / (60 * 60 * 24 * 1000)
+    );
+  }
+
   return (
     <Layout filter room search>
       <div className={styles.inherit__div}>
@@ -96,13 +148,9 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             <Header city={data?.listing?.city!} title={data?.listing?.title!} />
           </SectionWrapper>
 
-          <SectionWrapper>
+          <SectionWrapper photosRef={photosRef}>
             <div className={styles.display__div}>
-              <ImageGallery
-                isHovered={isHovered}
-                photos={data?.listing?.photos!}
-                toggleHover={toggleHover}
-              />
+              <ImageGallery photos={data?.listing?.photos!} />
             </div>
           </SectionWrapper>
 
@@ -117,22 +165,46 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                   <div className={styles.room__section__flex}>
                     <div className={styles.room__navbar__font}>
                       <div className={styles.room__navbar__item}>
-                        <button className={styles.room__navbar__btn}>
+                        <button
+                          className={styles.room__navbar__btn}
+                          onClick={() => {
+                            if (photosRef.current)
+                              scrollTo(photosRef.current, 'start');
+                          }}
+                        >
                           <div className={styles.btn__padding}>Photos</div>
                         </button>
                       </div>
                       <div className={styles.room__navbar__item}>
-                        <button className={styles.room__navbar__btn}>
+                        <button
+                          className={styles.room__navbar__btn}
+                          onClick={() => {
+                            if (amenitiesRef.current)
+                              scrollTo(amenitiesRef.current, 'start');
+                          }}
+                        >
                           <div className={styles.btn__padding}>Amenities</div>
                         </button>
                       </div>
                       <div className={styles.room__navbar__item}>
-                        <button className={styles.room__navbar__btn}>
+                        <button
+                          className={styles.room__navbar__btn}
+                          onClick={() => {
+                            if (reviewsRef.current)
+                              scrollTo(reviewsRef.current, 'end');
+                          }}
+                        >
                           <div className={styles.btn__padding}>Reviews</div>
                         </button>
                       </div>
                       <div className={styles.room__navbar__item}>
-                        <button className={styles.room__navbar__btn}>
+                        <button
+                          className={styles.room__navbar__btn}
+                          onClick={() => {
+                            if (locationRef.current)
+                              scrollTo(locationRef.current, 'start');
+                          }}
+                        >
                           <div className={styles.btn__padding}>Location</div>
                         </button>
                       </div>
@@ -196,7 +268,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                   <div className={styles.description__snippet__container}>
                     <span>{data?.listing?.description}</span>
                   </div>
-                  <div className={styles.display__div}>
+                  <div className={styles.display__div} ref={amenitiesRef}>
                     <div className={styles.show__more__margin}>
                       <button className={styles.show__more__btn}>
                         <span className={styles.show__more__flex}>
@@ -251,17 +323,27 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                     <div>
                       <div className={styles.amenities__heading__container}>
                         <h2 className={styles.section__heading}>
-                          {Math.floor(
-                            (endDate.getTime() - startDate.getTime()) /
-                              (60 * 60 * 24 * 1000)
-                          )}{' '}
-                          nights in {data?.listing?.city}
+                          {startDate && endDate
+                            ? `${nights} nights in ${data?.listing?.city}`
+                            : 'Select check-in date'}
                         </h2>
                       </div>
 
                       <div className={styles.calendar__range}>
                         <div className={styles.calendar__availability}>
-                          Jul 9, 2021 - Jul 14, 2021
+                          {startDate && endDate
+                            ? startDate.toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              }) +
+                              '-' +
+                              endDate.toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              })
+                            : 'Add your travel dates for exact pricing'}
                         </div>
                       </div>
                     </div>
@@ -296,93 +378,22 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             </div>
 
             <BookRoomMenu
-              dates={[
-                startDate.toLocaleDateString('en-GB'),
-                endDate.toLocaleDateString('en-GB'),
-              ]}
+              id={data?.listing?.id!}
+              dates={[startDate, endDate]}
               guests={data?.listing?.guests!}
+              nights={nights}
               price={data?.listing?.price!}
               roomStyles={styles}
             />
           </div>
 
-          <div className={styles.room__section__flex}>
-            <div className={styles.room__section__padding}>
-              <div className={styles.room__section__margin}>
-                <div className={styles.section__divider}></div>
-                <div className={styles.section__padding}>
-                  <div className={styles.reviews__header__padding}>
-                    <h2 className={styles.section__heading}>
-                      <span className={styles.svg__margin}>
-                        <ReviewSvg />
-                      </span>
-                      <span>5.0 · 9 reviews</span>
-                    </h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ReviewsSection styles={styles} />
 
-          <div className={styles.room__section__flex}>
+          <div className={styles.room__section__flex} ref={locationRef}>
             {/* map stuff here */}
           </div>
 
-          <div className={styles.room__section__flex}>
-            <div className={styles.room__section__padding}>
-              <div className={styles.room__section__margin}>
-                <div className={styles.section__divider}></div>
-                <div className={styles.section__padding}>
-                  <div className={styles.hosted__container}>
-                    <div className={styles.profile__img__margin}>
-                      <Link href='/users/'>
-                        <a className={styles.profile__btn}>
-                          <div className={styles.profile__img}>
-                            <Image
-                              src='https://a0.muscache.com/im/pictures/user/061f66a1-0515-48be-a24a-c6eda9772651.jpg?im_w=240'
-                              height='100%'
-                              width='100%'
-                              layout='responsive'
-                              objectFit='cover'
-                            />
-                          </div>
-                        </a>
-                      </Link>
-                    </div>
-
-                    <div className={styles.amenities__heading__container}>
-                      <h2 className={styles.section__heading}>
-                        Hosted by Sergiu
-                      </h2>
-                      <div className={styles.calendar__range}>
-                        Joined in May 2021
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.amenities__list__grid}>
-                    <div className={styles.amenity__item__container}>
-                      <div className={styles.contact__margin}>
-                        <Link href={`/contact_host/${data?.listing?.id!}`}>
-                          <a className={styles.contact__btn}>Contact host</a>
-                        </Link>
-                      </div>
-                    </div>
-
-                    <div className={styles.protect__payment__margin}>
-                      <div className={styles.protect__payment__flex}>
-                        <div className={styles.protect__svg__margin}>
-                          <ProtectSvg />
-                        </div>
-                        To protect your payment, never transfer money or
-                        communicate outside of the Airbnb website or app.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ProfileSection id={data?.listing?.id!} styles={styles} />
         </div>
       </div>
     </Layout>

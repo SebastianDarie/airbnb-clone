@@ -1,13 +1,20 @@
 import { CreatePaymentIntentMutation } from '@airbnb-clone/controller';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
-import React, { BaseSyntheticEvent, useState } from 'react';
+import React, {
+  BaseSyntheticEvent,
+  Dispatch,
+  SetStateAction,
+  useState,
+} from 'react';
 import btnStyles from '../../sass/pages/CreateListing.module.scss';
 import { useGradient } from '../../shared-hooks/useGradient';
 import styles from './Stripe.module.scss';
 
 interface StripeCardProps {
   clientSecret: CreatePaymentIntentMutation | null | undefined;
+  succeeded: boolean;
+  setSucceeded: Dispatch<SetStateAction<boolean>>;
 }
 
 const CARD_OPTIONS = {
@@ -53,11 +60,15 @@ const ErrorMessage = ({ error }: { error: string }) => (
   </div>
 );
 
-export const StripeCard: React.FC<StripeCardProps> = ({ clientSecret }) => {
+export const StripeCard: React.FC<StripeCardProps> = ({
+  clientSecret,
+  succeeded,
+  setSucceeded,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [coords, setCoords] = useGradient();
-  const [succeeded, setSucceeded] = useState<boolean>(false);
+  //const [succeeded, setSucceeded] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);

@@ -14,7 +14,7 @@ const initialState = {
   latitude: 40,
   longitude: -74.5,
   photos: [] as [File, Photo][],
-  price: '$10',
+  price: 10,
   title: '',
   type: 'Rental unit',
 };
@@ -99,7 +99,7 @@ export const useListingStore = create(
         description,
       })),
 
-    updatePrice: (price: string) =>
+    updatePrice: (price: number) =>
       set((state) => ({
         ...state,
         price,

@@ -1,7 +1,9 @@
-mutation CreateMessage($text: String!, $listingId: String!) {
-  createMessage(input: { text: $text, listingId: $listingId }) {
-    id
+mutation CreateMessage($input: MessageInput!) {
+  createMessage(input: $input) {
+    isFromSender
     text
+    read
+    headerId
     creatorId
     listingId
   }

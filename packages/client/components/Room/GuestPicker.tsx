@@ -1,30 +1,23 @@
 import menuStyles from '../../sass/components/GuestsMenu.module.scss';
 import { MinusSvg, PlusSvg } from '@airbnb-clone/controller';
-import { MutableRefObject } from 'react';
 
 interface GuestPickerProps {
   active: boolean;
   guests: number;
-  picker: MutableRefObject<HTMLDivElement | null>;
   styles: {
     readonly [key: string]: string;
   };
-  handler: () => void;
 }
 
 export const GuestPicker: React.FC<GuestPickerProps> = ({
   active,
   guests,
-  picker,
   styles,
-  handler,
 }) => {
   return (
     <div
       className={styles.guest__picker__container}
-      ref={picker}
       style={{ display: active ? 'block' : 'none' }}
-      //onMouseDownCapture={handler}
     >
       <div className={styles.guest__picker__item__mr}>
         <div className={styles.guest__picker__item}>

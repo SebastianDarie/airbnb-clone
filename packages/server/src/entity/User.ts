@@ -30,6 +30,12 @@ export class User extends BaseEntity {
   @Column() password!: string;
 
   @Field()
+  @Column({
+    default: 'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3',
+  })
+  photoUrl!: string;
+
+  @Field()
   @Column({ default: false })
   confirmed: boolean;
 

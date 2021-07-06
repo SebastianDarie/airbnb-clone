@@ -1,42 +1,45 @@
-import { Field, ObjectType } from 'type-graphql';
+import { ObjectType, Field } from 'type-graphql';
 import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
   Entity,
-  ManyToOne,
+  Column,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
+  BaseEntity,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
-import { Header } from './Header';
 import { Listing } from './Listing';
+import { Message } from './Message';
 import { User } from './User';
+
+export enum MessageStatus {
+  DELIVERED = 'delivered',
+  SENDING = 'sending',
+  SENT = 'sent',
+}
 
 @ObjectType()
 @Entity()
-export class Message extends BaseEntity {
+export class Header extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Field()
-  @Column({ type: 'bit' })
-  isFromSender: number;
+  @Column('uuid', { unique: true })
+  toId: string;
 
   @Field()
-  @Column({ type: 'text' })
-  text!: string;
+  @Column({ type: 'varchar' })
+  subject: string;
 
   @Field()
-  @Column({ type: 'bit', default: 0 })
-  read: number;
+  @Column({ type: 'enum', enum: MessageStatus, default: MessageStatus.SENDING })
+  status: MessageStatus;
 
-  @Field()
-  @Column('uuid')
-  headerId: string;
-
-  @ManyToOne(() => Header, (header) => header.messages)
-  header: Header;
+  @OneToMany(() => Message, (message) => message.header)
+  messages: Message[];
 
   @Field()
   @Column('uuid')

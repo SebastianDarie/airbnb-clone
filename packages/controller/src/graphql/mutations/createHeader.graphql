@@ -1,0 +1,10 @@
+mutation CreateHeader($input: HeaderInput!) {
+  createHeader(input: $input) {
+    id
+    toId
+    subject
+    status
+    creatorId
+    listingId
+  }
+}

@@ -18,7 +18,7 @@ export const CreateMessageController: React.FC<CreateMessageControllerProps> = (
 
   const submit = async (values: MessageFormProps) => {
     await createMessage({
-      variables: { ...values },
+      variables: { input: { ...values } },
     });
 
     return true;

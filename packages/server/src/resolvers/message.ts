@@ -28,23 +28,14 @@ class MessageInput {
   text: string;
 
   @Field()
+  isFromSender: number;
+
+  @Field()
   listingId: string;
+
+  @Field()
+  headerId: string;
 }
-
-// @ObjectType()
-// class MessagePayload {
-//   @Field()
-//   id: string;
-
-//   @Field()
-//   text: string;
-
-//   @Field()
-//   creatorId: string;
-
-//   @Field()
-//   createdAt: Date;
-// }
 
 @Resolver(Message)
 export class MessageResolver {
@@ -71,13 +62,11 @@ export class MessageResolver {
   async createMessage(
     @Arg('input') input: MessageInput,
     @Ctx() { req, redisPubsub }: MyContext
-  ): //@PubSub('MESSAGES') notifyNewMsg: Publisher<Message>
-  Promise<Message> {
+  ): Promise<Message> {
     const message = await Message.create({
       ...input,
       creatorId: req.session.userId,
     }).save();
-    console.log(message);
     await redisPubsub.publish('MESSAGES', message);
     return message;
   }
@@ -89,8 +78,6 @@ export class MessageResolver {
   })
   newMessage(
     @Args() _listingId: NewMessageArgs,
-    //@Ctx() { redisPubsub }: MyContext,
-    //@PubSub() pubsub: PubSubEngine,
     @Root() message: Message
   ): Message {
     console.log(message);

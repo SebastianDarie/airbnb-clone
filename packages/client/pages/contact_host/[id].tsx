@@ -1,11 +1,11 @@
-import { ArrowLeftSvg } from '@airbnb-clone/controller';
+import {
+  ArrowLeftSvg,
+  useCreateHeaderMutation,
+  useCreateMessageMutation,
+} from '@airbnb-clone/controller';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import {
-  BaseSyntheticEvent,
-  KeyboardEventHandler,
-  SyntheticEvent,
-} from 'react';
+import { FormEvent, useState } from 'react';
 import Layout from '../../components/Layout';
 import styles from '../../sass/pages/ContactHost.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
@@ -15,10 +15,19 @@ interface ContactHostProps {}
 
 const ContactHost: React.FC<ContactHostProps> = ({}) => {
   const router = useRouter();
+  const [createHeader] = useCreateHeaderMutation();
+  const [createMessage] = useCreateMessageMutation();
+  const [message, setMessage] = useState('');
 
   return (
-    <Layout filter search>
-      <form>
+    <Layout filter room search>
+      <form
+        onSubmit={async (e: FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          console.log(message);
+          //  await createHeader({variables: {input: {listingId: router.query.id, status: 'sending'}}})
+        }}
+      >
         <div className={roomStyles.display__div}>
           <div>
             <div className={roomStyles.room__section__flex}>
@@ -89,6 +98,7 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
                     <textarea
                       className={styles.textarea}
                       autoComplete='off'
+                      onChange={(e) => setMessage(e.currentTarget.value)}
                       onKeyDown={(e: any) => {
                         e.currentTarget.style.height = 'inherit';
                         e.currentTarget.style.height = `${e.target.scrollHeight}px`;

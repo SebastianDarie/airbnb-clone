@@ -44,7 +44,7 @@ export class Listing extends BaseEntity {
   photos!: string[];
 
   @Field()
-  @Column()
+  @Column({ type: 'double precision', default: 25 })
   price!: string;
 
   @Field()

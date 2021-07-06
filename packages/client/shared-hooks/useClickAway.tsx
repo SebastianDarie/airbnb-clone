@@ -1,44 +1,38 @@
-import React, {
-  RefObject,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-} from 'react';
+import { RefObject, useEffect } from 'react';
 
-const OverrideContext = React.createContext(
-  (isClickedInside: boolean) => !isClickedInside
-);
+// const OverrideContext = React.createContext(
+//   (isClickedInside: boolean) => !isClickedInside
+// );
 
-export const useClickOutside = (callback: (arg0: any) => any) => {
-  const isClickedInside = useRef(false);
-  const isClickedOutside = useContext(OverrideContext);
+// export const useClickOutside = (callback: (arg0: any) => any) => {
+//   const isClickedInside = useRef(false);
+//   const isClickedOutside = useContext(OverrideContext);
 
-  const handleDocumentMouseDown = useCallback(
-    (e) =>
-      (isClickedInside.current = !isClickedOutside(isClickedInside.current)),
-    [isClickedInside, isClickedOutside]
-  );
+//   const handleDocumentMouseDown = useCallback(
+//     (e) =>
+//       (isClickedInside.current = !isClickedOutside(isClickedInside.current)),
+//     [isClickedInside, isClickedOutside]
+//   );
 
-  const handleDocumentMouseUp = useCallback(
-    (e) =>
-      isClickedInside.current ? (isClickedInside.current = false) : callback(e),
-    [callback, isClickedInside]
-  );
+//   const handleDocumentMouseUp = useCallback(
+//     (e) =>
+//       isClickedInside.current ? (isClickedInside.current = false) : callback(e),
+//     [callback, isClickedInside]
+//   );
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleDocumentMouseDown);
-    document.addEventListener('mouseup', handleDocumentMouseUp);
-    return () => {
-      document.removeEventListener('mousedown', handleDocumentMouseDown);
-      document.removeEventListener('mouseup', handleDocumentMouseUp);
-    };
-  }, [handleDocumentMouseDown, handleDocumentMouseUp]);
+//   useEffect(() => {
+//     document.addEventListener('mousedown', handleDocumentMouseDown);
+//     document.addEventListener('mouseup', handleDocumentMouseUp);
+//     return () => {
+//       document.removeEventListener('mousedown', handleDocumentMouseDown);
+//       document.removeEventListener('mouseup', handleDocumentMouseUp);
+//     };
+//   }, [handleDocumentMouseDown, handleDocumentMouseUp]);
 
-  return useCallback(() => {
-    isClickedInside.current = true;
-  }, [isClickedInside]);
-};
+//   return useCallback(() => {
+//     isClickedInside.current = true;
+//   }, [isClickedInside]);
+// };
 
 type Event = MouseEvent | TouchEvent;
 

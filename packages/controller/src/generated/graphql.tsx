@@ -20,6 +20,25 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type Header = {
+  __typename?: 'Header';
+  id: Scalars['String'];
+  toId: Scalars['String'];
+  subject: Scalars['String'];
+  status: Scalars['String'];
+  creatorId: Scalars['String'];
+  listingId: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type HeaderInput = {
+  toId: Scalars['String'];
+  subject: Scalars['String'];
+  status: Scalars['String'];
+  listingId: Scalars['String'];
+};
+
 export type Listing = {
   __typename?: 'Listing';
   id: Scalars['String'];
@@ -50,7 +69,7 @@ export type ListingInput = {
   category: Scalars['String'];
   type: Scalars['String'];
   photos: Array<Scalars['String']>;
-  price: Scalars['String'];
+  price: Scalars['Float'];
   bathrooms: Scalars['Int'];
   bedrooms: Scalars['Int'];
   beds: Scalars['Int'];
@@ -65,7 +84,10 @@ export type ListingInput = {
 export type Message = {
   __typename?: 'Message';
   id: Scalars['String'];
+  isFromSender: Scalars['Float'];
   text: Scalars['String'];
+  read: Scalars['Float'];
+  headerId: Scalars['String'];
   creatorId: Scalars['String'];
   listingId: Scalars['String'];
   createdAt: Scalars['String'];
@@ -74,11 +96,14 @@ export type Message = {
 
 export type MessageInput = {
   text: Scalars['String'];
+  isFromSender: Scalars['Float'];
   listingId: Scalars['String'];
+  headerId: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createHeader: Header;
   signS3: Array<Scalars['String']>;
   createListing: Scalars['Boolean'];
   updateListing?: Maybe<Listing>;
@@ -94,6 +119,11 @@ export type Mutation = {
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
   deleteUser: Scalars['Boolean'];
+};
+
+
+export type MutationCreateHeaderArgs = {
+  input: HeaderInput;
 };
 
 
@@ -186,6 +216,7 @@ export type Photo = {
 
 export type Query = {
   __typename?: 'Query';
+  headers: Array<Header>;
   listings: Array<Listing>;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
@@ -193,6 +224,11 @@ export type Query = {
   reviews: Array<Review>;
   users: Array<User>;
   me?: Maybe<User>;
+};
+
+
+export type QueryHeadersArgs = {
+  listingId: Scalars['String'];
 };
 
 
@@ -244,8 +280,8 @@ export type ReviewInput = {
   location: Scalars['Int'];
   value: Scalars['Int'];
   amenities: Scalars['Int'];
-  review: Scalars['Int'];
-  listingId: Scalars['Int'];
+  review: Scalars['String'];
+  listingId: Scalars['String'];
 };
 
 export type SearchInput = {
@@ -272,7 +308,7 @@ export type UpdateListing = {
   category?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   photos?: Maybe<Array<Scalars['String']>>;
-  price?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
   bathrooms?: Maybe<Scalars['Int']>;
   bedrooms?: Maybe<Scalars['Int']>;
   beds?: Maybe<Scalars['Int']>;
@@ -288,6 +324,7 @@ export type User = {
   __typename?: 'User';
   id: Scalars['String'];
   name: Scalars['String'];
+  photoUrl: Scalars['String'];
   confirmed: Scalars['Boolean'];
   forgotPasswordLocked: Scalars['Boolean'];
   superhost: Scalars['Boolean'];
@@ -358,6 +395,19 @@ export type ConfirmEmailMutation = (
   ) }
 );
 
+export type CreateHeaderMutationVariables = Exact<{
+  input: HeaderInput;
+}>;
+
+
+export type CreateHeaderMutation = (
+  { __typename?: 'Mutation' }
+  & { createHeader: (
+    { __typename?: 'Header' }
+    & Pick<Header, 'id' | 'toId' | 'subject' | 'status' | 'creatorId' | 'listingId'>
+  ) }
+);
+
 export type CreateListingMutationVariables = Exact<{
   input: ListingInput;
 }>;
@@ -369,8 +419,7 @@ export type CreateListingMutation = (
 );
 
 export type CreateMessageMutationVariables = Exact<{
-  text: Scalars['String'];
-  listingId: Scalars['String'];
+  input: MessageInput;
 }>;
 
 
@@ -378,7 +427,7 @@ export type CreateMessageMutation = (
   { __typename?: 'Mutation' }
   & { createMessage: (
     { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'text' | 'creatorId' | 'listingId'>
+    & Pick<Message, 'isFromSender' | 'text' | 'read' | 'headerId' | 'creatorId' | 'listingId'>
   ) }
 );
 
@@ -391,6 +440,19 @@ export type CreatePaymentIntentMutationVariables = Exact<{
 export type CreatePaymentIntentMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'createPaymentIntent'>
+);
+
+export type CreateReviewMutationVariables = Exact<{
+  input: ReviewInput;
+}>;
+
+
+export type CreateReviewMutation = (
+  { __typename?: 'Mutation' }
+  & { createReview: (
+    { __typename?: 'Review' }
+    & Pick<Review, 'id' | 'rating' | 'review' | 'listingId' | 'creatorId'>
+  ) }
 );
 
 export type ForgotPasswordMutationVariables = Exact<{
@@ -642,6 +704,44 @@ export function useConfirmEmailMutation(baseOptions?: Apollo.MutationHookOptions
 export type ConfirmEmailMutationHookResult = ReturnType<typeof useConfirmEmailMutation>;
 export type ConfirmEmailMutationResult = Apollo.MutationResult<ConfirmEmailMutation>;
 export type ConfirmEmailMutationOptions = Apollo.BaseMutationOptions<ConfirmEmailMutation, ConfirmEmailMutationVariables>;
+export const CreateHeaderDocument = gql`
+    mutation CreateHeader($input: HeaderInput!) {
+  createHeader(input: $input) {
+    id
+    toId
+    subject
+    status
+    creatorId
+    listingId
+  }
+}
+    `;
+export type CreateHeaderMutationFn = Apollo.MutationFunction<CreateHeaderMutation, CreateHeaderMutationVariables>;
+
+/**
+ * __useCreateHeaderMutation__
+ *
+ * To run a mutation, you first call `useCreateHeaderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateHeaderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createHeaderMutation, { data, loading, error }] = useCreateHeaderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateHeaderMutation(baseOptions?: Apollo.MutationHookOptions<CreateHeaderMutation, CreateHeaderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateHeaderMutation, CreateHeaderMutationVariables>(CreateHeaderDocument, options);
+      }
+export type CreateHeaderMutationHookResult = ReturnType<typeof useCreateHeaderMutation>;
+export type CreateHeaderMutationResult = Apollo.MutationResult<CreateHeaderMutation>;
+export type CreateHeaderMutationOptions = Apollo.BaseMutationOptions<CreateHeaderMutation, CreateHeaderMutationVariables>;
 export const CreateListingDocument = gql`
     mutation CreateListing($input: ListingInput!) {
   createListing(input: $input)
@@ -674,10 +774,12 @@ export type CreateListingMutationHookResult = ReturnType<typeof useCreateListing
 export type CreateListingMutationResult = Apollo.MutationResult<CreateListingMutation>;
 export type CreateListingMutationOptions = Apollo.BaseMutationOptions<CreateListingMutation, CreateListingMutationVariables>;
 export const CreateMessageDocument = gql`
-    mutation CreateMessage($text: String!, $listingId: String!) {
-  createMessage(input: {text: $text, listingId: $listingId}) {
-    id
+    mutation CreateMessage($input: MessageInput!) {
+  createMessage(input: $input) {
+    isFromSender
     text
+    read
+    headerId
     creatorId
     listingId
   }
@@ -698,8 +800,7 @@ export type CreateMessageMutationFn = Apollo.MutationFunction<CreateMessageMutat
  * @example
  * const [createMessageMutation, { data, loading, error }] = useCreateMessageMutation({
  *   variables: {
- *      text: // value for 'text'
- *      listingId: // value for 'listingId'
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -742,6 +843,43 @@ export function useCreatePaymentIntentMutation(baseOptions?: Apollo.MutationHook
 export type CreatePaymentIntentMutationHookResult = ReturnType<typeof useCreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationResult = Apollo.MutationResult<CreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
+export const CreateReviewDocument = gql`
+    mutation CreateReview($input: ReviewInput!) {
+  createReview(input: $input) {
+    id
+    rating
+    review
+    listingId
+    creatorId
+  }
+}
+    `;
+export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>;
+
+/**
+ * __useCreateReviewMutation__
+ *
+ * To run a mutation, you first call `useCreateReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReviewMutation, { data, loading, error }] = useCreateReviewMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateReviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateReviewMutation, CreateReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReviewMutation, CreateReviewMutationVariables>(CreateReviewDocument, options);
+      }
+export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
+export type CreateReviewMutationResult = Apollo.MutationResult<CreateReviewMutation>;
+export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)

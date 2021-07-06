@@ -1,0 +1,86 @@
+@use '../../sass/utilities/bootstrap.scss';
+
+.reviews__bottom {
+  padding-bottom: 32px;
+}
+
+.svg__margin {
+  display: inline-flex;
+  color: bootstrap.$brand-color;
+  margin-right: 8px;
+}
+
+.reviews__details__margin {
+  margin-bottom: 24px;
+}
+
+.reviews__details__container {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-left: calc(-1 * 16px / 2);
+  margin-right: calc(-1 * 16px / 2);
+  width: calc(100% + 12px);
+
+  @media screen and (min-width: 744px) {
+    width: calc(100% + 16px);
+  }
+}
+
+.review__detail__margin {
+  margin-bottom: 16px;
+}
+
+.review__detail__flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.review__detail__text {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail__score__margin {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 12px;
+  width: 75%;
+
+  @media screen and (min-width: 1128px) {
+    width: 50%;
+  }
+}
+
+.detail__bar__container {
+  position: relative;
+  height: 4px;
+  width: 100%;
+  margin-right: 4px;
+  background: rgb(221, 221, 221);
+  border-radius: 2px;
+}
+
+.detail__bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  background: #222222;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.detail__rating {
+  color: rgb(34, 34, 34);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  margin-left: 6px;
+}

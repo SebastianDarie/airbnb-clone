@@ -1,0 +1,66 @@
+@use '../../sass/utilities/bootstrap.scss';
+
+.hosted__container {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  @media screen and (min-width: 744px) {
+    flex-direction: row;
+    justify-content: initial;
+  }
+}
+
+.profile__img__margin {
+  @media screen and (min-width: 744px) {
+    margin-right: 16px;
+  }
+}
+
+.profile__img {
+  background: rgb(221, 221, 221);
+  overflow: hidden;
+  position: relative;
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
+}
+
+.contact__margin {
+  margin-top: 32px;
+}
+
+.protect__payment__margin {
+  margin-top: 24px;
+
+  @media screen and (min-width: 744px) {
+    max-width: 300px;
+  }
+}
+
+.protect__payment__flex {
+  color: rgb(34, 34, 34);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  @media screen and (min-width: 744px) {
+    flex-direction: row;
+    justify-content: initial;
+  }
+}
+
+.protect__svg__margin {
+  margin-left: 16px;
+
+  @media screen and (min-width: 744px) {
+    margin-left: 0px;
+    margin-right: 16px;
+  }
+}
