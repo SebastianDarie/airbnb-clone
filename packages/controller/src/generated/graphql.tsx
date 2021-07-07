@@ -26,16 +26,18 @@ export type Header = {
   toId: Scalars['String'];
   subject: Scalars['String'];
   status: Scalars['String'];
+  messages: Array<Message>;
   creatorId: Scalars['String'];
   listingId: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  creator: User;
 };
 
 export type HeaderInput = {
   toId: Scalars['String'];
   subject: Scalars['String'];
-  status: Scalars['String'];
+  status: MessageStatus;
   listingId: Scalars['String'];
 };
 
@@ -47,7 +49,7 @@ export type Listing = {
   category: Scalars['String'];
   type: Scalars['String'];
   photos: Array<Scalars['String']>;
-  price: Scalars['String'];
+  price: Scalars['Float'];
   bathrooms: Scalars['Float'];
   bedrooms: Scalars['Float'];
   beds: Scalars['Float'];
@@ -101,10 +103,17 @@ export type MessageInput = {
   headerId: Scalars['String'];
 };
 
+export enum MessageStatus {
+  Delivered = 'DELIVERED',
+  Sending = 'SENDING',
+  Sent = 'SENT'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   createHeader: Header;
   signS3: Array<Scalars['String']>;
+  changeCreator: Scalars['Boolean'];
   createListing: Scalars['Boolean'];
   updateListing?: Maybe<Listing>;
   createLocation: Listing;
@@ -129,6 +138,12 @@ export type MutationCreateHeaderArgs = {
 
 export type MutationSignS3Args = {
   photos: Array<Photo>;
+};
+
+
+export type MutationChangeCreatorArgs = {
+  listingId: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
@@ -217,6 +232,7 @@ export type Photo = {
 export type Query = {
   __typename?: 'Query';
   headers: Array<Header>;
+  headersListing: Array<Header>;
   listings: Array<Listing>;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
@@ -228,6 +244,11 @@ export type Query = {
 
 
 export type QueryHeadersArgs = {
+  headerId: Scalars['String'];
+};
+
+
+export type QueryHeadersListingArgs = {
   listingId: Scalars['String'];
 };
 
@@ -327,7 +348,7 @@ export type User = {
   photoUrl: Scalars['String'];
   confirmed: Scalars['Boolean'];
   forgotPasswordLocked: Scalars['Boolean'];
-  superhost: Scalars['Boolean'];
+  superhost: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   email: Scalars['String'];
@@ -528,6 +549,26 @@ export type UpdateListingMutation = (
   )> }
 );
 
+export type HeadersQueryVariables = Exact<{
+  headerId: Scalars['String'];
+}>;
+
+
+export type HeadersQuery = (
+  { __typename?: 'Query' }
+  & { headers: Array<(
+    { __typename?: 'Header' }
+    & Pick<Header, 'id' | 'toId' | 'subject' | 'status' | 'listingId' | 'createdAt'>
+    & { creator: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'photoUrl'>
+    ), messages: Array<(
+      { __typename?: 'Message' }
+      & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt'>
+    )> }
+  )> }
+);
+
 export type ListingQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -540,7 +581,7 @@ export type ListingQuery = (
     & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'city' | 'type' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities'>
     & { creator: (
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'email'>
+      & Pick<User, 'id' | 'email' | 'name' | 'photoUrl' | 'createdAt'>
     ) }
   )> }
 );
@@ -1092,6 +1133,58 @@ export function useUpdateListingMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateListingMutationHookResult = ReturnType<typeof useUpdateListingMutation>;
 export type UpdateListingMutationResult = Apollo.MutationResult<UpdateListingMutation>;
 export type UpdateListingMutationOptions = Apollo.BaseMutationOptions<UpdateListingMutation, UpdateListingMutationVariables>;
+export const HeadersDocument = gql`
+    query Headers($headerId: String!) {
+  headers(headerId: $headerId) {
+    id
+    toId
+    subject
+    status
+    listingId
+    createdAt
+    creator {
+      id
+      name
+      photoUrl
+    }
+    messages {
+      id
+      isFromSender
+      text
+      read
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useHeadersQuery__
+ *
+ * To run a query within a React component, call `useHeadersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHeadersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHeadersQuery({
+ *   variables: {
+ *      headerId: // value for 'headerId'
+ *   },
+ * });
+ */
+export function useHeadersQuery(baseOptions: Apollo.QueryHookOptions<HeadersQuery, HeadersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HeadersQuery, HeadersQueryVariables>(HeadersDocument, options);
+      }
+export function useHeadersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HeadersQuery, HeadersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HeadersQuery, HeadersQueryVariables>(HeadersDocument, options);
+        }
+export type HeadersQueryHookResult = ReturnType<typeof useHeadersQuery>;
+export type HeadersLazyQueryHookResult = ReturnType<typeof useHeadersLazyQuery>;
+export type HeadersQueryResult = Apollo.QueryResult<HeadersQuery, HeadersQueryVariables>;
 export const ListingDocument = gql`
     query Listing($id: String!) {
   listing(id: $id) {
@@ -1111,6 +1204,9 @@ export const ListingDocument = gql`
     creator {
       id
       email
+      name
+      photoUrl
+      createdAt
     }
   }
 }

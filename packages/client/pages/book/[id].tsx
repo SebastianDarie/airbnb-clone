@@ -55,10 +55,8 @@ const Book: React.FC<BookProps> = ({}) => {
       createPaymentIntent({ variables: { id: variables.id, nights } });
   }, []);
 
-  const currency = data?.listing?.price.slice(0, 1);
-  const prePrice = Math.floor(
-    parseFloat(data?.listing?.price.slice(1)!) * nights
-  );
+  const currency = '$';
+  const prePrice = Math.floor(data?.listing?.price! * nights);
   const serviceFee = Math.floor((prePrice / 100) * 17);
 
   return (

@@ -44,8 +44,8 @@ export class User extends BaseEntity {
   forgotPasswordLocked: boolean;
 
   @Field()
-  @Column({ default: false })
-  superhost: boolean;
+  @Column({ type: 'bit', default: 0 })
+  superhost: number;
 
   @OneToMany(() => Listing, (listing) => listing.creator)
   listings: Listing[];

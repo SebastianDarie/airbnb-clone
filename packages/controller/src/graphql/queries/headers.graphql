@@ -1,0 +1,22 @@
+query Headers($headerId: String!) {
+  headers(headerId: $headerId) {
+    id
+    toId
+    subject
+    status
+    listingId
+    createdAt
+    creator {
+      id
+      name
+      photoUrl
+    }
+    messages {
+      id
+      isFromSender
+      text
+      read
+      createdAt
+    }
+  }
+}

@@ -1,0 +1,546 @@
+@use '../utilities/bootstrap.scss';
+
+.inbox__position {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+
+  @media screen and (min-width: 744px) {
+    top: 80px;
+  }
+}
+
+.inbox__sections__flex {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow: hidden;
+}
+
+.conversation__list__panel {
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  border-left: 1px solid bootstrap.$graysmoke;
+
+  @media screen and (min-width: 375px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    flex: 0 0 375px;
+    border-left: none;
+  }
+}
+
+.conversation__list__panel__transition {
+  height: 100%;
+  overflow: hidden;
+
+  @media screen and (min-width: 375px) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: 100%;
+    overflow: hidden;
+    opacity: 1;
+    transition-duration: 150ms;
+    transition-delay: 350ms;
+  }
+}
+
+.conversation__list__position {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100vw;
+
+  @media screen and (min-width: 744px) {
+    width: auto;
+  }
+}
+
+.messages__header__padding {
+  height: 72px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 24px;
+  position: relative;
+  padding-right: 20px;
+  border-bottom: 1px solid bootstrap.$graysmoke;
+}
+
+.messages__header {
+  font-size: 16px;
+  flex-grow: 1;
+  line-height: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: bootstrap.$nero;
+  font-weight: 800;
+}
+
+.messages__list__flex {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100px;
+}
+
+.messages__overflow {
+  flex-grow: 1;
+  overflow: hidden auto;
+  height: 100px;
+}
+
+.message__item__margin {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-right: 2px;
+  margin-left: 2px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background-color: bootstrap.$whitesmoke;
+  border-bottom-width: 0px;
+}
+
+.message__item__padding {
+  padding: 12px 12px 12px 10px;
+  position: relative;
+}
+
+.message__item__link {
+  position: absolute;
+  z-index: 1;
+  inset: 0px 2px;
+  border: none;
+  color: inherit;
+  display: block;
+}
+
+.message__content__flex {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.message__profile__margin {
+  margin-right: 12px;
+}
+
+.message__profile__image {
+  background-color: rgb(221, 221, 221);
+  border-radius: 100px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: bootstrap.$default-color;
+  overflow: hidden;
+  display: block;
+  width: 52px;
+  height: 52px;
+}
+
+.message__content__grow {
+  display: flex;
+  flex: 1 0 100px;
+  flex-direction: column;
+  min-width: 0px;
+}
+
+.message__sender__name {
+  min-height: 20px;
+  color: bootstrap.$nero;
+  margin-right: 10px;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.message__sender {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  width: 10px;
+}
+
+.message__text__flex {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.message__text {
+  margin-right: 8px;
+  flex: 1 0 0px;
+  color: bootstrap.$nero;
+  margin-top: 4px;
+  width: 100px;
+  font-size: 14px;
+  line-height: 18px;
+  display: flex;
+  flex-direction: row;
+}
+
+.message__day {
+  color: bootstrap.$dimgray;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.message__subject__margin {
+  color: bootstrap.$dimgray;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 18px;
+  display: flex;
+  flex-direction: row;
+}
+
+.messages__end {
+  min-height: 4px;
+}
+
+.conversation__panel {
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  border-left: 1px solid bootstrap.$graysmoke;
+
+  @media screen and (min-width: 375px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    flex: 1 1 0%;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+}
+
+.message__thread__toolbar {
+  height: 72px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: 24px;
+  padding-left: 24px;
+  position: relative;
+  border-bottom: 1px solid bootstrap.$graysmoke;
+}
+
+.name__margin {
+  flex-grow: 1;
+  margin-right: 12px;
+}
+
+.name__font {
+  font-size: 16px;
+  flex-grow: 1;
+  color: bootstrap.$nero;
+  font-weight: 800;
+  line-height: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.archive__margin {
+  height: 16px;
+  margin-left: 12px;
+}
+
+.toggle__details__margin {
+  margin-left: 12px;
+}
+
+.toggle__details__btn {
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid bootstrap.$nero;
+  outline: none;
+  margin: 0px;
+  border-radius: 30px;
+  position: relative;
+  padding: 8px 16px;
+  font-size: 12px;
+  line-height: 16px;
+  background-color: bootstrap.$whitesmoke;
+  color: bootstrap.$nero;
+  font-weight: 800;
+
+  &:hover {
+    color: bootstrap.$black;
+    border-color: bootstrap.$black;
+  }
+
+  &::after {
+    content: '';
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    background-color: transparent;
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: inherit;
+  }
+}
+
+.messages__flex {
+  display: flex;
+  flex: 1 1 0px;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.message__column {
+  display: flex;
+  flex-basis: 10px;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.message__list {
+  flex: 1 1 auto;
+  position: relative;
+}
+
+.message__list__position {
+  position: absolute;
+  inset: 0px;
+  overflow: hidden auto;
+}
+
+.message__list__bottom {
+  padding-bottom: 28px;
+}
+
+.conversation__start {
+  position: relative;
+  padding-top: 2px;
+}
+
+.message__container {
+  margin: 0px 2px;
+  outline: none;
+}
+
+.conversation__date {
+  padding: 24px 22px 0px;
+  text-align: center;
+  color: bootstrap.$dimgray;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.message__width {
+  max-width: 616px;
+}
+
+.airbnb__message__margin {
+  margin: 16px 22px 10px;
+}
+
+.airbnb__message__padding {
+  display: flex;
+  flex-direction: row;
+  padding: 12px 20px;
+  background-color: bootstrap.$whitesmoke;
+  border-radius: 36px;
+}
+
+.airbnb__svg__margin {
+  vertical-align: top;
+  text-align: right;
+  margin-right: 12px;
+  color: bootstrap.$dimgray;
+  margin-top: 2px;
+}
+
+.airbnb__message__text {
+  flex: 1 1 1px;
+  font-size: 12px;
+  line-height: 16px;
+  color: bootstrap.$dimgray;
+  font-weight: 800;
+}
+
+.recent__message__margin {
+  margin: 16px 22px 20px 70px;
+}
+
+.standard__message__margin {
+  margin: 20px 22px 10px;
+}
+
+.message__input__grow {
+  flex: 0 0 auto;
+}
+
+.message__input__width {
+  margin: 0px auto;
+  max-width: 616px;
+}
+
+.message__input__margin {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  margin: 0px 24px 4px 11px;
+}
+
+.input__width {
+  width: 100%;
+}
+
+.input__container {
+  box-shadow: rgb(176 176 176) 0px 0px 0px 1px inset;
+  box-sizing: border-box;
+  color: bootstrap.$nero;
+  padding: 2px;
+  border-radius: 20px;
+  width: 100%;
+  margin: 14px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-grow: 1;
+  position: relative;
+}
+
+.message__input {
+  color: inherit;
+  display: block;
+  min-width: auto;
+  max-width: 100%;
+  outline: none;
+  border: 0px none;
+  margin: 0px 1px 0px 0px;
+  box-sizing: border-box;
+  background-color: bootstrap.$default-color;
+  appearance: none;
+  padding: 9px 8px;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  resize: none;
+  width: 100%;
+  min-height: 40px;
+  flex-grow: 1;
+  border-radius: 20px;
+  max-height: 40px;
+}
+
+.conversation__details__panel {
+}

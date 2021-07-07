@@ -59,14 +59,14 @@
 .stays__count {
   font-size: 14px;
   line-height: 18px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   padding-bottom: 8px;
 }
 
 .stays__header {
   font-size: 26px;
   line-height: 30px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 800;
 
   @media screen and(min-width: 744px) {

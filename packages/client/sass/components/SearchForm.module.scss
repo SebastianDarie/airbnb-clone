@@ -5,7 +5,7 @@
   align-items: center;
   flex: 0 1 auto;
   min-width: 0px;
-  padding: 0 bootstrap.rem(24px);
+  padding: 0 24px;
 
   @media screen and (min-width: 950px) {
     text-align: center;
@@ -49,7 +49,7 @@
   display: flex;
   align-items: center;
   background-color: bootstrap.$default-color;
-  border: 1px solid #dddddd;
+  border: 1px solid bootstrap.$gainsboro;
   border-radius: 40px;
   box-shadow: 0px 1px 2px rgb(0 0 0 / 8%), 0px 4px 12px rgb(0 0 0 / 5%);
   color: #222222;
@@ -114,12 +114,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  color: #717171;
+  color: bootstrap.$dimgray;
   font-weight: 400;
 }
 
 .search__divider {
-  background-color: #dddddd;
+  background-color: bootstrap.$gainsboro;
   flex: 0 0 1px;
   height: 24px;
   width: 1px;
@@ -151,13 +151,13 @@
   z-index: 2;
 
   @media screen and (min-width: 375px) {
-    padding-left: bootstrap.rem(24px);
-    padding-right: bootstrap.rem(24px);
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   @media screen and (min-width: 744px) {
-    padding-left: bootstrap.rem(40px);
-    padding-right: bootstrap.rem(40px);
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   @media screen and (min-width: 950px) {
@@ -185,13 +185,13 @@
     visibility 0ms ease 150ms;
 
   @media screen and (min-width: 375px) {
-    padding-left: bootstrap.rem(24px);
-    padding-right: bootstrap.rem(24px);
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   @media screen and (min-width: 744px) {
-    padding-left: bootstrap.rem(40px);
-    padding-right: bootstrap.rem(40px);
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   @media screen and (min-width: 950px) {
@@ -285,7 +285,7 @@
 }
 
 #text__scroll {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
 }
 
 .search__link {

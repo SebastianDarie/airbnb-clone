@@ -63,7 +63,7 @@
   height: 4px;
   width: 100%;
   margin-right: 4px;
-  background: rgb(221, 221, 221);
+  background: bootstrap.$gainsboro;
   border-radius: 2px;
 }
 
@@ -72,13 +72,13 @@
   top: 0px;
   left: 0px;
   bottom: 0px;
-  background: #222222;
+  background: bootstrap.$nero;
   border-radius: 2px;
   width: 100%;
 }
 
 .detail__rating {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;

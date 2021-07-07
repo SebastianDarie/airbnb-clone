@@ -25,7 +25,7 @@
   margin: auto;
 
   @media screen and (min-width: 744px) {
-    border: 1px solid rgb(235, 235, 235);
+    border: 1px solid bootstrap.$graysmoke;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     width: 336px;
     max-width: 90%;
@@ -39,7 +39,7 @@
 }
 
 .preview__mobile {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   outline: none;
 
   &::-webkit-scrollbar {
@@ -49,7 +49,7 @@
 
   @media screen and (min-width: 744px) {
     overflow-y: scroll;
-    border: 1px solid rgb(235, 235, 235);
+    border: 1px solid bootstrap.$graysmoke;
     width: 312px;
     max-width: 100%;
     height: 100%;
@@ -62,7 +62,7 @@
 }
 
 .image__border {
-  background-color: rgb(247, 247, 247);
+  background-color: bootstrap.$whitesmoke;
   border-radius: 9px;
 
   @media screen and (min-width: 744px) {
@@ -97,7 +97,7 @@
 .listing__title {
   padding-top: 24px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid bootstrap.$graysmoke;
   font-size: 26px;
   line-height: 30px;
   font-weight: 800;
@@ -113,7 +113,7 @@
 .typeicon__container {
   padding-top: 24px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid bootstrap.$graysmoke;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -156,7 +156,7 @@
 .floor__plan {
   padding-top: 24px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid bootstrap.$graysmoke;
   font-size: 16px;
   line-height: 20px;
   font-weight: 400;
@@ -170,7 +170,7 @@
 .description__container {
   padding-top: 24px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid bootstrap.$graysmoke;
   font-size: 14px;
   line-height: 18px;
   font-weight: 400;

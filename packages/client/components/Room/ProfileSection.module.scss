@@ -20,7 +20,7 @@
 }
 
 .profile__img {
-  background: rgb(221, 221, 221);
+  background: bootstrap.$gainsboro;
   overflow: hidden;
   position: relative;
   height: 64px;
@@ -41,7 +41,7 @@
 }
 
 .protect__payment__flex {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;

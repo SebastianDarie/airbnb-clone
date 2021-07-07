@@ -38,7 +38,7 @@
   justify-content: space-between;
   width: unset;
   height: unset;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
@@ -54,7 +54,7 @@
   border-width: 1px;
   border-style: solid;
   border-color: rgb(176, 176, 176);
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
   font-family: inherit;
   touch-action: manipulation;
   align-items: center;
@@ -64,20 +64,20 @@
 
   &:disabled {
     cursor: not-allowed;
-    color: rgb(235, 235, 235);
-    border-color: rgb(235, 235, 235);
+    color: bootstrap.$graysmoke;
+    border-color: bootstrap.$graysmoke;
     background: bootstrap.$default-color;
 
     &:hover {
-      color: rgb(235, 235, 235);
-      border-color: rgb(235, 235, 235);
+      color: bootstrap.$graysmoke;
+      border-color: bootstrap.$graysmoke;
       background: bootstrap.$default-color;
     }
   }
 
   &:hover {
-    color: rgb(34, 34, 34);
-    border-color: rgb(34, 34, 34);
+    color: bootstrap.$nero;
+    border-color: bootstrap.$nero;
     background: bootstrap.$default-color;
   }
 }
@@ -115,7 +115,7 @@
   margin-top: 0px;
   border-radius: 8px;
   box-shadow: rgb(176 176 176) 0px 0px 0px 1px inset;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   background-color: bootstrap.$default-color;
   margin-left: 32px;
   margin-right: 32px;

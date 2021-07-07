@@ -124,7 +124,7 @@
 }
 
 .card__image__padding {
-  background: rgb(235, 235, 235);
+  background: bootstrap.$graysmoke;
   position: relative;
   width: 100%;
   z-index: 0;
@@ -220,7 +220,7 @@
   &:hover {
     border-color: rgba(0, 0, 0, 0.08);
     background-color: bootstrap.$default-color;
-    color: #000000;
+    color: bootstrap.$black;
     box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
       0px 6px 16px rgb(0 0 0 / 12%);
     transform: scale(1.04);
@@ -380,7 +380,7 @@
 }
 
 .property__type__text {
-  color: #717171;
+  color: bootstrap.$dimgray;
   flex: 1;
   line-height: 18px;
   max-height: 18px;
@@ -408,13 +408,13 @@
   display: inline-block;
   border-radius: 50%;
   border: none;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   touch-action: manipulation;
   position: relative;
   transition: transform 0.25s ease 0s;
 
   &:hover {
-    color: rgb(0, 0, 0);
+    color: bootstrap.$black;
   }
 
   &::before {
@@ -429,19 +429,19 @@
     border-radius: 50%;
 
     &:hover {
-      background: rgb(247, 247, 247);
+      background: bootstrap.$whitesmoke;
     }
   }
 }
 
 .card__divider__small {
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid bootstrap.$gainsboro;
   margin-top: 11px;
   width: 32px;
 }
 
 .card__description {
-  color: #717171;
+  color: bootstrap.$dimgray;
   font-weight: 400;
   min-height: 18px;
   font-size: 14px;
@@ -506,7 +506,7 @@
 }
 
 .review__count {
-  color: #717171;
+  color: bootstrap.$dimgray;
 }
 
 .price__container {

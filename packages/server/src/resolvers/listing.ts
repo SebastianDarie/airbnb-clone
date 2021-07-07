@@ -15,7 +15,7 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
-import { getConnection } from 'typeorm';
+import { getConnection, UpdateResult } from 'typeorm';
 import { REDIS_CACHE_PREFIX } from '../constants';
 import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
@@ -209,6 +209,24 @@ export class ListingResolver {
   }
 
   @Mutation(() => Boolean)
+  async changeCreator(
+    @Arg('id') id: string,
+    @Arg('listingId') listingId: string
+  ): Promise<Boolean> {
+    await getConnection()
+      .createQueryBuilder()
+      .update(Listing)
+      .set({ creatorId: id })
+      .where('id = :listingId', {
+        listingId,
+      })
+      .returning('*')
+      .execute();
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   async createListing(
     @Arg('input') input: ListingInput,
@@ -288,8 +306,7 @@ export class ListingResolver {
   ): Promise<String | null> {
     const listing = await Listing.findOne(id);
     if (listing) {
-      const price = parseFloat(listing?.price.slice(1));
-      let amount = Math.floor(price * nights);
+      let amount = Math.floor(listing.price * nights);
       const fee = Math.floor((amount / 100) * 17);
       amount += fee;
       amount *= 100;

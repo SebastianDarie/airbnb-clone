@@ -223,7 +223,8 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                     <div className={styles.title__profile__flex}>
                       <div className={styles.title__grow}>
                         <div className={styles.room__title}>
-                          Entire {data?.listing?.type} hosted by Sergiu
+                          Entire {data?.listing?.type} hosted by{' '}
+                          {data?.listing?.creator.name}
                         </div>
                         <div>
                           <FloorPlanDetails
@@ -242,7 +243,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                               <div className={styles.profile}>
                                 <img
                                   className={styles.profile__img}
-                                  src='https://a0.muscache.com/im/pictures/user/061f66a1-0515-48be-a24a-c6eda9772651.jpg?im_w=240'
+                                  src={`${data?.listing?.creator.photoUrl}`}
                                 />
                               </div>
                             </button>
@@ -393,7 +394,11 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             {/* map stuff here */}
           </div>
 
-          <ProfileSection id={data?.listing?.id!} styles={styles} />
+          <ProfileSection
+            id={data?.listing?.id!}
+            owner={data?.listing?.creator!}
+            styles={styles}
+          />
         </div>
       </div>
     </Layout>

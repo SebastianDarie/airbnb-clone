@@ -6,7 +6,7 @@
 }
 
 .back__btn {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   text-decoration: underline;
   border-radius: 4px;
   font-weight: 600;
@@ -41,7 +41,7 @@
 .textarea__shadow {
   box-shadow: inset 0 0 0 1px #b0b0b0;
   box-sizing: border-box;
-  color: #222222;
+  color: bootstrap.$nero;
   padding: 4px;
   border-radius: 8px;
 }

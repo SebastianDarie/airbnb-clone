@@ -12,7 +12,7 @@ interface BookRoomMenuProps {
   dates: Date[];
   guests: number;
   nights: number;
-  price: string;
+  price: number;
   roomStyles: {
     readonly [key: string]: string;
   };
@@ -33,9 +33,9 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
 
   useClickAway(picker, () => setActive(false));
 
-  const currency = price.slice(0, 1);
-  const prePrice = parseFloat(price.slice(1)) * nights;
-  const serviceFee = Math.floor((parseFloat(price.slice(1)) / 100) * 17);
+  const currency = '$';
+  const prePrice = price * nights;
+  const serviceFee = Math.floor((price / 100) * 17);
   const isDate = dates[0] && dates[1] !== null;
 
   return (
@@ -50,7 +50,9 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                     <div className={styles.menu__price__container}>
                       <div className={styles.menu__price__flex}>
                         <div className={styles.menu__price__align}>
-                          <span className={styles.price__span}>{price}</span>
+                          <span className={styles.price__span}>
+                            {currency + price}
+                          </span>
                           <span className={styles.night__span}>/ night</span>
                         </div>
                       </div>
@@ -191,8 +193,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                                 {price} x {nights} nights
                               </span>
                               <span className={styles.price__order}>
-                                {currency}
-                                {prePrice}
+                                {currency + prePrice}
                               </span>
                             </div>
                             <div className={styles.price__flex}>
@@ -200,8 +201,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                                 Service fee
                               </span>
                               <span className={styles.price__order}>
-                                {currency}
-                                {serviceFee}
+                                {currency + serviceFee}
                               </span>
                             </div>
                           </div>
@@ -209,8 +209,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                           <div className={styles.total__price__container}>
                             <span className={styles.nights__order}>Total</span>
                             <span className={styles.price__order}>
-                              {currency}
-                              {prePrice + serviceFee}
+                              {currency + (prePrice + serviceFee)}
                             </span>
                           </div>
                         </div>

@@ -1,19 +1,45 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ProtectSvg } from '@airbnb-clone/controller';
+import { ProtectSvg, User } from '@airbnb-clone/controller';
 import profileStyles from './ProfileSection.module.scss';
 
 interface ProfileSectionProps {
   id: string;
+  owner: {
+    __typename?: 'User' | undefined;
+  } & Pick<User, 'id' | 'email' | 'name' | 'photoUrl' | 'createdAt'>;
   styles: {
     readonly [key: string]: string;
   };
 }
 
+const units = {
+  year: 24 * 60 * 60 * 1000 * 365,
+  month: (24 * 60 * 60 * 1000 * 365) / 12,
+  day: 24 * 60 * 60 * 1000,
+  hour: 60 * 60 * 1000,
+  minute: 60 * 1000,
+  second: 1000,
+};
+
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   id,
+  owner,
   styles,
 }) => {
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+
+  const formatTimestamp = () => {
+    const elapsed = new Date(+owner.createdAt).getTime() - Date.now();
+
+    for (let u in units)
+      if (Math.abs(elapsed) > units[u as keyof typeof units])
+        return rtf.format(
+          Math.round(elapsed / units[u as keyof typeof units]),
+          u as Intl.RelativeTimeFormatUnit
+        );
+  };
+
   return (
     <div className={styles.room__section__flex}>
       <div className={styles.room__section__padding}>
@@ -26,7 +52,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   <a className={styles.profile__btn}>
                     <div className={profileStyles.profile__img}>
                       <Image
-                        src='https://a0.muscache.com/im/pictures/user/061f66a1-0515-48be-a24a-c6eda9772651.jpg?im_w=240'
+                        src={owner.photoUrl}
                         height='100%'
                         width='100%'
                         layout='responsive'
@@ -38,8 +64,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               </div>
 
               <div className={styles.amenities__heading__container}>
-                <h2 className={styles.section__heading}>Hosted by Sergiu</h2>
-                <div className={styles.calendar__range}>Joined in May 2021</div>
+                <h2 className={styles.section__heading}>
+                  Hosted by {owner.name}
+                </h2>
+                <div className={styles.calendar__range}>
+                  Joined {formatTimestamp()}
+                </div>
               </div>
             </div>
 

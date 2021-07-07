@@ -45,7 +45,7 @@ export class Listing extends BaseEntity {
 
   @Field()
   @Column({ type: 'double precision', default: 25 })
-  price!: string;
+  price!: number;
 
   @Field()
   @Column({ type: 'int' })

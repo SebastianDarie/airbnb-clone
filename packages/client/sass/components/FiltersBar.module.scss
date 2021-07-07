@@ -97,7 +97,7 @@
   font-size: 10px;
   line-height: 12px;
   font-weight: 800;
-  background-color: rgb(34, 34, 34);
+  background-color: bootstrap.$nero;
   color: bootstrap.$default-color;
   border-radius: 50%;
   width: 18px;
@@ -130,12 +130,12 @@
 .amenity__btn {
   cursor: pointer;
   text-align: center;
-  border: 1px solid rgb(221, 221, 221);
+  border: 1px solid bootstrap.$gainsboro;
   background-color: bootstrap.$default-color;
   outline: none;
   margin: 0px;
   border-radius: 30px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   position: relative;
   padding: 10px 16px;
   font-size: 12px;
@@ -143,20 +143,20 @@
   width: 100%;
 
   &:hover {
-    border-color: rgb(34, 34, 34);
+    border-color: bootstrap.$nero;
   }
 }
 
 .amenity__btn__selected {
   text-align: center;
-  border: 1px solid rgb(34, 34, 34);
+  border: 1px solid bootstrap.$nero;
   border-radius: 30px;
   position: relative;
   padding: 10px 16px;
   font-size: 12px;
   line-height: 16px;
   background-color: bootstrap.$default-color;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
 
   &::after {
     content: '';

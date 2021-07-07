@@ -31,7 +31,7 @@
   font-size: 18px;
   line-height: 24px;
   font-weight: 600;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
 
   @media screen and (min-width: 744px) {
     font-size: 18px;
@@ -70,7 +70,7 @@
   background-color: bootstrap.$default-color;
   padding: 0px 16px;
   border-radius: 32px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   position: relative;
   height: 56px;
   display: flex;
@@ -83,13 +83,13 @@
   font-weight: 600;
 
   &:hover {
-    border-color: rgb(34, 34, 34);
+    border-color: bootstrap.$nero;
   }
 }
 
 .highlight__btn__selected {
   text-align: center;
-  border: 1px solid rgb(34, 34, 34);
+  border: 1px solid bootstrap.$nero;
   padding: 0px 16px;
   border-radius: 32px;
   position: relative;
@@ -101,13 +101,13 @@
   flex: 1 1 0%;
   font-size: 18px;
   line-height: 24px;
-  background-color: rgb(247, 247, 247);
-  color: rgb(34, 34, 34);
+  background-color: bootstrap.$whitesmoke;
+  color: bootstrap.$nero;
   font-weight: 800;
 
   &:hover {
-    color: rgb(0, 0, 0);
-    border-color: rgb(0, 0, 0);
+    color: bootstrap.$black;
+    border-color: bootstrap.$black;
   }
 
   &::after {

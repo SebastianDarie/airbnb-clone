@@ -46,7 +46,7 @@
 }
 
 .page__font {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-size: 16px;
   line-height: 20px;
 }
@@ -72,16 +72,16 @@
   display: inline-block;
   border-radius: 50%;
   border: none;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   touch-action: manipulation;
   position: relative;
   transition: transform 0.25s ease 0s;
 
   &:hover {
-    color: rgb(0, 0, 0);
+    color: bootstrap.$black;
 
     &::before {
-      background: rgb(247, 247, 247);
+      background: bootstrap.$whitesmoke;
     }
   }
 
@@ -136,7 +136,7 @@
 
   @media screen and (min-width: 744px) {
     padding: 24px;
-    border: 1px solid rgb(221, 221, 221);
+    border: 1px solid bootstrap.$gainsboro;
     border-radius: 12px;
   }
 }
@@ -204,7 +204,7 @@
 
 .listing__floorplan {
   margin-top: 4px;
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
   font-size: 12px;
   line-height: 16px;
   max-height: 32px;
@@ -259,17 +259,17 @@
   font-size: 16px;
   font-weight: 800;
   line-height: 20px;
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
   display: inline;
 
   @media screen and (min-width: 744px) {
-    color: rgb(34, 34, 34);
+    color: bootstrap.$nero;
   }
 }
 
 .currency__btn {
   user-select: auto;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   text-decoration: underline;
   border-radius: 4px;
   font-weight: 600;
@@ -277,7 +277,7 @@
 
 .total__price {
   white-space: nowrap;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   margin: 0px;
   overflow-wrap: break-word;
   font-size: 16px;
@@ -297,6 +297,6 @@
 
 .guests__nr {
   margin-top: 8px;
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
   white-space: pre-wrap;
 }

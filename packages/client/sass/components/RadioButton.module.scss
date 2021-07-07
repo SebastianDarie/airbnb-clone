@@ -30,7 +30,7 @@
 
 .btn__radio {
   background-color: bootstrap.$default-color;
-  border: 1px solid #dddddd;
+  border: 1px solid bootstrap.$gainsboro;
   box-sizing: border-box;
   border-radius: 12px;
   display: flex;
@@ -50,7 +50,7 @@
 }
 
 .btn__radio__checked {
-  border: 1px solid #dddddd;
+  border: 1px solid bootstrap.$gainsboro;
   box-sizing: border-box;
   border-radius: 12px;
   display: flex;
@@ -60,7 +60,7 @@
   min-height: 68px;
   border-color: transparent;
   box-shadow: 0 0 0 2px #222222;
-  background-color: #f7f7f7;
+  background-color: bootstrap.$whitesmoke;
 
   @media screen and (min-width: 744px) {
     min-height: 88px;
@@ -137,7 +137,7 @@
 }
 
 .option__description {
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
   font-size: 14px;
   line-height: 20px;
   margin-top: 4px;

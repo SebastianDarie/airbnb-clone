@@ -52,7 +52,7 @@
 .label__title {
   font-size: 18px;
   line-height: 24px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 600;
   padding: 0px;
 
@@ -72,7 +72,7 @@
 }
 
 .textarea {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   display: block;
   min-width: 100%;
   max-width: 100%;
@@ -126,7 +126,7 @@
   font-size: 12px;
   line-height: 16px;
   font-weight: 800;
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
 
   @media screen and (min-width: 744px) {
     font-size: 14px;

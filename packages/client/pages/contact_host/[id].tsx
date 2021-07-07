@@ -1,5 +1,6 @@
 import {
   ArrowLeftSvg,
+  MessageStatus,
   useCreateHeaderMutation,
   useCreateMessageMutation,
 } from '@airbnb-clone/controller';
@@ -9,23 +10,55 @@ import { FormEvent, useState } from 'react';
 import Layout from '../../components/Layout';
 import styles from '../../sass/pages/ContactHost.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
+import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import { withApollo } from '../../utils/withApollo';
 
 interface ContactHostProps {}
 
 const ContactHost: React.FC<ContactHostProps> = ({}) => {
   const router = useRouter();
+  const { data } = useGetListingFromUrl();
   const [createHeader] = useCreateHeaderMutation();
   const [createMessage] = useCreateMessageMutation();
   const [message, setMessage] = useState('');
+
+  if (!data) {
+    return <div>failed to load user</div>;
+  }
 
   return (
     <Layout filter room search>
       <form
         onSubmit={async (e: FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          console.log(message);
-          //  await createHeader({variables: {input: {listingId: router.query.id, status: 'sending'}}})
+
+          const { data: headerData } = await createHeader({
+            variables: {
+              input: {
+                listingId: router.query.id as string,
+                status: MessageStatus.Sending,
+                subject: 'Inquiry',
+                toId: data.listing!.creator.id,
+              },
+            },
+          });
+
+          if (headerData) {
+            const { errors } = await createMessage({
+              variables: {
+                input: {
+                  headerId: headerData.createHeader.id,
+                  isFromSender: 1,
+                  listingId: router.query.id as string,
+                  text: message,
+                },
+              },
+            });
+
+            if (!errors) {
+              router.push(`/inbox/header/${headerData.createHeader.id}`);
+            }
+          }
         }}
       >
         <div className={roomStyles.display__div}>
@@ -60,7 +93,7 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
                     <div>
                       <div className={roomStyles.amenities__heading__container}>
                         <h1 className={roomStyles.section__heading}>
-                          Contact Sebastian
+                          Contact {data.listing!.creator.name}
                         </h1>
                       </div>
                     </div>
@@ -68,7 +101,7 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
                       <div className={roomStyles.profile__size}>
                         <div className={roomStyles.profile}>
                           <Image
-                            src='https://a0.muscache.com/im/pictures/user/061f66a1-0515-48be-a24a-c6eda9772651.jpg?im_w=240'
+                            src={data.listing!.creator.photoUrl}
                             height='100%'
                             width='100%'
                             layout='responsive'
@@ -122,4 +155,4 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
   );
 };
 
-export default withApollo({ ssr: false })(ContactHost);
+export default withApollo({ ssr: true })(ContactHost);

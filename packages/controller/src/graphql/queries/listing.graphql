@@ -16,6 +16,9 @@ query Listing($id: String!) {
     creator {
       id
       email
+      name
+      photoUrl
+      createdAt
     }
   }
 }

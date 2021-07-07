@@ -21,6 +21,7 @@ import {
   __test__,
 } from './constants';
 import { Listing } from './entity/Listing';
+import { createMessageLoader } from './loaders/createMessageLoader';
 import { createUserLoader } from './loaders/createUserLoader';
 import { HeaderResolver } from './resolvers/header';
 import { ListingResolver } from './resolvers/listing';
@@ -98,6 +99,7 @@ const main = async () => {
       res,
       redis,
       redisPubsub,
+      messageLoader: createMessageLoader(),
       userLoader: createUserLoader(),
     }),
     subscriptions: {

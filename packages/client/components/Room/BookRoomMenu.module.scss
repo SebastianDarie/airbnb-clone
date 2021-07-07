@@ -5,14 +5,14 @@
 }
 
 .menu__border {
-  border: 1px solid rgb(221, 221, 221);
+  border: 1px solid bootstrap.$gainsboro;
   border-radius: 12px;
   padding: 24px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
 }
 
 .menu__text__style {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
@@ -39,7 +39,7 @@
 }
 
 .menu__price__align {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   display: flex;
   font-size: 22px;
   font-weight: 400;
@@ -78,7 +78,7 @@
 }
 
 .rating {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   padding-left: 4px;
   font-weight: 600;
 }
@@ -125,7 +125,7 @@
   width: 100%;
   margin: 0px;
   border: none transparent;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   background-color: transparent;
   border-radius: 0px;
   box-shadow: none;
@@ -153,7 +153,7 @@
   pointer-events: none;
   font-size: 10px;
   line-height: 12px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   text-transform: uppercase;
   font-weight: 800;
   max-width: 100%;
@@ -179,7 +179,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
 }
 
 .checkout__container {
@@ -238,7 +238,7 @@
   min-width: 36px;
   padding-right: 12px;
   pointer-events: none;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
 }
 
 .menu__btn__container {
@@ -273,7 +273,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 400;
 }
 
@@ -295,7 +295,7 @@
 .guest__maximum__count {
   font-size: 14px;
   line-height: 20px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   margin-bottom: 16px;
 }
 
@@ -318,12 +318,12 @@
   padding: 10px;
   transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s;
   border: none;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   text-decoration: underline;
 }
 
 .nocharge__font {
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
@@ -348,7 +348,7 @@
 .pre__price__container {
   font-size: 14px;
   line-height: 18px;
-  color: rgb(113, 113, 113);
+  color: bootstrap.$dimgray;
   font-weight: 400;
   padding-bottom: 8px;
   padding-top: 8px;
@@ -361,7 +361,7 @@
 .price__flex {
   font-size: 16px;
   line-height: 20px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 400;
   padding-bottom: 12px;
   display: flex;
@@ -385,10 +385,10 @@
   justify-content: space-between;
   font-size: 16px;
   line-height: 20px;
-  color: rgb(34, 34, 34);
+  color: bootstrap.$nero;
   font-weight: 600;
   padding-bottom: 8px;
-  border-top: 1px solid rgb(221, 221, 221);
+  border-top: 1px solid bootstrap.$gainsboro;
   margin-top: 8px;
   padding-top: 16px;
 

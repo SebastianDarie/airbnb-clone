@@ -39,7 +39,7 @@
 
 .amenities__btn {
   background-color: bootstrap.$default-color;
-  border: 1px solid rgb(221, 221, 221);
+  border: 1px solid bootstrap.$gainsboro;
   box-sizing: border-box;
   border-radius: 8px;
   display: flex;
@@ -63,7 +63,7 @@
 
     &:hover {
       border-color: transparent;
-      box-shadow: rgb(0, 0, 0) 0px 0px 0px 2px;
+      box-shadow: bootstrap.$black 0px 0px 0px 2px;
     }
   }
 }
@@ -83,7 +83,7 @@
   padding-top: 12px;
   padding-bottom: 24px;
   box-shadow: rgb(0 0 0) 0px 0px 0px 2px;
-  background-color: rgb(247, 247, 247);
+  background-color: bootstrap.$whitesmoke;
   animation-duration: 600ms;
   animation-iteration-count: 1;
   animation-fill-mode: both;
@@ -95,7 +95,7 @@
 
     &:hover {
       border-color: transparent;
-      box-shadow: rgb(0, 0, 0) 0px 0px 0px 2px;
+      box-shadow: bootstrap.$black 0px 0px 0px 2px;
     }
   }
 }

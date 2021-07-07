@@ -149,7 +149,7 @@
   overflow-y: visible;
   display: flex;
   background-color: bootstrap.$default-color;
-  color: #000000;
+  color: bootstrap.$black;
   height: auto;
   min-height: 50%;
   max-height: 75%;
@@ -251,7 +251,7 @@
   left: -100%;
   height: 100%;
   border-radius: 2px;
-  background: #000000;
+  background: bootstrap.$black;
   // transition: transform 0.6s ease 0s;
   // transform: translateX(0%);
 }
@@ -310,8 +310,8 @@
 
   &:hover {
     border: none;
-    background: #f7f7f7;
-    color: #000000;
+    background: bootstrap.$whitesmoke;
+    color: bootstrap.$black;
   }
 }
 
@@ -341,13 +341,13 @@
     cursor: not-allowed;
     opacity: 1;
     border: none;
-    background: #dddddd;
+    background: bootstrap.$gainsboro;
     color: bootstrap.$default-color;
   }
 
   &:hover:enabled {
     border: none;
-    background: #000000;
+    background: bootstrap.$black;
     color: bootstrap.$default-color;
   }
 }
@@ -377,7 +377,7 @@
     cursor: not-allowed;
     opacity: 1;
     border: none;
-    background: rgb(221, 221, 221);
+    background: bootstrap.$gainsboro;
     color: bootstrap.$default-color;
   }
 
@@ -456,7 +456,7 @@
 }
 
 .dot {
-  background-color: rgb(34, 34, 34);
+  background-color: bootstrap.$nero;
   width: 6px;
   height: 6px;
   margin-right: 4px;

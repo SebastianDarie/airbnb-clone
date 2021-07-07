@@ -1,4 +1,4 @@
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, registerEnumType } from 'type-graphql';
 import {
   Entity,
   Column,
@@ -19,6 +19,10 @@ export enum MessageStatus {
   SENT = 'sent',
 }
 
+registerEnumType(MessageStatus, {
+  name: 'MessageStatus',
+});
+
 @ObjectType()
 @Entity()
 export class Header extends BaseEntity {
@@ -38,6 +42,7 @@ export class Header extends BaseEntity {
   @Column({ type: 'enum', enum: MessageStatus, default: MessageStatus.SENDING })
   status: MessageStatus;
 
+  @Field(() => [Message])
   @OneToMany(() => Message, (message) => message.header)
   messages: Message[];
 
