@@ -45,12 +45,12 @@ export class Message extends BaseEntity {
   @ManyToOne(() => User, (user) => user.messages)
   creator: User;
 
-  @Field()
-  @Column('uuid')
-  listingId: string;
+  // @Field()
+  // @Column('uuid')
+  // listingId: string;
 
-  @ManyToOne(() => Listing, (listing) => listing.messages)
-  listing: Listing;
+  // @ManyToOne(() => Listing, (listing) => listing.messages)
+  // listing: Listing;
 
   @Field(() => String)
   @CreateDateColumn()

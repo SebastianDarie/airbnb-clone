@@ -11,6 +11,7 @@ import Layout from '../../components/Layout';
 import styles from '../../sass/pages/ContactHost.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
+import { autosizeTextarea } from '../../utils/autosizeTextarea';
 import { withApollo } from '../../utils/withApollo';
 
 interface ContactHostProps {}
@@ -49,7 +50,6 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
                 input: {
                   headerId: headerData.createHeader.id,
                   isFromSender: 1,
-                  listingId: router.query.id as string,
                   text: message,
                 },
               },
@@ -132,10 +132,8 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
                       className={styles.textarea}
                       autoComplete='off'
                       onChange={(e) => setMessage(e.currentTarget.value)}
-                      onKeyDown={(e: any) => {
-                        e.currentTarget.style.height = 'inherit';
-                        e.currentTarget.style.height = `${e.target.scrollHeight}px`;
-                      }}
+                      onKeyDown={autosizeTextarea}
+                      value={message}
                     ></textarea>
                   </div>
                 </div>

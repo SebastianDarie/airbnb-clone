@@ -1,8 +1,9 @@
-subscription NewMessage($listingId: String!) {
-  newMessage(listingId: $listingId) {
+subscription NewMessage($headerId: String!) {
+  newMessage(headerId: $headerId) {
     id
+    isFromSender
     text
-    creatorId
+    read
     createdAt
   }
 }

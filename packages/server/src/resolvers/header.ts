@@ -50,29 +50,21 @@ export class HeaderResolver {
   //   @Root() header: Header,
   //   @Ctx() { messageLoader }: MyContext
   // ): Promise<Message> {
-  //   return messageLoader.load(header.creatorId);
+  //   return messageLoader.load(header.id);
   // }
 
   @Query(() => [Header])
-  async headers(
-    @Arg('headerId') headerId: string,
-    @Ctx() { req }: MyContext
-  ): Promise<Header[]> {
-    //const currHeader = await Header.findOne(headerId)
-
-    //return Header.find({ relations: ['messages'], where: { id: headerId } });
-
-    return (
-      getConnection()
-        .getRepository(Header)
-        .createQueryBuilder('h')
-        //.select('*')
-        .leftJoinAndSelect('h.messages', 'm')
-        .where('h."creatorId" = :creatorId', { creatorId: req.session.userId })
-        .andWhere('h."toId" = :toId', { toId: req.session.userId })
-        .orderBy('h."createdAt"', 'DESC')
-        .getMany()
-    );
+  async headers(@Ctx() { req }: MyContext): Promise<Header[]> {
+    return getConnection()
+      .getRepository(Header)
+      .createQueryBuilder('h')
+      .leftJoinAndSelect('h.messages', 'm')
+      .where('h."creatorId" = :creatorId', {
+        creatorId: req.session.userId,
+      })
+      .orWhere('h."toId" = :toId', { toId: req.session.userId })
+      .orderBy('h."createdAt"', 'DESC')
+      .getMany();
   }
 
   @Query(() => [Header])
@@ -97,7 +89,7 @@ export class HeaderResolver {
     @Ctx() { req }: MyContext
   ): Promise<Header> {
     const existingHeader = await Header.findOne({
-      where: { listingId: input.listingId },
+      where: { creatorId: req.session.userId, listingId: input.listingId },
     });
 
     if (existingHeader) {
@@ -108,6 +100,11 @@ export class HeaderResolver {
       ...input,
       creatorId: req.session.userId,
     }).save();
-    //await redisPubsub.publish('MESSAGES', message);
+  }
+
+  @Mutation(() => Boolean)
+  async deleteHeader(@Arg('id') id: string): Promise<Boolean> {
+    await Header.delete(id);
+    return true;
   }
 }

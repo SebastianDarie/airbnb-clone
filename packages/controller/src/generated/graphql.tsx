@@ -91,15 +91,14 @@ export type Message = {
   read: Scalars['Float'];
   headerId: Scalars['String'];
   creatorId: Scalars['String'];
-  listingId: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  creator: User;
 };
 
 export type MessageInput = {
   text: Scalars['String'];
   isFromSender: Scalars['Float'];
-  listingId: Scalars['String'];
   headerId: Scalars['String'];
 };
 
@@ -120,6 +119,7 @@ export type Mutation = {
   deleteListing: Scalars['Boolean'];
   createPaymentIntent?: Maybe<Scalars['String']>;
   createMessage: Message;
+  deleteMessage: Scalars['Boolean'];
   createReview: Review;
   register: UserResponse;
   login: UserResponse;
@@ -178,6 +178,11 @@ export type MutationCreatePaymentIntentArgs = {
 
 export type MutationCreateMessageArgs = {
   input: MessageInput;
+};
+
+
+export type MutationDeleteMessageArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -243,11 +248,6 @@ export type Query = {
 };
 
 
-export type QueryHeadersArgs = {
-  headerId: Scalars['String'];
-};
-
-
 export type QueryHeadersListingArgs = {
   listingId: Scalars['String'];
 };
@@ -266,7 +266,7 @@ export type QuerySearchListingsArgs = {
 
 
 export type QueryMessagesArgs = {
-  listingId: Scalars['String'];
+  headerId: Scalars['String'];
 };
 
 
@@ -320,7 +320,7 @@ export type Subscription = {
 
 
 export type SubscriptionNewMessageArgs = {
-  listingId: Scalars['String'];
+  headerId: Scalars['String'];
 };
 
 export type UpdateListing = {
@@ -448,7 +448,11 @@ export type CreateMessageMutation = (
   { __typename?: 'Mutation' }
   & { createMessage: (
     { __typename?: 'Message' }
-    & Pick<Message, 'isFromSender' | 'text' | 'read' | 'headerId' | 'creatorId' | 'listingId'>
+    & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt' | 'headerId'>
+    & { creator: (
+      { __typename?: 'User' }
+      & Pick<User, 'name' | 'photoUrl'>
+    ) }
   ) }
 );
 
@@ -549,22 +553,24 @@ export type UpdateListingMutation = (
   )> }
 );
 
-export type HeadersQueryVariables = Exact<{
-  headerId: Scalars['String'];
-}>;
+export type HeadersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HeadersQuery = (
   { __typename?: 'Query' }
   & { headers: Array<(
     { __typename?: 'Header' }
-    & Pick<Header, 'id' | 'toId' | 'subject' | 'status' | 'listingId' | 'createdAt'>
+    & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId' | 'createdAt'>
     & { creator: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name' | 'photoUrl'>
     ), messages: Array<(
       { __typename?: 'Message' }
-      & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt'>
+      & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt' | 'headerId'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<User, 'name' | 'photoUrl'>
+      ) }
     )> }
   )> }
 );
@@ -609,7 +615,7 @@ export type MeQuery = (
 );
 
 export type MessagesQueryVariables = Exact<{
-  listingId: Scalars['String'];
+  headerId: Scalars['String'];
 }>;
 
 
@@ -617,7 +623,7 @@ export type MessagesQuery = (
   { __typename?: 'Query' }
   & { messages: Array<(
     { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'text' | 'creatorId' | 'listingId'>
+    & Pick<Message, 'id' | 'text' | 'creatorId'>
   )> }
 );
 
@@ -641,7 +647,7 @@ export type SearchListingsQuery = (
 );
 
 export type NewMessageSubscriptionVariables = Exact<{
-  listingId: Scalars['String'];
+  headerId: Scalars['String'];
 }>;
 
 
@@ -649,7 +655,7 @@ export type NewMessageSubscription = (
   { __typename?: 'Subscription' }
   & { newMessage: (
     { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'text' | 'creatorId' | 'createdAt'>
+    & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt'>
   ) }
 );
 
@@ -817,12 +823,16 @@ export type CreateListingMutationOptions = Apollo.BaseMutationOptions<CreateList
 export const CreateMessageDocument = gql`
     mutation CreateMessage($input: MessageInput!) {
   createMessage(input: $input) {
+    id
     isFromSender
     text
     read
+    createdAt
     headerId
-    creatorId
-    listingId
+    creator {
+      name
+      photoUrl
+    }
   }
 }
     `;
@@ -1134,12 +1144,11 @@ export type UpdateListingMutationHookResult = ReturnType<typeof useUpdateListing
 export type UpdateListingMutationResult = Apollo.MutationResult<UpdateListingMutation>;
 export type UpdateListingMutationOptions = Apollo.BaseMutationOptions<UpdateListingMutation, UpdateListingMutationVariables>;
 export const HeadersDocument = gql`
-    query Headers($headerId: String!) {
-  headers(headerId: $headerId) {
+    query Headers {
+  headers {
     id
     toId
     subject
-    status
     listingId
     createdAt
     creator {
@@ -1153,6 +1162,11 @@ export const HeadersDocument = gql`
       text
       read
       createdAt
+      headerId
+      creator {
+        name
+        photoUrl
+      }
     }
   }
 }
@@ -1170,11 +1184,10 @@ export const HeadersDocument = gql`
  * @example
  * const { data, loading, error } = useHeadersQuery({
  *   variables: {
- *      headerId: // value for 'headerId'
  *   },
  * });
  */
-export function useHeadersQuery(baseOptions: Apollo.QueryHookOptions<HeadersQuery, HeadersQueryVariables>) {
+export function useHeadersQuery(baseOptions?: Apollo.QueryHookOptions<HeadersQuery, HeadersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<HeadersQuery, HeadersQueryVariables>(HeadersDocument, options);
       }
@@ -1313,12 +1326,11 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const MessagesDocument = gql`
-    query Messages($listingId: String!) {
-  messages(listingId: $listingId) {
+    query Messages($headerId: String!) {
+  messages(headerId: $headerId) {
     id
     text
     creatorId
-    listingId
   }
 }
     `;
@@ -1335,7 +1347,7 @@ export const MessagesDocument = gql`
  * @example
  * const { data, loading, error } = useMessagesQuery({
  *   variables: {
- *      listingId: // value for 'listingId'
+ *      headerId: // value for 'headerId'
  *   },
  * });
  */
@@ -1402,11 +1414,12 @@ export type SearchListingsQueryHookResult = ReturnType<typeof useSearchListingsQ
 export type SearchListingsLazyQueryHookResult = ReturnType<typeof useSearchListingsLazyQuery>;
 export type SearchListingsQueryResult = Apollo.QueryResult<SearchListingsQuery, SearchListingsQueryVariables>;
 export const NewMessageDocument = gql`
-    subscription NewMessage($listingId: String!) {
-  newMessage(listingId: $listingId) {
+    subscription NewMessage($headerId: String!) {
+  newMessage(headerId: $headerId) {
     id
+    isFromSender
     text
-    creatorId
+    read
     createdAt
   }
 }
@@ -1424,7 +1437,7 @@ export const NewMessageDocument = gql`
  * @example
  * const { data, loading, error } = useNewMessageSubscription({
  *   variables: {
- *      listingId: // value for 'listingId'
+ *      headerId: // value for 'headerId'
  *   },
  * });
  */

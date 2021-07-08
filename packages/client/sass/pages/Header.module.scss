@@ -160,7 +160,6 @@
   margin-left: 2px;
   margin-bottom: 8px;
   border-radius: 12px;
-  background-color: bootstrap.$whitesmoke;
   border-bottom-width: 0px;
 }
 
@@ -399,7 +398,7 @@
   max-height: 100%;
 }
 
-.message__column {
+.messages__column {
   display: flex;
   flex-basis: 10px;
   flex-direction: column;
@@ -482,6 +481,49 @@
   margin: 20px 22px 10px;
 }
 
+.standard__message__flex {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.standard__message__profile {
+  flex-shrink: 0;
+  background-color: bootstrap.$gainsboro;
+  border-radius: 100px;
+  overflow: hidden;
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+
+.standard__message__content {
+  flex: 1 0 100px;
+  padding-left: 12px;
+}
+
+.standard__message__padding {
+  padding-bottom: 2px;
+}
+
+.standard__message__text {
+  color: bootstrap.$nero;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  line-break: loose;
+  word-break: break-word;
+}
+
+.message__creator {
+  color: bootstrap.$nero;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 800;
+  padding-right: 4px;
+  display: inline-block;
+}
+
 .message__input__grow {
   flex: 0 0 auto;
 }
@@ -517,6 +559,10 @@
   align-items: flex-end;
   flex-grow: 1;
   position: relative;
+
+  &:focus-within {
+    box-shadow: rgb(34 34 34) 0px 0px 0px 2px inset;
+  }
 }
 
 .message__input {
@@ -542,5 +588,97 @@
   max-height: 40px;
 }
 
+.send__btn__margin {
+  height: 24px;
+  margin: 6px 6px 8px;
+}
+
+.send__btn {
+  display: inline-block;
+  border-radius: 50%;
+  border: none;
+  color: bootstrap.$nero;
+  touch-action: manipulation;
+  position: relative;
+  transition: transform 0.25s ease 0s;
+
+  &:hover {
+    color: bootstrap.$black;
+
+    &::before {
+      background: bootstrap.$whitesmoke;
+    }
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+  }
+}
+
+.svg__relative {
+  position: relative;
+}
+
 .conversation__details__panel {
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  border-left: 1px solid bootstrap.$graysmoke;
+
+  @media screen and (min-width: 375px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+    flex: 0 0 375px;
+  }
 }

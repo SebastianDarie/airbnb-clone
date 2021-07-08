@@ -31,7 +31,7 @@ export class Header extends BaseEntity {
   id!: string;
 
   @Field()
-  @Column('uuid', { unique: true })
+  @Column('uuid')
   toId: string;
 
   @Field()
@@ -43,7 +43,9 @@ export class Header extends BaseEntity {
   status: MessageStatus;
 
   @Field(() => [Message])
-  @OneToMany(() => Message, (message) => message.header)
+  @OneToMany(() => Message, (message) => message.header, {
+    onDelete: 'CASCADE',
+  })
   messages: Message[];
 
   @Field()

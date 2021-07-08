@@ -3,6 +3,7 @@ import { Message } from '../entity/Message';
 
 export const createMessageLoader = (): DataLoader<string, Message, string> =>
   new DataLoader<string, Message>(async (messageIds) => {
+    console.log(messageIds);
     const messages = await Message.findByIds(messageIds as string[]);
     const messageIdToMessage: Record<string, Message> = {};
 

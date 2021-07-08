@@ -1,4 +1,3 @@
-import { Message } from '@airbnb-clone/controller';
 import {
   ApolloClient,
   ApolloLink,
@@ -10,6 +9,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { NextPageContext } from 'next';
 import { withApollo as createWithApollo } from 'next-apollo';
+import { Header, Message } from '@airbnb-clone/controller';
 
 const linkCreate = (
   ctx: NextPageContext | undefined
@@ -57,23 +57,52 @@ const createClient = (ctx: NextPageContext | undefined) =>
     uri: process.env.NEXT_PUBLIC_API_URL as string,
     link: linkCreate(ctx),
     cache: new InMemoryCache({
-      // typePolicies: {
-      //   Query: {
-      //     fields: {
-      //       messages: {
-      //         keyArgs: ['listingId'],
-      //         merge(
-      //           existing: Message[] | undefined,
-      //           incoming: Message[]
-      //         ): Message[] {
-      //           return {
-      //             ...[...(existing || []), ...incoming],
-      //           };
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
+      typePolicies: {
+        // Query: {
+        //   fields: {
+        //     headers: {
+        //       keyArgs: [],
+        //       merge(_existing: Header[], incoming: Header[]) {
+        //         return incoming;
+        //       },
+        //     },
+        //   },
+        // },
+        Header: {
+          fields: {
+            messages: {
+              keyArgs: ['headerId'],
+              merge(
+                existing: Message[],
+                incoming: Message[],
+                { mergeObjects, readField }
+              ): Message[] {
+                const merged: Message[] = existing ? existing.slice(0) : [];
+                const textToIndex: Record<string, number> = Object.create(null);
+
+                if (existing) {
+                  existing.forEach((m, idx) => {
+                    textToIndex[readField<string>('text', m)!] = idx;
+                  });
+                }
+
+                incoming.forEach((m) => {
+                  const text = readField<string>('text', m);
+                  const idx = textToIndex[text!];
+                  if (typeof idx === 'number') {
+                    merged[idx] = mergeObjects(merged[idx], m);
+                  } else {
+                    textToIndex[text!] = merged.length;
+                    merged.push(m);
+                  }
+                });
+
+                return merged;
+              },
+            },
+          },
+        },
+      },
     }),
   });
 

@@ -3,7 +3,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  InputType,
   Mutation,
   ObjectType,
   Query,
@@ -26,21 +25,7 @@ import { forgotPasswordLockAccount } from '../utils/forgotPasswordLockAccount';
 import { sendEmail } from '../utils/sendEmail';
 import { removeAllUsersSessions } from '../utils/removeAllUsersSessions';
 import { changePasswordSchema, registerSchema } from '@airbnb-clone/common';
-
-@InputType()
-class UserInput {
-  @Field()
-  email: string;
-
-  @Field()
-  name: string;
-
-  @Field()
-  password: string;
-
-  @Field()
-  confirm: string;
-}
+import { UserInput } from './input';
 
 @ObjectType()
 class FieldError {

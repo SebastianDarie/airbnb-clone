@@ -1,6 +1,21 @@
 import { InputType, Field, Int, Float } from 'type-graphql';
 
 @InputType()
+export class UserInput {
+  @Field()
+  email: string;
+
+  @Field()
+  name: string;
+
+  @Field()
+  password: string;
+
+  @Field()
+  confirm: string;
+}
+
+@InputType()
 export class ListingInput {
   @Field()
   title: string;

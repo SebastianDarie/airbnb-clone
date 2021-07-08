@@ -4,6 +4,7 @@ import {
   ArgsType,
   Ctx,
   Field,
+  FieldResolver,
   InputType,
   Mutation,
   Query,
@@ -13,13 +14,14 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 import { Message } from '../entity/Message';
+import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
 
 @ArgsType()
 export class NewMessageArgs {
   @Field()
-  listingId: string;
+  headerId: string;
 }
 
 @InputType()
@@ -31,29 +33,26 @@ class MessageInput {
   isFromSender: number;
 
   @Field()
-  listingId: string;
-
-  @Field()
   headerId: string;
 }
 
 @Resolver(Message)
 export class MessageResolver {
-  // @FieldResolver(() => User)
-  // creator(
-  //   @Root() listing: Listing,
-  //   @Ctx() { userLoader }: MyContext
-  // ): Promise<User> {
-  //   return userLoader.load(listing.creatorId);
-  // }
+  @FieldResolver(() => User)
+  creator(
+    @Root() message: Message,
+    @Ctx() { userLoader }: MyContext
+  ): Promise<User> {
+    return userLoader.load(message.creatorId);
+  }
 
   @Query(() => [Message])
   async messages(
-    @Arg('listingId') listingId: string,
+    @Arg('headerId') headerId: string,
     @Ctx() { req }: MyContext
   ): Promise<Message[]> {
     return Message.find({
-      where: { listingId, creatorId: req.session.userId },
+      where: { headerId, creatorId: req.session.userId },
     });
   }
 
@@ -71,16 +70,21 @@ export class MessageResolver {
     return message;
   }
 
+  @Mutation(() => Boolean)
+  async deleteMessage(@Arg('id') id: string): Promise<boolean> {
+    await Message.delete({ id });
+    return true;
+  }
+
   @Subscription({
     subscribe: (_root, _args, context, _info) => {
       return context.redisPubsub.asyncIterator('MESSAGES');
     },
   })
   newMessage(
-    @Args() _listingId: NewMessageArgs,
+    @Args() _headerId: NewMessageArgs,
     @Root() message: Message
   ): Message {
-    console.log(message);
     return message;
   }
 }

@@ -60,7 +60,6 @@ export interface MessageFormProps {
   text: string;
   isFromSender: number;
   headerId: string;
-  listingId: string;
 }
 
 export type ActiveElement = {

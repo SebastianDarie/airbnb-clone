@@ -1,9 +1,8 @@
-query Headers($headerId: String!) {
-  headers(headerId: $headerId) {
+query Headers {
+  headers {
     id
     toId
     subject
-    status
     listingId
     createdAt
     creator {
@@ -17,6 +16,11 @@ query Headers($headerId: String!) {
       text
       read
       createdAt
+      headerId
+      creator {
+        name
+        photoUrl
+      }
     }
   }
 }
