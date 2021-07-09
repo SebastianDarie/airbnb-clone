@@ -38,7 +38,6 @@ export class Message extends BaseEntity {
   @ManyToOne(() => Header, (header) => header.messages)
   header: Header;
 
-  @Field()
   @Column('uuid')
   creatorId: string;
 

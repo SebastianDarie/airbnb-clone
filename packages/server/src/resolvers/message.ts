@@ -71,8 +71,10 @@ export class MessageResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteMessage(@Arg('id') id: string): Promise<boolean> {
-    await Message.delete({ id });
+  async deleteMessage(
+    @Arg('ids', () => [String]) ids: string[]
+  ): Promise<boolean> {
+    await Message.delete(ids);
     return true;
   }
 

@@ -1,24 +1,30 @@
 import {
   Arg,
+  Args,
+  ArgsType,
   Ctx,
   Field,
   FieldResolver,
   InputType,
   Mutation,
   Query,
-  registerEnumType,
   Resolver,
   Root,
+  Subscription,
 } from 'type-graphql';
 import { getConnection } from 'typeorm';
 import { Header, MessageStatus } from '../entity/Header';
-import { Message } from '../entity/Message';
 import { User } from '../entity/User';
 import { MyContext } from '../types';
 
-// registerEnumType(MessageStatus, {
-//   name: 'MessageStatus',
-// });
+@ArgsType()
+export class NewHeaderArgs {
+  @Field()
+  creatorId: string;
+
+  @Field()
+  toId: string;
+}
 
 @InputType()
 class HeaderInput {
@@ -86,7 +92,7 @@ export class HeaderResolver {
   //  @UseMiddleware(isAuth)
   async createHeader(
     @Arg('input') input: HeaderInput,
-    @Ctx() { req }: MyContext
+    @Ctx() { req, redisPubsub }: MyContext
   ): Promise<Header> {
     const existingHeader = await Header.findOne({
       where: { creatorId: req.session.userId, listingId: input.listingId },
@@ -96,15 +102,30 @@ export class HeaderResolver {
       return existingHeader;
     }
 
-    return Header.create({
+    const newHeader = await Header.create({
       ...input,
       creatorId: req.session.userId,
     }).save();
+    await redisPubsub.publish('HEADERS', newHeader);
+
+    return newHeader;
   }
 
   @Mutation(() => Boolean)
   async deleteHeader(@Arg('id') id: string): Promise<Boolean> {
     await Header.delete(id);
     return true;
+  }
+
+  @Subscription({
+    subscribe: (_root, _args, context, _info) => {
+      return context.redisPubsub.asyncIterator('HEADERS');
+    },
+  })
+  newHeader(
+    @Args() { creatorId, toId }: NewHeaderArgs,
+    @Root() header: Header
+  ): Header {
+    return header;
   }
 }

@@ -15,7 +15,7 @@ import { RoomSkeleton } from '../../components/RoomSkeleton';
 import { dynamicSvgs } from '../../constants/dynamicSvgs';
 import styles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
-import { useCalendarStore } from '../../stores/useCalendarStore';
+import { useReservationStore } from '../../stores/useReservationStore';
 import { withApollo } from '../../utils/withApollo';
 
 const getDimensions = (el: HTMLDivElement) => {
@@ -56,7 +56,7 @@ const SectionWrapper: React.FC<{
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl();
-  const [startDate, endDate, updateEnd, updateStart] = useCalendarStore(
+  const [startDate, endDate, updateEnd, updateStart] = useReservationStore(
     (state) => [
       state.startDate,
       state.endDate,

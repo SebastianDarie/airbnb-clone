@@ -3,8 +3,6 @@ mutation CreateHeader($input: HeaderInput!) {
     id
     toId
     subject
-    status
-    creatorId
     listingId
   }
 }

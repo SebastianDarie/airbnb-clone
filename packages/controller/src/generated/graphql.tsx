@@ -25,9 +25,7 @@ export type Header = {
   id: Scalars['String'];
   toId: Scalars['String'];
   subject: Scalars['String'];
-  status: Scalars['String'];
   messages: Array<Message>;
-  creatorId: Scalars['String'];
   listingId: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -90,7 +88,6 @@ export type Message = {
   text: Scalars['String'];
   read: Scalars['Float'];
   headerId: Scalars['String'];
-  creatorId: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   creator: User;
@@ -111,6 +108,7 @@ export enum MessageStatus {
 export type Mutation = {
   __typename?: 'Mutation';
   createHeader: Header;
+  deleteHeader: Scalars['Boolean'];
   signS3: Array<Scalars['String']>;
   changeCreator: Scalars['Boolean'];
   createListing: Scalars['Boolean'];
@@ -133,6 +131,11 @@ export type Mutation = {
 
 export type MutationCreateHeaderArgs = {
   input: HeaderInput;
+};
+
+
+export type MutationDeleteHeaderArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -182,7 +185,7 @@ export type MutationCreateMessageArgs = {
 
 
 export type MutationDeleteMessageArgs = {
-  id: Scalars['String'];
+  ids: Array<Scalars['String']>;
 };
 
 
@@ -315,7 +318,14 @@ export type SearchInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
+  newHeader: Header;
   newMessage: Message;
+};
+
+
+export type SubscriptionNewHeaderArgs = {
+  creatorId: Scalars['String'];
+  toId: Scalars['String'];
 };
 
 
@@ -373,6 +383,27 @@ export type RegularErrorFragment = (
   & Pick<FieldError, 'path' | 'message'>
 );
 
+export type RegularHeadersFragment = (
+  { __typename?: 'Header' }
+  & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId' | 'createdAt'>
+  & { creator: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'photoUrl'>
+  ), messages: Array<(
+    { __typename?: 'Message' }
+    & RegularMessageFragment
+  )> }
+);
+
+export type RegularMessageFragment = (
+  { __typename?: 'Message' }
+  & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt' | 'headerId'>
+  & { creator: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'photoUrl'>
+  ) }
+);
+
 export type RegularUserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'email' | 'confirmed' | 'forgotPasswordLocked'>
@@ -425,7 +456,7 @@ export type CreateHeaderMutation = (
   { __typename?: 'Mutation' }
   & { createHeader: (
     { __typename?: 'Header' }
-    & Pick<Header, 'id' | 'toId' | 'subject' | 'status' | 'creatorId' | 'listingId'>
+    & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId'>
   ) }
 );
 
@@ -560,18 +591,7 @@ export type HeadersQuery = (
   { __typename?: 'Query' }
   & { headers: Array<(
     { __typename?: 'Header' }
-    & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId' | 'createdAt'>
-    & { creator: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'name' | 'photoUrl'>
-    ), messages: Array<(
-      { __typename?: 'Message' }
-      & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt' | 'headerId'>
-      & { creator: (
-        { __typename?: 'User' }
-        & Pick<User, 'name' | 'photoUrl'>
-      ) }
-    )> }
+    & RegularHeadersFragment
   )> }
 );
 
@@ -623,7 +643,7 @@ export type MessagesQuery = (
   { __typename?: 'Query' }
   & { messages: Array<(
     { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'text' | 'creatorId'>
+    & RegularMessageFragment
   )> }
 );
 
@@ -646,6 +666,20 @@ export type SearchListingsQuery = (
   ) }
 );
 
+export type NewHeaderSubscriptionVariables = Exact<{
+  creatorId: Scalars['String'];
+  toId: Scalars['String'];
+}>;
+
+
+export type NewHeaderSubscription = (
+  { __typename?: 'Subscription' }
+  & { newHeader: (
+    { __typename?: 'Header' }
+    & RegularHeadersFragment
+  ) }
+);
+
 export type NewMessageSubscriptionVariables = Exact<{
   headerId: Scalars['String'];
 }>;
@@ -655,10 +689,42 @@ export type NewMessageSubscription = (
   { __typename?: 'Subscription' }
   & { newMessage: (
     { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt'>
+    & RegularMessageFragment
   ) }
 );
 
+export const RegularMessageFragmentDoc = gql`
+    fragment RegularMessage on Message {
+  id
+  isFromSender
+  text
+  read
+  createdAt
+  headerId
+  creator {
+    id
+    name
+    photoUrl
+  }
+}
+    `;
+export const RegularHeadersFragmentDoc = gql`
+    fragment RegularHeaders on Header {
+  id
+  toId
+  subject
+  listingId
+  createdAt
+  creator {
+    id
+    name
+    photoUrl
+  }
+  messages {
+    ...RegularMessage
+  }
+}
+    ${RegularMessageFragmentDoc}`;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   path
@@ -757,8 +823,6 @@ export const CreateHeaderDocument = gql`
     id
     toId
     subject
-    status
-    creatorId
     listingId
   }
 }
@@ -1146,31 +1210,10 @@ export type UpdateListingMutationOptions = Apollo.BaseMutationOptions<UpdateList
 export const HeadersDocument = gql`
     query Headers {
   headers {
-    id
-    toId
-    subject
-    listingId
-    createdAt
-    creator {
-      id
-      name
-      photoUrl
-    }
-    messages {
-      id
-      isFromSender
-      text
-      read
-      createdAt
-      headerId
-      creator {
-        name
-        photoUrl
-      }
-    }
+    ...RegularHeaders
   }
 }
-    `;
+    ${RegularHeadersFragmentDoc}`;
 
 /**
  * __useHeadersQuery__
@@ -1328,12 +1371,10 @@ export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const MessagesDocument = gql`
     query Messages($headerId: String!) {
   messages(headerId: $headerId) {
-    id
-    text
-    creatorId
+    ...RegularMessage
   }
 }
-    `;
+    ${RegularMessageFragmentDoc}`;
 
 /**
  * __useMessagesQuery__
@@ -1413,17 +1454,44 @@ export function useSearchListingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type SearchListingsQueryHookResult = ReturnType<typeof useSearchListingsQuery>;
 export type SearchListingsLazyQueryHookResult = ReturnType<typeof useSearchListingsLazyQuery>;
 export type SearchListingsQueryResult = Apollo.QueryResult<SearchListingsQuery, SearchListingsQueryVariables>;
+export const NewHeaderDocument = gql`
+    subscription NewHeader($creatorId: String!, $toId: String!) {
+  newHeader(creatorId: $creatorId, toId: $toId) {
+    ...RegularHeaders
+  }
+}
+    ${RegularHeadersFragmentDoc}`;
+
+/**
+ * __useNewHeaderSubscription__
+ *
+ * To run a query within a React component, call `useNewHeaderSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useNewHeaderSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewHeaderSubscription({
+ *   variables: {
+ *      creatorId: // value for 'creatorId'
+ *      toId: // value for 'toId'
+ *   },
+ * });
+ */
+export function useNewHeaderSubscription(baseOptions: Apollo.SubscriptionHookOptions<NewHeaderSubscription, NewHeaderSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<NewHeaderSubscription, NewHeaderSubscriptionVariables>(NewHeaderDocument, options);
+      }
+export type NewHeaderSubscriptionHookResult = ReturnType<typeof useNewHeaderSubscription>;
+export type NewHeaderSubscriptionResult = Apollo.SubscriptionResult<NewHeaderSubscription>;
 export const NewMessageDocument = gql`
     subscription NewMessage($headerId: String!) {
   newMessage(headerId: $headerId) {
-    id
-    isFromSender
-    text
-    read
-    createdAt
+    ...RegularMessage
   }
 }
-    `;
+    ${RegularMessageFragmentDoc}`;
 
 /**
  * __useNewMessageSubscription__

@@ -1,26 +1,5 @@
 query Headers {
   headers {
-    id
-    toId
-    subject
-    listingId
-    createdAt
-    creator {
-      id
-      name
-      photoUrl
-    }
-    messages {
-      id
-      isFromSender
-      text
-      read
-      createdAt
-      headerId
-      creator {
-        name
-        photoUrl
-      }
-    }
+    ...RegularHeaders
   }
 }

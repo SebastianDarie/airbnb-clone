@@ -1,20 +1,20 @@
-import { ObjectType, Field } from 'type-graphql';
+import { Point } from 'geojson';
+import { Field, ObjectType } from 'type-graphql';
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
   ManyToOne,
   OneToMany,
-  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Point } from 'geojson';
-import { Message } from './Message';
-import { User } from './User';
-import { Review } from './Review';
+import { Header } from './Header';
 import { Reservation } from './Reservation';
+import { Review } from './Review';
+import { User } from './User';
 
 @ObjectType()
 @Entity()
@@ -99,8 +99,8 @@ export class Listing extends BaseEntity {
   @ManyToOne(() => User, (user) => user.listings)
   creator: User;
 
-  @OneToMany(() => Message, (message) => message.listing)
-  messages: Message[];
+  @OneToMany(() => Header, (header) => header.creator)
+  headers: Header[];
 
   @OneToMany(() => Reservation, (reservation) => reservation.listing)
   reservations: Reservation[];

@@ -1,7 +1,5 @@
 query Messages($headerId: String!) {
   messages(headerId: $headerId) {
-    id
-    text
-    creatorId
+    ...RegularMessage
   }
 }

@@ -29,6 +29,7 @@ const linkCreate = (
     ? new WebSocketLink({
         uri: process.env.NEXT_PUBLIC_SUBSCRIPTIONS_URL as string,
         options: {
+          lazy: true,
           reconnect: true,
         },
       })
@@ -58,16 +59,22 @@ const createClient = (ctx: NextPageContext | undefined) =>
     link: linkCreate(ctx),
     cache: new InMemoryCache({
       typePolicies: {
-        // Query: {
-        //   fields: {
-        //     headers: {
-        //       keyArgs: [],
-        //       merge(_existing: Header[], incoming: Header[]) {
-        //         return incoming;
-        //       },
-        //     },
-        //   },
-        // },
+        Query: {
+          fields: {
+            headers: {
+              keyArgs: [],
+              merge(existing: Header[], incoming: Header[]) {
+                if (!incoming) return existing;
+                if (!existing) return incoming;
+
+                // console.log(existing, incoming);
+                // if (existing && incoming)
+                //   return [...(existing || []), ...(incoming || [])];
+              },
+              //merge: true,
+            },
+          },
+        },
         Header: {
           fields: {
             messages: {

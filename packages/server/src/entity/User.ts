@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Header } from './Header';
 import { Listing } from './Listing';
 import { Message } from './Message';
 import { Reservation } from './Reservation';
@@ -46,6 +47,9 @@ export class User extends BaseEntity {
   @Field()
   @Column({ type: 'bit', default: 0 })
   superhost: number;
+
+  @OneToMany(() => Header, (header) => header.creator)
+  headers: Header[];
 
   @OneToMany(() => Listing, (listing) => listing.creator)
   listings: Listing[];

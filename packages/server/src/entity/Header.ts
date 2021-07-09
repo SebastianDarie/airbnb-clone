@@ -38,9 +38,9 @@ export class Header extends BaseEntity {
   @Column({ type: 'varchar' })
   subject: string;
 
-  @Field()
-  @Column({ type: 'enum', enum: MessageStatus, default: MessageStatus.SENDING })
-  status: MessageStatus;
+  // @Field()
+  // @Column({ type: 'enum', enum: MessageStatus, default: MessageStatus.SENDING })
+  // status: MessageStatus;
 
   @Field(() => [Message])
   @OneToMany(() => Message, (message) => message.header, {
@@ -48,18 +48,17 @@ export class Header extends BaseEntity {
   })
   messages: Message[];
 
-  @Field()
   @Column('uuid')
   creatorId: string;
 
-  @ManyToOne(() => User, (user) => user.messages)
+  @ManyToOne(() => User, (user) => user.headers)
   creator: User;
 
   @Field()
   @Column('uuid')
   listingId: string;
 
-  @ManyToOne(() => Listing, (listing) => listing.messages)
+  @ManyToOne(() => Listing, (listing) => listing.headers)
   listing: Listing;
 
   @Field(() => String)

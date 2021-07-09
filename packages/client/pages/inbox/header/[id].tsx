@@ -4,43 +4,75 @@ import {
   CreateMessageController,
   HeadersDocument,
   HeadersQuery,
+  NewHeaderDocument,
+  NewHeaderSubscription,
+  NewMessageDocument,
   SendMessageSvg,
   useCreateMessageMutation,
+  useHeadersQuery,
   useMeQuery,
 } from '@airbnb-clone/controller';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ConversationList } from '../../../components/Inbox/ConversationList';
 import { ConversationPanel } from '../../../components/Inbox/ConversationPanel';
 import Layout from '../../../components/Layout';
 import styles from '../../../sass/pages/Header.module.scss';
 import roomStyles from '../../../sass/pages/Room.module.scss';
-import { useGetHeadersFromUrl } from '../../../shared-hooks/useGetHeadersFromUrl';
 import { autosizeTextarea } from '../../../utils/autosizeTextarea';
 import { withApollo } from '../../../utils/withApollo';
 
 interface HeaderProps {}
 
+//type CurrHeader = Omit<Header, 'updatedAt'>;
+
 const Header: React.FC<HeaderProps> = ({}) => {
   const router = useRouter();
-  const { data, error, variables } = useGetHeadersFromUrl();
+  // const {
+  //   data,
+  //   error,
+  //   loading,
+  //   variables,
+  //   subscribeToMore,
+  // } = useGetHeadersFromUrl();
+  const { data, loading } = useHeadersQuery({});
   // const [createMessage, { data: messageData }] = useCreateMessageMutation();
 
-  if (!data) {
-    return <div>failed to load or loading...</div>;
-  }
+  // const subscribeToNewHeaders = () =>
+  //   subscribeToMore<NewHeaderSubscription>({
+  //     document: NewHeaderDocument,
+  //     variables: { headerId: currHeader[0].id },
+  //     updateQuery: (prev, { subscriptionData }) => {
+  //       if (!subscriptionData.data) return prev;
+  //       const newHeader = subscriptionData.data.newHeader;
+  //       return Object.assign({}, prev, {
+  //         headers: [...prev.headers, newHeader],
+  //       });
+  //     },
+  //   });
 
-  const currHeader = data.headers.filter((h) => h.id === variables?.headerId);
+  // useEffect(() => {
+  //   subscribeToNewHeaders();
+  // }, []);
+
+  // if (!data) {
+  //   return <div>failed to load or loading...</div>;
+  // }
+
+  // const currHeader = data?.headers.filter((h) => h.id === variables?.headerId);
   //const newDay = (m, i, arr) => new Date(+arr[i - 1]).getDate() === new Date(+m.createdAt).getDate()
+  const headerId = router.query.id ? router.query.id : '';
+  //const currHeader: CurrHeader = data?.headers.filter((h) => h.id === headerId)[0]!;
 
   return (
     <Layout search={false}>
       <div className={styles.inbox__position}>
         <div className={styles.inbox__sections__flex}>
           <ConversationList
-            currHeader={currHeader}
             data={data}
+            loading={loading}
+            headerId={headerId as string}
             roomStyles={roomStyles}
             styles={styles}
           />
@@ -49,9 +81,10 @@ const Header: React.FC<HeaderProps> = ({}) => {
             {({ submit }) => (
               <ConversationPanel
                 data={data}
+                loading={loading}
+                headerId={headerId as string}
                 roomStyles={roomStyles}
                 styles={styles}
-                variables={variables}
                 submit={submit}
               />
             )}

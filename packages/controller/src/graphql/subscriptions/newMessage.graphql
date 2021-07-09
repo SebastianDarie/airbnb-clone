@@ -1,9 +1,5 @@
 subscription NewMessage($headerId: String!) {
   newMessage(headerId: $headerId) {
-    id
-    isFromSender
-    text
-    read
-    createdAt
+    ...RegularMessage
   }
 }
