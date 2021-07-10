@@ -174,8 +174,8 @@ export const ListingCard: React.FC<ListingCardProps> = ({
       <div className={styles.card__description} style={{ marginTop: 4 }}>
         {listing.amenities.slice(0, 4).map((amenity, i) => (
           <>
-            <span>{amenity}</span>
-            {i === 3 ? null : <span> · </span>}
+            <span key={i}>{amenity}</span>
+            {i === 3 ? null : <span key={3}> · </span>}
           </>
         ))}
       </div>
@@ -194,7 +194,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
         <div className={styles.price__container}>
           <div className={styles.price__align}>
             <div className={styles.price__flex}>
-              <span className={styles.price__value}>{listing.price}</span>
+              <span className={styles.price__value}>${listing.price}</span>
               <span className={styles.price__night}>/ night</span>
             </div>
           </div>

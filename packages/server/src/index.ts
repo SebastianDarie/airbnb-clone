@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
@@ -8,9 +9,8 @@ import session from 'express-session';
 import { Point } from 'geojson';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { createServer } from 'http';
-import Redis from 'ioredis';
+import Redis, { Cluster } from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
-import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { getConnection } from 'typeorm';
 import {
@@ -39,6 +39,31 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
+  // const redisCluster = new Redis.Cluster(
+  //   [
+  //     {
+  //       host: 'localhost',
+  //       port: 7000,
+  //     },
+  //     {
+  //       host: 'localhost',
+  //       port: 7001,
+  //     },
+  //     {
+  //       host: 'localhost',
+  //       port: 7002,
+  //     },
+  //   ],
+  //   {
+  //     scaleReads: 'all',
+  //     clusterRetryStrategy: function (_times: any) {
+  //       return null;
+  //     },
+  //     redisOptions: {
+  //       maxRetriesPerRequest: 1,
+  //     },
+  //   }
+  // );
 
   if (__test__) {
     await redis.flushall();

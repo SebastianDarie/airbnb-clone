@@ -2,7 +2,9 @@ import { ArrowDownSvg, ArrowUpSvg, ReviewSvg } from '@airbnb-clone/controller';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import btnStyles from '../../sass/pages/CreateListing.module.scss';
-import useClickAway from '../../shared-hooks/useClickAway';
+import useClickAway, {
+  useOnClickOutside,
+} from '../../shared-hooks/useClickAway';
 import { useGradient } from '../../shared-hooks/useGradient';
 import styles from './BookRoomMenu.module.scss';
 import { GuestPicker } from './GuestPicker';
@@ -30,8 +32,10 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   const [coords, setCoords] = useGradient();
   const [active, setActive] = useState<boolean>(false);
   const picker = useRef<HTMLDivElement | null>(null);
+  const menu = useRef<HTMLDivElement | null>(null);
 
-  useClickAway(picker, () => setActive(false));
+  //useClickAway(picker, () => setActive(false));
+  useOnClickOutside(picker, menu, () => setActive(false));
 
   const currency = '$';
   const prePrice = price * nights;
@@ -116,7 +120,6 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                               ></div>
                               <div
                                 className={styles.dates__container}
-                                ref={picker}
                                 onClick={() => setActive(!active)}
                               >
                                 <label className={styles.guest__label}>
@@ -143,6 +146,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                               <GuestPicker
                                 active={active}
                                 guests={guests}
+                                menu={menu}
                                 styles={styles}
                               />
                             </div>
@@ -190,7 +194,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                           <div className={styles.pre__price__container}>
                             <div className={styles.price__flex}>
                               <span className={styles.nights__order}>
-                                {price} x {nights} nights
+                                {currency + price} x {nights} nights
                               </span>
                               <span className={styles.price__order}>
                                 {currency + prePrice}

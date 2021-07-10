@@ -15,7 +15,7 @@ import { RoomSkeleton } from '../../components/RoomSkeleton';
 import { dynamicSvgs } from '../../constants/dynamicSvgs';
 import styles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
-import { useReservationStore } from '../../stores/useReservationStore';
+import ReservationStore from '../../stores/useReservationStore';
 import { withApollo } from '../../utils/withApollo';
 
 const getDimensions = (el: HTMLDivElement) => {
@@ -56,13 +56,8 @@ const SectionWrapper: React.FC<{
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl();
-  const [startDate, endDate, updateEnd, updateStart] = useReservationStore(
-    (state) => [
-      state.startDate,
-      state.endDate,
-      state.updateEnd,
-      state.updateStart,
-    ],
+  const [startDate, endDate] = ReservationStore.useReservationStore(
+    (state) => [state.startDate, state.endDate],
     shallow
   );
   const [visibleSection, setVisibleSection] = useState<string | undefined>('');
@@ -355,7 +350,9 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                             <DatePicker
                               inline
                               selected={startDate}
-                              onChange={(date) => updateStart(date as Date)}
+                              onChange={(date) =>
+                                ReservationStore.updateStart(date as Date)
+                              }
                               selectsStart
                               startDate={startDate}
                               endDate={endDate}
@@ -363,7 +360,9 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                             <DatePicker
                               inline
                               selected={endDate}
-                              onChange={(date) => updateEnd(date as Date)}
+                              onChange={(date) =>
+                                ReservationStore.updateEnd(date as Date)
+                              }
                               selectsEnd
                               startDate={startDate}
                               endDate={endDate}
@@ -380,7 +379,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
 
             <BookRoomMenu
               id={data?.listing?.id!}
-              dates={[startDate, endDate]}
+              dates={startDate && endDate ? [startDate, endDate] : []}
               guests={data?.listing?.guests!}
               nights={nights}
               price={data?.listing?.price!}

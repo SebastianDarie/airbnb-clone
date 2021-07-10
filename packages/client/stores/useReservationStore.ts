@@ -1,46 +1,34 @@
-// import create from 'zustand';
-// import { combine } from 'zustand/middleware';
+import create from 'zustand';
+import { devtools } from 'zustand/middleware';
 
-// const initialState = {
-//   startDate: (null as unknown) as Date,
-//   endDate: (null as unknown) as Date,
-//   adults: 0,
-//   children: 0,
-//   infants: 0,
-// };
+type ReservationState = {
+  startDate: Date | null;
+  endDate: Date | null;
+  adults: number;
+  children: number;
+  infants: number;
+};
 
-// export const useReservationStore = create(
-//   combine(initialState, (set) => ({
-//     updateStart: (date: Date) => {
-//       set((state) => ({
-//         ...state,
-//         startDate: date,
-//       }));
-//     },
+namespace ReservationStore {
+  export const useReservationStore = create<ReservationState>(
+    devtools(() => ({
+      startDate: null as Date | null,
+      endDate: null as Date | null,
+      adults: 0,
+      children: 0,
+      infants: 0,
+    }))
+  );
+  export const updateStart = (date: Date) =>
+    useReservationStore.setState((state) => ({ ...state, startDate: date }));
+  export const updateEnd = (date: Date) =>
+    useReservationStore.setState((state) => ({ ...state, endDate: date }));
+  export const updateAdults = (value: number) =>
+    useReservationStore.setState((state) => ({ ...state, adults: value }));
+  export const updateChildren = (value: number) =>
+    useReservationStore.setState((state) => ({ ...state, children: value }));
+  export const updateInfants = (value: number) =>
+    useReservationStore.setState((state) => ({ ...state, infants: value }));
+}
 
-//     updateEnd: (date: Date) => {
-//       set((state) => ({
-//         ...state,
-//         endDate: date,
-//       }));
-//     },
-
-//     updateAdults: (value: number) =>
-//       set((state) => ({
-//         ...state,
-//         adults: value,
-//       })),
-
-//     updateChildren: (value: number) =>
-//       set((state) => ({
-//         ...state,
-//         children: value,
-//       })),
-
-//     updateInfants: (value: number) =>
-//       set((state) => ({
-//         ...state,
-//         infants: value,
-//       })),
-//   }))
-// );
+export default ReservationStore;

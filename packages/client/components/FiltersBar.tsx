@@ -1,5 +1,5 @@
 import { FiltersSvg } from '@airbnb-clone/controller';
-import { useFiltersStore } from '../stores/useFiltersStore';
+import FiltersStore, { FilterKey } from '../stores/useFiltersStore';
 import { AmenityOption } from './AmenityOption';
 import styles from '../sass/components/FiltersBar.module.scss';
 import shallow from 'zustand/shallow';
@@ -16,21 +16,26 @@ const amenityFilters = [
   'Dedicated workspace',
   'Free parking',
   'Dryer',
-  //'Self check-in',
   'Pool',
   'Gym',
 ];
 
 export const FiltersBar: React.FC<FiltersBarProps> = ({}) => {
-  const [air, workspace, dryer, setFilter] = useFiltersStore(
-    (state) => [
-      state.Airconditioning,
-      state.Dedicatedworkspace,
-      state.Dryer,
-      state.setFilter,
-    ],
-    shallow
-  );
+  // const [air, workspace, dryer] = FiltersStore.useFiltersStore(
+  //   (state) => [
+  //     state.Airconditioning,
+  //     state.Dedicatedworkspace,
+  //     state.Dryer,
+  //     state.Freeparking,
+  //     state.Gym,
+  //     state.Iron,
+  //     state.Kitchen,
+  //     state.Petsallowed,
+  //   ],
+  //   shallow
+  // );
+  const filtersArr = FiltersStore.useFiltersStore.getState();
+  console.log(Object.keys(filtersArr).values());
 
   return (
     <div className={styles.options__bar}>
@@ -45,11 +50,12 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({}) => {
                       <AmenityOption
                         key={i}
                         option={filter}
-                        selected={
-                          useFiltersStore.getState()[filter.replace(/\s+/g, '')]
-                        }
+                        selected={FiltersStore.useFiltersStore(
+                          (state) =>
+                            state[filter.replace(/\s+/g, '') as FilterKey]
+                        )}
                         styles={styles}
-                        setFilter={setFilter}
+                        setFilter={FiltersStore.setFilter}
                       />
                     ))}
                   </div>
@@ -66,7 +72,13 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({}) => {
                   </button>
 
                   <div className={styles.filters__count__container}>
-                    <div className={styles.filters__count}>1</div>
+                    <div className={styles.filters__count}>
+                      {
+                        Object.keys(filtersArr).filter(
+                          (f) => filtersArr[f as FilterKey] === true
+                        ).length
+                      }
+                    </div>
                   </div>
                 </div>
               </div>

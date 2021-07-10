@@ -34,17 +34,38 @@ import { RefObject, useEffect } from 'react';
 //   }, [isClickedInside]);
 // };
 
-type Event = MouseEvent | TouchEvent;
+export const useOnClickOutside = (
+  ref: RefObject<any>,
+  exception: RefObject<any>,
+  handler: (e: MouseEvent | TouchEvent) => void
+) => {
+  useEffect(() => {
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (
+        !ref.current ||
+        ref.current.contains(event.target) ||
+        exception.current.contains(event.target)
+      ) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, exception, handler]);
+};
 
 function useClickAway<T extends HTMLElement = HTMLElement>(
   ref: RefObject<T>,
-  handler: (event: Event) => void
+  handler: (event: MouseEvent | TouchEvent) => void
 ) {
   useEffect(() => {
-    const listener = (e: Event) => {
-      const el = ref?.current;
-
-      if (!el || el.contains(e.target as Node)) {
+    const listener = (e: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(e.target as Node)) {
         return;
       }
 

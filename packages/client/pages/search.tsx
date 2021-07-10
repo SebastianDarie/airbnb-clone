@@ -26,6 +26,7 @@ const Search: React.FC<SearchProps> = ({}) => {
       limit: 20,
       cursor: null,
     },
+    notifyOnNetworkStatusChange: true,
   });
 
   if (!data && error) {
@@ -66,14 +67,13 @@ const Search: React.FC<SearchProps> = ({}) => {
                 <div className={styles.listings__section}>
                   <div className={styles.listings__padding}>
                     <div className={styles.listings__margin}>
-                      {data &&
-                        data.searchListings.listings.map((listing) => (
-                          <ListingCard
-                            key={listing.id}
-                            listing={listing}
-                            loading={loading}
-                          />
-                        ))}
+                      {data?.searchListings.listings.map((listing) => (
+                        <ListingCard
+                          key={listing.id}
+                          listing={listing}
+                          loading={loading}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>

@@ -70,6 +70,7 @@ export class HeaderResolver {
       })
       .orWhere('h."toId" = :toId', { toId: req.session.userId })
       .orderBy('h."createdAt"', 'DESC')
+      .cache(true)
       .getMany();
   }
 

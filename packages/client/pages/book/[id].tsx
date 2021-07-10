@@ -13,7 +13,7 @@ import { StripeCard } from '../../components/Stripe/StripeCard';
 import styles from '../../sass/pages/Book.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
-import { useReservationStore } from '../../stores/useReservationStore';
+import ReservationStore from '../../stores/useReservationStore';
 import { convertToUTC } from '../../utils/converToUTC';
 import { withApollo } from '../../utils/withApollo';
 
@@ -27,7 +27,7 @@ const Book: React.FC<BookProps> = ({}) => {
   ] = useCreatePaymentIntentMutation();
   const { data, variables } = useGetListingFromUrl();
   const [succeeded, setSucceeded] = useState<boolean>(false);
-  const [startDate, endDate] = useReservationStore(
+  const [startDate, endDate] = ReservationStore.useReservationStore(
     (state) => [state.startDate, state.endDate],
     shallow
   );
@@ -238,6 +238,7 @@ const Book: React.FC<BookProps> = ({}) => {
                         <div>
                           <div className={styles.table__display}>
                             <div className={styles.description__cell}>
+                              {currency}
                               {data?.listing?.price} x 5 nights
                             </div>
                             <div className={styles.price__cell}>

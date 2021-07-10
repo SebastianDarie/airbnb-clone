@@ -1,9 +1,14 @@
 import menuStyles from '../../sass/components/GuestsMenu.module.scss';
 import { MinusSvg, PlusSvg } from '@airbnb-clone/controller';
+import ReservationStore from '../../stores/useReservationStore';
+import shallow from 'zustand/shallow';
+import { MutableRefObject, useRef } from 'react';
+import useClickAway from '../../shared-hooks/useClickAway';
 
 interface GuestPickerProps {
   active: boolean;
   guests: number;
+  menu: MutableRefObject<HTMLDivElement | null>;
   styles: {
     readonly [key: string]: string;
   };
@@ -12,10 +17,19 @@ interface GuestPickerProps {
 export const GuestPicker: React.FC<GuestPickerProps> = ({
   active,
   guests,
+  menu,
   styles,
 }) => {
+  const [adults, children, infants] = ReservationStore.useReservationStore(
+    (state) => [state.adults, state.children, state.infants],
+    shallow
+  );
+  // const menu = useRef<HTMLDivElement | null>(null);
+  // useClickAway(menu, () => console.log('ouside click'));
+
   return (
     <div
+      ref={menu}
       className={styles.guest__picker__container}
       style={{ display: active ? 'block' : 'none' }}
     >
@@ -28,21 +42,21 @@ export const GuestPicker: React.FC<GuestPickerProps> = ({
             <div className={menuStyles.guests__input}>
               <button
                 className={menuStyles.guests__minus}
-                // disabled={adults === 0}
-                // type='button'
-                // onClick={() => updateAdults(adults - 1)}
+                disabled={adults === 0}
+                type='button'
+                onClick={() => ReservationStore.updateAdults(adults - 1)}
               >
                 <span className={menuStyles.guests__icon}>
                   <MinusSvg />
                 </span>
               </button>
               <div className={menuStyles.guests__count}>
-                <span>0</span>
+                <span>{adults}</span>
               </div>
               <button
                 className={menuStyles.guests__plus}
                 type='button'
-                // onClick={() => updateAdults(adults + 1)}
+                onClick={() => ReservationStore.updateAdults(adults + 1)}
               >
                 <span className={menuStyles.guests__icon}>
                   <PlusSvg />
@@ -61,21 +75,21 @@ export const GuestPicker: React.FC<GuestPickerProps> = ({
             <div className={menuStyles.guests__input}>
               <button
                 className={menuStyles.guests__minus}
-                // disabled={adults === 0}
-                // type='button'
-                // onClick={() => updateAdults(adults - 1)}
+                disabled={children === 0}
+                type='button'
+                onClick={() => ReservationStore.updateChildren(children - 1)}
               >
                 <span className={menuStyles.guests__icon}>
                   <MinusSvg />
                 </span>
               </button>
               <div className={menuStyles.guests__count}>
-                <span>0</span>
+                <span>{children}</span>
               </div>
               <button
                 className={menuStyles.guests__plus}
                 type='button'
-                // onClick={() => updateAdults(adults + 1)}
+                onClick={() => ReservationStore.updateChildren(children + 1)}
               >
                 <span className={menuStyles.guests__icon}>
                   <PlusSvg />
@@ -94,21 +108,21 @@ export const GuestPicker: React.FC<GuestPickerProps> = ({
             <div className={menuStyles.guests__input}>
               <button
                 className={menuStyles.guests__minus}
-                // disabled={adults === 0}
-                // type='button'
-                // onClick={() => updateAdults(adults - 1)}
+                disabled={infants === 0}
+                type='button'
+                onClick={() => ReservationStore.updateInfants(infants - 1)}
               >
                 <span className={menuStyles.guests__icon}>
                   <MinusSvg />
                 </span>
               </button>
               <div className={menuStyles.guests__count}>
-                <span>0</span>
+                <span>{infants}</span>
               </div>
               <button
                 className={menuStyles.guests__plus}
                 type='button'
-                // onClick={() => updateAdults(adults + 1)}
+                onClick={() => ReservationStore.updateInfants(infants + 1)}
               >
                 <span className={menuStyles.guests__icon}>
                   <PlusSvg />

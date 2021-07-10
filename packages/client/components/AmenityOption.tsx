@@ -4,7 +4,7 @@ interface AmenityOptionProps {
   styles: {
     readonly [key: string]: string;
   };
-  setFilter: (type: string, value: boolean) => void;
+  setFilter: (type: any, value: boolean) => void;
 }
 
 export const AmenityOption: React.FC<AmenityOptionProps> = ({
