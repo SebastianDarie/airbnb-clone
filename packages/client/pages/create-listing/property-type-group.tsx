@@ -1,8 +1,8 @@
-import { useIsAuth } from '@airbnb-clone/controller';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { RadioButton } from '../../components/RadioButton';
 import styles from '../../sass/pages/CreateListing.module.scss';
 import { useListingStore } from '../../stores/useListingStore';
+import { useIsAuth } from '../../utils/useIsAuth';
 import { withApollo } from '../../utils/withApollo';
 
 interface PropertyTypeGroupProps {}

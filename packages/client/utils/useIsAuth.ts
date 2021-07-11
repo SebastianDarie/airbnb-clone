@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useMeQuery } from '../../generated/graphql';
+import { useMeQuery } from '@airbnb-clone/controller';
 
 export const useIsAuth = (): void => {
   const router = useRouter();
   const { data, loading } = useMeQuery();
-  console.log(data);
 
   useEffect(() => {
     if (!loading && !data?.me) {

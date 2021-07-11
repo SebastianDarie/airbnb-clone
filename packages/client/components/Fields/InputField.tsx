@@ -1,21 +1,12 @@
 import { DeepPartial } from '@airbnb-clone/controller';
-import { Form, Input, InputNumber } from 'antd';
-import { NamePath } from 'antd/lib/form/interface';
+import { ErrorMessage } from '@hookform/error-message';
 import {
   DetailedHTMLProps,
   Dispatch,
   InputHTMLAttributes,
   SetStateAction,
-  SyntheticEvent,
 } from 'react';
-import {
-  Control,
-  Controller,
-  DeepMap,
-  FieldError,
-  UseFormRegister,
-} from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
+import { Control, Controller, DeepMap, FieldError } from 'react-hook-form';
 import styles from '../../sass/components/InputField.module.scss';
 
 type InputFieldProps = {
@@ -46,18 +37,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           name={name}
           render={({ field }) => (
             <>
-              <input
-                {...field}
-                {...props}
-                className={styles.input}
-                // placeholder=''
-                // onBlur={(e) => {
-                //   e.target.placeholder = '';
-                // }}
-                // onFocus={(e) => {
-                //   e.target.placeholder = props.placeholder!;
-                // }}
-              />
+              <input {...field} {...props} className={styles.input} />
               <label className={styles.label}>{label}</label>
               {name === 'password' && setShowPassword ? (
                 <span

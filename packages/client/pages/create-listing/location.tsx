@@ -1,13 +1,17 @@
+import dynamic from 'next/dynamic';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
-import { LocationField } from '../../components/Fields/LocationField';
 import { withApollo } from '../../utils/withApollo';
 
 interface LocationProps {}
 
+const Map = dynamic(() => import('../../components/Map/LocationField'), {
+  ssr: false,
+});
+
 const Location: React.FC<LocationProps> = ({}) => {
   return (
     <CreateListingLayout>
-      <LocationField />
+      <Map />
     </CreateListingLayout>
   );
 };

@@ -4,6 +4,11 @@
   width: 100%;
   overflow: hidden auto;
 
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+
   @media screen and (min-width: 744px) {
     top: 0px;
     height: 100vh;
@@ -109,4 +114,13 @@
   flex: 1 1 0%;
   padding: 0px;
   text-overflow: ellipsis;
+}
+
+.map__container {
+  height: 100vh;
+
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
 }

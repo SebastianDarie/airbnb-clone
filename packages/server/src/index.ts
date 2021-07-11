@@ -9,7 +9,7 @@ import session from 'express-session';
 import { Point } from 'geojson';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { createServer } from 'http';
-import Redis, { Cluster } from 'ioredis';
+import Redis from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
 import { buildSchema } from 'type-graphql';
 import { getConnection } from 'typeorm';
@@ -18,7 +18,6 @@ import {
   REDIS_CACHE_PREFIX,
   REDIS_SESSION_PREFIX,
   __prod__,
-  __test__,
 } from './constants';
 import { Listing } from './entity/Listing';
 import { createMessageLoader } from './loaders/createMessageLoader';
@@ -39,35 +38,6 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
-  // const redisCluster = new Redis.Cluster(
-  //   [
-  //     {
-  //       host: 'localhost',
-  //       port: 7000,
-  //     },
-  //     {
-  //       host: 'localhost',
-  //       port: 7001,
-  //     },
-  //     {
-  //       host: 'localhost',
-  //       port: 7002,
-  //     },
-  //   ],
-  //   {
-  //     scaleReads: 'all',
-  //     clusterRetryStrategy: function (_times: any) {
-  //       return null;
-  //     },
-  //     redisOptions: {
-  //       maxRetriesPerRequest: 1,
-  //     },
-  //   }
-  // );
-
-  if (__test__) {
-    await redis.flushall();
-  }
 
   app.set('trust proxy', 1);
 
@@ -168,7 +138,7 @@ const main = async () => {
   const listingStrings = listings.map((listing) => JSON.stringify(listing));
   await redis.lpush(REDIS_CACHE_PREFIX, ...listingStrings);
 
-  server.listen(parseInt(__test__ ? '0' : process.env.PORT), async () => {
+  server.listen(process.env.PORT, async () => {
     console.log(
       `Server running on port ${process.env.PORT} ${apolloServer.graphqlPath}`
     );

@@ -751,3 +751,21 @@ export const SendMessageSvg = () => {
     </svg>
   );
 };
+
+export const MarkerSvg = () => {
+  return (
+    <svg
+      viewBox='0 0 16 16'
+      xmlns='http://www.w3.org/2000/svg'
+      aria-hidden='true'
+      role='presentation'
+      focusable='false'
+      display='block'
+      height='24px'
+      width='24px'
+      fill='currentColor'
+    >
+      <path d='M8 .5C4.963.5 2.5 3 2.5 6s1.833 6.084 5.5 9.25C11.666 12.084 13.5 9 13.5 6A5.5 5.5 0 0 0 8 .5zM8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4z'></path>
+    </svg>
+  );
+};

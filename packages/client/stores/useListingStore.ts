@@ -8,6 +8,7 @@ const initialState = {
   bedrooms: 1,
   beds: 1,
   category: 'Apartment',
+  city: '',
   description: '',
   guests: 2,
   highlights: [] as string[],

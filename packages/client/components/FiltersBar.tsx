@@ -2,9 +2,23 @@ import { FiltersSvg } from '@airbnb-clone/controller';
 import FiltersStore, { FilterKey } from '../stores/useFiltersStore';
 import { AmenityOption } from './AmenityOption';
 import styles from '../sass/components/FiltersBar.module.scss';
-import shallow from 'zustand/shallow';
+import { MutableRefObject } from 'react';
 
-interface FiltersBarProps {}
+interface FiltersBarProps {
+  filtersRef: MutableRefObject<{
+    Wifi: boolean;
+    Kitchen: boolean;
+    Airconditioning: boolean;
+    Washer: boolean;
+    Iron: boolean;
+    Petsallowed: boolean;
+    Dedicatedworkspace: boolean;
+    Freeparking: boolean;
+    Dryer: boolean;
+    Pool: boolean;
+    Gym: boolean;
+  }>;
+}
 
 const amenityFilters = [
   'Wifi',
@@ -20,23 +34,7 @@ const amenityFilters = [
   'Gym',
 ];
 
-export const FiltersBar: React.FC<FiltersBarProps> = ({}) => {
-  // const [air, workspace, dryer] = FiltersStore.useFiltersStore(
-  //   (state) => [
-  //     state.Airconditioning,
-  //     state.Dedicatedworkspace,
-  //     state.Dryer,
-  //     state.Freeparking,
-  //     state.Gym,
-  //     state.Iron,
-  //     state.Kitchen,
-  //     state.Petsallowed,
-  //   ],
-  //   shallow
-  // );
-  const filtersArr = FiltersStore.useFiltersStore.getState();
-  console.log(Object.keys(filtersArr).values());
-
+export const FiltersBar: React.FC<FiltersBarProps> = ({ filtersRef }) => {
   return (
     <div className={styles.options__bar}>
       <div className={styles.options__dimensions}>
@@ -74,8 +72,8 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({}) => {
                   <div className={styles.filters__count__container}>
                     <div className={styles.filters__count}>
                       {
-                        Object.keys(filtersArr).filter(
-                          (f) => filtersArr[f as FilterKey] === true
+                        Object.keys(filtersRef.current).filter(
+                          (f) => filtersRef.current[f as FilterKey] === true
                         ).length
                       }
                     </div>

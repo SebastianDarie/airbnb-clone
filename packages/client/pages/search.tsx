@@ -6,6 +6,8 @@ import { ListingCard } from '../components/ListingCard';
 import styles from '../sass/pages/Search.module.scss';
 import { useSearchStore } from '../stores/useSearchStore';
 import { withApollo } from '../utils/withApollo';
+import { useEffect, useRef } from 'react';
+import FiltersStore, { FilterKey } from '../stores/useFiltersStore';
 
 interface SearchProps {}
 
@@ -20,14 +22,29 @@ const Search: React.FC<SearchProps> = ({}) => {
     ],
     shallow
   );
-  const { data, error, loading } = useSearchListingsQuery({
-    variables: {
-      input: { latitude, longitude, guests: adults + children + infants },
-      limit: 20,
-      cursor: null,
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+  const { data, error, loading, variables, fetchMore } = useSearchListingsQuery(
+    {
+      variables: {
+        input: { latitude, longitude, guests: adults + children + infants },
+        limit: 20,
+        cursor: null,
+      },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
+  const filtersRef = useRef(FiltersStore.useFiltersStore.getState());
+
+  useEffect(
+    () =>
+      FiltersStore.useFiltersStore.subscribe(
+        (filters) => (filtersRef.current = filters as any),
+        (state) => state
+      ),
+    []
+  );
+
+  console.log(loading);
+  //const filteredListings = data?.searchListings.listings.filter(l => l.amenities)
 
   if (!data && error) {
     return (
@@ -41,7 +58,7 @@ const Search: React.FC<SearchProps> = ({}) => {
   return (
     <Layout filter search>
       <div className={styles.inset__div}>
-        <FiltersBar />
+        <FiltersBar filtersRef={filtersRef} />
 
         <div className={styles.stays__container}>
           <div style={{ paddingTop: 68 }}>
@@ -80,8 +97,32 @@ const Search: React.FC<SearchProps> = ({}) => {
               </div>
             </div>
           </div>
+
+          <div className={styles.padding__bottom}></div>
         </div>
-        <div></div>
+
+        <div
+          className={styles.load__more__margin}
+          style={{ display: data?.searchListings.hasMore ? 'flex' : 'none' }}
+        >
+          <button
+            className={styles.load__more__btn}
+            onClick={() =>
+              fetchMore({
+                variables: {
+                  input: variables?.input,
+                  limit: variables?.limit,
+                  cursor:
+                    data?.searchListings.listings[
+                      data.searchListings.listings.length - 1
+                    ].createdAt,
+                },
+              })
+            }
+          >
+            Load more
+          </button>
+        </div>
       </div>
     </Layout>
   );

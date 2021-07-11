@@ -15,7 +15,7 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
-import { getConnection, UpdateResult } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { REDIS_CACHE_PREFIX } from '../constants';
 import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
@@ -66,72 +66,10 @@ export class ListingResolver {
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
 
-    // const distance = await getConnection().query(
-    //   `
-    //   select *, ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
-    //   cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
-    //   sin( radians( $1 ) ) ) )
-    //   as pos from listing
-    //   having ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
-    //   cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
-    //   sin( radians( $1 ) ) ) ) < 25
-    //   order by pos
-    //   limit 20
-    // `,
-    //   [latitude, longitude]
-    // );
-    //console.log(distance);
-
-    // CREATE OR REPLACE FUNCTION distance(lat1 FLOAT, lon1 FLOAT, lat2 FLOAT, lon2 FLOAT) RETURNS FLOAT AS $$
-    //   DECLARE
-    //       x float = 69.1 * (lat2 - lat1);
-    //       y float = 69.1 * (lon2 - lon1) * cos(lat1 / 57.3);
-    //   BEGIN
-    //       RETURN sqrt(x * x + y * y);
-    //   END
-    //   $$ LANGUAGE plpgsql;
-
-    //sqrt(69.1 * (50 - 40) * 69.1 * (50 - 40) + 69.1 * (-65.4 - -74.5) * cos(40 / 57.3))
-    // ( 3959 * acos( cos( radians(37) ) * cos( radians( $1 ) ) *
-    //   cos( radians( $2 ) - radians(-122) ) + sin( radians(37) ) *
-    //   sin( radians( $1 ) ) ) )
-    // const nearListings: Listing[] = await getConnection().query(
-    //   `
-    //   select *,
-    //   sqrt(69.1 * (50 - $1) * 69.1 * (50 - $1) + 69.1 * (-65.4 - $2) * cos($1 / 57.3))
-    //   as pos from listing;
-    //   `,
-    //   [latitude, longitude]
-    // );
-    //console.log(nearListings, nearListings.length);
-
-    //ST_GeomFromGeoJSON(:origin), ST_SRID(location)
-
     const origin = {
       type: 'Point',
       coordinates: [longitude, latitude],
     };
-
-    // const locations = await getConnection()
-    //   .getRepository(Listing)
-    //   .createQueryBuilder('t')
-    //   .select([
-    //     '*',
-    //     `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
-    //   ])
-    //   .where(
-    //     ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
-    //   )
-    //   .orderBy('distance', 'ASC')
-    //   .setParameters({
-    //     longitude,
-    //     latitude,
-    //     origin: JSON.stringify(origin),
-    //     range: 300 * 1000,
-    //   })
-    //   .getRawMany();
-
-    // console.log(locations, locations.length);
 
     let qb = getConnection()
       .getRepository(Listing)
@@ -146,9 +84,6 @@ export class ListingResolver {
       .orderBy('distance', 'ASC')
       .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 })
       .take(realLimitPlusOne);
-
-    // .where('l.latitude = :latitude', { latitude })
-    // .andWhere('l.longitude = :longitude', { longitude });
 
     if (cursor) {
       qb.andWhere('l."createdAt" < :cursor ', {

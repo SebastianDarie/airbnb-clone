@@ -9,7 +9,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { NextPageContext } from 'next';
 import { withApollo as createWithApollo } from 'next-apollo';
-import { Header, Message } from '@airbnb-clone/controller';
+import { Header, Message, PaginatedListings } from '@airbnb-clone/controller';
 
 const linkCreate = (
   ctx: NextPageContext | undefined
@@ -72,6 +72,21 @@ const createClient = (ctx: NextPageContext | undefined) =>
                 //   return [...(existing || []), ...(incoming || [])];
               },
               //merge: true,
+            },
+            searchListings: {
+              keyArgs: [],
+              merge(
+                existing: PaginatedListings | null,
+                incoming: PaginatedListings
+              ): PaginatedListings {
+                return {
+                  ...incoming,
+                  listings: [
+                    ...(existing?.listings || []),
+                    ...incoming.listings,
+                  ],
+                };
+              },
             },
           },
         },
