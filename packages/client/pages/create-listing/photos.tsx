@@ -2,7 +2,7 @@ import { memo, useCallback, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import update from 'immutability-helper';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
-import { useListingStore } from '../../stores/useListingStore';
+import ListingStore from '../../stores/useListingStore';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
 import { DraggablePhoto } from '../../components/Fields/DraggablePhoto';
 import { DropzoneField } from '../../components/Fields/DropzoneField';
@@ -43,8 +43,7 @@ const Photos: React.FC<PhotosProps> = memo(({}) => {
   const [draggables, setDraggables] = useState<
     { id: number; cover: boolean; delay: string }[]
   >(items);
-  const photos = useListingStore((state) => state.photos);
-  const addPhoto = useListingStore((state) => state.addPhoto);
+  const photos = ListingStore.useListingStore((state) => state.photos);
 
   const findImage = useCallback(
     (id: string) => {
@@ -77,7 +76,7 @@ const Photos: React.FC<PhotosProps> = memo(({}) => {
   return (
     <CreateListingLayout disabled={photos.length !== 5}>
       {photos.length === 0 ? (
-        <DropzoneField addPhoto={addPhoto} />
+        <DropzoneField addPhoto={ListingStore.addPhoto} />
       ) : (
         <div className={styles.main__container}>
           <div className={styles.container__margin}>

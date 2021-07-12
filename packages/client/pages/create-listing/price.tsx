@@ -1,14 +1,14 @@
 import { MinusSvg, PlusSvg } from '@airbnb-clone/controller';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import styles from '../../sass/components/PriceControl.module.scss';
-import { useListingStore } from '../../stores/useListingStore';
+import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
 
 interface PriceProps {}
 
 const Price: React.FC<PriceProps> = ({}) => {
-  const price = useListingStore((state) => state.price);
-  const updatePrice = useListingStore((state) => state.updatePrice);
+  const price = ListingStore.useListingStore((state) => state.price);
+  const updatePrice = ListingStore.updatePrice;
 
   return (
     <CreateListingLayout>

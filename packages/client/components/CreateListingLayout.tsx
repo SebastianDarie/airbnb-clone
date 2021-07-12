@@ -105,8 +105,8 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                       onClick={async () => {
                         const store = (
                           await import('../stores/useListingStore')
-                        ).useListingStore;
-                        const photos = store.getState().photos;
+                        ).default;
+                        const photos = store.useListingStore.getState().photos;
 
                         formatFilenames(photos, 'listings');
 
@@ -122,20 +122,28 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                         const { errors } = await createListing({
                           variables: {
                             input: {
-                              amenities: store.getState().amenities,
-                              bathrooms: store.getState().bathrooms,
-                              bedrooms: store.getState().bedrooms,
-                              beds: store.getState().beds,
-                              category: store.getState().category,
-                              //city: store.getState().city,
-                              description: store.getState().description,
-                              guests: store.getState().guests,
-                              highlights: store.getState().highlights,
-                              latitude: store.getState().latitude,
-                              longitude: store.getState().longitude,
-                              price: store.getState().price,
-                              title: store.getState().title,
-                              type: store.getState().type,
+                              amenities: store.useListingStore.getState()
+                                .amenities,
+                              bathrooms: store.useListingStore.getState()
+                                .bathrooms,
+                              bedrooms: store.useListingStore.getState()
+                                .bedrooms,
+                              beds: store.useListingStore.getState().beds,
+                              category: store.useListingStore.getState()
+                                .category,
+                              city: store.useListingStore.getState().city,
+                              description: store.useListingStore.getState()
+                                .description,
+                              guests: store.useListingStore.getState().guests,
+                              highlights: store.useListingStore.getState()
+                                .highlights,
+                              latitude: store.useListingStore.getState()
+                                .coords[0],
+                              longitude: store.useListingStore.getState()
+                                .coords[1],
+                              price: store.useListingStore.getState().price,
+                              title: store.useListingStore.getState().title,
+                              type: store.useListingStore.getState().type,
                               photos: data!.signS3.slice(
                                 5,
                                 data?.signS3.length

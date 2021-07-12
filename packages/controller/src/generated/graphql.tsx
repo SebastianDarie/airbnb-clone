@@ -406,7 +406,7 @@ export type RegularMessageFragment = (
 
 export type RegularUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'email' | 'confirmed' | 'forgotPasswordLocked'>
+  & Pick<User, 'id' | 'email' | 'name' | 'photoUrl' | 'confirmed' | 'forgotPasswordLocked'>
 );
 
 export type RegularUserResponseFragment = (
@@ -735,6 +735,8 @@ export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
   email
+  name
+  photoUrl
   confirmed
   forgotPasswordLocked
 }

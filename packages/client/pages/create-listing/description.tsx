@@ -11,7 +11,7 @@ import {
 } from '@airbnb-clone/controller';
 import { useEffect, useState } from 'react';
 import { Highlight } from '../../components/Highlight';
-import { useListingStore } from '../../stores/useListingStore';
+import ListingStore from '../../stores/useListingStore';
 import { useRouter } from 'next/router';
 import { TitleDescription } from '../../components/Fields/TitleDescription';
 import { descriptionsList } from '../../constants/descriptionsList';
@@ -60,12 +60,16 @@ const items = [
 const Description: React.FC<DescriptionProps> = ({}) => {
   const router = useRouter();
   const [highlights] = useState(items);
-  const stateHighlights = useListingStore((state) => state.highlights);
-  const description = useListingStore((state) => state.description);
+  const stateHighlights = ListingStore.useListingStore(
+    (state) => state.highlights
+  );
+  const description = ListingStore.useListingStore(
+    (state) => state.description
+  );
 
   useEffect(() => {
     if (stateHighlights.length === 2) {
-      useListingStore.getState().addDescription(
+      ListingStore.addDescription(
         descriptionsList.find((el) => {
           return el.combo.every((item) => stateHighlights.includes(item));
         })!.content

@@ -5,13 +5,13 @@ import {
   standoutAmenities,
 } from '../../constants/amenityList';
 import styles from '../../sass/pages/Amenities.module.scss';
-import { useListingStore } from '../../stores/useListingStore';
+import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
 
 const Amenities: React.FC<{}> = ({}) => {
   // const poolSvg = useRef<HTMLObjectElement | null>(null);
-  const amenities = useListingStore((state) => state.amenities);
-  const updateAmenities = useListingStore((state) => state.updateAmenities);
+  const amenities = ListingStore.useListingStore((state) => state.amenities);
+  const updateAmenities = ListingStore.updateAmenities;
   //console.log(amenities, amenities.includes('pool'));
   // const pooldefs =
   //   poolSvg.current?.contentDocument?.childNodes[0].childNodes[3];

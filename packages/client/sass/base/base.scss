@@ -79,3 +79,27 @@ h5:first-child,
 h6:first-child {
   margin-top: 0;
 }
+
+#mapSearchContainer {
+  position: fixed;
+  top: 20px;
+  right: 40px;
+  height: 30px;
+  width: 180px;
+  z-index: 110;
+  font-size: 10pt;
+  color: hsl(0, 0%, 36%);
+  border: solid 1px hsl(0, 0%, 73%);
+  background-color: bootstrap.$whitesmoke;
+}
+
+.pointer {
+  position: absolute;
+  top: 86px;
+  left: 60px;
+  z-index: 99999;
+}
+
+.geocoder-control-input {
+  background-image: url('https://raw.githubusercontent.com/Esri/esri-leaflet-geocoder/master/src/img/search.png');
+}

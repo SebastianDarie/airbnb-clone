@@ -27,9 +27,9 @@ export const Highlight: React.FC<HighlightProps> = ({
             : styles.highlight__btn
         }
         onClick={async () =>
-          (await import('../stores/useListingStore')).useListingStore
-            .getState()
-            .updateHighlights(text)
+          (await import('../stores/useListingStore')).default.updateHighlights(
+            text
+          )
         }
       >
         <div className={styles.content__flexer}>

@@ -1,7 +1,7 @@
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { RadioButton } from '../../components/RadioButton';
 import styles from '../../sass/pages/CreateListing.module.scss';
-import { useListingStore } from '../../stores/useListingStore';
+import ListingStore from '../../stores/useListingStore';
 import { useIsAuth } from '../../utils/useIsAuth';
 import { withApollo } from '../../utils/withApollo';
 
@@ -9,8 +9,8 @@ interface PropertyTypeGroupProps {}
 
 const PropertyTypeGroup: React.FC<PropertyTypeGroupProps> = ({}) => {
   useIsAuth();
-  const category = useListingStore((state) => state.category);
-  const selectCategory = useListingStore((state) => state.selectCategory);
+  const category = ListingStore.useListingStore((state) => state.category);
+  const selectCategory = ListingStore.selectCategory;
 
   return (
     <CreateListingLayout>

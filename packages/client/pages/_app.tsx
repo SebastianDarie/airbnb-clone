@@ -5,6 +5,8 @@ import { DndProvider } from 'react-dnd';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
+import 'leaflet/dist/leaflet.css';
+import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 import '../sass/base/base.scss';
 
 const stripe = loadStripe(process.env.stripe!);

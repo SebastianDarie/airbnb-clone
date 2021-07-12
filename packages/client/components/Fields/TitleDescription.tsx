@@ -33,13 +33,13 @@ export const TitleDescription: React.FC<TitleDescriptionProps> = ({
                 onChange={async (e) => {
                   const { value } = e.currentTarget;
 
-                  const useListingStore = (
+                  const ListingStore = (
                     await import('../../stores/useListingStore')
-                  ).useListingStore;
+                  ).default;
                   if (title !== undefined) {
-                    useListingStore.getState().addTitle(value);
+                    ListingStore.addTitle(value);
                   } else if (description !== undefined) {
-                    useListingStore.getState().addDescription(value);
+                    ListingStore.addDescription(value);
                   }
                 }}
                 placeholder={

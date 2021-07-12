@@ -1,9 +1,8 @@
 import { memo, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Dropzone from 'react-dropzone';
-import shallow from 'zustand/shallow';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
-import { useListingStore } from '../../stores/useListingStore';
+import ListingStore from '../../stores/useListingStore';
 import { EditSvg, ImageSvg, TrashSvg } from '@airbnb-clone/controller';
 
 interface DraggablePhotoProps {
@@ -22,11 +21,6 @@ interface Image {
 
 export const DraggablePhoto: React.FC<DraggablePhotoProps> = memo(
   ({ id, cover, delay, src, findImage, moveImage }) => {
-    const [addPhoto, removePhoto] = useListingStore(
-      (state) => [state.addPhoto, state.removePhoto],
-      shallow
-    );
-
     const originalIndex = findImage(id).index;
     const [{ isDragging }, drag] = useDrag(
       () => ({
@@ -91,7 +85,7 @@ export const DraggablePhoto: React.FC<DraggablePhotoProps> = memo(
                     <div style={{ paddingLeft: 8 }}>
                       <button
                         className={styles.control__btn}
-                        onClick={() => removePhoto(id)}
+                        onClick={() => ListingStore.removePhoto(id)}
                       >
                         <TrashSvg />
                       </button>
@@ -119,7 +113,7 @@ export const DraggablePhoto: React.FC<DraggablePhotoProps> = memo(
 
                   reader.onload = () => {
                     if (reader.result) {
-                      addPhoto(acceptedFiles[0], {
+                      ListingStore.addPhoto(acceptedFiles[0], {
                         name: acceptedFiles[0].name,
                         src: reader.result.toString(),
                         type: acceptedFiles[0].type,

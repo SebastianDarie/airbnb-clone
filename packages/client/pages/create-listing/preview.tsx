@@ -3,14 +3,16 @@ import shallow from 'zustand/shallow';
 import { useMeQuery } from '@airbnb-clone/controller';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import styles from '../../sass/components/Preview.module.scss';
-import { useListingStore } from '../../stores/useListingStore';
+import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
 
 interface PreviewProps {}
 
 const Preview: React.FC<PreviewProps> = ({}) => {
   const { data } = useMeQuery();
-  const cover = useListingStore(useCallback((state) => state.photos[0], [0]));
+  const cover = ListingStore.useListingStore(
+    useCallback((state) => state.photos[0], [0])
+  );
   const [
     bathrooms,
     bedrooms,
@@ -19,7 +21,7 @@ const Preview: React.FC<PreviewProps> = ({}) => {
     description,
     title,
     type,
-  ] = useListingStore(
+  ] = ListingStore.useListingStore(
     (state) => [
       state.bathrooms,
       state.bedrooms,
@@ -52,11 +54,11 @@ const Preview: React.FC<PreviewProps> = ({}) => {
 
               <div className={styles.typeicon__container}>
                 <h2 className={styles.property__type}>
-                  {type} hosted by {data?.me?.email}{' '}
+                  {type} hosted by {data?.me?.name}{' '}
                 </h2>
                 <div className={styles.profile__container}>
                   <img
-                    src='https://a0.muscache.com/defaults/user_pic-68x68.png?v=3'
+                    src={data?.me?.photoUrl}
                     className={styles.profile__img}
                   />
                 </div>

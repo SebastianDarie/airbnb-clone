@@ -1,3 +1,4 @@
+import { Icon, LatLng, LatLngExpression, LatLngTuple, Map } from 'leaflet';
 import React, {
   useCallback,
   useEffect,
@@ -6,125 +7,100 @@ import React, {
   useState,
 } from 'react';
 import {
-  LatLng,
-  LatLngExpression,
-  LayerGroup,
-  Map,
-  marker,
-  Marker as MarkerType,
-} from 'leaflet';
-import {
   MapContainer,
   Marker,
   Popup,
   TileLayer,
-  useMapEvent,
   useMapEvents,
 } from 'react-leaflet';
-import * as ELG from 'esri-leaflet-geocoder';
-import { LocationSvg } from '@airbnb-clone/controller';
-import styles from '../../sass/layout/Location.module.scss';
+import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
 import { MinimapControl } from './MinimapControl';
+import ListingStore from '../../stores/useListingStore';
+import styles from '../../sass/layout/Location.module.scss';
 
 interface LocationFieldProps {}
 
 const center: LatLngExpression = [51.505, -0.09];
-const zoom = 13;
+const zoom = 10;
 
-const SetViewOnClick = () => {
-  const map = useMapEvent('click', (e) => {
-    map.setView(e.latlng, map.getZoom(), {
-      animate: true,
-    });
-  });
+const LocationMarker = ({ parentMap }: { parentMap: Map | null }) => {
+  //const positionRef = useRef(ListingStore.useListingStore.getState().coords);
+  const location = ListingStore.useListingStore((state) => state.coords);
+  const updateLocation = ListingStore.updateLocation;
+  const [position, setPosition] = useState<LatLng | undefined>(
+    parentMap?.getCenter()
+  );
 
-  return null;
-};
+  // useEffect(
+  //   () =>
+  //     ListingStore.useListingStore.subscribe(
+  //       (coords) => (positionRef.current = coords as LatLngTuple),
+  //       (state) => state.coords
+  //     ),
+  //   []
+  // );
 
-const DisplayPosition = ({ map }: { map: Map }) => {
-  const [position, setPosition] = useState(map.getCenter());
-  console.log(position);
+  // if (parentMap) {
+  //   updateLocation([parentMap.getCenter().lat, parentMap.getCenter().lng]);
+  // }
 
-  // const onClick = useCallback(() => {
-  //   map.setView(center, zoom);
-  // }, [map]);
-
-  const onMove = useCallback(() => {
-    setPosition(map.getCenter());
-  }, [map]);
-
-  useEffect(() => {
-    map.on('move', onMove);
-    return () => {
-      map.off('move', onMove);
-    };
-  }, [map, onMove]);
-
-  return null;
-};
-
-const LocationMarker = () => {
-  const [draggable, setDraggable] = useState<boolean>(false);
-  const [position, setPosition] = useState<LatLng | null>(null);
-  const markerRef = useRef<MarkerType>(null);
   const map = useMapEvents({
-    click() {
-      map.locate();
+    click(e) {
+      if (position === undefined) {
+        console.log('no location');
+        map.locate();
+      } else {
+        map.setView(e.latlng, map.getZoom(), {
+          animate: true,
+        });
+      }
     },
     locationfound(e) {
+      updateLocation([e.latlng.lat, e.latlng.lng]);
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
     },
   });
 
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const marker = markerRef.current;
-        if (marker !== null) {
-          setPosition(marker.getLatLng());
-        }
-      },
-    }),
-    []
-  );
-  const toggleDraggable = useCallback(() => {
-    setDraggable((d) => !d);
-  }, []);
+  const onMove = useCallback(() => {
+    setPosition(map.getCenter());
+    //updateLocation([map.getCenter().lat, map.getCenter().lng]);
+  }, [map]);
 
-  return position === null ? null : (
+  const onDragEnd = useCallback(() => {
+    console.log('drag end');
+    updateLocation([map.getCenter().lat, map.getCenter().lng]);
+  }, [map]);
+
+  useEffect(() => {
+    map.on('move', onMove);
+    map.on('dragend', onDragEnd);
+    return () => {
+      map.off('move', onMove);
+    };
+  }, [map, onMove]);
+
+  return position === undefined ? null : (
     <Marker
-      draggable={draggable}
-      eventHandlers={eventHandlers}
+      icon={
+        new Icon({
+          iconRetinaUrl:
+            'https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon-2x.png',
+          iconUrl:
+            'https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon.png',
+          shadowUrl:
+            'https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png',
+        })
+      }
       position={position}
-      ref={markerRef}
     >
-      <Popup minWidth={90}>
-        <span onClick={toggleDraggable}>
-          {draggable
-            ? 'You are here. (Marker is draggable'
-            : 'You are here. (Click here to make marker draggable)'}
-        </span>
-      </Popup>
+      <Popup minWidth={90}>You are here</Popup>
     </Marker>
   );
 };
 
 const LocationField: React.FC<LocationFieldProps> = ({}) => {
   const [map, setMap] = useState<Map | null>(null);
-  const mapRef = useRef<Map | null>(null);
-
-  // useEffect(() => {
-  //   const searchControl = new ELG.Geosearch().addTo(mapRef.current!);
-  //   const results = new LayerGroup().addTo(mapRef.current!);
-
-  //   searchControl.on('results', (data: { results: string | any[]; }) => {
-  //     results.clearLayers();
-  //     for (let i = data.results.length - 1; i >= 0; i--) {
-  //       results.addLayer(marker(data.results[i].latlng));
-  //     }
-  //   });
-  // }, []);
 
   const displayMap = useMemo(
     () => (
@@ -133,16 +109,35 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
         zoom={zoom}
         scrollWheelZoom={false}
         whenCreated={setMap}
-        ref={mapRef}
         style={{ height: '100vh' }}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-        {/* <LocationMarker /> */}
-        <MinimapControl position='topright' zoom={0} />
-        <SetViewOnClick />
+        <EsriLeafletGeoSearch
+          key={process.env.NEXT_PUBLIC_ARCGIS_API_KEY}
+          providers={{
+            arcgisOnlineProvider: {
+              token: process.env.NEXT_PUBLIC_ARCGIS_API_KEY,
+              label: 'ArcGIS Online Results',
+              maxResults: 10,
+            },
+          }}
+          eventHandlers={{
+            requeststart: () => console.log('Started request...'),
+            requestend: () => console.log('Ended request...'),
+            results: (r) => {
+              console.log(r.latlng.lat, r.results[0].properties.City;
+              ListingStore.updateLocation([r.latlng.lat, r.latlng.lng]);
+              ListingStore.setCity(r.results[0].properties.City);
+            },
+          }}
+          useMapBounds={false}
+          position='topleft'
+        />
+        <LocationMarker parentMap={map} />
+        <MinimapControl position='topright' zoom={zoom} />
       </MapContainer>
     ),
     []
@@ -150,33 +145,7 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
 
   return (
     <div>
-      <div className={styles.wrapper}>
-        <div className={styles.search__form}>
-          <div className={styles.inner__padding}>
-            <div className={styles.margin__container}>
-              <div className={styles.inner__flex}>
-                <div className={styles.svg__flex}>
-                  <div className={styles.svg__padding}>
-                    <LocationSvg />
-                  </div>
-                </div>
-
-                <label htmlFor='location' className={styles.label}>
-                  <input
-                    id='location'
-                    className={styles.location__input}
-                    placeholder='Enter your address'
-                    type='text'
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {map ? <DisplayPosition map={map} /> : null}
-        {displayMap}
-      </div>
+      <div className={styles.wrapper}>{displayMap}</div>
     </div>
   );
 };

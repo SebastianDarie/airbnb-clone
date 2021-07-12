@@ -57,7 +57,6 @@ __metadata:
     "@hookform/resolvers": ^2.4.0
     "@stripe/react-stripe-js": ^1.4.1
     "@stripe/stripe-js": ^1.15.1
-    "@types/esri-leaflet-geocoder": ^2.2.3
     "@types/leaflet": ^1.7.4
     "@types/node": ^14.14.41
     "@types/react": ^17.0.3
@@ -78,6 +77,7 @@ __metadata:
     react-dnd-html5-backend: ^14.0.0
     react-dom: ^17.0.2
     react-dropzone: ^11.3.2
+    react-esri-leaflet: ^1.3.1
     react-hook-form: ^7.3.6
     react-leaflet: ^3.2.0
     sass: ^1.34.0
@@ -2412,7 +2412,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-leaflet/core@npm:^1.1.0":
+"@react-leaflet/core@npm:^1.0.2, @react-leaflet/core@npm:^1.1.0":
   version: 1.1.0
   resolution: "@react-leaflet/core@npm:1.1.0"
   peerDependencies:
@@ -2982,25 +2982,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/esri-leaflet-geocoder@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@types/esri-leaflet-geocoder@npm:2.2.3"
-  dependencies:
-    "@types/esri-leaflet": "*"
-    "@types/leaflet": "*"
-  checksum: 43a9f535fe964b7a8797630c4666187a3a2657b65735bf71275a149538ad7789dc78a642e220b352543c9fbc2d0147cca4a42086cb25187e7ac85d1f1f56c474
-  languageName: node
-  linkType: hard
-
-"@types/esri-leaflet@npm:*":
-  version: 2.1.9
-  resolution: "@types/esri-leaflet@npm:2.1.9"
-  dependencies:
-    "@types/leaflet": "*"
-  checksum: e74ec6f2fd2f67b95ef02f9390632502ffb97f223c2ef41ad6f89fad6b46f81ffd7dba76496b38ce7bd57055c40c712af1409bdd66c4de6708735367f5cc883f
-  languageName: node
-  linkType: hard
-
 "@types/express-rate-limit@npm:^5.1.1":
   version: 5.1.1
   resolution: "@types/express-rate-limit@npm:5.1.1"
@@ -3229,7 +3210,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/leaflet@npm:*, @types/leaflet@npm:^1.7.4":
+"@types/leaflet@npm:^1.7.4":
   version: 1.7.4
   resolution: "@types/leaflet@npm:1.7.4"
   dependencies:
@@ -13212,6 +13193,27 @@ __metadata:
   peerDependencies:
     react: ">= 16.8"
   checksum: 805c53808fbd3040edccdc3fef8418e0bc3d3bafe79ab47335de25fc419b9b93ba14d375795f7cc9ae418c175b1c7f26dc784550be1087375cf67171a5cc4053
+  languageName: node
+  linkType: hard
+
+"react-esri-leaflet@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "react-esri-leaflet@npm:1.3.1"
+  dependencies:
+    "@react-leaflet/core": ^1.0.2
+  peerDependencies:
+    esri-leaflet: ^3.0.1
+    esri-leaflet-cluster: ^2.1.0
+    esri-leaflet-geocoder: ^3.0.0
+    esri-leaflet-heatmap: ^2.0.0
+    esri-leaflet-vector: ^3.0.0
+    leaflet: ^1.7.1
+    leaflet.heat: ^0.2.0
+    leaflet.markercluster: ^1.5.0
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-leaflet: ^3.1.0
+  checksum: 4758a3e26a96dd8d96218c6f10ee6039f78142c2da886ad818567d31b626d67f160b7fc5caa1d91250b25b69c705d6df2637ec4741102c9e06ba873a3ac8eaa1
   languageName: node
   linkType: hard
 
