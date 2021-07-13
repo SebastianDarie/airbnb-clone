@@ -55,14 +55,17 @@ __metadata:
     "@apollo/client": ^3.3.15
     "@hookform/error-message": ^2.0.0
     "@hookform/resolvers": ^2.4.0
+    "@reach/combobox": ^0.15.3
+    "@react-google-maps/api": ^2.2.0
     "@stripe/react-stripe-js": ^1.4.1
     "@stripe/stripe-js": ^1.15.1
+    "@types/esri-leaflet-geocoder": ^2.2.3
+    "@types/googlemaps": ^3.43.3
     "@types/leaflet": ^1.7.4
     "@types/node": ^14.14.41
     "@types/react": ^17.0.3
     "@types/react-datepicker": ^4.1.1
     "@types/react-dom": ^17.0.3
-    bingmaps-react: ^1.1.0
     esri-leaflet: ^3.0.2
     esri-leaflet-geocoder: ^3.0.0
     graphql: ^15.5.0
@@ -83,6 +86,7 @@ __metadata:
     sass: ^1.34.0
     subscriptions-transport-ws: ^0.9.18
     typescript: ^4.2.4
+    use-places-autocomplete: ^1.9.3
     zustand: ^3.5.2
   languageName: unknown
   linkType: soft
@@ -1430,6 +1434,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@googlemaps/js-api-loader@npm:1.11.4":
+  version: 1.11.4
+  resolution: "@googlemaps/js-api-loader@npm:1.11.4"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+  checksum: 6b967da4a21952a293e5e77b2a2bbc26e835e452bfd690f6d9807305428c69f1d322fa28e6da77b69dae4e732a1e6e074360162067b79fa16781de28b17932a9
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/cli@npm:1.21.4":
   version: 1.21.4
   resolution: "@graphql-codegen/cli@npm:1.21.4"
@@ -2391,6 +2404,115 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@reach/auto-id@npm:0.15.3":
+  version: 0.15.3
+  resolution: "@reach/auto-id@npm:0.15.3"
+  dependencies:
+    "@reach/utils": 0.15.3
+    tslib: ^2.3.0
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: 02936357e9f0b12b368eefc2e314a24e3f31c63c1a6356e9479d83f6e73b6c14bd9988631988da7787277c2f6566e9986a24d43e1aa8128eacd494f51b4cc8c6
+  languageName: node
+  linkType: hard
+
+"@reach/combobox@npm:^0.15.3":
+  version: 0.15.3
+  resolution: "@reach/combobox@npm:0.15.3"
+  dependencies:
+    "@reach/auto-id": 0.15.3
+    "@reach/descendants": 0.15.3
+    "@reach/popover": 0.15.3
+    "@reach/portal": 0.15.3
+    "@reach/utils": 0.15.3
+    prop-types: ^15.7.2
+    tslib: ^2.3.0
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: 913b57bf2d7b33d0a6c3d641043f55fe0201332b1c3d62222cc1c39a4024f5a5b03d789148a085bfe76a05e19b53b956190368ddcac35371ab9ab096ac284e84
+  languageName: node
+  linkType: hard
+
+"@reach/descendants@npm:0.15.3":
+  version: 0.15.3
+  resolution: "@reach/descendants@npm:0.15.3"
+  dependencies:
+    "@reach/utils": 0.15.3
+    tslib: ^2.3.0
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: beca82baf12d04de8379dc1dd5e2045254f42dad69daf4a88b3fa777eaf6d15c4ff5d8306133deb93cea64e6c72acb641a822e079a33b2064eeb339d9cea9c21
+  languageName: node
+  linkType: hard
+
+"@reach/observe-rect@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@reach/observe-rect@npm:1.2.0"
+  checksum: 4aa32fa1ab410527cecf62e3143664e4b7823212bb7b79b5fd84d0d390fa086fcdba27fceebc0e24e2958f2a0649d5b88ec8b0ed907c72730964ac33eb3089af
+  languageName: node
+  linkType: hard
+
+"@reach/popover@npm:0.15.3":
+  version: 0.15.3
+  resolution: "@reach/popover@npm:0.15.3"
+  dependencies:
+    "@reach/portal": 0.15.3
+    "@reach/rect": 0.15.3
+    "@reach/utils": 0.15.3
+    tabbable: ^4.0.0
+    tslib: ^2.3.0
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: 1be50bc31feab98158c6f424e7621a871136e59c46b3c00ec7de5881c478817355833ef5560af7fb6a55a8d1ea268b6ff1d10cf77a2cf6c2c93eb25347ce365f
+  languageName: node
+  linkType: hard
+
+"@reach/portal@npm:0.15.3":
+  version: 0.15.3
+  resolution: "@reach/portal@npm:0.15.3"
+  dependencies:
+    "@reach/utils": 0.15.3
+    tslib: ^2.3.0
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: 22c701c5e761c6ff90915fa17156c3012ad67f36737e76990039a4e29d395c6db036be822fec187f8bfa7ee88ccdc5ba93bf24eb7e5d5ff62e805fb035be7b09
+  languageName: node
+  linkType: hard
+
+"@reach/rect@npm:0.15.3":
+  version: 0.15.3
+  resolution: "@reach/rect@npm:0.15.3"
+  dependencies:
+    "@reach/observe-rect": 1.2.0
+    "@reach/utils": 0.15.3
+    prop-types: ^15.7.2
+    tiny-warning: ^1.0.3
+    tslib: ^2.3.0
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: 39a46069c0bc5b76cbe65374a88bec75a889dff121f1ef51af4b2595c3734eb1be15f84f0a64ef970175011d92258c766cbb493ac69d8a28981bca5730e93830
+  languageName: node
+  linkType: hard
+
+"@reach/utils@npm:0.15.3":
+  version: 0.15.3
+  resolution: "@reach/utils@npm:0.15.3"
+  dependencies:
+    tiny-warning: ^1.0.3
+    tslib: ^2.3.0
+  peerDependencies:
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: 2f0644d543e6ff5c797c9bb297e95d9c809943700a580a7f4e833dab996d279c608e8e5edd23f60bd16423d9f3a2a606f40cce6adfe25364be33fbf04f737dcc
+  languageName: node
+  linkType: hard
+
 "@react-dnd/asap@npm:^4.0.0":
   version: 4.0.0
   resolution: "@react-dnd/asap@npm:4.0.0"
@@ -2409,6 +2531,35 @@ __metadata:
   version: 2.0.0
   resolution: "@react-dnd/shallowequal@npm:2.0.0"
   checksum: cbac47721d35114ee2c12a4001dfea5b953a9f88a860b9db7bca2c03f5fe99ae36258c8cb873a605ef787d2f68c4bf0014ba91533eab5691acee4893b308a00c
+  languageName: node
+  linkType: hard
+
+"@react-google-maps/api@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@react-google-maps/api@npm:2.2.0"
+  dependencies:
+    "@googlemaps/js-api-loader": 1.11.4
+    "@react-google-maps/infobox": 2.2.0
+    "@react-google-maps/marker-clusterer": 2.2.0
+    invariant: 2.2.4
+  peerDependencies:
+    react: ^16.6.3 || ^17.0.0
+    react-dom: ^16.6.3 || ^17.0.0
+  checksum: 739612028c3f81c68d0ed9dd3c5344322cbfdb6e2b54cbe68a9b1bcebec77a1e980186ddd35507dded4a6abb132c31fe65d4390192d8f3e8c82be4a6b83889f0
+  languageName: node
+  linkType: hard
+
+"@react-google-maps/infobox@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@react-google-maps/infobox@npm:2.2.0"
+  checksum: cc94522b481b693a7853cfb1701f3fa1110194c9c92079f53ebc54f10321901b975e9e496e239e8f809e6ce07005bf55db4a56190e6440fdd9018b87f3dab419
+  languageName: node
+  linkType: hard
+
+"@react-google-maps/marker-clusterer@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@react-google-maps/marker-clusterer@npm:2.2.0"
+  checksum: d6193b6882efdac7d54abb90673bd7f9bde752a54febefbe1f6d1caa2df50b2ff4cd50f90950201dae4b65f6172a24b9e294ecc8cb81ca1d4f281d7d88ef27ad
   languageName: node
   linkType: hard
 
@@ -2982,6 +3133,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/esri-leaflet-geocoder@npm:^2.2.3":
+  version: 2.2.3
+  resolution: "@types/esri-leaflet-geocoder@npm:2.2.3"
+  dependencies:
+    "@types/esri-leaflet": "*"
+    "@types/leaflet": "*"
+  checksum: 43a9f535fe964b7a8797630c4666187a3a2657b65735bf71275a149538ad7789dc78a642e220b352543c9fbc2d0147cca4a42086cb25187e7ac85d1f1f56c474
+  languageName: node
+  linkType: hard
+
+"@types/esri-leaflet@npm:*":
+  version: 2.1.9
+  resolution: "@types/esri-leaflet@npm:2.1.9"
+  dependencies:
+    "@types/leaflet": "*"
+  checksum: e74ec6f2fd2f67b95ef02f9390632502ffb97f223c2ef41ad6f89fad6b46f81ffd7dba76496b38ce7bd57055c40c712af1409bdd66c4de6708735367f5cc883f
+  languageName: node
+  linkType: hard
+
 "@types/express-rate-limit@npm:^5.1.1":
   version: 5.1.1
   resolution: "@types/express-rate-limit@npm:5.1.1"
@@ -3053,6 +3223,13 @@ __metadata:
     "@types/minimatch": "*"
     "@types/node": "*"
   checksum: 633bf1dda9a30899b233ed6b97c75cdd59f2ee856a12240c85474ce6889e26b3b3520b62de56f6bb61824af0ef51b311a0cae305f27ba0de8ddc4898a3673d42
+  languageName: node
+  linkType: hard
+
+"@types/googlemaps@npm:^3.43.3":
+  version: 3.43.3
+  resolution: "@types/googlemaps@npm:3.43.3"
+  checksum: b729e3f4cc647d0e09136a99ca64186621ead8040451ea5d0b48b75ac22108d01412655279bb72439162732e763ddac9b8b9451f8afd20372d3efe9735c0e960
   languageName: node
   linkType: hard
 
@@ -3210,7 +3387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/leaflet@npm:^1.7.4":
+"@types/leaflet@npm:*, @types/leaflet@npm:^1.7.4":
   version: 1.7.4
   resolution: "@types/leaflet@npm:1.7.4"
   dependencies:
@@ -4767,15 +4944,6 @@ __metadata:
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
   checksum: 0f5f5685f344b035c4f98d06fa288962d262294a1441c1481ac99e895037bde971ebe6e09a4bd8aa18ab2525bfc00b1ad4af71dbf9e933a72e0df6919706a728
-  languageName: node
-  linkType: hard
-
-"bingmaps-react@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "bingmaps-react@npm:1.1.0"
-  peerDependencies:
-    react: ">= 16.12.0"
-  checksum: d58e745e069549d8751c5d1fe6294f7e926dc59eff651075681702e134f3d102b7c11a84341631a2f0351aa16dca7484e847ae933b6d14152e2c6071d5e38a55
   languageName: node
   linkType: hard
 
@@ -8735,7 +8903,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.2.4":
+"invariant@npm:2.2.4, invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -15268,6 +15436,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"tabbable@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "tabbable@npm:4.0.0"
+  checksum: 78bd8251b9cea88d2cd9fc4f15647b21a907e4abf58ff609a1b898c47cd9582d73e75b671efd500171bba8d5ca2df9d9abeceeda3f573b1ebe59f31a5eb1dbee
+  languageName: node
+  linkType: hard
+
 "table@npm:^6.0.4":
   version: 6.3.4
   resolution: "table@npm:6.3.4"
@@ -15405,6 +15580,13 @@ resolve@^2.0.0-next.3:
   version: 1.0.3
   resolution: "tiny-binary-search@npm:1.0.3"
   checksum: d81cae1e87fb4477261b2feb75b3d80eeda28565ff510fa70e48bc3895281811d46f7c6522f6598cb7aea53a7bdc278c6e38ae29a9fb89c118f736dc97f164fb
+  languageName: node
+  linkType: hard
+
+"tiny-warning@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "tiny-warning@npm:1.0.3"
+  checksum: 6cf9f66cb765b893976b8cd1c1310338861f30fb04d02ef2c8e0a748cbc2ed5acd8bb1954b78c15f640ad4116def67134d7d705f2a0c9bf27e6e2eb3e92bff29
   languageName: node
   linkType: hard
 
@@ -15625,6 +15807,13 @@ resolve@^2.0.0-next.3:
   version: 2.2.0
   resolution: "tslib@npm:2.2.0"
   checksum: 2d35468c470410871c5246e43f12dcb6d0fc363b617c176f26443b9530e5c5ee8448966892a42956168d8f495da7865bda33dfe82c26c91991e28999974a618f
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "tslib@npm:2.3.0"
+  checksum: 7b4fc9feff0f704743c3760f5d8d708f6417fac6458159e63df3a6b1100f0736e3b99edb9fe370f274ad15160a1f49ff05cb49402534c818ff552c48e38c3e6e
   languageName: node
   linkType: hard
 
@@ -16085,6 +16274,15 @@ typescript@^4.2.4:
     punycode: 1.3.2
     querystring: 0.2.0
   checksum: 537f785b16f873fdd2b63ccb7a61463b8e41370fdba95385b0102f3ed7b953c300d95b8755ec3b65f3e406372d47d16c3c989e196b25b70f42190da1fc36c56f
+  languageName: node
+  linkType: hard
+
+"use-places-autocomplete@npm:^1.9.3":
+  version: 1.9.3
+  resolution: "use-places-autocomplete@npm:1.9.3"
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: 14808b116d1e7d5bfffa3570cef01077258f517c7f8b7b336c74f9a0cf517db23974c452c3243540d037c6dbb9a2cc79f08e0211fa512f5b5a2b903d65032e4e
   languageName: node
   linkType: hard
 

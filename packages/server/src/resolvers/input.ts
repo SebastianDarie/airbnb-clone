@@ -113,11 +113,11 @@ export class UpdateListing {
 
 @InputType()
 export class SearchInput {
-  @Field(() => Float, { defaultValue: 40 })
-  latitude: number;
+  @Field(() => Float, { nullable: true })
+  latitude?: number;
 
-  @Field(() => Float, { defaultValue: -74.5 })
-  longitude: number;
+  @Field(() => Float, { nullable: true })
+  longitude?: number;
 
   @Field(() => String, { nullable: true })
   title?: string;

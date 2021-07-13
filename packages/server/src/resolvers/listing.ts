@@ -76,14 +76,26 @@ export class ListingResolver {
       .createQueryBuilder('l')
       .select([
         '*',
-        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+        //        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
       ])
-      .where(
-        ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
-      )
-      .orderBy('distance', 'ASC')
-      .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 })
+      // .where(
+      //   ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+      // )
+      // .orderBy('distance', 'ASC')
+      // .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 })
+      .orderBy('l.createdAt', 'DESC')
       .take(realLimitPlusOne);
+
+    if (latitude && longitude) {
+      qb.addSelect(
+        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`
+      )
+        .where(
+          ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+        )
+        .orderBy('distance', 'ASC')
+        .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 });
+    }
 
     if (cursor) {
       qb.andWhere('l."createdAt" < :cursor ', {
@@ -94,14 +106,14 @@ export class ListingResolver {
     if (guests) {
       qb = qb.andWhere('l.guests = :guests', { guests });
     }
-    if (beds) {
-      qb = qb.andWhere('l.beds = :beds', { beds });
-    }
-    if (title) {
-      qb = qb.andWhere('l.title ilike :title', {
-        title: `%${title}%`,
-      });
-    }
+    // if (beds) {
+    //   qb = qb.andWhere('l.beds = :beds', { beds });
+    // }
+    // if (title) {
+    //   qb = qb.andWhere('l.title ilike :title', {
+    //     title: `%${title}%`,
+    //   });
+    // }
 
     const listings = await qb.getRawMany();
 
@@ -109,6 +121,33 @@ export class ListingResolver {
       listings: listings.slice(0, realLimit),
       hasMore: listings.length === realLimitPlusOne,
     };
+  }
+
+  @Query(() => String)
+  async findCity(
+    @Arg('lat', () => Float) lat: number,
+    @Arg('lng', () => Float) lng: number
+  ): Promise<string> {
+    const res = await getConnection().query(
+      `
+      select * as data from reverse_geocode(ST_SetSRID(ST_Point(${lng}, ${lat}), 4326)) as r
+    `,
+      [lng, lat]
+    );
+
+    // const c = await getConnection()
+    //   .getRepository(Listing)
+    //   .createQueryBuilder('c')
+    //   .select([
+    //     '*',
+    //     `
+    // reverse_geocode(ST_SetSRID(ST_Point(:lng, :lat), 4326))
+    // `,
+    //   ])
+    //   .setParameters({ lng, lat })
+    //   .getMany();
+
+    return res;
   }
 
   @Mutation(() => [String])
@@ -143,23 +182,23 @@ export class ListingResolver {
     return [...sArr, ...uArr];
   }
 
-  @Mutation(() => Boolean)
-  async changeCreator(
-    @Arg('id') id: string,
-    @Arg('listingId') listingId: string
-  ): Promise<Boolean> {
-    await getConnection()
-      .createQueryBuilder()
-      .update(Listing)
-      .set({ creatorId: id })
-      .where('id = :listingId', {
-        listingId,
-      })
-      .returning('*')
-      .execute();
+  // @Mutation(() => Boolean)
+  // async changeCreator(
+  //   @Arg('id') id: string,
+  //   @Arg('listingId') listingId: string
+  // ): Promise<Boolean> {
+  //   await getConnection()
+  //     .createQueryBuilder()
+  //     .update(Listing)
+  //     .set({ creatorId: id })
+  //     .where('id = :listingId', {
+  //       listingId,
+  //     })
+  //     .returning('*')
+  //     .execute();
 
-    return true;
-  }
+  //   return true;
+  // }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
@@ -170,6 +209,10 @@ export class ListingResolver {
     const listing = await Listing.create({
       ...input,
       creatorId: req.session.userId,
+      location: {
+        type: 'Point',
+        coordinates: [input.longitude, input.latitude],
+      },
     }).save();
 
     redis.lpush(REDIS_CACHE_PREFIX, JSON.stringify(listing));
@@ -202,26 +245,26 @@ export class ListingResolver {
     return result.raw[0];
   }
 
-  @Mutation(() => Listing)
-  async createLocation(
-    @Arg('id') id: string,
-    @Arg('latitude', () => Float) latitude: number,
-    @Arg('longitude', () => Float) longitude: number
-  ): Promise<Listing> {
-    const location: Point = {
-      type: 'Point',
-      coordinates: [longitude, latitude],
-    };
+  // @Mutation(() => Listing)
+  // async createLocation(
+  //   @Arg('id') id: string,
+  //   @Arg('latitude', () => Float) latitude: number,
+  //   @Arg('longitude', () => Float) longitude: number
+  // ): Promise<Listing> {
+  //   const location: Point = {
+  //     type: 'Point',
+  //     coordinates: [longitude, latitude],
+  //   };
 
-    const result = await getConnection()
-      .createQueryBuilder()
-      .update(Listing)
-      .set({ location })
-      .where('id = :id', { id })
-      .returning('*')
-      .execute();
-    return result.raw[0];
-  }
+  //   const result = await getConnection()
+  //     .createQueryBuilder()
+  //     .update(Listing)
+  //     .set({ location })
+  //     .where('id = :id', { id })
+  //     .returning('*')
+  //     .execute();
+  //   return result.raw[0];
+  // }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)

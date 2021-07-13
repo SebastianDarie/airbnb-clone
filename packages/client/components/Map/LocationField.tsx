@@ -1,11 +1,6 @@
-import { Icon, LatLng, LatLngExpression, LatLngTuple, Map } from 'leaflet';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Icon, LatLng, LatLngExpression, Map } from 'leaflet';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
 import {
   MapContainer,
   Marker,
@@ -13,10 +8,9 @@ import {
   TileLayer,
   useMapEvents,
 } from 'react-leaflet';
-import EsriLeafletGeoSearch from 'react-esri-leaflet/plugins/EsriLeafletGeoSearch';
-import { MinimapControl } from './MinimapControl';
-import ListingStore from '../../stores/useListingStore';
 import styles from '../../sass/layout/Location.module.scss';
+import ListingStore from '../../stores/useListingStore';
+import { MinimapControl } from './MinimapControl';
 
 interface LocationFieldProps {}
 
@@ -24,30 +18,14 @@ const center: LatLngExpression = [51.505, -0.09];
 const zoom = 10;
 
 const LocationMarker = ({ parentMap }: { parentMap: Map | null }) => {
-  //const positionRef = useRef(ListingStore.useListingStore.getState().coords);
-  const location = ListingStore.useListingStore((state) => state.coords);
-  const updateLocation = ListingStore.updateLocation;
   const [position, setPosition] = useState<LatLng | undefined>(
     parentMap?.getCenter()
   );
-
-  // useEffect(
-  //   () =>
-  //     ListingStore.useListingStore.subscribe(
-  //       (coords) => (positionRef.current = coords as LatLngTuple),
-  //       (state) => state.coords
-  //     ),
-  //   []
-  // );
-
-  // if (parentMap) {
-  //   updateLocation([parentMap.getCenter().lat, parentMap.getCenter().lng]);
-  // }
+  const updateLocation = ListingStore.updateLocation;
 
   const map = useMapEvents({
     click(e) {
       if (position === undefined) {
-        console.log('no location');
         map.locate();
       } else {
         map.setView(e.latlng, map.getZoom(), {
@@ -64,21 +42,27 @@ const LocationMarker = ({ parentMap }: { parentMap: Map | null }) => {
 
   const onMove = useCallback(() => {
     setPosition(map.getCenter());
-    //updateLocation([map.getCenter().lat, map.getCenter().lng]);
   }, [map]);
 
   const onDragEnd = useCallback(() => {
-    console.log('drag end');
+    setPosition(map.getCenter());
+    updateLocation([map.getCenter().lat, map.getCenter().lng]);
+  }, [map]);
+
+  const onMoveEnd = useCallback(() => {
     updateLocation([map.getCenter().lat, map.getCenter().lng]);
   }, [map]);
 
   useEffect(() => {
-    map.on('move', onMove);
     map.on('dragend', onDragEnd);
+    map.on('move', onMove);
+    map.on('moveend', onMoveEnd);
     return () => {
+      map.off('dragend', onDragEnd);
       map.off('move', onMove);
+      map.off('moveend', onMoveEnd);
     };
-  }, [map, onMove]);
+  }, [map, onDragEnd, onMove, onMoveEnd]);
 
   return position === undefined ? null : (
     <Marker
@@ -127,8 +111,10 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
           eventHandlers={{
             requeststart: () => console.log('Started request...'),
             requestend: () => console.log('Ended request...'),
-            results: (r) => {
-              console.log(r.latlng.lat, r.results[0].properties.City;
+            results: (r: {
+              latlng: { lat: number; lng: number };
+              results: { properties: { City: string } }[];
+            }) => {
               ListingStore.updateLocation([r.latlng.lat, r.latlng.lng]);
               ListingStore.setCity(r.results[0].properties.City);
             },

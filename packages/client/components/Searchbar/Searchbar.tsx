@@ -4,18 +4,98 @@ import {
   ClearSvg,
 } from '@airbnb-clone/controller';
 import Link from 'next/link';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
+import { useLoadScript } from '@react-google-maps/api';
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxOption,
+  ComboboxPopover,
+} from '@reach/combobox';
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from 'use-places-autocomplete';
 import shallow from 'zustand/shallow';
-import styles from '../../sass/components/Searchbar.module.scss';
 import useClickAway from '../../shared-hooks/useClickAway';
 import { useSearchStore } from '../../stores/useSearchStore';
 import { GuestsMenu } from './GuestsMenu';
+import styles from '../../sass/components/Searchbar.module.scss';
+
+import '@reach/combobox/styles.css';
 
 interface SearchbarProps {
   scrolled: boolean;
 }
 
+const PlacesAutocomplete = ({
+  setLocation,
+}: {
+  setLocation: (s: string, lat: number, lng: number) => void;
+}) => {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      location: { lat: () => 43.6352, lng: () => -79.3832 },
+      radius: 100 * 1000,
+    },
+    debounce: 300,
+  });
+
+  const handleSelect = async (address: string) => {
+    setValue(address, false);
+    clearSuggestions();
+
+    try {
+      const res = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(res[0]);
+      setLocation(res[0].formatted_address, lat, lng);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return (
+    <Combobox onSelect={handleSelect}>
+      <ComboboxInput
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        disabled={!ready}
+        placeholder='Where are you going?'
+      />
+      <ComboboxPopover style={{ zIndex: 999 }}>
+        <ComboboxList>
+          {status === 'OK' &&
+            data.map(({ id, description }) => (
+              <ComboboxOption key={id} value={description} />
+            ))}
+        </ComboboxList>
+      </ComboboxPopover>
+    </Combobox>
+  );
+};
+
+const libraries: (
+  | 'places'
+  | 'drawing'
+  | 'geometry'
+  | 'localContext'
+  | 'visualization'
+)[] = ['places'];
+
 export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    libraries,
+  });
+  console.log(isLoaded, loadError);
+
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     active: false,
     el: '',
@@ -34,27 +114,13 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
 
   useClickAway(ref, handleClickOutside);
 
-  const barScroll = scrolled ? styles.scroll : styles.Searchbar;
-  const barActive = activeElement.active ? styles.active : '';
-
   const [adults, children, infants, setLocation] = useSearchStore(
     (state) => [state.adults, state.children, state.infants, state.setLocation],
     shallow
   );
 
-  useEffect(() => {
-    if (geoRef.current?.textContent !== '') {
-      const location = geoRef.current?.textContent
-        ?.replace(/Lat:.*/, '')
-        .replace(/Suggestion:/, '');
-      const coords = geoRef.current?.textContent?.split(/[^\d]+/);
-      setLocation(
-        location!,
-        parseFloat(coords?.[1]! + '.' + coords?.[2]),
-        parseFloat(coords?.[3]! + '.' + coords?.[4])
-      );
-    }
-  }, [geoRef.current?.textContent]);
+  const barScroll = scrolled ? styles.scroll : styles.Searchbar;
+  const barActive = activeElement.active ? styles.active : '';
 
   return (
     <div className={`${barScroll} ${barActive}`} ref={ref}>
@@ -67,13 +133,9 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
             <label className={styles.location}>
               <div className={styles.location__position} id='location_box'>
                 <div className={styles.location__label}>Location</div>
-                {/* Switch to react hook form */}
-                <input
-                  className={styles.location__input}
-                  id='location'
-                  autoComplete='off'
-                  placeholder='Where are you going?'
-                />
+                {isLoaded ? (
+                  <PlacesAutocomplete setLocation={setLocation} />
+                ) : null}
               </div>
             </label>
           </div>

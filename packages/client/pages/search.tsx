@@ -8,10 +8,12 @@ import { useSearchStore } from '../stores/useSearchStore';
 import { withApollo } from '../utils/withApollo';
 import { useEffect, useRef } from 'react';
 import FiltersStore, { FilterKey } from '../stores/useFiltersStore';
+import { useApolloClient } from '@apollo/client';
 
 interface SearchProps {}
 
 const Search: React.FC<SearchProps> = ({}) => {
+  const apolloClient = useApolloClient();
   const [latitude, longitude, adults, children, infants] = useSearchStore(
     (state) => [
       state.latitude,
@@ -22,6 +24,12 @@ const Search: React.FC<SearchProps> = ({}) => {
     ],
     shallow
   );
+
+  useEffect(() => {
+    apolloClient.cache.evict({ fieldName: 'searchListings:{}' });
+    apolloClient.cache.gc();
+  }, []);
+
   const { data, error, loading, variables, fetchMore } = useSearchListingsQuery(
     {
       variables: {

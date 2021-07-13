@@ -11,13 +11,13 @@ const initialState = {
 };
 
 export const useSearchStore = create(
-  combine(initialState, (set, get) => ({
-    setLocation: (s: string, lat: number, long: number) =>
+  combine(initialState, (set) => ({
+    setLocation: (s: string, lat: number, lng: number) =>
       set((state) => ({
         ...state,
         suggestion: s,
         latitude: lat,
-        longitude: long,
+        longitude: lng,
       })),
 
     updateAdults: (value: number) =>

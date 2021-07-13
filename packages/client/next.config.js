@@ -1,5 +1,3 @@
-//const path = require('path');
-//const withTM = require('next-transpile-modules')(['@airbnb-clone/controller']);
 const fs = require('fs');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
@@ -8,9 +6,6 @@ module.exports = (phase, { defaultConfig }) => {
     return {
       ...defaultConfig,
       env: {
-        loadMapScenario: fs
-          .readFileSync('./public/loadMapScenario.js')
-          .toString(),
         stripe: 'pk_test_dZb4PNLF72WK9NZenscqBEB1008RXx0tOT',
       },
       future: {

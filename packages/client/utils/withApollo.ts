@@ -66,15 +66,10 @@ const createClient = (ctx: NextPageContext | undefined) =>
               merge(existing: Header[], incoming: Header[]) {
                 if (!incoming) return existing;
                 if (!existing) return incoming;
-
-                // console.log(existing, incoming);
-                // if (existing && incoming)
-                //   return [...(existing || []), ...(incoming || [])];
               },
-              //merge: true,
             },
             searchListings: {
-              keyArgs: [],
+              keyArgs: ['id'],
               merge(
                 existing: PaginatedListings | null,
                 incoming: PaginatedListings
