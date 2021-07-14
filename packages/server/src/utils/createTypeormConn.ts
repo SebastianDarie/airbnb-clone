@@ -17,20 +17,20 @@ export const createTypeormConn = () => {
       // options: {
       //   startupNodes: [
       //     {
-      //       host: 'localhost',
-      //       port: 7000,
+      //       host: '127.0.0.1',
+      //       port: 6380,
       //     },
       //     {
-      //       host: 'localhost',
-      //       port: 7001,
+      //       host: '127.0.0.1',
+      //       port: 6381,
       //     },
-      //     {
-      //       host: 'localhost',
-      //       port: 7002,
-      //     },
+      //     // {
+      //     //   host: 'localhost',
+      //     //   port: 7002,
+      //     // },
       //   ],
       //   options: {
-      //     scaleReads: 'all',
+      //     scaleReads: 'slave',
       //     clusterRetryStrategy: function (_times: any) {
       //       return null;
       //     },
@@ -41,10 +41,6 @@ export const createTypeormConn = () => {
       // },
       type: 'redis',
       duration: 5000,
-      // options: {
-      //   host: 'localhost',
-      //   port: 6369,
-      // },
     },
     logging: true,
     synchronize: true,

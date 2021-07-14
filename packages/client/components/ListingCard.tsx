@@ -44,19 +44,19 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   //     ''
   //   )
   // );
-  const request = {
-    bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
-    key: 'listings/2021-06-25-yw433-pexels-pixabay-271624-jpg',
-    edits: {
-      resize: {
-        width: 300,
-        height: 200,
-        fit: 'cover',
-      },
-    },
-  };
-  const str = JSON.stringify(request);
-  const enc = btoa(str);
+  // const request = {
+  //   bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
+  //   key: 'listings/2021-06-25-yw433-pexels-pixabay-271624-jpg',
+  //   edits: {
+  //     resize: {
+  //       width: 300,
+  //       height: 200,
+  //       fit: 'cover',
+  //     },
+  //   },
+  // };
+  //const str = JSON.stringify(request);
+  //const enc = btoa(str);
   //console.log(enc);
 
   const ImageC = (

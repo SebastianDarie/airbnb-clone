@@ -35,6 +35,20 @@
   @media screen and (min-width: 1128px) {
     width: 58vw;
   }
+
+  @media screen and (min-width: 1440px) {
+    width: 840px;
+  }
+}
+
+.filters__bar__padding {
+  @media screen and (min-width: 744px) {
+    padding-top: 68px;
+  }
+
+  @media screen and (min-width: 1128px) {
+    padding-top: 0px;
+  }
 }
 
 .meta__padding {
@@ -150,4 +164,102 @@
     bottom,
     right
   );
+}
+
+.map__container {
+  inset: -5px 0px 0px;
+  display: none;
+  position: absolute;
+  transition: none 0s ease 0s;
+
+  @media screen and (min-width: 1128px) {
+    display: block;
+    left: auto;
+    width: calc(100% - 58vw);
+  }
+
+  @media screen and (min-width: 1440px) {
+    width: calc(100% - 840px);
+  }
+}
+
+.map__position {
+  height: 100vh;
+  padding-top: 80px;
+  margin-top: -80px;
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  contain: content;
+}
+
+.label__position {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  touch-action: pan-x pan-y;
+  transform: translate(-179.38px, -40.1604px);
+  z-index: 2009;
+  display: block;
+}
+
+.label__transform {
+  transform: translate(calc(-50% + 0px), calc(50% + 0px));
+  transition: transform 0.2s ease 0s;
+  left: 50%;
+  position: absolute;
+  bottom: 0px;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+.label__btn {
+  color: inherit;
+  border: none;
+  width: auto;
+  font: inherit;
+}
+
+.label__scale {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 28px;
+  position: relative;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 150ms ease 0s;
+
+  &:hover {
+    transform: scale(1.077);
+  }
+}
+
+.label__padding {
+  background-color: bootstrap.$default-color;
+  border-radius: 28px;
+  box-shadow: rgb(0 0 0 / 4%) 0px 0px 0px 1px, rgb(0 0 0 / 18%) 0px 2px 4px;
+  color: bootstrap.$nero;
+  height: 28px;
+  padding: 0px 8px;
+  position: relative;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 250ms cubic-bezier(0, 0, 0.1, 1) 0s;
+}
+
+.label__align {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 250ms ease 0s;
+  white-space: nowrap;
+}
+
+.marker__label__content {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 18px;
 }

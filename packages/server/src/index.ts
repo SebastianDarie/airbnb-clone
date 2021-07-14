@@ -38,6 +38,17 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
+  //new Redis(process.env.REDIS_CACHE_URL);
+  // const cluster = new Redis.Cluster([
+  //   {
+  //     port: 6380,
+  //     host: '127.0.0.1',
+  //   },
+  //   {
+  //     port: 6381,
+  //     host: '127.0.0.1',
+  //   },
+  // ]);
 
   app.set('trust proxy', 1);
 

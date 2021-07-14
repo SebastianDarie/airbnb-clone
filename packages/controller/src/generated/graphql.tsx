@@ -110,10 +110,8 @@ export type Mutation = {
   createHeader: Header;
   deleteHeader: Scalars['Boolean'];
   signS3: Array<Scalars['String']>;
-  changeCreator: Scalars['Boolean'];
   createListing: Scalars['Boolean'];
   updateListing?: Maybe<Listing>;
-  createLocation: Listing;
   deleteListing: Scalars['Boolean'];
   createPaymentIntent?: Maybe<Scalars['String']>;
   createMessage: Message;
@@ -144,12 +142,6 @@ export type MutationSignS3Args = {
 };
 
 
-export type MutationChangeCreatorArgs = {
-  listingId: Scalars['String'];
-  id: Scalars['String'];
-};
-
-
 export type MutationCreateListingArgs = {
   input: ListingInput;
 };
@@ -157,13 +149,6 @@ export type MutationCreateListingArgs = {
 
 export type MutationUpdateListingArgs = {
   input: UpdateListing;
-  id: Scalars['String'];
-};
-
-
-export type MutationCreateLocationArgs = {
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
   id: Scalars['String'];
 };
 
@@ -244,6 +229,7 @@ export type Query = {
   listings: Array<Listing>;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
+  findCity: Scalars['String'];
   messages: Array<Message>;
   reviews: Array<Review>;
   users: Array<User>;
@@ -265,6 +251,12 @@ export type QuerySearchListingsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
   input: SearchInput;
+};
+
+
+export type QueryFindCityArgs = {
+  lng: Scalars['Float'];
+  lat: Scalars['Float'];
 };
 
 
@@ -661,7 +653,7 @@ export type SearchListingsQuery = (
     & Pick<PaginatedListings, 'hasMore'>
     & { listings: Array<(
       { __typename?: 'Listing' }
-      & Pick<Listing, 'id' | 'title' | 'category' | 'city' | 'photos' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'price' | 'createdAt'>
+      & Pick<Listing, 'id' | 'title' | 'category' | 'city' | 'photos' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'price' | 'latitude' | 'longitude' | 'createdAt'>
     )> }
   ) }
 );
@@ -1420,6 +1412,8 @@ export const SearchListingsDocument = gql`
       guests
       amenities
       price
+      latitude
+      longitude
       createdAt
     }
     hasMore

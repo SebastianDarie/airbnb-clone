@@ -6,6 +6,10 @@
   @media screen and (min-width: 744px) {
     display: block;
   }
+
+  @media screen and (min-width: 1128px) {
+    display: none;
+  }
 }
 
 .options__dimensions {

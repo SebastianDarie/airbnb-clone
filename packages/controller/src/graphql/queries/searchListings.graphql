@@ -12,6 +12,8 @@ query SearchListings($input: SearchInput!, $limit: Int!, $cursor: String) {
       guests
       amenities
       price
+      latitude
+      longitude
       createdAt
     }
     hasMore

@@ -71,6 +71,18 @@ export class ListingResolver {
       coordinates: [longitude, latitude],
     };
 
+    // const listingsTest = await getConnection().query(
+    //   `
+    //   select l.*, ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON($1), ST_SRID(location))) * 0.000621371 as distance
+    //   from listing l
+    //   having ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON($1), ST_SRID(location))) * 0.000621371 < $2
+    //   order by distance ASC
+    //   limit 6
+    // `,
+    //   [origin, 300 * 1000]
+    // );
+    // console.log(listingsTest);
+
     let qb = getConnection()
       .getRepository(Listing)
       .createQueryBuilder('l')
@@ -84,17 +96,22 @@ export class ListingResolver {
       // .orderBy('distance', 'ASC')
       // .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 })
       .orderBy('l.createdAt', 'DESC')
+      .cache(60000)
       .take(realLimitPlusOne);
 
     if (latitude && longitude) {
-      qb.addSelect(
-        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`
-      )
+      qb.select([
+        '*',
+        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+      ])
         .where(
-          ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+          `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
         )
         .orderBy('distance', 'ASC')
-        .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 });
+        .setParameters({
+          origin: JSON.stringify(origin),
+          range: 100 * 1000,
+        });
     }
 
     if (cursor) {

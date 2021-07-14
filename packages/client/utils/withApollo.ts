@@ -9,7 +9,12 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { NextPageContext } from 'next';
 import { withApollo as createWithApollo } from 'next-apollo';
-import { Header, Message, PaginatedListings } from '@airbnb-clone/controller';
+import {
+  Header,
+  Listing,
+  Message,
+  PaginatedListings,
+} from '@airbnb-clone/controller';
 
 const linkCreate = (
   ctx: NextPageContext | undefined
@@ -72,14 +77,34 @@ const createClient = (ctx: NextPageContext | undefined) =>
               keyArgs: ['id'],
               merge(
                 existing: PaginatedListings | null,
-                incoming: PaginatedListings
+                incoming: PaginatedListings,
+                { mergeObjects, readField }
               ): PaginatedListings {
+                const merged: Listing[] = existing
+                  ? existing.listings.slice(0)
+                  : [];
+                const idToIndex: Record<string, number> = Object.create(null);
+
+                if (existing) {
+                  existing.listings.forEach((l, idx) => {
+                    idToIndex[readField<string>('id', l)!] = idx;
+                  });
+                }
+
+                incoming.listings.forEach((l) => {
+                  const id = readField<string>('id', l);
+                  const idx = idToIndex[id!];
+                  if (typeof idx === 'number') {
+                    merged[idx] = mergeObjects(merged[idx], l);
+                  } else {
+                    idToIndex[id!] = merged.length;
+                    merged.push(l);
+                  }
+                });
+
                 return {
                   ...incoming,
-                  listings: [
-                    ...(existing?.listings || []),
-                    ...incoming.listings,
-                  ],
+                  listings: merged,
                 };
               },
             },

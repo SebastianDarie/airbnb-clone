@@ -1,26 +1,4 @@
-$breakpoints: (
-  //  'small'  : ( max-width:  20em ),
-  'mobile': screen and
-    (
-      min-width: (
-        375px,
-      ),
-    ),
-  'tablet': screen and
-    (
-      min-width: (
-        768px,
-      ),
-    ),
-  'desktop': screen and
-    (
-      min-width: (
-        950px,
-      ),
-    ),
-  //  'wide'    : ( min-width: 75em ),
-  //  'height'    : ( min-width: 75em ) and (min-height: 62.5em)
-);
+@use 'sass:math';
 
 @mixin media($name) {
   @if map-has-key($breakpoints, $name) {
@@ -153,7 +131,7 @@ $breakpoints: (
 ) {
   box-shadow: inset 0 0 0 $width $color;
   color: $color;
-  transition: color $duration $duration/3;
+  transition: color $duration math.div($duration, 3);
   position: relative;
 
   &::before,
