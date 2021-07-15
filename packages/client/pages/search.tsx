@@ -1,29 +1,29 @@
 import shallow from 'zustand/shallow';
-import { Listing, useSearchListingsQuery } from '@airbnb-clone/controller';
+import { useSearchListingsQuery } from '@airbnb-clone/controller';
 import { FiltersBar } from '../components/FiltersBar';
 import Layout from '../components/Layout';
-import { ListingCard } from '../components/ListingCard';
+import { ListingCard } from '../components/Search/ListingCard';
 import styles from '../sass/pages/Search.module.scss';
-import { useSearchStore } from '../stores/useSearchStore';
+import cardStyles from '../sass/components/ListingCard.module.scss';
+import SearchStore from '../stores/useSearchStore';
 import { withApollo } from '../utils/withApollo';
 import { useCallback, useEffect, useRef, useState, CSSProperties } from 'react';
 import FiltersStore from '../stores/useFiltersStore';
 import { useApolloClient } from '@apollo/client';
-import {
-  GoogleMap,
-  InfoWindow,
-  Marker,
-  useLoadScript,
-} from '@react-google-maps/api';
-import markWithLabel from '../utils/markerWithLabel';
+import { GoogleMap, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
+import MarkerClusterer from '@googlemaps/markerclustererplus';
+import { ImageCard } from '../components/Search/ImageCard';
+//import { OverlappingMarkerSpiderfier } from 'ts-overlapping-marker-spiderfier';
 
 interface SearchProps {}
 
-type position = {
-  lat: number;
-  lng: number;
-};
+interface DirectionsBoundsLiteral extends google.maps.LatLngBoundsLiteral {
+  north: number;
+  east: number;
+  south: number;
+  west: number;
+}
 
 // const options: google.maps.MapOptions = {
 //   scrollwheel: false,
@@ -53,18 +53,22 @@ const Search: React.FC<SearchProps> = ({}) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries,
   });
-  const [markers, setMarkers] = useState<position[]>([]);
+  const [markers, setMarkers] = useState<MarkerWithLabel[]>([]);
   const [selected, setSelected] = useState<MarkerWithLabel | null>(null);
   const mapRef = useRef<google.maps.Map<Element> | null>(null);
-  //let MarkerWithLabel: any = null;
 
+  let geocoder: google.maps.Geocoder = new google.maps.Geocoder();
+  // let oms: OverlappingMarkerSpiderfier | null = null;
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
-    // MarkerWithLabel = markWithLabel(map);
+    //geocoder = new google.maps.Geocoder();
+    //oms = new OverlappingMarkerSpiderfier(mapRef.current);
+    //  addMarkers();
   }, []);
 
   const addMarkers = () => {
     data?.searchListings.listings.map((l) => {
+      //if (!!markers.filter((m) => m.get('id') !== l.id)) {
       const { latitude: lat, longitude: lng } = l;
       const marker = new MarkerWithLabel({
         position: { lat, lng },
@@ -72,15 +76,14 @@ const Search: React.FC<SearchProps> = ({}) => {
         draggable: false,
         map: mapRef.current!,
         icon:
-          'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
         labelContent: `
-          <div className='label__position'>
-            <div className='label__transform'>
-              <button className='label__btn' type='button'>
-                <div className='label__scale'>
-                  <div className='label__padding'>
-                    <div className='label__align'>
-                      <span className='marker__label__content'>
+            <div class='label__transform'>
+              <button class='label__btn' type='button'>
+                <div class='label__scale'>
+                  <div class='label__padding'>
+                    <div class='label__align'>
+                      <span class='marker__label__content'>
                         $${l.price}
                       </span>
                     </div>
@@ -88,45 +91,19 @@ const Search: React.FC<SearchProps> = ({}) => {
                 </div>
               </button>
             </div>
-          </div>
         `,
       });
-      return marker.addListener('click', () => setSelected(marker));
+
+      marker.addListener('click', () => setSelected(marker));
+      // marker.addListener('mouseover', () => setShowControls(true));
+      // marker.addListener('mouseout', () => setShowControls(false));
+      marker.setValues({ id: l.id });
+      // oms?.addMarker(marker, () => setSelected(marker));
+      //setMarkers((curr) => [...curr, marker]);
+      return marker;
+      //}
     });
   };
-
-  // const getMarkerLabelOptions = (
-  //   position: position,
-  //   room: {
-  //     __typename?: 'Listing' | undefined;
-  //   } & Pick<
-  //     Listing,
-  //     | 'id'
-  //     | 'title'
-  //     | 'category'
-  //     | 'city'
-  //     | 'photos'
-  //     | 'bathrooms'
-  //     | 'bedrooms'
-  //     | 'beds'
-  //     | 'guests'
-  //     | 'amenities'
-  //     | 'price'
-  //     | 'latitude'
-  //     | 'longitude'
-  //     | 'createdAt'
-  //   >,
-  //   map: GoogleMap | null
-  // ) => {
-  //   return {
-  //     map,
-  //     position,
-  //     icon: '',
-  //     draggable: false,
-  //     raiseOnDrag: true,
-  //     labelContent: `<span key={${room.id}}>$${room.price}</span>`,
-  //   };
-  // };
 
   const apolloClient = useApolloClient();
 
@@ -135,7 +112,13 @@ const Search: React.FC<SearchProps> = ({}) => {
     apolloClient.cache.gc();
   }, []);
 
-  const [latitude, longitude, adults, children, infants] = useSearchStore(
+  const [
+    latitude,
+    longitude,
+    adults,
+    children,
+    infants,
+  ] = SearchStore.useSearchStore(
     (state) => [
       state.latitude,
       state.longitude,
@@ -166,12 +149,9 @@ const Search: React.FC<SearchProps> = ({}) => {
     []
   );
 
-  console.log(loading, loadError);
   //const filteredListings = data?.searchListings.listings.filter(l => l.amenities)
 
   if (!data && error) {
-    console.log(error);
-
     return (
       <>
         <div>Failed To Load Listings</div>
@@ -180,14 +160,30 @@ const Search: React.FC<SearchProps> = ({}) => {
     );
   }
 
-  if (data && isLoaded) {
-    addMarkers();
-  }
+  useEffect(() => {
+    if (data && isLoaded) {
+      addMarkers();
+      // oms = new OverlappingMarkerSpiderfier(mapRef.current!, {
+      //   markersWontMove: true,
+      //   markersWontHide: true,
+      //   basicFormatEvents: true,
+      // });
+      // new MarkerClusterer(mapRef.current!, markers, {
+      //   imagePath:
+      //     'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+      // });
+    }
+    return () => {};
+  }, [data, isLoaded]);
+
+  const [showControls, setShowControls] = useState<boolean>(false);
+
+  // if(isLoaded)
 
   return (
     <Layout filter search>
       <div className={styles.inset__div}>
-        <FiltersBar filtersRef={filtersRef} />
+        {/* <FiltersBar filtersRef={filtersRef} /> */}
 
         <div className={styles.stays__container}>
           <div className={styles.filters__bar__padding}>
@@ -262,16 +258,56 @@ const Search: React.FC<SearchProps> = ({}) => {
                 center={{ lat: latitude, lng: longitude }}
                 zoom={12}
                 options={options}
+                onBoundsChanged={() => {
+                  console.log(
+                    mapRef.current?.getCenter().toString(),
+                    mapRef.current?.getBounds()?.toString()
+                  );
+                  geocoder.geocode(
+                    {
+                      bounds: mapRef.current?.getBounds()!,
+                    },
+                    (results, status) => {
+                      if (status === 'OK') {
+                        console.log(results[0].geometry.location);
+                      } else {
+                        console.log(status);
+                      }
+                    }
+                  );
+                }}
+                // onCenterChanged={() => {
+                //   console.log(mapRef.current?.getBounds());
+                //    geocoder.geocode(
+                //     {
+                //       bounds: mapRef.current.getBounds()!,
+                //     },
+                //     (results, status) => {
+                //       if (status === 'OK') {
+                //         console.log(results[0].geometry.location);
+                //       } else {
+                //         console.log(status);
+                //       }
+                //     }
+                //   );
+                // }}
+                onIdle={() => {
+                  const {
+                    north,
+                    east,
+                    south,
+                    west,
+                  } = mapRef.current
+                    ?.getBounds()
+                    ?.toJSON() as DirectionsBoundsLiteral;
+                  const bounds = {
+                    northEast: { lat: north, lng: east },
+                    southWest: { lat: south, lng: west },
+                  };
+                  console.log(bounds);
+                }}
                 onLoad={onMapLoad}
               >
-                {/* {markers.map((m) => (
-                  <Marker
-                    key={`${m.lat}-${m.lng}`}
-                    position={{ lat: m.lat, lng: m.lng }}
-                    onClick={() => setSelected(m)}
-                  />
-                ))} */}
-
                 {selected ? (
                   <InfoWindow
                     position={{
@@ -280,7 +316,22 @@ const Search: React.FC<SearchProps> = ({}) => {
                     }}
                     onCloseClick={() => setSelected(null)}
                   >
-                    <div>test info window</div>
+                    <div className={styles.info__window__position}>
+                      <div className={styles.info__window__width}>
+                        <div className={styles.info__window__card}>
+                          <ImageCard
+                            listing={
+                              data?.searchListings.listings.find(
+                                (l) => l.id === selected.get('id')
+                              )!
+                            }
+                            showControls={showControls}
+                            styles={cardStyles}
+                          />
+                          <div></div>
+                        </div>
+                      </div>
+                    </div>
                   </InfoWindow>
                 ) : null}
               </GoogleMap>

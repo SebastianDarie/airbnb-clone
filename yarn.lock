@@ -53,6 +53,7 @@ __metadata:
     "@airbnb-clone/common": 1.0.0
     "@airbnb-clone/controller": 1.0.0
     "@apollo/client": ^3.3.15
+    "@googlemaps/markerclustererplus": ^1.2.0
     "@googlemaps/markerwithlabel": ^1.2.2
     "@hookform/error-message": ^2.0.0
     "@hookform/resolvers": ^2.4.0
@@ -86,6 +87,7 @@ __metadata:
     react-leaflet: ^3.2.0
     sass: ^1.34.0
     subscriptions-transport-ws: ^0.9.18
+    ts-overlapping-marker-spiderfier: ^1.0.3
     typescript: ^4.2.4
     use-places-autocomplete: ^1.9.3
     zustand: ^3.5.2
@@ -1441,6 +1443,13 @@ __metadata:
   dependencies:
     fast-deep-equal: ^3.1.3
   checksum: 6b967da4a21952a293e5e77b2a2bbc26e835e452bfd690f6d9807305428c69f1d322fa28e6da77b69dae4e732a1e6e074360162067b79fa16781de28b17932a9
+  languageName: node
+  linkType: hard
+
+"@googlemaps/markerclustererplus@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@googlemaps/markerclustererplus@npm:1.2.0"
+  checksum: 0978e99fe47f949cb7ce9014b6f9bc7717567ffd886addcbdf1a2fd03559945a7b6da374a9eba9db87902bb88d93355907a392c399f4d76610fe69b383122b46
   languageName: node
   linkType: hard
 
@@ -3234,7 +3243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/googlemaps@npm:^3.43.3":
+"@types/googlemaps@npm:^3.30.7, @types/googlemaps@npm:^3.43.3":
   version: 3.43.3
   resolution: "@types/googlemaps@npm:3.43.3"
   checksum: b729e3f4cc647d0e09136a99ca64186621ead8040451ea5d0b48b75ac22108d01412655279bb72439162732e763ddac9b8b9451f8afd20372d3efe9735c0e960
@@ -15791,6 +15800,15 @@ resolve@^2.0.0-next.3:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: a90db4a342872cd0e7a80babdfcb15d2f7c06e700d735003098f7cc79db575c3380580c58a19ae0d0eaab553af083651d4237060c92170e6f8ac4e64693113ea
+  languageName: node
+  linkType: hard
+
+"ts-overlapping-marker-spiderfier@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "ts-overlapping-marker-spiderfier@npm:1.0.3"
+  dependencies:
+    "@types/googlemaps": ^3.30.7
+  checksum: 097ffee13a2dfda34964297f3e34420ad2fc3c5bc3bb19b9f9f2a03f5d8b22ee27ce3333af8553129782c1cddede14527c790451615c00edc234c6ca72db1f37
   languageName: node
   linkType: hard
 

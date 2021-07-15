@@ -4,6 +4,7 @@ import {
   ApolloQueryResult,
 } from '@apollo/client';
 import { DocumentNode } from 'graphql';
+import { Listing } from './generated/graphql';
 
 export type ApolloFetchMoreType<TData, TVariables> = (<
   K extends keyof TVariables
@@ -66,3 +67,23 @@ export type ActiveElement = {
   active: boolean;
   el: string;
 };
+
+export type ListingResult = {
+  __typename?: 'Listing' | undefined;
+} & Pick<
+  Listing,
+  | 'id'
+  | 'title'
+  | 'category'
+  | 'city'
+  | 'photos'
+  | 'bathrooms'
+  | 'bedrooms'
+  | 'beds'
+  | 'guests'
+  | 'amenities'
+  | 'price'
+  | 'latitude'
+  | 'longitude'
+  | 'createdAt'
+>;

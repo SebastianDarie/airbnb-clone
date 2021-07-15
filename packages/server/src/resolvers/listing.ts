@@ -88,31 +88,42 @@ export class ListingResolver {
       .createQueryBuilder('l')
       .select([
         '*',
-        //        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
       ])
-      // .where(
-      //   ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
-      // )
-      // .orderBy('distance', 'ASC')
-      // .setParameters({ origin: JSON.stringify(origin), range: 300 * 1000 })
-      .orderBy('l.createdAt', 'DESC')
+      .where(
+        ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+      )
+      .orderBy('distance', 'ASC')
+      .setParameters({ origin: JSON.stringify(origin), range: 100 * 1000 })
       .cache(60000)
       .take(realLimitPlusOne);
 
-    if (latitude && longitude) {
-      qb.select([
-        '*',
-        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
-      ])
-        .where(
-          `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
-        )
-        .orderBy('distance', 'ASC')
-        .setParameters({
-          origin: JSON.stringify(origin),
-          range: 100 * 1000,
-        });
-    }
+    // if (latitude && longitude) {
+    //   qb.select([
+    //     '*',
+    //     `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+    //   ])
+    //     .where(
+    //       `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+    //     )
+    //     .orderBy('distance', 'ASC')
+    //     .setParameters({
+    //       origin: JSON.stringify(origin),
+    //       range: 100 * 1000,
+    //     });
+    // }
+
+    const boundsListings = getConnection()
+      .getRepository(Listing)
+      .createQueryBuilder('l')
+      .select('*')
+      .where('l.latitude < :ne_lat AND l.lng < :ne_lng')
+      .andWhere('l.latitude > :sw_lat AND l.longitude > :sw_lng')
+      .setParameters({ ne_lat: 1, ne_lng: 1, sw_lat: 1, sw_lng: 1 })
+      .take(realLimitPlusOne)
+      .getRawMany();
+
+    console.log(boundsListings);
 
     if (cursor) {
       qb.andWhere('l."createdAt" < :cursor ', {

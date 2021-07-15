@@ -1,34 +1,12 @@
-import Image from 'next/image';
+import { HeartSvg, ListingResult, ReviewSvg } from '@airbnb-clone/controller';
 import Link from 'next/link';
-import {
-  HeartSvg,
-  Listing,
-  NextSvg,
-  PreviousSvg,
-  ReviewSvg,
-} from '@airbnb-clone/controller';
-import styles from '../sass/components/ListingCard.module.scss';
 import { useState } from 'react';
-import { FloorPlanDetails } from './FloorPlanDetails';
+import styles from '../../sass/components/ListingCard.module.scss';
+import { FloorPlanDetails } from '../FloorPlanDetails';
+import { ImageCard } from './ImageCard';
 
 interface ListingCardProps {
-  listing: {
-    __typename?: 'Listing' | undefined;
-  } & Pick<
-    Listing,
-    | 'title'
-    | 'id'
-    | 'category'
-    | 'photos'
-    | 'bathrooms'
-    | 'beds'
-    | 'guests'
-    | 'price'
-    | 'createdAt'
-    | 'city'
-    | 'bedrooms'
-    | 'amenities'
-  >;
+  listing: ListingResult;
   loading: boolean;
 }
 
@@ -36,7 +14,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   listing,
   loading,
 }) => {
-  //const [showControls, setShowControls] = useState(false);
+  const [showControls, setShowControls] = useState(false);
 
   // console.log(
   //   'https://d9r6g0xftldzw.cloudfront.net/listings/2021-06-25-yw433-pexels-pixabay-271624-jpg'.replace(
@@ -58,88 +36,6 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   //const str = JSON.stringify(request);
   //const enc = btoa(str);
   //console.log(enc);
-
-  const ImageC = (
-    <div className={styles.card__image__border}>
-      <div className={styles.card__image__padding}>
-        <div className={styles.card__image__position}>
-          <div>
-            <Link href={`/rooms/${listing.id}`}>
-              <a className={styles.card__image__link}></a>
-            </Link>
-
-            <div className={styles.card__image__div}>
-              <div>
-                <picture>
-                  <source srcSet='' media='(max-width: 743px)' />
-                  <Image
-                    src={listing.photos[0]}
-                    layout='fill'
-                    objectFit='cover'
-                  />
-                </picture>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.image__dots__container}>
-            <div className={styles.image__dots}>
-              <div className={styles.image__dots__overflow}>
-                <div className={styles.image__dots__transform}>
-                  {listing.photos.map((_photo, i) => (
-                    <span
-                      key={i}
-                      className={styles.image__dots__dot}
-                      id={i === 0 ? styles.selected__dot : undefined}
-                    ></span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <div
-        className={
-          showControls
-            ? styles.image__controls__hover
-            : styles.image__controls__container
-        }
-      >
-        <div className={styles.image__controls__position}>
-          <div
-            className={
-              showControls
-                ? styles.previous__btn__hover
-                : styles.previous__btn__container
-            }
-          >
-            <button
-              className={styles.navigation__btn}
-              onClick={() => console.log('previous')}
-            >
-              <PreviousSvg />
-            </button>
-          </div>
-          <div
-            className={
-              showControls
-                ? styles.next__btn__hover
-                : styles.next__btn__container
-            }
-          >
-            <button
-              className={styles.navigation__btn}
-              onClick={() => console.log('next')}
-            >
-              <NextSvg />
-            </button>
-          </div>
-        </div>
-      </div> */}
-    </div>
-  );
 
   const ListingContent = (
     <>
@@ -213,8 +109,8 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             <div className={styles.card__divider__margin}>
               <div
                 className={styles.card__container}
-                // onMouseEnter={() => setShowControls(true)}
-                // onMouseLeave={() => setShowControls(false)}
+                onMouseEnter={() => setShowControls(true)}
+                onMouseLeave={() => setShowControls(false)}
               >
                 {loading ? null : (
                   <Link href={`/rooms/${listing.id}`}>
@@ -231,7 +127,11 @@ export const ListingCard: React.FC<ListingCardProps> = ({
                       <span className={styles.card__skeleton}></span>
                     </span>
                   ) : (
-                    ImageC
+                    <ImageCard
+                      listing={listing}
+                      showControls={showControls}
+                      styles={styles}
+                    />
                   )}
                 </div>
 

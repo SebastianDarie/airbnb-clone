@@ -1,5 +1,14 @@
 import create from 'zustand';
-import { combine } from 'zustand/middleware';
+import { devtools } from 'zustand/middleware';
+
+interface SearchState {
+  suggestion: string;
+  latitude: number;
+  longitude: number;
+  adults: number;
+  children: number;
+  infants: number;
+}
 
 const initialState = {
   suggestion: '',
@@ -10,40 +19,44 @@ const initialState = {
   infants: 0,
 };
 
-export const useSearchStore = create(
-  combine(initialState, (set) => ({
-    setLocation: (s: string, lat: number, lng: number) =>
-      set((state) => ({
-        ...state,
-        suggestion: s,
-        latitude: lat,
-        longitude: lng,
-      })),
+namespace SearchStore {
+  export const useSearchStore = create<SearchState>(
+    devtools(() => initialState)
+  );
 
-    updateAdults: (value: number) =>
-      set((state) => ({
-        ...state,
-        adults: value,
-      })),
+  export const setLocation = (s: string, lat: number, lng: number) =>
+    useSearchStore.setState((state) => ({
+      ...state,
+      suggestion: s,
+      latitude: lat,
+      longitude: lng,
+    }));
 
-    updateChildren: (value: number) =>
-      set((state) => ({
-        ...state,
-        children: value,
-      })),
+  export const updateAdults = (adults: number) =>
+    useSearchStore.setState((state) => ({
+      ...state,
+      adults,
+    }));
 
-    updateInfants: (value: number) =>
-      set((state) => ({
-        ...state,
-        infants: value,
-      })),
+  export const updateChildren = (children: number) =>
+    useSearchStore.setState((state) => ({
+      ...state,
+      children,
+    }));
 
-    resetGuests: () =>
-      set((state) => ({
-        ...state,
-        adults: 0,
-        children: 0,
-        infants: 0,
-      })),
-  }))
-);
+  export const updateInfants = (infants: number) =>
+    useSearchStore.setState((state) => ({
+      ...state,
+      infants,
+    }));
+
+  export const resetGuests = () =>
+    useSearchStore.setState((state) => ({
+      ...state,
+      adults: 0,
+      children: 0,
+      infants: 0,
+    }));
+}
+
+export default SearchStore;

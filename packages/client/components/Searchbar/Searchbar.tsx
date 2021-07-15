@@ -19,7 +19,7 @@ import usePlacesAutocomplete, {
 } from 'use-places-autocomplete';
 import shallow from 'zustand/shallow';
 import useClickAway from '../../shared-hooks/useClickAway';
-import { useSearchStore } from '../../stores/useSearchStore';
+import SearchStore from '../../stores/useSearchStore';
 import { GuestsMenu } from './GuestsMenu';
 import styles from '../../sass/components/Searchbar.module.scss';
 
@@ -94,7 +94,6 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries,
   });
-  console.log(isLoaded, loadError);
 
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     active: false,
@@ -114,8 +113,8 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
 
   useClickAway(ref, handleClickOutside);
 
-  const [adults, children, infants, setLocation] = useSearchStore(
-    (state) => [state.adults, state.children, state.infants, state.setLocation],
+  const [adults, children, infants] = SearchStore.useSearchStore(
+    (state) => [state.adults, state.children, state.infants],
     shallow
   );
 
@@ -134,7 +133,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
               <div className={styles.location__position} id='location_box'>
                 <div className={styles.location__label}>Location</div>
                 {isLoaded ? (
-                  <PlacesAutocomplete setLocation={setLocation} />
+                  <PlacesAutocomplete setLocation={SearchStore.setLocation} />
                 ) : null}
               </div>
             </label>
@@ -228,7 +227,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
               <div className={styles.clearbtn__container}>
                 <button
                   className={styles.clear__btn}
-                  onClick={useSearchStore.getState().resetGuests}
+                  onClick={SearchStore.resetGuests}
                 >
                   <span style={{ position: 'relative' }}>
                     <ClearSvg />

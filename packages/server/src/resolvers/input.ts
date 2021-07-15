@@ -1,4 +1,33 @@
-import { InputType, Field, Int, Float } from 'type-graphql';
+import { InputType, Field, Int, Float, ObjectType } from 'type-graphql';
+
+type bounds = {
+  northEast: {
+    lat: number;
+    lng: number;
+  };
+  southWest: {
+    lat: number;
+    lng: number;
+  };
+};
+
+@ObjectType()
+class LatLngLiteral {
+  @Field(() => Int)
+  lat: number;
+
+  @Field(() => Int)
+  lng: number;
+}
+
+@ObjectType()
+class Bounds {
+  @Field(() => LatLngLiteral)
+  northEast: LatLngLiteral;
+
+  @Field(() => LatLngLiteral)
+  southWest: LatLngLiteral;
+}
 
 @InputType()
 export class UserInput {
@@ -118,6 +147,9 @@ export class SearchInput {
 
   @Field(() => Float, { nullable: true })
   longitude?: number;
+
+  @Field(() => Bounds, { nullable: true })
+  bounds?: Bounds;
 
   @Field(() => String, { nullable: true })
   title?: string;

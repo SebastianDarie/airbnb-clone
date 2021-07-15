@@ -2,7 +2,7 @@ import { ActiveElement, MinusSvg, PlusSvg } from '@airbnb-clone/controller';
 import { MutableRefObject } from 'react';
 import shallow from 'zustand/shallow';
 import styles from '../../sass/components/GuestsMenu.module.scss';
-import { useSearchStore } from '../../stores/useSearchStore';
+import SearchStore from '../../stores/useSearchStore';
 
 interface GuestsMenuProps {
   activeElement: ActiveElement;
@@ -13,24 +13,13 @@ export const GuestsMenu: React.FC<GuestsMenuProps> = ({
   activeElement,
   menuRef,
 }) => {
-  const [
-    adults,
-    children,
-    infants,
-    updateAdults,
-    updateChildren,
-    updateInfants,
-  ] = useSearchStore(
-    (state) => [
-      state.adults,
-      state.children,
-      state.infants,
-      state.updateAdults,
-      state.updateChildren,
-      state.updateInfants,
-    ],
+  const [adults, children, infants] = SearchStore.useSearchStore(
+    (state) => [state.adults, state.children, state.infants],
     shallow
   );
+  const updateAdults = SearchStore.updateAdults;
+  const updateChildren = SearchStore.updateChildren;
+  const updateInfants = SearchStore.updateInfants;
 
   return (
     <div

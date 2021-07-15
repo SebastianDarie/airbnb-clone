@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -22,6 +22,10 @@ export class Reservation extends BaseEntity {
   @Column({ type: 'tsrange' })
   during: [Date, Date];
 
+  @Field(() => Int)
+  @Column({ type: 'int' })
+  guests: number;
+
   @Field()
   @Column('uuid')
   listingId: string;
@@ -31,10 +35,10 @@ export class Reservation extends BaseEntity {
 
   @Field()
   @Column('uuid')
-  creatorId: string;
+  guestId: string;
 
-  @ManyToOne(() => User, (creator) => creator.reservations)
-  creator: User;
+  @ManyToOne(() => User, (guest) => guest.reservations)
+  guest: User;
 
   @Field(() => String)
   @CreateDateColumn()
