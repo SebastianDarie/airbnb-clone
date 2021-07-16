@@ -87,6 +87,7 @@ __metadata:
     react-leaflet: ^3.2.0
     sass: ^1.34.0
     subscriptions-transport-ws: ^0.9.18
+    swiper: ^6.7.5
     ts-overlapping-marker-spiderfier: ^1.0.3
     typescript: ^4.2.4
     use-places-autocomplete: ^1.9.3
@@ -6693,6 +6694,15 @@ __metadata:
   dependencies:
     esutils: ^2.0.2
   checksum: 2eae469bd2889ceee9892083a67340b3622568fe5290edce620e5d5ddab23d644b2a780e9a7c68ad9c8a62716a70c5e484402ac93a398fa78b54b7505592aa7f
+  languageName: node
+  linkType: hard
+
+"dom7@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "dom7@npm:3.0.0"
+  dependencies:
+    ssr-window: ^3.0.0-alpha.1
+  checksum: 8beff48475ec564d96a5bcec88eac784d1ff2ceca0f663cfb6a5f54fcebd5b5bf805b508161c24ededf7f84d02af7a976b340e86082b11673345d6c216abd8af
   languageName: node
   linkType: hard
 
@@ -14956,6 +14966,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"ssr-window@npm:^3.0.0, ssr-window@npm:^3.0.0-alpha.1":
+  version: 3.0.0
+  resolution: "ssr-window@npm:3.0.0"
+  checksum: 36ac4b6ba91d0cafc83f43aff094b1e32ce55e3f8b31e4538694b203f4b797690b66c7aca17a3f514df82868271a7248514b5b6aca766eb50c97e6fe77b32358
+  languageName: node
+  linkType: hard
+
 "ssri@npm:^8.0.0, ssri@npm:^8.0.1":
   version: 8.0.1
   resolution: "ssri@npm:8.0.1"
@@ -15419,6 +15436,16 @@ resolve@^2.0.0-next.3:
   dependencies:
     tslib: ^2.0.3
   checksum: 86660fa1adfd5f18861db718994eefbd5d45a6d4e38bf468c94b38471e1bdeca41970b9d2efa5da4fd4ff4c87b12be3dc01ca198ea257cebfd10623eafb773f8
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^6.7.5":
+  version: 6.7.5
+  resolution: "swiper@npm:6.7.5"
+  dependencies:
+    dom7: ^3.0.0
+    ssr-window: ^3.0.0
+  checksum: 981868077217d6f128f37529b9c4973afcd22a1535f6f80a56f5449b5a8d402b271cbd3ba206ee1d1fdae19a3053cea18ef436571c2953717dd5400616b363f9
   languageName: node
   linkType: hard
 

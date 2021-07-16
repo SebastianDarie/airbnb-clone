@@ -164,3 +164,16 @@ h6:first-child {
   font-weight: 800;
   line-height: 18px;
 }
+
+.swiper-container {
+  height: 100%;
+  width: 100%;
+}
+
+.swiper-button-prev {
+  color: bootstrap.$black;
+}
+
+.swiper-button-next {
+  color: bootstrap.$black;
+}

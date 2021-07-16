@@ -1,26 +1,15 @@
 import { InputType, Field, Int, Float, ObjectType } from 'type-graphql';
 
-type bounds = {
-  northEast: {
-    lat: number;
-    lng: number;
-  };
-  southWest: {
-    lat: number;
-    lng: number;
-  };
-};
-
-@ObjectType()
+@InputType()
 class LatLngLiteral {
-  @Field(() => Int)
+  @Field(() => Float)
   lat: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   lng: number;
 }
 
-@ObjectType()
+@InputType()
 class Bounds {
   @Field(() => LatLngLiteral)
   northEast: LatLngLiteral;

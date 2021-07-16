@@ -13,6 +13,8 @@ query Listing($id: String!) {
     beds
     guests
     amenities
+    latitude
+    longitude
     creator {
       id
       email

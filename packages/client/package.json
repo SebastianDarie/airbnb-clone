@@ -38,6 +38,7 @@
     "react-leaflet": "^3.2.0",
     "sass": "^1.34.0",
     "subscriptions-transport-ws": "^0.9.18",
+    "swiper": "^6.7.5",
     "ts-overlapping-marker-spiderfier": "^1.0.3",
     "use-places-autocomplete": "^1.9.3",
     "zustand": "^3.5.2"

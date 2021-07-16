@@ -1,5 +1,13 @@
 import { RightArrowSvg, SuperHostSvg } from '@airbnb-clone/controller';
-import { memo, RefObject, useEffect, useRef, useState } from 'react';
+import { GoogleMap, Marker } from '@react-google-maps/api';
+import {
+  CSSProperties,
+  memo,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import shallow from 'zustand/shallow';
@@ -16,7 +24,18 @@ import { dynamicSvgs } from '../../constants/dynamicSvgs';
 import styles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
+import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
 import { withApollo } from '../../utils/withApollo';
+
+const mapContainerStyle: CSSProperties = {
+  height: '100%',
+  width: '100%',
+};
+
+const options = {
+  scrollwheel: false,
+  zoomControl: true,
+};
 
 const getDimensions = (el: HTMLDivElement) => {
   const { height } = el.getBoundingClientRect();
@@ -134,6 +153,12 @@ const Room: React.FC<RoomProps> = memo(({}) => {
       Math.abs(endDate.getTime() - startDate.getTime()) / (60 * 60 * 24 * 1000)
     );
   }
+
+  const { isLoaded } = useGoogleMaps();
+
+  // const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
+  //   mapRef.current = map;
+  // }, []);
 
   return (
     <Layout filter room search>
@@ -390,7 +415,53 @@ const Room: React.FC<RoomProps> = memo(({}) => {
           <ReviewsSection styles={styles} />
 
           <div className={styles.room__section__flex} ref={locationRef}>
-            {/* map stuff here */}
+            <div className={styles.room__section__padding}>
+              <div className={styles.room__section__margin}>
+                <div className={styles.section__divider}></div>
+                <div className={styles.section__padding}>
+                  <div className={styles.amenities__heading__padding}>
+                    <div className={styles.amenities__heading__container}>
+                      <h2 className={styles.section__heading}>
+                        Where you'll be
+                      </h2>
+                    </div>
+                  </div>
+                  <div className={styles.location__margin}>Kiev, Ukraine</div>
+                  <div className={styles.map__container}>
+                    {data && isLoaded ? (
+                      <GoogleMap
+                        id='map'
+                        mapContainerStyle={mapContainerStyle}
+                        center={{
+                          lat: data.listing?.latitude!,
+                          lng: data.listing?.longitude!,
+                        }}
+                        zoom={15}
+                        options={options}
+                        //onLoad={onMapLoad}
+                      >
+                        <Marker
+                          animation={2}
+                          icon={{
+                            path:
+                              'M8.602 1.147l.093.08 7.153 6.914-.696.718L14 7.745V14.5a.5.5 0 0 1-.41.492L13.5 15H10V9.5a.5.5 0 0 0-.41-.492L9.5 9h-3a.5.5 0 0 0-.492.41L6 9.5V15H2.5a.5.5 0 0 1-.492-.41L2 14.5V7.745L.847 8.86l-.696-.718 7.153-6.915a1 1 0 0 1 1.297-.08z',
+                            fillColor: 'white',
+                            size: new google.maps.Size(22, 22, 'px', 'px'),
+                          }}
+                          position={{
+                            lat: data.listing?.latitude!,
+                            lng: data.listing?.longitude!,
+                          }}
+                          clickable={false}
+                          draggable={false}
+                          shape={{ coords: [60, 60, 60], type: 'circle' }}
+                        />
+                      </GoogleMap>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <ProfileSection

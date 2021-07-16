@@ -1,6 +1,5 @@
 import S3 from 'aws-sdk/clients/s3';
 import Stripe from 'stripe';
-import { Point } from 'geojson';
 import {
   Arg,
   Ctx,
@@ -15,7 +14,7 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
-import { getConnection } from 'typeorm';
+import { getConnection, SelectQueryBuilder } from 'typeorm';
 import { REDIS_CACHE_PREFIX } from '../constants';
 import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
@@ -59,7 +58,8 @@ export class ListingResolver {
 
   @Query(() => PaginatedListings)
   async searchListings(
-    @Arg('input') { latitude, longitude, title, beds, guests }: SearchInput,
+    @Arg('input')
+    { bounds, latitude, longitude, title, beds, guests }: SearchInput,
     @Arg('limit', () => Int) limit: number,
     @Arg('cursor', () => String, { nullable: true }) cursor: string | null
   ): Promise<PaginatedListings> {
@@ -83,57 +83,65 @@ export class ListingResolver {
     // );
     // console.log(listingsTest);
 
-    let qb = getConnection()
-      .getRepository(Listing)
-      .createQueryBuilder('l')
-      .select([
-        '*',
-        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
-      ])
-      .where(
-        ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
-      )
-      .orderBy('distance', 'ASC')
-      .setParameters({ origin: JSON.stringify(origin), range: 100 * 1000 })
-      .cache(60000)
-      .take(realLimitPlusOne);
-
-    // if (latitude && longitude) {
-    //   qb.select([
+    // let qb = getConnection()
+    //   .getRepository(Listing)
+    //   .createQueryBuilder('l')
+    //   .select([
     //     '*',
     //     `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
     //   ])
-    //     .where(
-    //       `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
-    //     )
-    //     .orderBy('distance', 'ASC')
-    //     .setParameters({
-    //       origin: JSON.stringify(origin),
-    //       range: 100 * 1000,
-    //     });
+    //   .where(
+    //     ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+    //   )
+    //   .orderBy('distance', 'ASC')
+    //   .setParameters({ origin: JSON.stringify(origin), range: 100 * 1000 })
+    //   .cache(60000)
+    //   .take(realLimitPlusOne);
+
+    let qb: SelectQueryBuilder<Listing> = getConnection()
+      .getRepository(Listing)
+      .createQueryBuilder('l');
+
+    if (bounds) {
+      qb.select('*')
+        .where('l.latitude < :ne_lat AND l.longitude < :ne_lng')
+        .andWhere('l.latitude > :sw_lat AND l.longitude > :sw_lng')
+        .setParameters({
+          ne_lat: bounds?.northEast.lat,
+          ne_lng: bounds?.northEast.lng,
+          sw_lat: bounds?.southWest.lat,
+          sw_lng: bounds?.southWest.lng,
+        })
+        .cache(true);
+      //.take(realLimitPlusOne);
+    } else if (latitude && longitude) {
+      qb.select([
+        '*',
+        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+      ])
+        .where(
+          `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+        )
+        .orderBy('distance', 'ASC')
+        .setParameters({
+          origin: JSON.stringify(origin),
+          range: 100 * 1000,
+        })
+        .cache(30000)
+        .take(realLimitPlusOne);
+    }
+
+    //console.log(boundsListings);
+
+    // if (cursor) {
+    //   qb.andWhere('l."createdAt" < :cursor ', {
+    //     cursor: new Date(parseInt(cursor)),
+    //   });
     // }
 
-    const boundsListings = getConnection()
-      .getRepository(Listing)
-      .createQueryBuilder('l')
-      .select('*')
-      .where('l.latitude < :ne_lat AND l.lng < :ne_lng')
-      .andWhere('l.latitude > :sw_lat AND l.longitude > :sw_lng')
-      .setParameters({ ne_lat: 1, ne_lng: 1, sw_lat: 1, sw_lng: 1 })
-      .take(realLimitPlusOne)
-      .getRawMany();
-
-    console.log(boundsListings);
-
-    if (cursor) {
-      qb.andWhere('l."createdAt" < :cursor ', {
-        cursor: new Date(parseInt(cursor)),
-      });
-    }
-
-    if (guests) {
-      qb = qb.andWhere('l.guests = :guests', { guests });
-    }
+    // if (guests) {
+    //   qb = qb.andWhere('l.guests = :guests', { guests });
+    // }
     // if (beds) {
     //   qb = qb.andWhere('l.beds = :beds', { beds });
     // }

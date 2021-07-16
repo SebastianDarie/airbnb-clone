@@ -1,5 +1,9 @@
 import shallow from 'zustand/shallow';
-import { useSearchListingsQuery } from '@airbnb-clone/controller';
+import {
+  SearchListingsDocument,
+  useSearchListingsLazyQuery,
+  useSearchListingsQuery,
+} from '@airbnb-clone/controller';
 import { FiltersBar } from '../components/FiltersBar';
 import Layout from '../components/Layout';
 import { ListingCard } from '../components/Search/ListingCard';
@@ -7,12 +11,20 @@ import styles from '../sass/pages/Search.module.scss';
 import cardStyles from '../sass/components/ListingCard.module.scss';
 import SearchStore from '../stores/useSearchStore';
 import { withApollo } from '../utils/withApollo';
-import { useCallback, useEffect, useRef, useState, CSSProperties } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  CSSProperties,
+  memo,
+} from 'react';
 import FiltersStore from '../stores/useFiltersStore';
 import { useApolloClient } from '@apollo/client';
 import { GoogleMap, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
+import MarkerManager from '../utils/markerManager';
 import { ImageCard } from '../components/Search/ImageCard';
 //import { OverlappingMarkerSpiderfier } from 'ts-overlapping-marker-spiderfier';
 
@@ -57,10 +69,12 @@ const Search: React.FC<SearchProps> = ({}) => {
   const [selected, setSelected] = useState<MarkerWithLabel | null>(null);
   const mapRef = useRef<google.maps.Map<Element> | null>(null);
 
-  let geocoder: google.maps.Geocoder = new google.maps.Geocoder();
+  let markerManager: MarkerManager;
+  // let geocoder: google.maps.Geocoder = new google.maps.Geocoder();
   // let oms: OverlappingMarkerSpiderfier | null = null;
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
+    markerManager = new MarkerManager(map);
     //geocoder = new google.maps.Geocoder();
     //oms = new OverlappingMarkerSpiderfier(mapRef.current);
     //  addMarkers();
@@ -107,10 +121,10 @@ const Search: React.FC<SearchProps> = ({}) => {
 
   const apolloClient = useApolloClient();
 
-  useEffect(() => {
-    apolloClient.cache.evict({ fieldName: 'searchListings:{}' });
-    apolloClient.cache.gc();
-  }, []);
+  // useEffect(() => {
+  //   apolloClient.cache.evict({ fieldName: 'searchListings:{}' });
+  //   apolloClient.cache.gc();
+  // }, []);
 
   const [
     latitude,
@@ -128,26 +142,30 @@ const Search: React.FC<SearchProps> = ({}) => {
     ],
     shallow
   );
-  const { data, error, loading, variables, fetchMore } = useSearchListingsQuery(
-    {
-      variables: {
-        input: { latitude, longitude, guests: adults + children + infants },
-        limit: 20,
-        cursor: null,
-      },
-      notifyOnNetworkStatusChange: true,
-    }
-  );
-  const filtersRef = useRef(FiltersStore.useFiltersStore.getState());
+  // const { data, error, loading, variables, fetchMore } = useSearchListingsQuery(
+  //   {
+  //     variables: {
+  //       input: { latitude, longitude, guests: adults + children + infants },
+  //       limit: 20,
+  //       cursor: null,
+  //     },
+  //     notifyOnNetworkStatusChange: true,
+  //   }
+  // );
+  const [
+    searchListings,
+    { data, error, loading, fetchMore },
+  ] = useSearchListingsLazyQuery();
+  //const filtersRef = useRef(FiltersStore.useFiltersStore.getState());
 
-  useEffect(
-    () =>
-      FiltersStore.useFiltersStore.subscribe(
-        (filters) => (filtersRef.current = filters as any),
-        (state) => state
-      ),
-    []
-  );
+  // useEffect(
+  //   () =>
+  //     FiltersStore.useFiltersStore.subscribe(
+  //       (filters) => (filtersRef.current = filters as any),
+  //       (state) => state
+  //     ),
+  //   []
+  // );
 
   //const filteredListings = data?.searchListings.listings.filter(l => l.amenities)
 
@@ -161,8 +179,9 @@ const Search: React.FC<SearchProps> = ({}) => {
   }
 
   useEffect(() => {
-    if (data && isLoaded) {
-      addMarkers();
+    if (data && isLoaded && markerManager) {
+      markerManager.updateMarkers(data.searchListings.listings);
+      // addMarkers();
       // oms = new OverlappingMarkerSpiderfier(mapRef.current!, {
       //   markersWontMove: true,
       //   markersWontHide: true,
@@ -232,10 +251,15 @@ const Search: React.FC<SearchProps> = ({}) => {
             <button
               className={styles.load__more__btn}
               onClick={() =>
-                fetchMore({
+                fetchMore!({
+                  query: SearchListingsDocument,
                   variables: {
-                    input: variables?.input,
-                    limit: variables?.limit,
+                    input: {
+                      latitude,
+                      longitude,
+                      guests: adults + children + infants,
+                    },
+                    limit: 20,
                     cursor:
                       data?.searchListings.listings[
                         data.searchListings.listings.length - 1
@@ -258,29 +282,14 @@ const Search: React.FC<SearchProps> = ({}) => {
                 center={{ lat: latitude, lng: longitude }}
                 zoom={12}
                 options={options}
-                onBoundsChanged={() => {
-                  console.log(
-                    mapRef.current?.getCenter().toString(),
-                    mapRef.current?.getBounds()?.toString()
-                  );
-                  geocoder.geocode(
-                    {
-                      bounds: mapRef.current?.getBounds()!,
-                    },
-                    (results, status) => {
-                      if (status === 'OK') {
-                        console.log(results[0].geometry.location);
-                      } else {
-                        console.log(status);
-                      }
-                    }
-                  );
-                }}
-                // onCenterChanged={() => {
-                //   console.log(mapRef.current?.getBounds());
-                //    geocoder.geocode(
+                // onBoundsChanged={() => {
+                //   console.log(
+                //     mapRef.current?.getCenter().toString(),
+                //     mapRef.current?.getBounds()?.toString()
+                //   );
+                //   geocoder.geocode(
                 //     {
-                //       bounds: mapRef.current.getBounds()!,
+                //       bounds: mapRef.current?.getBounds()!,
                 //     },
                 //     (results, status) => {
                 //       if (status === 'OK') {
@@ -291,6 +300,35 @@ const Search: React.FC<SearchProps> = ({}) => {
                 //     }
                 //   );
                 // }}
+                onCenterChanged={() => {
+                  // console.log(mapRef.current?.getBounds());
+                  //  geocoder.geocode(
+                  //   {
+                  //     bounds: mapRef.current.getBounds()!,
+                  //   },
+                  //   (results, status) => {
+                  //     if (status === 'OK') {
+                  //       console.log(results[0].geometry.location);
+                  //     } else {
+                  //       console.log(status);
+                  //     }
+                  //   }
+                  // )
+
+                  const newLat = mapRef.current?.getCenter().lat();
+                  const newLng = mapRef.current?.getCenter().lng();
+                  if (latitude !== newLat || longitude !== newLng) {
+                    SearchStore.setLocation(
+                      '',
+                      mapRef.current?.getCenter().lat()!,
+                      mapRef.current?.getCenter().lng()!
+                    );
+
+                    // if (data && markerManager) {
+                    //   markerManager.updateMarkers(data.searchListings.listings);
+                    // }
+                  }
+                }}
                 onIdle={() => {
                   const {
                     north,
@@ -304,7 +342,16 @@ const Search: React.FC<SearchProps> = ({}) => {
                     northEast: { lat: north, lng: east },
                     southWest: { lat: south, lng: west },
                   };
-                  console.log(bounds);
+                  //console.log(bounds);
+                  // apolloClient.cache.evict({ fieldName: 'searchListings:{}' });
+                  // apolloClient.cache.gc();
+                  searchListings({
+                    variables: {
+                      input: { bounds },
+                      limit: 50,
+                      cursor: null,
+                    },
+                  });
                 }}
                 onLoad={onMapLoad}
               >
@@ -343,4 +390,4 @@ const Search: React.FC<SearchProps> = ({}) => {
   );
 };
 
-export default withApollo({ ssr: true })(Search);
+export default withApollo({ ssr: true })(memo(Search));

@@ -14,6 +14,11 @@ export type Scalars = {
   Float: number;
 };
 
+export type Bounds = {
+  northEast: LatLngLiteral;
+  southWest: LatLngLiteral;
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   path: Scalars['String'];
@@ -37,6 +42,11 @@ export type HeaderInput = {
   subject: Scalars['String'];
   status: MessageStatus;
   listingId: Scalars['String'];
+};
+
+export type LatLngLiteral = {
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
 };
 
 export type Listing = {
@@ -303,6 +313,7 @@ export type ReviewInput = {
 export type SearchInput = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  bounds?: Maybe<Bounds>;
   title?: Maybe<Scalars['String']>;
   beds?: Maybe<Scalars['Int']>;
   guests?: Maybe<Scalars['Int']>;
@@ -596,7 +607,7 @@ export type ListingQuery = (
   { __typename?: 'Query' }
   & { listing?: Maybe<(
     { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'city' | 'type' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities'>
+    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'city' | 'type' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'latitude' | 'longitude'>
     & { creator: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email' | 'name' | 'photoUrl' | 'createdAt'>
@@ -1251,6 +1262,8 @@ export const ListingDocument = gql`
     beds
     guests
     amenities
+    latitude
+    longitude
     creator {
       id
       email

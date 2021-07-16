@@ -5,7 +5,6 @@ import {
 } from '@airbnb-clone/controller';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
-import { useLoadScript } from '@react-google-maps/api';
 import {
   Combobox,
   ComboboxInput,
@@ -24,6 +23,7 @@ import { GuestsMenu } from './GuestsMenu';
 import styles from '../../sass/components/Searchbar.module.scss';
 
 import '@reach/combobox/styles.css';
+import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
 
 interface SearchbarProps {
   scrolled: boolean;
@@ -81,19 +81,8 @@ const PlacesAutocomplete = ({
   );
 };
 
-const libraries: (
-  | 'places'
-  | 'drawing'
-  | 'geometry'
-  | 'localContext'
-  | 'visualization'
-)[] = ['places'];
-
 export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries,
-  });
+  const { isLoaded } = useGoogleMaps();
 
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     active: false,

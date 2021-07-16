@@ -117,6 +117,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
                     <a
                       className={styles.invisible__link}
                       rel='noopener noreferrer'
+                      onClick={(e) => e.stopPropagation()}
                     ></a>
                   </Link>
                 )}

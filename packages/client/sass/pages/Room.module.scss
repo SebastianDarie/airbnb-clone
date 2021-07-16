@@ -633,6 +633,26 @@
   width: 689px;
 }
 
+.location__margin {
+  margin-bottom: 24px;
+}
+
+.map__container {
+  border-radius: 12px 12px 0px 0px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0px, 0px, 0px);
+  position: relative;
+  height: 218px;
+
+  @media screen and (min-width: 744px) {
+    border-radius: 8px;
+    height: 480px;
+    margin-bottom: 32px;
+    overflow: visible;
+  }
+}
+
 .contact__btn {
   display: inline-block;
   position: relative;
