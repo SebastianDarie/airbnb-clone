@@ -20,12 +20,14 @@ import {
   memo,
 } from 'react';
 import FiltersStore from '../stores/useFiltersStore';
-import { useApolloClient } from '@apollo/client';
+import { NetworkStatus, useApolloClient } from '@apollo/client';
 import { GoogleMap, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 import MarkerManager from '../utils/markerManager';
 import { ImageCard } from '../components/Search/ImageCard';
+import { useGoogleMaps } from '../utils/GoogleMapsProvider';
+import { SearchControl } from '../components/Search/SearchControl';
 //import { OverlappingMarkerSpiderfier } from 'ts-overlapping-marker-spiderfier';
 
 interface SearchProps {}
@@ -55,43 +57,58 @@ const mapContainerStyle: CSSProperties = {
   width: '100%',
 };
 
-const options = {
+const options: google.maps.MapOptions = {
+  fullscreenControl: false,
+  mapTypeControl: false,
   scrollwheel: false,
+  streetViewControl: false,
   zoomControl: true,
+  //  zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_TOP },
 };
 
 const Search: React.FC<SearchProps> = ({}) => {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries,
-  });
+  // const { isLoaded, loadError } = useLoadScript({
+  //   googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+  //   libraries,
+  // });
+  const { isLoaded } = useGoogleMaps();
+  const [checked, setChecked] = useState<boolean>(true);
   const [markers, setMarkers] = useState<MarkerWithLabel[]>([]);
   const [selected, setSelected] = useState<MarkerWithLabel | null>(null);
   const mapRef = useRef<google.maps.Map<Element> | null>(null);
+  const controlRef = useRef<HTMLDivElement | null>(null);
 
-  let markerManager: MarkerManager;
+  //let markerManager: MarkerManager;
   // let geocoder: google.maps.Geocoder = new google.maps.Geocoder();
   // let oms: OverlappingMarkerSpiderfier | null = null;
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
-    markerManager = new MarkerManager(map);
+    //markerManager = new MarkerManager(map);
+    if (controlRef.current) {
+      map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+        controlRef.current
+      );
+    }
     //geocoder = new google.maps.Geocoder();
     //oms = new OverlappingMarkerSpiderfier(mapRef.current);
-    //  addMarkers();
+    if (data) {
+      addMarkers();
+    }
   }, []);
 
-  const addMarkers = () => {
+  const addMarkers = (): void => {
     data?.searchListings.listings.map((l) => {
-      //if (!!markers.filter((m) => m.get('id') !== l.id)) {
-      const { latitude: lat, longitude: lng } = l;
-      const marker = new MarkerWithLabel({
-        position: { lat, lng },
-        clickable: true,
-        draggable: false,
-        map: mapRef.current!,
-        icon:
-          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
-        labelContent: `
+      const existingMarker = markers.filter((m) => m.get('id') === l.id);
+      if (existingMarker.length === 0) {
+        const { latitude: lat, longitude: lng } = l;
+        const marker = new MarkerWithLabel({
+          position: { lat, lng },
+          clickable: true,
+          draggable: false,
+          map: mapRef.current!,
+          icon:
+            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+          labelContent: `
             <div class='label__transform'>
               <button class='label__btn' type='button'>
                 <div class='label__scale'>
@@ -106,18 +123,23 @@ const Search: React.FC<SearchProps> = ({}) => {
               </button>
             </div>
         `,
-      });
+        });
 
-      marker.addListener('click', () => setSelected(marker));
-      // marker.addListener('mouseover', () => setShowControls(true));
-      // marker.addListener('mouseout', () => setShowControls(false));
-      marker.setValues({ id: l.id });
-      // oms?.addMarker(marker, () => setSelected(marker));
-      //setMarkers((curr) => [...curr, marker]);
-      return marker;
-      //}
+        marker.addListener('click', () => setSelected(marker));
+        // marker.addListener('mouseover', () => setShowControls(true));
+        // marker.addListener('mouseout', () => setShowControls(false));
+        marker.setValues({ id: l.id });
+        // oms?.addMarker(marker, () => setSelected(marker));
+        setMarkers((curr) => [...curr, marker]);
+        return marker;
+      }
     });
   };
+
+  // const removeMarker = (id: string): void => {
+  //     markers.find(m => m.get('id') === id)?.setMap(null)
+  //   setMarkers(markers.filter((m) => m.get('id') !== id))
+  // }
 
   const apolloClient = useApolloClient();
 
@@ -142,20 +164,26 @@ const Search: React.FC<SearchProps> = ({}) => {
     ],
     shallow
   );
-  // const { data, error, loading, variables, fetchMore } = useSearchListingsQuery(
-  //   {
-  //     variables: {
-  //       input: { latitude, longitude, guests: adults + children + infants },
-  //       limit: 20,
-  //       cursor: null,
-  //     },
-  //     notifyOnNetworkStatusChange: true,
-  //   }
-  // );
-  const [
-    searchListings,
-    { data, error, loading, fetchMore },
-  ] = useSearchListingsLazyQuery();
+  const {
+    data,
+    error,
+    loading,
+    networkStatus,
+    fetchMore,
+    refetch,
+  } = useSearchListingsQuery({
+    variables: {
+      input: { latitude, longitude, guests: adults + children + infants },
+      limit: 20,
+      cursor: null,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+  // const [
+  //   searchListings,
+  //   { data, error, loading, fetchMore },
+  // ] = useSearchListingsLazyQuery();
+
   //const filtersRef = useRef(FiltersStore.useFiltersStore.getState());
 
   // useEffect(
@@ -179,8 +207,8 @@ const Search: React.FC<SearchProps> = ({}) => {
   }
 
   useEffect(() => {
-    if (data && isLoaded && markerManager) {
-      markerManager.updateMarkers(data.searchListings.listings);
+    if (data && isLoaded) {
+      //markerManager.updateMarkers(data.searchListings.listings);
       // addMarkers();
       // oms = new OverlappingMarkerSpiderfier(mapRef.current!, {
       //   markersWontMove: true,
@@ -191,16 +219,61 @@ const Search: React.FC<SearchProps> = ({}) => {
       //   imagePath:
       //     'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
       // });
+      // controlRef.current?.addEventListener('click', () => {
+      //   if (checked) {
+      //     google.maps.event.clearListeners(mapRef.current!, 'dragend');
+      //   } else if (!checked) {
+      //     google.maps.event.addListener(mapRef.current!, 'dragend', () => {
+      //       const newLat = mapRef.current!.getCenter().lat();
+      //       const newLng = mapRef.current!.getCenter().lng();
+      //       if (latitude !== newLat || longitude !== newLng) {
+      //         SearchStore.setLocation('', newLat!, newLng!);
+      //       }
+      //       const {
+      //         north,
+      //         east,
+      //         south,
+      //         west,
+      //       } = mapRef
+      //         .current!.getBounds()
+      //         ?.toJSON() as DirectionsBoundsLiteral;
+      //       const bounds = {
+      //         northEast: { lat: north, lng: east },
+      //         southWest: { lat: south, lng: west },
+      //       };
+      //       searchListings({
+      //         variables: {
+      //           input: { bounds },
+      //           limit: 50,
+      //           cursor: null,
+      //         },
+      //       });
+      //     });
+      //   }
+      // });
     }
     return () => {};
   }, [data, isLoaded]);
 
   const [showControls, setShowControls] = useState<boolean>(false);
 
-  // if(isLoaded)
+  // if (isLoaded) {
+  // searchListings({
+  //   variables: {
+  //     input: {
+  //       latitude,
+  //       longitude,
+  //     },
+  //     limit: 20,
+  //     cursor: null,
+  //   },
+  // });
+  // }
+
+  // console.log(loading, networkStatus);
 
   return (
-    <Layout filter search>
+    <Layout isLoaded={isLoaded} filter search>
       <div className={styles.inset__div}>
         {/* <FiltersBar filtersRef={filtersRef} /> */}
 
@@ -232,7 +305,9 @@ const Search: React.FC<SearchProps> = ({}) => {
                         <ListingCard
                           key={listing.id}
                           listing={listing}
-                          loading={loading}
+                          loading={
+                            loading || networkStatus === NetworkStatus.refetch
+                          }
                         />
                       ))}
                     </div>
@@ -314,47 +389,121 @@ const Search: React.FC<SearchProps> = ({}) => {
                   //     }
                   //   }
                   // )
-
-                  const newLat = mapRef.current?.getCenter().lat();
-                  const newLng = mapRef.current?.getCenter().lng();
-                  if (latitude !== newLat || longitude !== newLng) {
-                    SearchStore.setLocation(
-                      '',
-                      mapRef.current?.getCenter().lat()!,
-                      mapRef.current?.getCenter().lng()!
-                    );
-
-                    // if (data && markerManager) {
-                    //   markerManager.updateMarkers(data.searchListings.listings);
-                    // }
-                  }
+                  // const newLat = mapRef.current?.getCenter().lat();
+                  // const newLng = mapRef.current?.getCenter().lng();
+                  // if (latitude !== newLat || longitude !== newLng) {
+                  //   SearchStore.setLocation(
+                  //     '',
+                  //     mapRef.current?.getCenter().lat()!,
+                  //     mapRef.current?.getCenter().lng()!
+                  //   );
+                  //   // if (data && markerManager) {
+                  //   //   markerManager.updateMarkers(data.searchListings.listings);
+                  //   // }
+                  // }
                 }}
-                onIdle={() => {
-                  const {
-                    north,
-                    east,
-                    south,
-                    west,
-                  } = mapRef.current
-                    ?.getBounds()
-                    ?.toJSON() as DirectionsBoundsLiteral;
-                  const bounds = {
-                    northEast: { lat: north, lng: east },
-                    southWest: { lat: south, lng: west },
-                  };
-                  //console.log(bounds);
-                  // apolloClient.cache.evict({ fieldName: 'searchListings:{}' });
-                  // apolloClient.cache.gc();
-                  searchListings({
-                    variables: {
+                // onIdle={() => {
+                //   const {
+                //     north,
+                //     east,
+                //     south,
+                //     west,
+                //   } = mapRef.current
+                //     ?.getBounds()
+                //     ?.toJSON() as DirectionsBoundsLiteral;
+                //   const bounds = {
+                //     northEast: { lat: north, lng: east },
+                //     southWest: { lat: south, lng: west },
+                //   };
+                //   //console.log(bounds);
+                //   // apolloClient.cache.evict({ fieldName: 'searchListings:{}' });
+                //   // apolloClient.cache.gc();
+                //   searchListings({
+                //     variables: {
+                //       input: { bounds },
+                //       limit: 50,
+                //       cursor: null,
+                //     },
+                //   });
+                // }}
+                onDragEnd={async () => {
+                  if (checked) {
+                    const newLat = mapRef.current?.getCenter().lat();
+                    const newLng = mapRef.current?.getCenter().lng();
+                    if (latitude !== newLat || longitude !== newLng) {
+                      SearchStore.setLocation('', newLat!, newLng!);
+                    }
+
+                    const currBounds = mapRef.current?.getBounds();
+
+                    const {
+                      north,
+                      east,
+                      south,
+                      west,
+                    } = currBounds?.toJSON() as DirectionsBoundsLiteral;
+
+                    const bounds = {
+                      northEast: { lat: north, lng: east },
+                      southWest: { lat: south, lng: west },
+                    };
+
+                    // apolloClient.cache.evict({
+                    //   fieldName: 'searchListings:{}',
+                    // });
+                    // apolloClient.cache.gc();
+
+                    const { data: newData } = await refetch({
                       input: { bounds },
                       limit: 50,
                       cursor: null,
-                    },
-                  });
+                    });
+
+                    addMarkers();
+
+                    markers.forEach((m) => {
+                      if (!currBounds?.contains(m.getPosition()!)) {
+                        m.setMap(null);
+                        setMarkers(
+                          markers.filter((mk) => mk.get('id') !== m.get('id'))
+                        );
+                      }
+                    });
+
+                    // newData?.searchListings.listings.map((l) => {
+                    //   markers.find((m) => {
+                    //     if (m.get('id') !== l.id) {
+                    //       m.setMap(null);
+                    //       setMarkers(
+                    //         markers.filter((mk) => mk.get('id') !== m.get('id'))
+                    //       );
+                    //     }
+                    //   });
+                    //   // if (oldMarker) {
+                    //   //   oldMarker.setMap(null);
+                    //   //   setMarkers(
+                    //   //     markers.filter(
+                    //   //       (m) => m.get('id') !== oldMarker.get('id')
+                    //   //     )
+                    //   //   );
+                    //   // }
+                    // });
+                  } else if (!checked) {
+                    const newLat = mapRef.current?.getCenter().lat();
+                    const newLng = mapRef.current?.getCenter().lng();
+                    if (latitude !== newLat || longitude !== newLng) {
+                      SearchStore.setLocation('', newLat!, newLng!);
+                    }
+                  }
                 }}
                 onLoad={onMapLoad}
               >
+                <SearchControl
+                  checked={checked}
+                  loading={loading}
+                  controlRef={controlRef}
+                  setChecked={setChecked}
+                />
                 {selected ? (
                   <InfoWindow
                     position={{

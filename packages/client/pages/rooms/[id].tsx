@@ -1,9 +1,14 @@
-import { RightArrowSvg, SuperHostSvg } from '@airbnb-clone/controller';
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import {
+  HomeMarkerSvg,
+  RightArrowSvg,
+  SuperHostSvg,
+} from '@airbnb-clone/controller';
+import { Circle, GoogleMap, Marker } from '@react-google-maps/api';
 import {
   CSSProperties,
   memo,
   RefObject,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -24,6 +29,7 @@ import { dynamicSvgs } from '../../constants/dynamicSvgs';
 import styles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
+import createHTMLMapMarker from '../../utils/createHTMLMapMarker';
 import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
 import { withApollo } from '../../utils/withApollo';
 
@@ -80,6 +86,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     shallow
   );
   const [visibleSection, setVisibleSection] = useState<string | undefined>('');
+  const mapRef = useRef<google.maps.Map<Element> | null>(null);
   const nav = useRef<HTMLDivElement>(null);
   const photosRef = useRef<HTMLDivElement>(null);
   const amenitiesRef = useRef<HTMLDivElement>(null);
@@ -156,12 +163,61 @@ const Room: React.FC<RoomProps> = memo(({}) => {
 
   const { isLoaded } = useGoogleMaps();
 
-  // const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
-  //   mapRef.current = map;
-  // }, []);
+  const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
+    mapRef.current = map;
+  }, []);
+
+  useEffect(() => {
+    if (data && isLoaded) {
+      const position = new google.maps.LatLng(
+        data?.listing?.latitude!,
+        data?.listing?.longitude!
+      );
+
+      let marker = createHTMLMapMarker({
+        html: `<div classname='listing__location__transform'>
+        <div classname='listing__location__transition'>
+          <div classname='listing__location__size'>
+            <div classname='listing__location__background'>
+              <div classname='listing__location__flex'>
+                <div classname='listing__location__icon'>
+                <img id="parrot" src="https://cultofthepartyparrot.com/parrots/hd/parrot.gif">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`,
+        map: mapRef.current!,
+        position: position,
+      });
+
+      marker.setMap(mapRef.current);
+    }
+  }, [data, isLoaded]);
+
+  // if (isLoaded) {
+  //   createHTMLMapMarker({
+  //     html: `<div classname='listing__location__transform'>
+  //     <div classname='listing__location__transition'>
+  //       <div classname='listing__location__size'>
+  //         <div classname='listing__location__background'>
+  //           <div classname='listing__location__flex'>
+  //             <div classname='listing__location__icon'>
+  //               <HomeMarkerSvg />
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>`,
+  //     map: mapRef.current!,
+  //     position: position,
+  //   });
+  // }
 
   return (
-    <Layout filter room search>
+    <Layout isLoaded={isLoaded} filter room search>
       <div className={styles.inherit__div}>
         <div className={styles.display__div}>
           <SectionWrapper>
@@ -426,7 +482,9 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                       </h2>
                     </div>
                   </div>
-                  <div className={styles.location__margin}>Kiev, Ukraine</div>
+                  <div className={styles.location__margin}>
+                    {data?.listing?.city}, Ukraine
+                  </div>
                   <div className={styles.map__container}>
                     {data && isLoaded ? (
                       <GoogleMap
@@ -436,16 +494,17 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           lat: data.listing?.latitude!,
                           lng: data.listing?.longitude!,
                         }}
-                        zoom={15}
+                        zoom={16}
                         options={options}
-                        //onLoad={onMapLoad}
+                        onLoad={onMapLoad}
                       >
                         <Marker
                           animation={2}
                           icon={{
                             path:
                               'M8.602 1.147l.093.08 7.153 6.914-.696.718L14 7.745V14.5a.5.5 0 0 1-.41.492L13.5 15H10V9.5a.5.5 0 0 0-.41-.492L9.5 9h-3a.5.5 0 0 0-.492.41L6 9.5V15H2.5a.5.5 0 0 1-.492-.41L2 14.5V7.745L.847 8.86l-.696-.718 7.153-6.915a1 1 0 0 1 1.297-.08z',
-                            fillColor: 'white',
+                            fillColor: '#ffffff',
+                            origin: new google.maps.Point(0, 0),
                             size: new google.maps.Size(22, 22, 'px', 'px'),
                           }}
                           position={{
@@ -454,7 +513,23 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           }}
                           clickable={false}
                           draggable={false}
-                          shape={{ coords: [60, 60, 60], type: 'circle' }}
+                          //label={`<span>gu gu gaga</span>`}
+                          // options={{
+                          //   anchorPoint: new google.maps.Point(20, 20),
+                          // }}
+                          //shape={{ coords: [60, 60, 60], type: 'circle' }}
+                        />
+                        <Circle
+                          center={{
+                            lat: data.listing?.latitude!,
+                            lng: data.listing?.longitude!,
+                          }}
+                          radius={125}
+                          options={{
+                            fillColor: '#E5C8CD',
+                            fillOpacity: 0.35,
+                            strokeOpacity: 0,
+                          }}
                         />
                       </GoogleMap>
                     ) : null}

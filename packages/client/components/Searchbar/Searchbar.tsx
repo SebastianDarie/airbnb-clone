@@ -23,9 +23,9 @@ import { GuestsMenu } from './GuestsMenu';
 import styles from '../../sass/components/Searchbar.module.scss';
 
 import '@reach/combobox/styles.css';
-import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
 
 interface SearchbarProps {
+  isLoaded: boolean;
   scrolled: boolean;
 }
 
@@ -81,9 +81,7 @@ const PlacesAutocomplete = ({
   );
 };
 
-export const Searchbar: React.FC<SearchbarProps> = ({ scrolled }) => {
-  const { isLoaded } = useGoogleMaps();
-
+export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     active: false,
     el: '',

@@ -14,12 +14,14 @@ import { SearchForm } from '../Searchbar/SearchForm';
 import { getInitialCln } from '../../utils/getInitialCln';
 
 type NavbarProps = {
+  isLoaded?: boolean;
   filter?: boolean;
   room?: boolean;
   search?: boolean;
 } & WithLogoutProps;
 
 const Navbar: React.FC<NavbarProps> = ({
+  isLoaded = false,
   filter = false,
   room = false,
   search = false,
@@ -68,7 +70,12 @@ const Navbar: React.FC<NavbarProps> = ({
           </Link>
         </div>
 
-        <SearchForm filter={filter} search={search} scrolled={scrolled} />
+        <SearchForm
+          isLoaded={isLoaded}
+          filter={filter}
+          search={search}
+          scrolled={scrolled}
+        />
 
         <NavSettings
           data={data}

@@ -4,12 +4,14 @@ import styles from '../../sass/components/SearchForm.module.scss';
 import { getInitialCln } from '../../utils/getInitialCln';
 
 interface SearchFormProps {
+  isLoaded: boolean;
   filter: boolean;
   search: boolean;
   scrolled: boolean;
 }
 
 export const SearchForm: React.FC<SearchFormProps> = ({
+  isLoaded,
   filter,
   search,
   scrolled,
@@ -139,7 +141,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                 </div>
               </fieldset>
 
-              <Searchbar scrolled={scrolled} />
+              <Searchbar isLoaded={isLoaded} scrolled={scrolled} />
             </form>
           </div>
         </>
