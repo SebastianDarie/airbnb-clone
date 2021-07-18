@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import { RadioButton } from '../../components/RadioButton';
 import styles from '../../sass/pages/CreateListing.module.scss';
@@ -41,17 +40,6 @@ const types = [
 ];
 
 const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
-  // const typeRef = useRef(useListingStore.getState().type);
-
-  // useEffect(
-  //   () =>
-  //     useListingStore.subscribe(
-  //       (type) => (typeRef.current = type),
-  //       (state) => state.type
-  //     ),
-  //   []
-  // );
-
   const type = ListingStore.useListingStore((state) => state.type);
   const selectType = ListingStore.selectType;
 
@@ -60,6 +48,7 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
       <div className={styles.radiogroup}>
         {types.map((t) => (
           <RadioButton
+            key={t.option}
             delay={t.delay}
             option={t.option}
             description={t.description}

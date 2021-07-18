@@ -1,5 +1,7 @@
 @use '../utilities/bootstrap.scss';
 
+@include bootstrap.opacity-mixin;
+
 *,
 *::before,
 *::after {
@@ -171,11 +173,118 @@ h6:first-child {
 }
 
 .swiper-button-prev {
-  color: bootstrap.$black !important;
+  // position: absolute !important;
+  // top: 50% !important;
+  // pointer-events: auto !important;
+  // transform: translateY(-50%) !important;
+  // left: 8px !important;
+  display: inline-flex !important;
+  border-radius: 50% !important;
+  border: 0px !important;
+  outline: none !important;
+  padding: 0px !important;
+  color: #222222 !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  background-clip: padding-box !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+    0px 2px 4px rgb(0 0 0 / 18%) !important;
+  transition: transform 0.25s ease !important;
+  width: 32px !important;
+  height: 32px !important;
+  z-index: 10 !important;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    background-color: bootstrap.$default-color !important;
+    color: bootstrap.$black !important;
+    box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+      0px 6px 16px rgb(0 0 0 / 12%) !important;
+    transform: scale(1.04) !important;
+    // position: absolute !important;
+    // display: block !important;
+    // top: 50% !important;
+    // pointer-events: auto !important;
+    // left: 8px !important;
+    // animation-duration: 0.3s !important;
+    // animation-name: opacity-appear !important;
+    // opacity: 1 !important;
+    // visibility: visible !important;
+  }
+
+  &::after {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+  }
 }
 
 .swiper-button-next {
-  color: bootstrap.$black !important;
+  display: inline-flex !important;
+  border-radius: 50% !important;
+  border: 0px !important;
+  outline: none !important;
+  padding: 0px !important;
+  color: #222222 !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  background-clip: padding-box !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+    0px 2px 4px rgb(0 0 0 / 18%) !important;
+  transition: transform 0.25s ease !important;
+  width: 32px !important;
+  height: 32px !important;
+  z-index: 10 !important;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    background-color: bootstrap.$default-color !important;
+    color: bootstrap.$black !important;
+    box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+      0px 6px 16px rgb(0 0 0 / 12%) !important;
+    transform: scale(1.04) !important;
+  }
+
+  &::after {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+  }
+}
+
+.swiper-pagination-bullet {
+  background: bootstrap.$default-color !important;
+  border-radius: 50% !important;
+  height: 6px !important;
+  margin-left: 2.5px !important;
+  margin-right: 2.5px !important;
+  min-width: 6px !important;
+  transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s !important;
+  width: 6px !important;
+}
+
+.swiper-pagination-bullet-active-next,
+.swiper-pagination-bullet-active-next-next,
+.swiper-pagination-bullet-active-prev {
+  background: bootstrap.$default-color !important;
+  border-radius: 50% !important;
+  height: 6px !important;
+  margin-left: 2.5px !important;
+  margin-right: 2.5px !important;
+  min-width: 6px !important;
+  transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s !important;
+  width: 6px !important;
+  opacity: 0.6 !important;
 }
 
 .listing__location__transform {
@@ -247,4 +356,43 @@ h6:first-child {
 .listing__location__icon {
   position: relative;
   bottom: 1px;
+}
+
+.circle__container {
+  pointer-events: none;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle__outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background-color: bootstrap.$default-color;
+  box-shadow: 0px 6px 16px rgb(0 0 0 / 12%);
+}
+
+.circle__inner {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: bootstrap.$black;
+}
+
+.location__pin__position {
+  pointer-events: none;
+  position: absolute;
+  height: 90px;
+  width: 90px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  padding: 1.5em;
+  margin-top: -43px;
 }

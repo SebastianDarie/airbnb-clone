@@ -41,10 +41,6 @@ const PlacesAutocomplete = ({
     setValue,
     clearSuggestions,
   } = usePlacesAutocomplete({
-    requestOptions: {
-      location: { lat: () => 43.6352, lng: () => -79.3832 },
-      radius: 100 * 1000,
-    },
     debounce: 300,
   });
 

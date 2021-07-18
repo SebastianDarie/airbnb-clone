@@ -60,9 +60,11 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
             <h1 className={styles.placeholder__text}>{placeholderText}</h1>
           </div>
         </div>
-        <div className={styles.sticky__bar}>
-          <div className={styles.bar__padding}></div>
-        </div>
+        {location ? null : (
+          <div className={styles.sticky__bar}>
+            <div className={styles.bar__padding}></div>
+          </div>
+        )}
         <div className={styles.right__side}>
           <div
             className={styles.right__margin}
@@ -137,10 +139,10 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                               guests: store.useListingStore.getState().guests,
                               highlights: store.useListingStore.getState()
                                 .highlights,
-                              latitude: store.useListingStore.getState()
-                                .coords[0],
-                              longitude: store.useListingStore.getState()
-                                .coords[1],
+                              latitude: store.useListingStore.getState().coords
+                                .lat,
+                              longitude: store.useListingStore.getState().coords
+                                .lng,
                               price: store.useListingStore.getState().price,
                               title: store.useListingStore.getState().title,
                               type: store.useListingStore.getState().type,

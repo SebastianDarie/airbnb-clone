@@ -1,16 +1,17 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { Photo } from '@airbnb-clone/common';
-import { LatLngTuple } from 'leaflet';
+import { LatLon } from 'use-places-autocomplete';
 
 interface ListingState {
+  addressFound: boolean;
   amenities: string[];
   bathrooms: number;
   bedrooms: number;
   beds: number;
   category: string;
   city: string;
-  coords: LatLngTuple;
+  coords: LatLon;
   description: string;
   guests: number;
   highlights: string[];
@@ -23,13 +24,14 @@ interface ListingState {
 namespace ListingStore {
   export const useListingStore = create<ListingState>(
     devtools(() => ({
+      addressFound: false as boolean,
       amenities: [''],
       bathrooms: 1,
       bedrooms: 1,
       beds: 1,
       category: 'Apartment',
       city: '',
-      coords: [] as any,
+      coords: {} as any,
       description: '',
       guests: 2,
       highlights: [''],
@@ -46,11 +48,11 @@ namespace ListingStore {
   export const selectType = (type: string) =>
     useListingStore.setState((state) => ({ ...state, type }));
 
-  export const updateLocation = (coords: LatLngTuple) =>
-    useListingStore.setState((state) => ({ ...state, coords }));
+  export const updateLocation = (city: string, coords: LatLon) =>
+    useListingStore.setState((state) => ({ ...state, city, coords }));
 
-  export const setCity = (city: string) =>
-    useListingStore.setState((state) => ({ ...state, city }));
+  export const setAddressFound = (addressFound: boolean) =>
+    useListingStore.setState((state) => ({ ...state, addressFound }));
 
   export const updateFloor = (type: string, value: number) =>
     useListingStore.setState((state) => ({

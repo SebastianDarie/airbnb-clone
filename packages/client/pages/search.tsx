@@ -1,6 +1,7 @@
 import shallow from 'zustand/shallow';
 import {
   SearchListingsDocument,
+  SearchListingsQuery,
   useSearchListingsLazyQuery,
   useSearchListingsQuery,
 } from '@airbnb-clone/controller';
@@ -73,17 +74,18 @@ const Search: React.FC<SearchProps> = ({}) => {
   // });
   const { isLoaded } = useGoogleMaps();
   const [checked, setChecked] = useState<boolean>(true);
+  const [markerManager, setMarkerManager] = useState<MarkerManager>();
   const [markers, setMarkers] = useState<MarkerWithLabel[]>([]);
   const [selected, setSelected] = useState<MarkerWithLabel | null>(null);
   const mapRef = useRef<google.maps.Map<Element> | null>(null);
   const controlRef = useRef<HTMLDivElement | null>(null);
 
-  //let markerManager: MarkerManager;
+  //let markerManager: MarkerManager | null = null;
   // let geocoder: google.maps.Geocoder = new google.maps.Geocoder();
   // let oms: OverlappingMarkerSpiderfier | null = null;
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
-    //markerManager = new MarkerManager(map);
+    setMarkerManager(new MarkerManager(map));
     if (controlRef.current) {
       map.controls[google.maps.ControlPosition.TOP_CENTER].push(
         controlRef.current
@@ -91,12 +93,12 @@ const Search: React.FC<SearchProps> = ({}) => {
     }
     //geocoder = new google.maps.Geocoder();
     //oms = new OverlappingMarkerSpiderfier(mapRef.current);
-    if (data) {
-      addMarkers();
-    }
+    // if (data) {
+    //   addMarkers(data);
+    // }
   }, []);
 
-  const addMarkers = (): void => {
+  const addMarkers = (data: SearchListingsQuery | undefined): void => {
     data?.searchListings.listings.map((l) => {
       const existingMarker = markers.filter((m) => m.get('id') === l.id);
       if (existingMarker.length === 0) {
@@ -254,8 +256,6 @@ const Search: React.FC<SearchProps> = ({}) => {
     }
     return () => {};
   }, [data, isLoaded]);
-
-  const [showControls, setShowControls] = useState<boolean>(false);
 
   // if (isLoaded) {
   // searchListings({
@@ -459,16 +459,23 @@ const Search: React.FC<SearchProps> = ({}) => {
                       cursor: null,
                     });
 
-                    addMarkers();
+                    if (markerManager && newData) {
+                      markerManager.updateMarkers(
+                        newData.searchListings.listings,
+                        setSelected
+                      );
+                    }
 
-                    markers.forEach((m) => {
-                      if (!currBounds?.contains(m.getPosition()!)) {
-                        m.setMap(null);
-                        setMarkers(
-                          markers.filter((mk) => mk.get('id') !== m.get('id'))
-                        );
-                      }
-                    });
+                    //addMarkers(newData);
+
+                    // markers.forEach((m) => {
+                    //   if (!currBounds?.contains(m.getPosition()!)) {
+                    //     m.setMap(null);
+                    //     setMarkers(
+                    //       markers.filter((mk) => mk.get('id') !== m.get('id'))
+                    //     );
+                    //   }
+                    // });
 
                     // newData?.searchListings.listings.map((l) => {
                     //   markers.find((m) => {
@@ -512,22 +519,34 @@ const Search: React.FC<SearchProps> = ({}) => {
                     }}
                     onCloseClick={() => setSelected(null)}
                   >
-                    <div className={styles.info__window__position}>
-                      <div className={styles.info__window__width}>
-                        <div className={styles.info__window__card}>
-                          <ImageCard
-                            listing={
-                              data?.searchListings.listings.find(
-                                (l) => l.id === selected.get('id')
-                              )!
-                            }
-                            showControls={showControls}
-                            styles={cardStyles}
-                          />
-                          <div></div>
-                        </div>
+                    {/* <div className={styles.info__window__position}>
+                      <div className={styles.info__window__width}> */}
+                    <div className={styles.info__window__card}>
+                      <ImageCard
+                        listing={
+                          data?.searchListings.listings.find(
+                            (l) => l.id === selected.get('id')
+                          )!
+                        }
+                        styles={cardStyles}
+                      />
+                      <div className={styles.info__window__content__padding}>
+                        <div
+                          className={styles.info__window__content__rating}
+                        ></div>
+                        <div
+                          className={styles.info__window__content__location}
+                        ></div>
+                        <div
+                          className={styles.info__window__content__description}
+                        ></div>
+                        <div
+                          className={styles.info__window__content__price}
+                        ></div>
                       </div>
                     </div>
+                    {/* </div>
+                    </div> */}
                   </InfoWindow>
                 ) : null}
               </GoogleMap>

@@ -211,9 +211,42 @@
 .info__window__card {
   background-color: bootstrap.$default-color;
   border-radius: 12px;
-  box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
+  //  box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
   color: bootstrap.$nero;
   pointer-events: auto;
   position: relative;
   width: 274px;
+}
+
+.info__window__content__padding {
+  padding: 16px;
+}
+
+.info__window__content__rating {
+  margin-bottom: 7px;
+  font-size: 14px;
+  line-height: 18px;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.info__window__content__location {
+  margin-bottom: 2px;
+  color: bootstrap.$nero;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info__window__content__description {
+  display: flex;
+  align-items: center;
+}
+
+.info__window__content__price {
+  margin-top: 6px;
 }

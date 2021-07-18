@@ -20,8 +20,6 @@ export default class Document extends NextDocument {
             rel='stylesheet'
           ></link>
 
-          <script src='https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js'></script>
-
           {/* <link
             rel="apple-touch-icon"
             sizes="180x180"

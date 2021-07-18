@@ -10,7 +10,7 @@ const Map = dynamic(() => import('../../components/Map/LocationField'), {
 
 const Location: React.FC<LocationProps> = ({}) => {
   return (
-    <CreateListingLayout>
+    <CreateListingLayout location>
       <Map />
     </CreateListingLayout>
   );

@@ -1,6 +1,5 @@
 import { HeartSvg, ListingResult, ReviewSvg } from '@airbnb-clone/controller';
 import Link from 'next/link';
-import { useState } from 'react';
 import styles from '../../sass/components/ListingCard.module.scss';
 import { FloorPlanDetails } from '../FloorPlanDetails';
 import { ImageCard } from './ImageCard';
@@ -14,8 +13,6 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   listing,
   loading,
 }) => {
-  const [showControls, setShowControls] = useState(false);
-
   // console.log(
   //   'https://d9r6g0xftldzw.cloudfront.net/listings/2021-06-25-yw433-pexels-pixabay-271624-jpg'.replace(
   //     /.*(?=listings)/,
@@ -107,11 +104,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             className={loading ? styles.card__area__loading : styles.card__area}
           >
             <div className={styles.card__divider__margin}>
-              <div
-                className={styles.card__container}
-                onMouseEnter={() => setShowControls(true)}
-                onMouseLeave={() => setShowControls(false)}
-              >
+              <div className={styles.card__container}>
                 {loading ? null : (
                   <Link href={`/rooms/${listing.id}`}>
                     <a
@@ -128,11 +121,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
                       <span className={styles.card__skeleton}></span>
                     </span>
                   ) : (
-                    <ImageCard
-                      listing={listing}
-                      showControls={showControls}
-                      styles={styles}
-                    />
+                    <ImageCard listing={listing} styles={styles} />
                   )}
                 </div>
 
