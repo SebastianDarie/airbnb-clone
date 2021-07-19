@@ -1,0 +1,246 @@
+@use '../utilities/bootstrap.scss';
+
+.trips__container {
+  margin: 0 auto;
+  max-width: 1600px;
+  margin-top: 36px;
+  padding-bottom: 65px;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  @media screen and (min-width: 375px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @media screen and (min-width: 744px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media screen and (min-width: 950px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media screen and (min-width: 1128px) {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+.trips__heading {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: bootstrap.$nero;
+
+  @media screen and (min-width: 744px) {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}
+
+.trips__tabs__margin {
+  margin: 16px -20px;
+
+  &::after {
+    content: '';
+    margin: -4px 20px 0;
+    display: block;
+    border-bottom: 1px solid bootstrap.$gainsboro;
+  }
+}
+
+.tab__default {
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  border-color: bootstrap.$black;
+  width: auto;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  touch-action: manipulation;
+  font-size: 14px;
+  line-height: 18px;
+  position: relative;
+  display: inline-block;
+  padding: 16px;
+  margin: 4px;
+  font-weight: 600;
+  border: none;
+  color: bootstrap.$dimgray;
+
+  @media screen and (min-width: 744px) {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+.tab__active {
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  border-color: bootstrap.$black;
+  width: auto;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: bootstrap.$black;
+  touch-action: manipulation;
+  font-size: 14px;
+  line-height: 18px;
+  position: relative;
+  display: inline-block;
+  padding: 16px;
+  margin: 4px;
+  font-weight: 600;
+  border: none;
+
+  &::after {
+    content: '';
+    display: block;
+    padding-top: 16px;
+    margin-bottom: -16px;
+    border-width: 0 0 2px;
+    border-style: solid;
+    border-color: bootstrap.$nero;
+  }
+
+  @media screen and (min-width: 744px) {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+.trips__list__margin {
+  margin-top: 24px;
+}
+
+.tab__header {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.tab__background {
+  padding: 0 0 32.93413173652694%;
+  position: relative;
+  height: auto;
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.modify__booking__btn__pink {
+  display: block;
+  width: 75%;
+  margin: auto;
+  text-align: center;
+  padding: 15px;
+  color: bootstrap.$default-gray;
+  font-weight: 400;
+  margin-bottom: 15px;
+  margin-top: 27px;
+  //border: 2px solid hsl(358, 100%, 68%);
+  border: 2px solid bootstrap.$brand-color;
+  border-radius: 2px;
+
+  &:hover {
+    border: 2px solid bootstrap.$mercury;
+  }
+}
+
+.modify__booking__btn__green {
+  margin-top: 20px;
+  display: block;
+  width: 75%;
+  margin: auto;
+  text-align: center;
+  padding: 15px;
+  color: bootstrap.$default-gray;
+  font-weight: 400;
+  border: 2px solid bootstrap.$teal;
+  border-radius: 2px;
+
+  &:hover {
+    border: 2px solid bootstrap.$mercury;
+  }
+}
+
+.bookings__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
+  overflow: hidden;
+  justify-content: center;
+  grid-row-gap: 50px;
+}
+
+.booking__item {
+  margin-right: 25px;
+  margin-left: 25px;
+  border: 1px solid bootstrap.$mercury;
+  border-radius: 4px;
+  padding-bottom: 47px;
+}
+
+.interior__booking__item {
+  text-align: center;
+  justify-content: center;
+}
+
+.booking__city {
+  font-size: 36px;
+  color: bootstrap.$default-gray;
+  font-weight: 300;
+}
+
+.interior__booking__item li {
+  padding-top: 10px;
+}
+
+.index__photo {
+  &.booking {
+    width: 100%;
+  }
+}
+
+.item__title {
+  &.booking {
+    font-weight: normal;
+    color: bootstrap.$mine-shaft;
+    font-size: 16px;
+    padding-bottom: 20px;
+    margin-right: 25px;
+    margin-left: 25px;
+    margin-bottom: 47px;
+    border-bottom: 1px solid bootstrap.$mercury;
+    height: 60px;
+
+    &:hover {
+      color: bootstrap.$teal;
+    }
+  }
+}
+
+.item__type {
+  &.booking {
+    color: bootstrap.$default-gray;
+    font-size: 16px;
+    font-weight: normal;
+  }
+}
+
+.entire__index {
+  &.bookings {
+    margin-top: 58px;
+  }
+}

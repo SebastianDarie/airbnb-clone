@@ -29,7 +29,6 @@ import { dynamicSvgs } from '../../constants/dynamicSvgs';
 import styles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
-import createHTMLMapMarker from '../../utils/createHTMLMapMarker';
 import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
 import { withApollo } from '../../utils/withApollo';
 
@@ -167,34 +166,14 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     mapRef.current = map;
   }, []);
 
-  useEffect(() => {
-    if (data && isLoaded) {
-      const position = new google.maps.LatLng(
-        data?.listing?.latitude!,
-        data?.listing?.longitude!
-      );
-
-      let marker = createHTMLMapMarker({
-        html: `<div classname='listing__location__transform'>
-        <div classname='listing__location__transition'>
-          <div classname='listing__location__size'>
-            <div classname='listing__location__background'>
-              <div classname='listing__location__flex'>
-                <div classname='listing__location__icon'>
-                <img id="parrot" src="https://cultofthepartyparrot.com/parrots/hd/parrot.gif">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`,
-        map: mapRef.current!,
-        position: position,
-      });
-
-      marker.setMap(mapRef.current);
-    }
-  }, [data, isLoaded]);
+  // useEffect(() => {
+  //   if (data && isLoaded) {
+  //     const position = new google.maps.LatLng(
+  //       data?.listing?.latitude!,
+  //       data?.listing?.longitude!
+  //     );
+  //   }
+  // }, [data, isLoaded]);
 
   // if (isLoaded) {
   //   createHTMLMapMarker({

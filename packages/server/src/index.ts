@@ -28,6 +28,7 @@ import { MessageResolver } from './resolvers/message';
 import { ReviewResolver } from './resolvers/review';
 import { UserResolver } from './resolvers/user';
 import { createTypeormConn } from './utils/createTypeormConn';
+import { ReservationResolver } from './resolvers/reservation';
 
 const main = async () => {
   const conn = await createTypeormConn();
@@ -94,6 +95,7 @@ const main = async () => {
         HeaderResolver,
         ListingResolver,
         MessageResolver,
+        ReservationResolver,
         ReviewResolver,
         UserResolver,
       ],

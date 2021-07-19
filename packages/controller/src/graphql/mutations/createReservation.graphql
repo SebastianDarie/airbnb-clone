@@ -1,0 +1,9 @@
+mutation CreateReservation($input: ReservationInput!) {
+  createReservation(input: $input) {
+    id
+    during
+    guests
+    listingId
+    guestId
+  }
+}

@@ -1,5 +1,6 @@
 import shallow from 'zustand/shallow';
 import {
+  ReviewSvg,
   SearchListingsDocument,
   SearchListingsQuery,
   useSearchListingsLazyQuery,
@@ -29,6 +30,7 @@ import MarkerManager from '../utils/markerManager';
 import { ImageCard } from '../components/Search/ImageCard';
 import { useGoogleMaps } from '../utils/GoogleMapsProvider';
 import { SearchControl } from '../components/Search/SearchControl';
+import { InfoCard } from '../components/Search/InfoCard';
 //import { OverlappingMarkerSpiderfier } from 'ts-overlapping-marker-spiderfier';
 
 interface SearchProps {}
@@ -308,6 +310,7 @@ const Search: React.FC<SearchProps> = ({}) => {
                           loading={
                             loading || networkStatus === NetworkStatus.refetch
                           }
+                          searchStyles={styles}
                         />
                       ))}
                     </div>
@@ -512,42 +515,12 @@ const Search: React.FC<SearchProps> = ({}) => {
                   setChecked={setChecked}
                 />
                 {selected ? (
-                  <InfoWindow
-                    position={{
-                      lat: selected.getPosition()!.lat(),
-                      lng: selected.getPosition()!.lng(),
-                    }}
-                    onCloseClick={() => setSelected(null)}
-                  >
-                    {/* <div className={styles.info__window__position}>
-                      <div className={styles.info__window__width}> */}
-                    <div className={styles.info__window__card}>
-                      <ImageCard
-                        listing={
-                          data?.searchListings.listings.find(
-                            (l) => l.id === selected.get('id')
-                          )!
-                        }
-                        styles={cardStyles}
-                      />
-                      <div className={styles.info__window__content__padding}>
-                        <div
-                          className={styles.info__window__content__rating}
-                        ></div>
-                        <div
-                          className={styles.info__window__content__location}
-                        ></div>
-                        <div
-                          className={styles.info__window__content__description}
-                        ></div>
-                        <div
-                          className={styles.info__window__content__price}
-                        ></div>
-                      </div>
-                    </div>
-                    {/* </div>
-                    </div> */}
-                  </InfoWindow>
+                  <InfoCard
+                    data={data}
+                    selected={selected}
+                    setSelected={setSelected}
+                    styles={styles}
+                  />
                 ) : null}
               </GoogleMap>
             ) : null}

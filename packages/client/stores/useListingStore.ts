@@ -48,8 +48,12 @@ namespace ListingStore {
   export const selectType = (type: string) =>
     useListingStore.setState((state) => ({ ...state, type }));
 
-  export const updateLocation = (city: string, coords: LatLon) =>
-    useListingStore.setState((state) => ({ ...state, city, coords }));
+  export const updateLocation = (coords: LatLon, city?: string) =>
+    useListingStore.setState((state) => ({
+      ...state,
+      city: city ? city : state.city,
+      coords,
+    }));
 
   export const setAddressFound = (addressFound: boolean) =>
     useListingStore.setState((state) => ({ ...state, addressFound }));

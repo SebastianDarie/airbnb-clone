@@ -1,6 +1,7 @@
 import { ListingResult } from '@airbnb-clone/controller';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import styles from '../../sass/components/ListingCard.module.scss';
 
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
@@ -10,14 +11,11 @@ import SwiperCore, { Navigation, Pagination } from 'swiper/core';
 
 interface ImageCardProps {
   listing: ListingResult;
-  styles: {
-    readonly [key: string]: string;
-  };
 }
 
 SwiperCore.use([Navigation, Pagination]);
 
-export const ImageCard: React.FC<ImageCardProps> = ({ listing, styles }) => {
+export const ImageCard: React.FC<ImageCardProps> = ({ listing }) => {
   return (
     <div className={styles.card__image__border}>
       <div className={styles.card__image__padding}>

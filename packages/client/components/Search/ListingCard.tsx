@@ -7,11 +7,15 @@ import { ImageCard } from './ImageCard';
 interface ListingCardProps {
   listing: ListingResult;
   loading: boolean;
+  searchStyles: {
+    readonly [key: string]: string;
+  };
 }
 
 export const ListingCard: React.FC<ListingCardProps> = ({
   listing,
   loading,
+  searchStyles,
 }) => {
   // console.log(
   //   'https://d9r6g0xftldzw.cloudfront.net/listings/2021-06-25-yw433-pexels-pixabay-271624-jpg'.replace(
@@ -75,20 +79,24 @@ export const ListingCard: React.FC<ListingCardProps> = ({
 
       <div className={styles.card__footer}>
         <div className={styles.reviews__container}>
-          <span className={styles.reviews__flex}>
-            <span className={styles.review__star}>
+          <span className={searchStyles.reviews__flex}>
+            <span className={searchStyles.review__star}>
               <ReviewSvg />
             </span>
-            <span className={styles.review__avg}>5.0</span>
-            <span className={styles.review__count}>&nbsp;( 9 reviews )</span>
+            <span className={searchStyles.review__avg}>5.0</span>
+            <span className={searchStyles.review__count}>
+              &nbsp;( 9 reviews )
+            </span>
           </span>
         </div>
 
         <div className={styles.price__container}>
-          <div className={styles.price__align}>
-            <div className={styles.price__flex}>
-              <span className={styles.price__value}>${listing.price}</span>
-              <span className={styles.price__night}>/ night</span>
+          <div className={searchStyles.price__align}>
+            <div className={searchStyles.price__flex}>
+              <span className={searchStyles.price__value}>
+                ${listing.price}
+              </span>
+              <span className={searchStyles.price__night}>/ night</span>
             </div>
           </div>
         </div>
@@ -110,7 +118,6 @@ export const ListingCard: React.FC<ListingCardProps> = ({
                     <a
                       className={styles.invisible__link}
                       rel='noopener noreferrer'
-                      onClick={(e) => e.stopPropagation()}
                     ></a>
                   </Link>
                 )}
@@ -121,7 +128,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
                       <span className={styles.card__skeleton}></span>
                     </span>
                   ) : (
-                    <ImageCard listing={listing} styles={styles} />
+                    <ImageCard listing={listing} />
                   )}
                 </div>
 

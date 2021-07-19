@@ -194,3 +194,15 @@ export class ReviewInput {
   @Field()
   listingId: string;
 }
+
+@InputType()
+export class ReservationInput {
+  @Field(() => [Date])
+  during: [Date, Date];
+
+  @Field(() => Int)
+  guests: number;
+
+  @Field()
+  listingId: string;
+}

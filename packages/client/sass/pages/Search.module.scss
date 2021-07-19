@@ -231,6 +231,33 @@
   width: 100%;
 }
 
+.info__window__rating__margin {
+  margin-right: 10px;
+}
+
+.reviews__flex {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.review__star {
+  display: flex;
+  align-items: center;
+  margin-right: 4px;
+  color: bootstrap.$brand-color;
+}
+
+.review__avg {
+  color: bootstrap.$nero;
+  font-weight: 600;
+}
+
+.review__count {
+  color: bootstrap.$dimgray;
+}
+
 .info__window__content__location {
   margin-bottom: 2px;
   color: bootstrap.$nero;
@@ -242,11 +269,62 @@
   text-overflow: ellipsis;
 }
 
+.info__window__list {
+  margin: 0px;
+  padding: 0px;
+}
+
+.info__window__dot {
+  pointer-events: none;
+  user-select: none;
+  white-space: pre-wrap;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .info__window__content__description {
   display: flex;
   align-items: center;
 }
 
+.info__window__description {
+  color: bootstrap.$nero;
+  word-break: break-all;
+  font-size: 16px;
+  line-height: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .info__window__content__price {
   margin-top: 6px;
+}
+
+.price__align {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
+}
+
+.price__flex {
+  color: bootstrap.$nero;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.price__value {
+  font-weight: 800;
+  padding-right: 4px;
+}
+
+.price__night {
+  font-weight: 400;
+  white-space: nowrap;
 }

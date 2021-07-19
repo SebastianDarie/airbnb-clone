@@ -12,12 +12,15 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
 export type Bounds = {
   northEast: LatLngLiteral;
   southWest: LatLngLiteral;
 };
+
 
 export type FieldError = {
   __typename?: 'FieldError';
@@ -134,6 +137,7 @@ export type Mutation = {
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
   deleteUser: Scalars['Boolean'];
+  createReservation: Reservation;
 };
 
 
@@ -220,6 +224,11 @@ export type MutationDeleteUserArgs = {
   email: Scalars['String'];
 };
 
+
+export type MutationCreateReservationArgs = {
+  input: ReservationInput;
+};
+
 export type PaginatedListings = {
   __typename?: 'PaginatedListings';
   listings: Array<Listing>;
@@ -244,6 +253,7 @@ export type Query = {
   reviews: Array<Review>;
   users: Array<User>;
   me?: Maybe<User>;
+  reservations: Array<Reservation>;
 };
 
 
@@ -276,6 +286,23 @@ export type QueryMessagesArgs = {
 
 
 export type QueryReviewsArgs = {
+  listingId: Scalars['String'];
+};
+
+export type Reservation = {
+  __typename?: 'Reservation';
+  id: Scalars['String'];
+  during: Array<Scalars['DateTime']>;
+  guests: Scalars['Int'];
+  listingId: Scalars['String'];
+  guestId: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type ReservationInput = {
+  during: Array<Scalars['DateTime']>;
+  guests: Scalars['Int'];
   listingId: Scalars['String'];
 };
 
@@ -501,6 +528,19 @@ export type CreatePaymentIntentMutation = (
   & Pick<Mutation, 'createPaymentIntent'>
 );
 
+export type CreateReservationMutationVariables = Exact<{
+  input: ReservationInput;
+}>;
+
+
+export type CreateReservationMutation = (
+  { __typename?: 'Mutation' }
+  & { createReservation: (
+    { __typename?: 'Reservation' }
+    & Pick<Reservation, 'id' | 'during' | 'guests' | 'listingId' | 'guestId'>
+  ) }
+);
+
 export type CreateReviewMutationVariables = Exact<{
   input: ReviewInput;
 }>;
@@ -664,7 +704,7 @@ export type SearchListingsQuery = (
     & Pick<PaginatedListings, 'hasMore'>
     & { listings: Array<(
       { __typename?: 'Listing' }
-      & Pick<Listing, 'id' | 'title' | 'category' | 'city' | 'photos' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'price' | 'latitude' | 'longitude' | 'createdAt'>
+      & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'city' | 'photos' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'price' | 'latitude' | 'longitude' | 'createdAt'>
     )> }
   ) }
 );
@@ -963,6 +1003,43 @@ export function useCreatePaymentIntentMutation(baseOptions?: Apollo.MutationHook
 export type CreatePaymentIntentMutationHookResult = ReturnType<typeof useCreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationResult = Apollo.MutationResult<CreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
+export const CreateReservationDocument = gql`
+    mutation CreateReservation($input: ReservationInput!) {
+  createReservation(input: $input) {
+    id
+    during
+    guests
+    listingId
+    guestId
+  }
+}
+    `;
+export type CreateReservationMutationFn = Apollo.MutationFunction<CreateReservationMutation, CreateReservationMutationVariables>;
+
+/**
+ * __useCreateReservationMutation__
+ *
+ * To run a mutation, you first call `useCreateReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReservationMutation, { data, loading, error }] = useCreateReservationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateReservationMutation(baseOptions?: Apollo.MutationHookOptions<CreateReservationMutation, CreateReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReservationMutation, CreateReservationMutationVariables>(CreateReservationDocument, options);
+      }
+export type CreateReservationMutationHookResult = ReturnType<typeof useCreateReservationMutation>;
+export type CreateReservationMutationResult = Apollo.MutationResult<CreateReservationMutation>;
+export type CreateReservationMutationOptions = Apollo.BaseMutationOptions<CreateReservationMutation, CreateReservationMutationVariables>;
 export const CreateReviewDocument = gql`
     mutation CreateReview($input: ReviewInput!) {
   createReview(input: $input) {
@@ -1416,6 +1493,7 @@ export const SearchListingsDocument = gql`
     listings {
       id
       title
+      description
       category
       city
       photos
