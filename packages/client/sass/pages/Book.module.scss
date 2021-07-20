@@ -300,3 +300,82 @@
   color: bootstrap.$dimgray;
   white-space: pre-wrap;
 }
+
+.required__flex {
+  display: flex;
+  align-items: baseline;
+}
+
+.required__divider {
+  padding-top: 16px;
+}
+
+.message__host {
+  font-weight: 600;
+}
+
+.host__info {
+  white-space: pre-wrap;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 18px;
+  color: bootstrap.$nero;
+}
+
+.host__profile__padding {
+  font-size: 14px;
+  line-height: 18px;
+  color: bootstrap.$nero;
+  padding: 16px 0px 32px;
+}
+
+.host__profile__img {
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.host__profile__description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-left: 16px;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.host__joined {
+  color: bootstrap.$dimgray;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 18px;
+  margin-top: 0px;
+}
+
+.message__area {
+  box-shadow: bootstrap.$form-txt 0px 0px 0px 1px inset;
+  box-sizing: border-box;
+  color: bootstrap.$nero;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.textarea {
+  color: inherit;
+  display: block;
+  min-width: 100%;
+  max-width: 100%;
+  outline: none;
+  border: none;
+  margin: 0px;
+  box-sizing: border-box;
+  background-color: transparent;
+  appearance: none;
+  padding: 8px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+}

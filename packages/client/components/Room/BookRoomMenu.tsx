@@ -1,10 +1,8 @@
 import { ArrowDownSvg, ArrowUpSvg, ReviewSvg } from '@airbnb-clone/controller';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import useOnclickOutside from 'react-cool-onclickoutside';
 import btnStyles from '../../sass/pages/CreateListing.module.scss';
-import useClickAway, {
-  useOnClickOutside,
-} from '../../shared-hooks/useClickAway';
 import { useGradient } from '../../shared-hooks/useGradient';
 import styles from './BookRoomMenu.module.scss';
 import { GuestPicker } from './GuestPicker';
@@ -12,7 +10,8 @@ import { GuestPicker } from './GuestPicker';
 interface BookRoomMenuProps {
   id: string;
   dates: Date[];
-  guests: number;
+  currGuests: number;
+  maxGuests: number;
   nights: number;
   price: number;
   roomStyles: {
@@ -23,7 +22,8 @@ interface BookRoomMenuProps {
 export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   id,
   dates,
-  guests,
+  currGuests,
+  maxGuests,
   nights,
   price,
   roomStyles,
@@ -31,11 +31,9 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   const router = useRouter();
   const [coords, setCoords] = useGradient();
   const [active, setActive] = useState<boolean>(false);
-  const picker = useRef<HTMLDivElement | null>(null);
-  const menu = useRef<HTMLDivElement | null>(null);
-
-  //useClickAway(picker, () => setActive(false));
-  useOnClickOutside(picker, menu, () => setActive(false));
+  const ref = useOnclickOutside(() => {
+    setActive(false);
+  });
 
   const currency = '$';
   const prePrice = price * nights;
@@ -113,7 +111,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
 
                         <div className={styles.menu__dates__flex}>
                           <div className={styles.menu__dates__relative}>
-                            <div className={styles.menu__dates__grow}>
+                            <div className={styles.menu__dates__grow} ref={ref}>
                               <div
                                 className={styles.dates__border__left}
                                 style={{ borderRadius: '0px 0px 8px 8px' }}
@@ -128,7 +126,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                                   </div>
                                   <div className={styles.guest__btn}>
                                     <span className={styles.guest__span}>
-                                      {guests} guests
+                                      {currGuests ? currGuests : 0} guests
                                     </span>
                                   </div>
                                 </label>
@@ -145,8 +143,8 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                             <div>
                               <GuestPicker
                                 active={active}
-                                guests={guests}
-                                menu={menu}
+                                guests={maxGuests}
+                                menu={ref}
                                 styles={styles}
                               />
                             </div>
@@ -161,7 +159,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                         id={styles.btn__save}
                         onMouseMove={(e) => setCoords(e)}
                         onClick={() => {
-                          if (isDate) {
+                          if (isDate && currGuests) {
                             router.push(`/book/${id}`);
                           }
                         }}

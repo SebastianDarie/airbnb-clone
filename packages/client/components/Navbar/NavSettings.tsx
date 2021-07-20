@@ -7,10 +7,9 @@ import {
 } from '@airbnb-clone/controller';
 import { useApolloClient } from '@apollo/client';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import useOnclickOutside from 'react-cool-onclickoutside';
 import styles from '../../sass/components/NavSettings.module.scss';
-import useClickAway from '../../shared-hooks/useClickAway';
 import { getInitialCln } from '../../utils/getInitialCln';
 import { MenuLink } from './MenuLink';
 
@@ -27,13 +26,12 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
     const menu = useRef<HTMLDivElement | null>(null);
 
     const [active, setActive] = useState<boolean>(false);
-    const ref = useRef<HTMLDivElement | null>(null);
 
     const handleClickOutside = () => {
       setActive(false);
     };
 
-    useClickAway(ref, handleClickOutside);
+    const ref = useOnclickOutside(handleClickOutside);
 
     return (
       <div className={styles.container}>

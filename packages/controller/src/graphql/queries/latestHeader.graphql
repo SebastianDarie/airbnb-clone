@@ -1,0 +1,5 @@
+query LatestHeader {
+  latestHeader {
+    id
+  }
+}

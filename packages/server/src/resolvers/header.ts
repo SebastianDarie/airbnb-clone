@@ -89,6 +89,14 @@ export class HeaderResolver {
     return Header.find({ relations: ['messages'], where: { listingId } });
   }
 
+  @Query(() => Header || undefined)
+  async latestHeader(@Ctx() { req }: MyContext): Promise<Header | undefined> {
+    return Header.findOne({
+      where: [{ creatorId: req.session.userId }, { toId: req.session.userId }],
+      order: { updatedAt: 'DESC' },
+    });
+  }
+
   @Mutation(() => Header)
   //  @UseMiddleware(isAuth)
   async createHeader(

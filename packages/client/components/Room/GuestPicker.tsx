@@ -1,14 +1,13 @@
+import { Return } from 'react-cool-onclickoutside';
 import menuStyles from '../../sass/components/GuestsMenu.module.scss';
 import { MinusSvg, PlusSvg } from '@airbnb-clone/controller';
 import ReservationStore from '../../stores/useReservationStore';
 import shallow from 'zustand/shallow';
-import { MutableRefObject, useRef } from 'react';
-import useClickAway from '../../shared-hooks/useClickAway';
 
 interface GuestPickerProps {
   active: boolean;
   guests: number;
-  menu: MutableRefObject<HTMLDivElement | null>;
+  menu: Return;
   styles: {
     readonly [key: string]: string;
   };
@@ -24,8 +23,6 @@ export const GuestPicker: React.FC<GuestPickerProps> = ({
     (state) => [state.adults, state.children, state.infants],
     shallow
   );
-  // const menu = useRef<HTMLDivElement | null>(null);
-  // useClickAway(menu, () => console.log('ouside click'));
 
   return (
     <div

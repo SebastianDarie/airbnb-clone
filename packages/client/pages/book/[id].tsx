@@ -2,7 +2,11 @@ import {
   AirbnbSmallSvg,
   AirbnbSvg,
   ArrowLeftSvg,
+  MessageStatus,
+  useCreateHeaderMutation,
+  useCreateMessageMutation,
   useCreatePaymentIntentMutation,
+  useCreateReservationMutation,
 } from '@airbnb-clone/controller';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,6 +18,7 @@ import styles from '../../sass/pages/Book.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
+import { autosizeTextarea } from '../../utils/autosizeTextarea';
 import { convertToUTC } from '../../utils/converToUTC';
 import { withApollo } from '../../utils/withApollo';
 
@@ -26,13 +31,29 @@ const Book: React.FC<BookProps> = ({}) => {
     { data: clientSecret },
   ] = useCreatePaymentIntentMutation();
   const { data, variables } = useGetListingFromUrl();
+  const [createReservation, { loading }] = useCreateReservationMutation();
+  const [createHeader] = useCreateHeaderMutation();
+  const [createMessage] = useCreateMessageMutation();
+  const [message, setMessage] = useState('');
   const [succeeded, setSucceeded] = useState<boolean>(false);
-  const [startDate, endDate] = ReservationStore.useReservationStore(
-    (state) => [state.startDate, state.endDate],
+  const [
+    startDate,
+    endDate,
+    adults,
+    children,
+    infants,
+  ] = ReservationStore.useReservationStore(
+    (state) => [
+      state.startDate,
+      state.endDate,
+      state.adults,
+      state.children,
+      state.infants,
+    ],
     shallow
   );
 
-  if (!startDate || !endDate) {
+  if (!startDate || !endDate || !data) {
     return (
       <div>
         <h3>Something went wrong</h3>
@@ -46,8 +67,7 @@ const Book: React.FC<BookProps> = ({}) => {
   }
 
   const nights = Math.ceil(
-    (convertToUTC(endDate).getTime() - convertToUTC(startDate).getTime()) /
-      (24 * 60 * 60 * 1000)
+    Math.abs(endDate.getTime() - startDate.getTime()) / (60 * 60 * 24 * 1000)
   );
 
   useEffect(() => {
@@ -55,6 +75,46 @@ const Book: React.FC<BookProps> = ({}) => {
       createPaymentIntent({ variables: { id: variables.id, nights } });
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (succeeded && variables && data.listing) {
+        createReservation({
+          variables: {
+            input: {
+              during: [startDate, endDate],
+              guests,
+              listingId: variables.id,
+            },
+          },
+        });
+
+        const { data: headerData } = await createHeader({
+          variables: {
+            input: {
+              listingId: variables.id,
+              status: MessageStatus.Sending,
+              subject: 'Reservation',
+              toId: data.listing.creator.id,
+            },
+          },
+        });
+
+        if (headerData) {
+          createMessage({
+            variables: {
+              input: {
+                headerId: headerData.createHeader.id,
+                isFromSender: 1,
+                text: message,
+              },
+            },
+          });
+        }
+      }
+    })();
+  }, [succeeded]);
+
+  const guests = adults + children + infants;
   const currency = '$';
   const prePrice = Math.floor(data?.listing?.price! * nights);
   const serviceFee = Math.floor((prePrice / 100) * 17);
@@ -166,7 +226,7 @@ const Book: React.FC<BookProps> = ({}) => {
                             </h3>
                           </div>
                           <div className={styles.guests__nr}>
-                            {data?.listing?.guests} guests
+                            {guests} guests
                           </div>
                         </div>
                         <button className={styles.currency__btn}>Edit</button>
@@ -174,7 +234,85 @@ const Book: React.FC<BookProps> = ({}) => {
                     </div>
                   </div>
 
+                  <div
+                    className={roomStyles.room__section__flex}
+                    style={{ display: loading || succeeded ? 'none' : '' }}
+                  >
+                    <div className={roomStyles.section__divider}></div>
+                    <div className={styles.price__details__padding}>
+                      <label>
+                        <div className={styles.required__flex}>
+                          <div className={styles.price__details__header}>
+                            <h2 className={roomStyles.section__heading}>
+                              Required for your trip
+                            </h2>
+                          </div>
+                        </div>
+
+                        <div className={styles.required__divider}></div>
+                        <div className={styles.message__host}>
+                          Message the host
+                        </div>
+                        <div className={styles.host__info}>
+                          Let the host know why you're traveling and when you'll
+                          check in.
+                        </div>
+                        <div className={styles.required__divider}></div>
+
+                        <div>
+                          <div className={styles.host__profile__padding}>
+                            <div className={roomStyles.title__profile__flex}>
+                              <div className={styles.host__profile__img}>
+                                <div className={styles.image__repeat}>
+                                  <Image
+                                    src={data.listing?.creator.photoUrl!}
+                                    height='100%'
+                                    width='100%'
+                                    layout='responsive'
+                                    objectFit='cover'
+                                  />
+                                </div>
+                              </div>
+                              <div
+                                className={styles.host__profile__description}
+                              >
+                                <div className={styles.message__host}>
+                                  {data?.listing?.creator.name}
+                                </div>
+                                <div className={styles.host__joined}>
+                                  Joined in{' '}
+                                  {new Date(
+                                    +data.listing?.creator.createdAt!
+                                  ).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className={styles.message__area}>
+                            <textarea
+                              className={styles.textarea}
+                              autoComplete='off'
+                              onChange={(e) =>
+                                setMessage(e.currentTarget.value)
+                              }
+                              onKeyDown={autosizeTextarea}
+                              value={message}
+                              rows={5}
+                            ></textarea>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div className={roomStyles.section__divider}></div>
+                  </div>
+
                   <div className={roomStyles.room__section__flex}>
+                    <div className={styles.required__divider}></div>
                     <StripeCard
                       clientSecret={clientSecret}
                       succeeded={succeeded}
@@ -183,6 +321,7 @@ const Book: React.FC<BookProps> = ({}) => {
                   </div>
                 </div>
               </div>
+
               <div className={styles.listing__side}>
                 <div className={styles.listing__sticky__card}>
                   <div className={styles.card__border}>

@@ -52,32 +52,34 @@ const Trips: React.FC<TripsProps> = ({}) => {
 
               <div className={styles.entire__index}>
                 <ul className={styles.bookings__row}>
-                  <div className={styles.interior__booking__item}>
-                    <img
-                      className={`${styles.index__photo} ${styles.booking}`}
-                    />
-                    <li className={styles.booking__city}>city here</li>
-                    <li className={`${styles.item__type} ${styles.booking}`}>
-                      arrival - departure
-                    </li>
-                    <li className={`${styles.item__type} ${styles.booking}`}>
-                      guests
-                    </li>
-                    <Link href={`/rooms/`}>
-                      <a>
-                        <li
-                          className={`${styles.item__title} ${styles.booking}`}
-                        >
-                          title here
-                        </li>
-                      </a>
-                    </Link>
-                    <button className={styles.modify__booking__btn__pink}>
-                      Edit this reservation
-                    </button>
-                    <button className={styles.modify__booking__btn__green}>
-                      Cancel this reservation
-                    </button>
+                  <div className={styles.booking__item}>
+                    <div className={styles.interior__booking__item}>
+                      <img
+                        className={`${styles.index__photo} ${styles.booking}`}
+                      />
+                      <li className={styles.booking__city}>city here</li>
+                      <li className={`${styles.item__type} ${styles.booking}`}>
+                        arrival - departure
+                      </li>
+                      <li className={`${styles.item__type} ${styles.booking}`}>
+                        guests
+                      </li>
+                      <Link href={`/rooms/`}>
+                        <a>
+                          <li
+                            className={`${styles.item__title} ${styles.booking}`}
+                          >
+                            title here
+                          </li>
+                        </a>
+                      </Link>
+                      <button className={styles.modify__booking__btn__pink}>
+                        Edit this reservation
+                      </button>
+                      <button className={styles.modify__booking__btn__green}>
+                        Cancel this reservation
+                      </button>
+                    </div>
                   </div>
                 </ul>
               </div>

@@ -124,7 +124,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                         <div className={styles.message__container}>
                           <h3 className={styles.conversation__date}>
                             {new Date(
-                              +currHeader?.createdAt
+                              +currHeader?.createdAt!
                             ).toLocaleDateString('en-US', {
                               month: 'short',
                               day: 'numeric',
@@ -153,18 +153,29 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                               parseInt(a.createdAt) - parseInt(b.createdAt)
                           )
                           .map((m, i, arr) => {
-                            const minDiff =
-                              new Date(
-                                +arr[i === 0 ? 0 : i - 1].createdAt
-                              ).getMinutes() -
-                                new Date(+m.createdAt).getMinutes() <=
-                              5;
+                            let conversationStart: boolean = false;
+                            let minDiff: boolean = false;
+
+                            if (i === 0) {
+                              conversationStart = false;
+                              minDiff = false;
+                            } else {
+                              conversationStart =
+                                new Date(+arr[i - 1].createdAt).getDay() !==
+                                new Date(+m.createdAt).getDay();
+
+                              minDiff =
+                                Math.floor(
+                                  Math.abs(
+                                    new Date(+arr[i - 1].createdAt).getTime() -
+                                      new Date(+m.createdAt).getTime()
+                                  ) / 60000
+                                ) <= 5;
+                            }
+
                             return (
                               <React.Fragment key={m.id}>
-                                {new Date(
-                                  +arr[i === 0 ? 0 : i - 1].createdAt
-                                ).getDay() !==
-                                new Date(+m.createdAt).getDay() ? (
+                                {conversationStart ? (
                                   <h3 className={styles.conversation__date}>
                                     {new Date(+m.createdAt).toLocaleDateString(
                                       'en-US',

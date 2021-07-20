@@ -13,33 +13,11 @@ interface ProfileSectionProps {
   };
 }
 
-const units = {
-  year: 24 * 60 * 60 * 1000 * 365,
-  month: (24 * 60 * 60 * 1000 * 365) / 12,
-  day: 24 * 60 * 60 * 1000,
-  hour: 60 * 60 * 1000,
-  minute: 60 * 1000,
-  second: 1000,
-};
-
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   id,
   owner,
   styles,
 }) => {
-  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-
-  const formatTimestamp = () => {
-    const elapsed = new Date(+owner.createdAt).getTime() - Date.now();
-
-    for (let u in units)
-      if (Math.abs(elapsed) > units[u as keyof typeof units])
-        return rtf.format(
-          Math.round(elapsed / units[u as keyof typeof units]),
-          u as Intl.RelativeTimeFormatUnit
-        );
-  };
-
   return (
     <div className={styles.room__section__flex}>
       <div className={styles.room__section__padding}>
@@ -48,7 +26,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <div className={styles.section__padding}>
             <div className={profileStyles.hosted__container}>
               <div className={profileStyles.profile__img__margin}>
-                <Link href='/users/'>
+                <Link href={`/users/${owner.id}`}>
                   <a className={styles.profile__btn}>
                     <div className={profileStyles.profile__img}>
                       <Image
@@ -68,7 +46,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   Hosted by {owner.name}
                 </h2>
                 <div className={styles.calendar__range}>
-                  Joined {formatTimestamp()}
+                  Joined in{' '}
+                  {new Date(+owner.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                  })}
                 </div>
               </div>
             </div>

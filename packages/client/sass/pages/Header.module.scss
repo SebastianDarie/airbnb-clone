@@ -712,3 +712,135 @@
   animation-fill-mode: both;
   vertical-align: middle;
 }
+
+.reservation__position {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+  visibility: visible;
+
+  @media screen and (min-width: 375px) {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    visibility: visible;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    visibility: visible;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    visibility: visible;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    visibility: visible;
+  }
+}
+
+.reservation__details__margin {
+  margin-bottom: 16px;
+  z-index: 2;
+}
+
+.reservation__control__padding {
+  padding-left: 24px;
+  padding-right: 24px;
+  width: 100%;
+  align-items: baseline;
+  background: bootstrap.$default-color;
+  display: flex;
+  height: 64px;
+  justify-content: flex-start;
+  padding-bottom: 16px;
+  padding-top: 24px;
+  z-index: 5;
+
+  @media screen and (min-width: 744px) {
+    height: 72px;
+    padding-top: 32px;
+  }
+}
+
+.reservation__details__text {
+  font-size: 22px;
+  line-height: 26px;
+  flex-grow: 1;
+  font-weight: 600;
+  min-width: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reservation__padding {
+  padding: 0px 24px;
+}
+
+.reservation__header {
+  padding-top: 8px;
+  padding-bottom: 16px;
+}
+
+.reservation__header__table {
+  display: table;
+  width: 100%;
+  border-spacing: 0px;
+}
+
+.header__cell {
+  display: table-cell;
+  width: 100%;
+  vertical-align: top;
+}
+
+.header__firstname {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.header__summary {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.img__cell {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.profile__img {
+  border: 2px solid bootstrap.$default-color;
+  border-radius: 50%;
+}
+
+.user__profile__padding {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.profile__item__margin {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.profile__link__font {
+  margin: 0px;
+  overflow-wrap: break-word;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.375em;
+  color: bootstrap.$default-gray;
+}

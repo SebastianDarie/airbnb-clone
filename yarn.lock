@@ -77,6 +77,7 @@ __metadata:
     next: ^10.1.3
     next-apollo: ^5.0.4
     react: ^17.0.2
+    react-cool-onclickoutside: ^1.6.2
     react-datepicker: ^4.1.1
     react-dnd: ^14.0.2
     react-dnd-html5-backend: ^14.0.0
@@ -13301,6 +13302,15 @@ __metadata:
   bin:
     rc: ./cli.js
   checksum: ea2b7f7cee201a67923a2240de594a5d9b59bd312b814b06536d3d609a416dfd6fb9b85ea2abfd3b8a4eb5ed33eaff946ee75a8f2b7fb10941073c5cfee6b7a5
+  languageName: node
+  linkType: hard
+
+"react-cool-onclickoutside@npm:^1.6.2":
+  version: 1.6.2
+  resolution: "react-cool-onclickoutside@npm:1.6.2"
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: fef1e24c6b65690b494c56974ea45c69bab182a7be7a1c23a46e7f6355f6fca52d66c30c08c3595e939e06d6ceaf4ae6d9d4f508e76058f3cdd764f28224d5b7
   languageName: node
   linkType: hard
 

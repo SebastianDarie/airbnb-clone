@@ -182,6 +182,7 @@
   overflow: hidden;
   justify-content: center;
   grid-row-gap: 50px;
+  list-style-type: none;
 }
 
 .booking__item {
@@ -203,8 +204,10 @@
   font-weight: 300;
 }
 
-.interior__booking__item li {
-  padding-top: 10px;
+.interior__booking__item {
+  & li {
+    padding-top: 10px;
+  }
 }
 
 .index__photo {

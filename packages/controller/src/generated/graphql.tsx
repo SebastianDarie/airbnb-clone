@@ -245,6 +245,7 @@ export type Query = {
   __typename?: 'Query';
   headers: Array<Header>;
   headersListing: Array<Header>;
+  latestHeader: Header;
   listings: Array<Listing>;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
@@ -636,6 +637,17 @@ export type HeadersQuery = (
     { __typename?: 'Header' }
     & RegularHeadersFragment
   )> }
+);
+
+export type LatestHeaderQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LatestHeaderQuery = (
+  { __typename?: 'Query' }
+  & { latestHeader: (
+    { __typename?: 'Header' }
+    & Pick<Header, 'id'>
+  ) }
 );
 
 export type ListingQueryVariables = Exact<{
@@ -1323,6 +1335,40 @@ export function useHeadersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<He
 export type HeadersQueryHookResult = ReturnType<typeof useHeadersQuery>;
 export type HeadersLazyQueryHookResult = ReturnType<typeof useHeadersLazyQuery>;
 export type HeadersQueryResult = Apollo.QueryResult<HeadersQuery, HeadersQueryVariables>;
+export const LatestHeaderDocument = gql`
+    query LatestHeader {
+  latestHeader {
+    id
+  }
+}
+    `;
+
+/**
+ * __useLatestHeaderQuery__
+ *
+ * To run a query within a React component, call `useLatestHeaderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLatestHeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLatestHeaderQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLatestHeaderQuery(baseOptions?: Apollo.QueryHookOptions<LatestHeaderQuery, LatestHeaderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LatestHeaderQuery, LatestHeaderQueryVariables>(LatestHeaderDocument, options);
+      }
+export function useLatestHeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LatestHeaderQuery, LatestHeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LatestHeaderQuery, LatestHeaderQueryVariables>(LatestHeaderDocument, options);
+        }
+export type LatestHeaderQueryHookResult = ReturnType<typeof useLatestHeaderQuery>;
+export type LatestHeaderLazyQueryHookResult = ReturnType<typeof useLatestHeaderLazyQuery>;
+export type LatestHeaderQueryResult = Apollo.QueryResult<LatestHeaderQuery, LatestHeaderQueryVariables>;
 export const ListingDocument = gql`
     query Listing($id: String!) {
   listing(id: $id) {

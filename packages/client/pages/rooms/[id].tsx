@@ -80,8 +80,20 @@ const SectionWrapper: React.FC<{
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl();
-  const [startDate, endDate] = ReservationStore.useReservationStore(
-    (state) => [state.startDate, state.endDate],
+  const [
+    startDate,
+    endDate,
+    adults,
+    children,
+    infants,
+  ] = ReservationStore.useReservationStore(
+    (state) => [
+      state.startDate,
+      state.endDate,
+      state.adults,
+      state.children,
+      state.infants,
+    ],
     shallow
   );
   const [visibleSection, setVisibleSection] = useState<string | undefined>('');
@@ -166,34 +178,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     mapRef.current = map;
   }, []);
 
-  // useEffect(() => {
-  //   if (data && isLoaded) {
-  //     const position = new google.maps.LatLng(
-  //       data?.listing?.latitude!,
-  //       data?.listing?.longitude!
-  //     );
-  //   }
-  // }, [data, isLoaded]);
-
-  // if (isLoaded) {
-  //   createHTMLMapMarker({
-  //     html: `<div classname='listing__location__transform'>
-  //     <div classname='listing__location__transition'>
-  //       <div classname='listing__location__size'>
-  //         <div classname='listing__location__background'>
-  //           <div classname='listing__location__flex'>
-  //             <div classname='listing__location__icon'>
-  //               <HomeMarkerSvg />
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>`,
-  //     map: mapRef.current!,
-  //     position: position,
-  //   });
-  // }
+  const currGuests = adults + children;
 
   return (
     <Layout isLoaded={isLoaded} filter room search>
@@ -246,7 +231,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           className={styles.room__navbar__btn}
                           onClick={() => {
                             if (reviewsRef.current)
-                              scrollTo(reviewsRef.current, 'end');
+                              scrollTo(reviewsRef.current, 'start');
                           }}
                         >
                           <div className={styles.btn__padding}>Reviews</div>
@@ -440,7 +425,8 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             <BookRoomMenu
               id={data?.listing?.id!}
               dates={startDate && endDate ? [startDate, endDate] : []}
-              guests={data?.listing?.guests!}
+              currGuests={currGuests}
+              maxGuests={data?.listing?.guests!}
               nights={nights}
               price={data?.listing?.price!}
               roomStyles={styles}
@@ -479,24 +465,12 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                       >
                         <Marker
                           animation={2}
-                          icon={{
-                            path:
-                              'M8.602 1.147l.093.08 7.153 6.914-.696.718L14 7.745V14.5a.5.5 0 0 1-.41.492L13.5 15H10V9.5a.5.5 0 0 0-.41-.492L9.5 9h-3a.5.5 0 0 0-.492.41L6 9.5V15H2.5a.5.5 0 0 1-.492-.41L2 14.5V7.745L.847 8.86l-.696-.718 7.153-6.915a1 1 0 0 1 1.297-.08z',
-                            fillColor: '#ffffff',
-                            origin: new google.maps.Point(0, 0),
-                            size: new google.maps.Size(22, 22, 'px', 'px'),
-                          }}
                           position={{
                             lat: data.listing?.latitude!,
                             lng: data.listing?.longitude!,
                           }}
                           clickable={false}
                           draggable={false}
-                          //label={`<span>gu gu gaga</span>`}
-                          // options={{
-                          //   anchorPoint: new google.maps.Point(20, 20),
-                          // }}
-                          //shape={{ coords: [60, 60, 60], type: 'circle' }}
                         />
                         <Circle
                           center={{

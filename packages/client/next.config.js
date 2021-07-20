@@ -19,6 +19,16 @@ module.exports = (phase, { defaultConfig }) => {
           'd9r6g0xftldzw.cloudfront.net',
         ],
       },
+
+      // async redirects() {
+      //   return [
+      //     {
+      //       source: '/inbox',
+      //       destination: '/inbox/header/:id',
+      //       permanent: true,
+      //     },
+      //   ];
+      // },
     };
   }
 

@@ -17,7 +17,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from 'use-places-autocomplete';
 import shallow from 'zustand/shallow';
-import useClickAway from '../../shared-hooks/useClickAway';
+import useOnclickOutside from 'react-cool-onclickoutside';
 import SearchStore from '../../stores/useSearchStore';
 import { GuestsMenu } from './GuestsMenu';
 import styles from '../../sass/components/Searchbar.module.scss';
@@ -82,7 +82,6 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
     active: false,
     el: '',
   });
-  const ref = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLDivElement | null>(null);
   const geoRef = useRef<HTMLDivElement | null>(null);
@@ -94,7 +93,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
     });
   };
 
-  useClickAway(ref, handleClickOutside);
+  const ref = useOnclickOutside(handleClickOutside);
 
   const [adults, children, infants] = SearchStore.useSearchStore(
     (state) => [state.adults, state.children, state.infants],
