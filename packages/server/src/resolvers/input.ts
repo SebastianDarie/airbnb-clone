@@ -1,4 +1,4 @@
-import { InputType, Field, Int, Float, ObjectType } from 'type-graphql';
+import { Field, Float, InputType, Int } from 'type-graphql';
 
 @InputType()
 class LatLngLiteral {
@@ -197,8 +197,14 @@ export class ReviewInput {
 
 @InputType()
 export class ReservationInput {
-  @Field(() => [Date])
-  during: [Date, Date];
+  @Field(() => Date)
+  arrival: Date;
+
+  @Field(() => Date)
+  departure: Date;
+
+  @Field(() => [String], { nullable: true })
+  during?: [string];
 
   @Field(() => Int)
   guests: number;

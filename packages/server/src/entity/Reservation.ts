@@ -18,9 +18,17 @@ export class Reservation extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Field(() => [Date])
-  @Column({ type: 'tsrange' })
-  during: [Date, Date];
+  @Field(() => [String])
+  @Column({ type: 'tstzrange', nullable: true })
+  during: [string];
+
+  @Field(() => String)
+  @Column({ type: 'date' })
+  arrival: Date;
+
+  @Field(() => String)
+  @Column({ type: 'date' })
+  departure: Date;
 
   @Field(() => Int)
   @Column({ type: 'int' })

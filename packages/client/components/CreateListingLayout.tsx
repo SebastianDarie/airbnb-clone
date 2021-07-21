@@ -9,6 +9,7 @@ import styles from '../sass/pages/CreateListing.module.scss';
 import { useGradient } from '../shared-hooks/useGradient';
 import { useListingNavigation } from '../shared-hooks/useListingNavigation';
 import { formatFilenames } from '../utils/formatFilenames';
+import { DotLoader } from './DotLoader';
 
 interface CreateListingLayoutProps {
   disabled?: boolean;
@@ -171,20 +172,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                             display: loading ? 'none' : '',
                           }}
                         ></span>
-                        <span
-                          className={styles.dot__loader}
-                          style={{ display: !loading ? 'none' : '' }}
-                        >
-                          <span
-                            className={styles.dot}
-                            style={{ animationDelay: '-0.3s' }}
-                          ></span>
-                          <span
-                            className={styles.dot}
-                            style={{ animationDelay: '-0.15s' }}
-                          ></span>
-                          <span className={styles.dot}></span>
-                        </span>
+                        {loading ? <DotLoader /> : null}
                       </span>
                       <span className={styles.text__span}>
                         Save your listing

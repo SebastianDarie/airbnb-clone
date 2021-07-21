@@ -444,28 +444,3 @@
   position: absolute;
   inset: 0px;
 }
-
-.dot__loader {
-  margin: 0px auto;
-  text-align: center;
-  white-space: nowrap;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
-
-.dot {
-  background-color: bootstrap.$nero;
-  width: 6px;
-  height: 6px;
-  margin-right: 4px;
-  border-radius: 100%;
-  display: inline-block;
-  animation-name: dot-loading;
-  animation-duration: 0.8s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-fill-mode: both;
-  vertical-align: middle;
-}

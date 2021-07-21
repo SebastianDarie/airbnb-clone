@@ -1,7 +1,8 @@
 mutation CreateReservation($input: ReservationInput!) {
   createReservation(input: $input) {
     id
-    during
+    arrival
+    departure
     guests
     listingId
     guestId

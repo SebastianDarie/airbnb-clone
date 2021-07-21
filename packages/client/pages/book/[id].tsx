@@ -78,38 +78,59 @@ const Book: React.FC<BookProps> = ({}) => {
   useEffect(() => {
     (async () => {
       if (succeeded && variables && data.listing) {
+        console.log(
+          startDate.toDateString(),
+          endDate.toDateString(),
+          startDate.toJSON().slice(0, 19).replace('T', ' ')
+        );
+        const start = startDate.toISOString().slice(0, 19).replace('T', ' ');
+        const end = endDate.toISOString().slice(0, 19).replace('T', ' ');
+
+        const arr = (startDate: Date, endDate: Date) => {
+          for (
+            let arr = [], dt = new Date(startDate);
+            dt <= endDate;
+            dt.setDate(dt.getDate() + 1)
+          ) {
+            arr.push(new Date(dt));
+          }
+          return arr;
+        };
+
         createReservation({
           variables: {
             input: {
-              during: [startDate, endDate],
+              arrival: startDate,
+              departure: endDate,
+              //during: [Date.parse(start), Date.parse(end)],
               guests,
               listingId: variables.id,
             },
           },
         });
 
-        const { data: headerData } = await createHeader({
-          variables: {
-            input: {
-              listingId: variables.id,
-              status: MessageStatus.Sending,
-              subject: 'Reservation',
-              toId: data.listing.creator.id,
-            },
-          },
-        });
+        // const { data: headerData } = await createHeader({
+        //   variables: {
+        //     input: {
+        //       listingId: variables.id,
+        //       status: MessageStatus.Sending,
+        //       subject: 'Reservation',
+        //       toId: data.listing.creator.id,
+        //     },
+        //   },
+        // });
 
-        if (headerData) {
-          createMessage({
-            variables: {
-              input: {
-                headerId: headerData.createHeader.id,
-                isFromSender: 1,
-                text: message,
-              },
-            },
-          });
-        }
+        // if (headerData) {
+        //   createMessage({
+        //     variables: {
+        //       input: {
+        //         headerId: headerData.createHeader.id,
+        //         isFromSender: 1,
+        //         text: message,
+        //       },
+        //     },
+        //   });
+        // }
       }
     })();
   }, [succeeded]);

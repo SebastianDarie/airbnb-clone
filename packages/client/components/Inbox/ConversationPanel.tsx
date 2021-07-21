@@ -9,11 +9,13 @@ import {
   useNewMessageSubscription,
 } from '@airbnb-clone/controller';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { autosizeTextarea } from '../../utils/autosizeTextarea';
+import { DotLoader } from '../DotLoader';
 
 interface ConversationPanelProps {
   data: HeadersQuery | undefined;
+  details: boolean;
   loading: boolean;
   headerId: string;
 
@@ -24,15 +26,18 @@ interface ConversationPanelProps {
     readonly [key: string]: string;
   };
 
+  setDetails: Dispatch<SetStateAction<boolean>>;
   submit: (values: MessageFormProps, currHeader: any) => Promise<boolean>;
 }
 
 export const ConversationPanel: React.FC<ConversationPanelProps> = ({
   data,
+  details,
   loading,
   headerId,
   roomStyles,
   styles,
+  setDetails,
   submit,
 }) => {
   const { data: meData } = useMeQuery();
@@ -41,7 +46,6 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
   const currHeader = data?.headers.filter((h) => h.id === headerId)[0];
 
   useNewMessageSubscription({
-    //fetchPolicy: 'cache-only',
     variables: { headerId: currHeader ? currHeader.id : '' },
     onSubscriptionData: ({ client, subscriptionData: { data } }) => {
       const newMessage = data?.newMessage;
@@ -66,25 +70,19 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
   });
 
   return (
-    <section className={styles.conversation__panel}>
+    <section
+      className={
+        details ? styles.conversation__panel : styles.conversation__panel__wide
+      }
+    >
       <div className={styles.conversation__list__panel__transition}>
         <div className={styles.conversation__list__position}>
           {!data || loading ? (
-            <span className={styles.dot__loader}>
-              <span
-                className={styles.dot}
-                style={{ animationDelay: '-0.3s' }}
-              ></span>
-              <span
-                className={styles.dot}
-                style={{ animationDelay: '-0.15s' }}
-              ></span>
-              <span className={styles.dot}></span>
-            </span>
+            <DotLoader />
           ) : (
             <div className={styles.message__thread__toolbar}>
               <div className={styles.name__margin}>
-                <div className={styles.name__font}>
+                <div className={styles.messages__header}>
                   <h2 className={roomStyles.section__heading}>
                     {currHeader?.creator.name}
                   </h2>
@@ -94,25 +92,22 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                 <ArchiveSvg />
               </div>
               <div className={styles.toggle__details__margin}>
-                <button className={styles.toggle__details__btn}>
-                  Hide details
+                <button
+                  className={
+                    details
+                      ? styles.hide__details__btn
+                      : styles.get__details__btn
+                  }
+                  onClick={() => setDetails(!details)}
+                >
+                  {details ? 'Hide details' : 'Get details'}
                 </button>
               </div>
             </div>
           )}
 
           {!data || loading ? (
-            <span className={styles.dot__loader}>
-              <span
-                className={styles.dot}
-                style={{ animationDelay: '-0.3s' }}
-              ></span>
-              <span
-                className={styles.dot}
-                style={{ animationDelay: '-0.15s' }}
-              ></span>
-              <span className={styles.dot}></span>
-            </span>
+            <DotLoader />
           ) : (
             <div className={styles.messages__flex}>
               <div className={styles.messages__column}>

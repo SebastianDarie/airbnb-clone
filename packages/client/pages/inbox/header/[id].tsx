@@ -13,8 +13,11 @@ import {
   useMeQuery,
 } from '@airbnb-clone/controller';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { DotLoader } from '../../../components/DotLoader';
+import { ConversationDetails } from '../../../components/Inbox/ConversationDetails';
 import { ConversationList } from '../../../components/Inbox/ConversationList';
 import { ConversationPanel } from '../../../components/Inbox/ConversationPanel';
 import Layout from '../../../components/Layout';
@@ -37,9 +40,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   //   subscribeToMore,
   // } = useGetHeadersFromUrl();
   const { data, loading } = useHeadersQuery();
-  if (data) {
-    console.log(data?.headers[0]?.creator, data?.headers[0]?.toId);
-  }
+  const [details, setDetails] = useState(true);
   // const [createMessage, { data: messageData }] = useCreateMessageMutation();
 
   // const subscribeToNewHeaders = () =>
@@ -84,76 +85,32 @@ const Header: React.FC<HeaderProps> = ({}) => {
             {({ submit }) => (
               <ConversationPanel
                 data={data}
+                details={details}
                 loading={loading}
                 headerId={headerId as string}
                 roomStyles={roomStyles}
                 styles={styles}
+                setDetails={setDetails}
                 submit={submit}
               />
             )}
           </CreateMessageController>
 
-          <section className={styles.conversation__list__panel}>
+          <section
+            className={
+              details
+                ? styles.conversation__details__panel
+                : styles.conversation__details__panel__closed
+            }
+          >
             {!data || loading ? (
-              <span className={styles.dot__loader}>
-                <span
-                  className={styles.dot}
-                  style={{ animationDelay: '-0.3s' }}
-                ></span>
-                <span
-                  className={styles.dot}
-                  style={{ animationDelay: '-0.15s' }}
-                ></span>
-                <span className={styles.dot}></span>
-              </span>
+              <DotLoader />
             ) : (
-              <div className={styles.reservation__position}>
-                <div className={styles.reservation__details__margin}>
-                  <div className={styles.reservation__control__padding}>
-                    <div className={styles.reservation__details__text}></div>
-                  </div>
-                </div>
-
-                <div className={styles.reservation__padding}>
-                  <div className={roomStyles.room__section__flex}>
-                    <div className={styles.reservation__header}>
-                      <div className={styles.reservation__header__table}>
-                        <div className={styles.header__cell}>
-                          <div className={styles.header__firstname}></div>
-                          <div className={styles.header__summary}></div>
-                          <div className={styles.header__summary}></div>
-                        </div>
-                        <div className={styles.img__cell}>
-                          <div className={styles.profile__img}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={roomStyles.room__section__flex}></div>
-
-                  <div className={roomStyles.room__section__flex}>
-                    <div className={roomStyles.section__divider}></div>
-                    <div className={styles.user__profile__padding}>
-                      <div className={styles.profile__item__margin}>
-                        <div
-                          className={styles.reservation__header__table}
-                        ></div>
-                      </div>
-                      <div className={styles.profile__item__margin}>
-                        <div
-                          className={styles.reservation__header__table}
-                        ></div>
-                      </div>
-                      <div className={styles.profile__item__margin}>
-                        <div
-                          className={styles.reservation__header__table}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ConversationDetails
+                details={details}
+                roomStyles={roomStyles}
+                styles={styles}
+              />
             )}
           </section>
         </div>

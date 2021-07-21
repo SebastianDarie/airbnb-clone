@@ -1,7 +1,5 @@
 @use '../utilities/bootstrap.scss';
 
-@include bootstrap.dot-mixin;
-
 .inbox__position {
   position: fixed;
   bottom: 0px;
@@ -192,7 +190,7 @@
 }
 
 .message__profile__image {
-  background-color: rgb(221, 221, 221);
+  background-color: hsl(0, 0%, 87%);
   border-radius: 100px;
   border-width: 2px;
   border-style: solid;
@@ -322,6 +320,62 @@
   }
 }
 
+.conversation__panel__wide {
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  border-left: 1px solid bootstrap.$graysmoke;
+
+  @media screen and (min-width: 375px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+    flex: 2 1 0%;
+  }
+}
+
 .message__thread__toolbar {
   height: 72px;
   display: flex;
@@ -338,17 +392,6 @@
   margin-right: 12px;
 }
 
-.name__font {
-  font-size: 16px;
-  flex-grow: 1;
-  color: bootstrap.$nero;
-  font-weight: 800;
-  line-height: 20px;
-  max-height: 20px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .archive__margin {
   height: 16px;
   margin-left: 12px;
@@ -358,7 +401,7 @@
   margin-left: 12px;
 }
 
-.toggle__details__btn {
+.hide__details__btn {
   cursor: pointer;
   text-align: center;
   border: 1px solid bootstrap.$nero;
@@ -371,7 +414,7 @@
   line-height: 16px;
   background-color: bootstrap.$whitesmoke;
   color: bootstrap.$nero;
-  font-weight: 800;
+  font-weight: 600;
 
   &:hover {
     color: bootstrap.$black;
@@ -390,6 +433,31 @@
     border-style: solid;
     border-width: 2px;
     border-radius: inherit;
+  }
+}
+
+.get__details__btn {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  width: auto;
+  touch-action: manipulation;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  border-radius: 30px;
+  border-width: 1px;
+  border-style: solid;
+  padding: 8px 16px;
+  transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s;
+  border-color: bootstrap.$form-txt;
+  background: bootstrap.$default-color;
+  color: bootstrap.$nero;
+
+  &:hover {
+    border-color: bootstrap.$black;
+    background: bootstrap.$whitesmoke;
+    color: bootstrap.$nero;
   }
 }
 
@@ -685,32 +753,96 @@
   }
 }
 
-.dot__loader {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  white-space: nowrap;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+.conversation__details__panel__closed {
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  border-left: 1px solid bootstrap.$graysmoke;
+
+  @media screen and (min-width: 375px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    border-left: 1px solid bootstrap.$graysmoke;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+    flex: 0 1 0%;
+    border-left: none;
+  }
 }
 
-.dot {
-  background-color: bootstrap.$nero;
-  width: 6px;
-  height: 6px;
-  margin-right: 4px;
-  border-radius: 100%;
-  display: inline-block;
-  animation-name: dot-loading;
-  animation-duration: 0.8s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-fill-mode: both;
-  vertical-align: middle;
+.conversation__details__empty {
+  height: 100%;
+  overflow: hidden;
+
+  @media screen and (min-width: 375px) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 744px) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 1128px) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: 100%;
+    overflow: hidden;
+    opacity: 0;
+    transition-duration: 150ms;
+    transition-delay: 0ms;
+  }
+}
+
+.details__padding {
+  padding: 24px;
+  max-height: 100%;
+  overflow-y: auto;
+  flex: 1 0 0px;
+  position: relative;
 }
 
 .reservation__position {
@@ -783,10 +915,6 @@
   white-space: nowrap;
 }
 
-.reservation__padding {
-  padding: 0px 24px;
-}
-
 .reservation__header {
   padding-top: 8px;
   padding-bottom: 16px;
@@ -824,6 +952,8 @@
 .profile__img {
   border: 2px solid bootstrap.$default-color;
   border-radius: 50%;
+  height: 64px;
+  width: 64px;
 }
 
 .user__profile__padding {
@@ -843,4 +973,39 @@
   font-weight: 400;
   line-height: 1.375em;
   color: bootstrap.$default-gray;
+}
+
+.profile__link {
+  color: bootstrap.$teal;
+  text-decoration: none;
+
+  &:hover {
+    color: bootstrap.$teal;
+    text-decoration: underline;
+  }
+}
+
+.item__padding {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.cell__wrap {
+  white-space: nowrap;
+}
+
+.potential__earnings__padding {
+  padding-top: 24px;
+  padding-bottom: 16px;
+}
+
+.potential__earnings {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.fee__padding {
+  padding-top: 8px;
+  padding-bottom: 24px;
 }

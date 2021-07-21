@@ -293,7 +293,9 @@ export type QueryReviewsArgs = {
 export type Reservation = {
   __typename?: 'Reservation';
   id: Scalars['String'];
-  during: Array<Scalars['DateTime']>;
+  during: Array<Scalars['String']>;
+  arrival: Scalars['String'];
+  departure: Scalars['String'];
   guests: Scalars['Int'];
   listingId: Scalars['String'];
   guestId: Scalars['String'];
@@ -302,7 +304,9 @@ export type Reservation = {
 };
 
 export type ReservationInput = {
-  during: Array<Scalars['DateTime']>;
+  arrival: Scalars['DateTime'];
+  departure: Scalars['DateTime'];
+  during?: Maybe<Array<Scalars['String']>>;
   guests: Scalars['Int'];
   listingId: Scalars['String'];
 };
@@ -538,7 +542,7 @@ export type CreateReservationMutation = (
   { __typename?: 'Mutation' }
   & { createReservation: (
     { __typename?: 'Reservation' }
-    & Pick<Reservation, 'id' | 'during' | 'guests' | 'listingId' | 'guestId'>
+    & Pick<Reservation, 'id' | 'arrival' | 'departure' | 'guests' | 'listingId' | 'guestId'>
   ) }
 );
 
@@ -699,6 +703,17 @@ export type MessagesQuery = (
   & { messages: Array<(
     { __typename?: 'Message' }
     & RegularMessageFragment
+  )> }
+);
+
+export type ReservationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReservationsQuery = (
+  { __typename?: 'Query' }
+  & { reservations: Array<(
+    { __typename?: 'Reservation' }
+    & Pick<Reservation, 'id' | 'arrival' | 'departure' | 'guests' | 'listingId'>
   )> }
 );
 
@@ -1019,7 +1034,8 @@ export const CreateReservationDocument = gql`
     mutation CreateReservation($input: ReservationInput!) {
   createReservation(input: $input) {
     id
-    during
+    arrival
+    departure
     guests
     listingId
     guestId
@@ -1533,6 +1549,44 @@ export function useMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
 export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
 export type MessagesLazyQueryHookResult = ReturnType<typeof useMessagesLazyQuery>;
 export type MessagesQueryResult = Apollo.QueryResult<MessagesQuery, MessagesQueryVariables>;
+export const ReservationsDocument = gql`
+    query Reservations {
+  reservations {
+    id
+    arrival
+    departure
+    guests
+    listingId
+  }
+}
+    `;
+
+/**
+ * __useReservationsQuery__
+ *
+ * To run a query within a React component, call `useReservationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReservationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReservationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useReservationsQuery(baseOptions?: Apollo.QueryHookOptions<ReservationsQuery, ReservationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReservationsQuery, ReservationsQueryVariables>(ReservationsDocument, options);
+      }
+export function useReservationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReservationsQuery, ReservationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReservationsQuery, ReservationsQueryVariables>(ReservationsDocument, options);
+        }
+export type ReservationsQueryHookResult = ReturnType<typeof useReservationsQuery>;
+export type ReservationsLazyQueryHookResult = ReturnType<typeof useReservationsLazyQuery>;
+export type ReservationsQueryResult = Apollo.QueryResult<ReservationsQuery, ReservationsQueryVariables>;
 export const SearchListingsDocument = gql`
     query SearchListings($input: SearchInput!, $limit: Int!, $cursor: String) {
   searchListings(input: $input, limit: $limit, cursor: $cursor) {

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { HeadersQuery } from '@airbnb-clone/controller';
+import { DotLoader } from '../DotLoader';
 
 interface ConversationListProps {
   data: HeadersQuery | undefined;
@@ -29,17 +30,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
         <div className={styles.conversation__list__position}>
           <div className={styles.messages__header__padding}>
             {!data || loading ? (
-              <span className={styles.dot__loader}>
-                <span
-                  className={styles.dot}
-                  style={{ animationDelay: '-0.3s' }}
-                ></span>
-                <span
-                  className={styles.dot}
-                  style={{ animationDelay: '-0.15s' }}
-                ></span>
-                <span className={styles.dot}></span>
-              </span>
+              <DotLoader />
             ) : (
               <div className={styles.messages__header}>
                 <h1 className={roomStyles.section__heading}>Messages</h1>
@@ -50,17 +41,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
           <div className={styles.messages__list__flex}>
             <div className={styles.messages__overflow}>
               {!data || loading ? (
-                <span className={styles.dot__loader}>
-                  <span
-                    className={styles.dot}
-                    style={{ animationDelay: '-0.3s' }}
-                  ></span>
-                  <span
-                    className={styles.dot}
-                    style={{ animationDelay: '-0.15s' }}
-                  ></span>
-                  <span className={styles.dot}></span>
-                </span>
+                <DotLoader />
               ) : (
                 <div>
                   {data.headers.map((h) => (
