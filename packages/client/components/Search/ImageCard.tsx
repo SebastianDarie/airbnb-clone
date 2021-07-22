@@ -1,4 +1,4 @@
-import { ListingResult } from '@airbnb-clone/controller';
+import { SearchListingResult } from '@airbnb-clone/controller';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import styles from '../../sass/components/ListingCard.module.scss';
@@ -10,7 +10,7 @@ import 'swiper/components/pagination/pagination.min.css';
 import SwiperCore, { Navigation, Pagination } from 'swiper/core';
 
 interface ImageCardProps {
-  listing: ListingResult;
+  listing: SearchListingResult;
 }
 
 SwiperCore.use([Navigation, Pagination]);

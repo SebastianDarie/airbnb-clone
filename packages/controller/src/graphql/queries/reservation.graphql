@@ -1,0 +1,5 @@
+query Reservation($id: String!) {
+  reservation(id: $id) {
+    ...RegReservation
+  }
+}

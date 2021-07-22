@@ -45,12 +45,6 @@ export class ListingResolver {
     return userLoader.load(listing.creatorId);
   }
 
-  @Query(() => [Listing])
-  async listings(@Ctx() { redis }: MyContext): Promise<Listing[]> {
-    const listings = (await redis.lrange(REDIS_CACHE_PREFIX, 0, -1)) || [];
-    return listings.map((listing) => JSON.parse(listing));
-  }
-
   @Query(() => Listing, { nullable: true })
   async listing(@Arg('id') id: string): Promise<Listing | undefined> {
     return Listing.findOne(id);
@@ -117,10 +111,10 @@ export class ListingResolver {
     } else if (latitude && longitude) {
       qb.select([
         '*',
-        `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
+        `ST_Distance(l.location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(l.location))) * 0.000621371 AS distance`,
       ])
         .where(
-          `ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
+          `ST_DWithin(l.location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(l.location)), :range)`
         )
         .orderBy('distance', 'ASC')
         .setParameters({
@@ -131,13 +125,11 @@ export class ListingResolver {
         .take(realLimitPlusOne);
     }
 
-    //console.log(boundsListings);
-
-    // if (cursor) {
-    //   qb.andWhere('l."createdAt" < :cursor ', {
-    //     cursor: new Date(parseInt(cursor)),
-    //   });
-    // }
+    if (cursor) {
+      qb.andWhere('l."createdAt" < :cursor ', {
+        cursor: new Date(parseInt(cursor)),
+      });
+    }
 
     // if (guests) {
     //   qb = qb.andWhere('l.guests = :guests', { guests });

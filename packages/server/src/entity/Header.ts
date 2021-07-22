@@ -1,4 +1,4 @@
-import { ObjectType, Field, registerEnumType } from 'type-graphql';
+import { ObjectType, Field } from 'type-graphql';
 import {
   Entity,
   Column,
@@ -8,20 +8,13 @@ import {
   BaseEntity,
   ManyToOne,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Listing } from './Listing';
 import { Message } from './Message';
+import { Reservation } from './Reservation';
 import { User } from './User';
-
-export enum MessageStatus {
-  DELIVERED = 'delivered',
-  SENDING = 'sending',
-  SENT = 'sent',
-}
-
-registerEnumType(MessageStatus, {
-  name: 'MessageStatus',
-});
 
 @ObjectType()
 @Entity()
@@ -38,9 +31,13 @@ export class Header extends BaseEntity {
   @Column({ type: 'varchar' })
   subject: string;
 
-  // @Field()
-  // @Column({ type: 'enum', enum: MessageStatus, default: MessageStatus.SENDING })
-  // status: MessageStatus;
+  @Field({ nullable: true })
+  @Column('uuid', { nullable: true })
+  reservationId: string;
+
+  @OneToOne(() => Reservation, { cascade: true, nullable: true })
+  @JoinColumn()
+  reservation: Reservation;
 
   @Field(() => [Message])
   @OneToMany(() => Message, (message) => message.header, {

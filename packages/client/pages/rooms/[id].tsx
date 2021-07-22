@@ -16,6 +16,7 @@ import {
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import shallow from 'zustand/shallow';
+import { DotLoader } from '../../components/DotLoader';
 import { FloorPlanDetails } from '../../components/FloorPlanDetails';
 import Layout from '../../components/Layout';
 import { BookRoomMenu } from '../../components/Room/BookRoomMenu';
@@ -79,7 +80,7 @@ const SectionWrapper: React.FC<{
 };
 
 const Room: React.FC<RoomProps> = memo(({}) => {
-  const { data, loading, error } = useGetListingFromUrl();
+  const { data, loading, error } = useGetListingFromUrl(false);
   const [
     startDate,
     endDate,
@@ -120,7 +121,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     );
   }
 
-  if (!data && loading) {
+  if (loading) {
     return (
       <Layout filter room search>
         <RoomSkeleton styles={styles} Wrapper={SectionWrapper} />
@@ -390,31 +391,38 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                     </div>
                     <div className={styles.calendar__overflow__container}>
                       <div className={styles.calendar__margin__container}>
-                        <div className={styles.calendar__minheight}>
-                          <div className={styles.calendar__width}>
-                            <DatePicker
-                              inline
-                              selected={startDate}
-                              onChange={(date) =>
-                                ReservationStore.updateStart(date as Date)
-                              }
-                              selectsStart
-                              startDate={startDate}
-                              endDate={endDate}
-                            />
-                            <DatePicker
-                              inline
-                              selected={endDate}
-                              onChange={(date) =>
-                                ReservationStore.updateEnd(date as Date)
-                              }
-                              selectsEnd
-                              startDate={startDate}
-                              endDate={endDate}
-                              minDate={startDate}
-                            />
+                        {loading ? (
+                          <div className={styles.loading__margin}>
+                            {' '}
+                            <DotLoader />{' '}
                           </div>
-                        </div>
+                        ) : (
+                          <div className={styles.calendar__minheight}>
+                            <div className={styles.calendar__width}>
+                              <DatePicker
+                                inline
+                                selected={startDate}
+                                onChange={(date) =>
+                                  ReservationStore.updateStart(date as Date)
+                                }
+                                selectsStart
+                                startDate={startDate}
+                                endDate={endDate}
+                              />
+                              <DatePicker
+                                inline
+                                selected={endDate}
+                                onChange={(date) =>
+                                  ReservationStore.updateEnd(date as Date)
+                                }
+                                selectsEnd
+                                startDate={startDate}
+                                endDate={endDate}
+                                minDate={startDate}
+                              />
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -433,7 +441,9 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             />
           </div>
 
-          <ReviewsSection styles={styles} />
+          {data?.listing?.reviews && (
+            <ReviewsSection reviews={data.listing.reviews} styles={styles} />
+          )}
 
           <div className={styles.room__section__flex} ref={locationRef}>
             <div className={styles.room__section__padding}>
@@ -448,7 +458,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                     </div>
                   </div>
                   <div className={styles.location__margin}>
-                    {data?.listing?.city}, Ukraine
+                    {data?.listing?.city}
                   </div>
                   <div className={styles.map__container}>
                     {data && isLoaded ? (

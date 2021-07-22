@@ -1,16 +1,16 @@
 import {
   Reservation,
   TripsSvg,
-  useListingLazyQuery,
   useListingQuery,
   useReservationsQuery,
 } from '@airbnb-clone/controller';
-import Layout from '../components/Layout';
-import { withApollo } from '../utils/withApollo';
-import styles from '../sass/pages/Trips.module.scss';
-import roomStyles from '../sass/pages/Room.module.scss';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { DotLoader } from '../components/DotLoader';
+import Layout from '../components/Layout';
+import roomStyles from '../sass/pages/Room.module.scss';
+import styles from '../sass/pages/Trips.module.scss';
+import { withApollo } from '../utils/withApollo';
 
 interface TripsProps {}
 
@@ -19,9 +19,19 @@ const ReservationItem = ({
 }: {
   r: Pick<Reservation, 'id' | 'arrival' | 'departure' | 'guests' | 'listingId'>;
 }) => {
-  const { data, loading, error } = useListingQuery({
-    variables: { id: r.listingId },
+  const { data, loading } = useListingQuery({
+    variables: { id: r.listingId, slim: true, noreviews: true },
   });
+
+  if (loading) {
+    return (
+      <div className={styles.booking__item}>
+        <div className={styles.interior__booking__item}>
+          <DotLoader />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -81,7 +91,11 @@ const Trips: React.FC<TripsProps> = ({}) => {
   }
 
   if (loading) {
-    console.log(loading);
+    return (
+      <Layout filter search={false}>
+        <DotLoader />
+      </Layout>
+    );
   }
 
   return (

@@ -2,7 +2,6 @@ import {
   AirbnbSmallSvg,
   AirbnbSvg,
   ArrowLeftSvg,
-  MessageStatus,
   useCreateHeaderMutation,
   useCreateMessageMutation,
   useCreatePaymentIntentMutation,
@@ -19,7 +18,6 @@ import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
 import { autosizeTextarea } from '../../utils/autosizeTextarea';
-import { convertToUTC } from '../../utils/converToUTC';
 import { withApollo } from '../../utils/withApollo';
 
 interface BookProps {}
@@ -30,7 +28,7 @@ const Book: React.FC<BookProps> = ({}) => {
     createPaymentIntent,
     { data: clientSecret },
   ] = useCreatePaymentIntentMutation();
-  const { data, variables } = useGetListingFromUrl();
+  const { data, variables } = useGetListingFromUrl(true);
   const [createReservation, { loading }] = useCreateReservationMutation();
   const [createHeader] = useCreateHeaderMutation();
   const [createMessage] = useCreateMessageMutation();
@@ -78,26 +76,7 @@ const Book: React.FC<BookProps> = ({}) => {
   useEffect(() => {
     (async () => {
       if (succeeded && variables && data.listing) {
-        console.log(
-          startDate.toDateString(),
-          endDate.toDateString(),
-          startDate.toJSON().slice(0, 19).replace('T', ' ')
-        );
-        const start = startDate.toISOString().slice(0, 19).replace('T', ' ');
-        const end = endDate.toISOString().slice(0, 19).replace('T', ' ');
-
-        const arr = (startDate: Date, endDate: Date) => {
-          for (
-            let arr = [], dt = new Date(startDate);
-            dt <= endDate;
-            dt.setDate(dt.getDate() + 1)
-          ) {
-            arr.push(new Date(dt));
-          }
-          return arr;
-        };
-
-        createReservation({
+        const { data: reservationData } = await createReservation({
           variables: {
             input: {
               arrival: startDate,
@@ -109,28 +88,28 @@ const Book: React.FC<BookProps> = ({}) => {
           },
         });
 
-        // const { data: headerData } = await createHeader({
-        //   variables: {
-        //     input: {
-        //       listingId: variables.id,
-        //       status: MessageStatus.Sending,
-        //       subject: 'Reservation',
-        //       toId: data.listing.creator.id,
-        //     },
-        //   },
-        // });
+        const { data: headerData } = await createHeader({
+          variables: {
+            input: {
+              listingId: variables.id,
+              reservationId: reservationData?.createReservation.id,
+              subject: 'Reservation',
+              toId: data.listing.creator.id,
+            },
+          },
+        });
 
-        // if (headerData) {
-        //   createMessage({
-        //     variables: {
-        //       input: {
-        //         headerId: headerData.createHeader.id,
-        //         isFromSender: 1,
-        //         text: message,
-        //       },
-        //     },
-        //   });
-        // }
+        if (headerData) {
+          createMessage({
+            variables: {
+              input: {
+                headerId: headerData.createHeader.id,
+                isFromSender: 1,
+                text: message,
+              },
+            },
+          });
+        }
       }
     })();
   }, [succeeded]);
@@ -447,7 +426,6 @@ const Book: React.FC<BookProps> = ({}) => {
             </div>
           </div>
         </div>
-        {/* <div></div> */}
       </main>
     </>
   );

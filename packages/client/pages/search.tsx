@@ -31,6 +31,7 @@ import { ImageCard } from '../components/Search/ImageCard';
 import { useGoogleMaps } from '../utils/GoogleMapsProvider';
 import { SearchControl } from '../components/Search/SearchControl';
 import { InfoCard } from '../components/Search/InfoCard';
+import { DotLoader } from '../components/DotLoader';
 //import { OverlappingMarkerSpiderfier } from 'ts-overlapping-marker-spiderfier';
 
 interface SearchProps {}
@@ -285,9 +286,15 @@ const Search: React.FC<SearchProps> = ({}) => {
               <div className={styles.meta__padding}>
                 <div className={styles.top__padding}>
                   <div className={styles.stays__count}>
-                    {data?.searchListings.hasMore
-                      ? '20+ stays'
-                      : `${data?.searchListings.listings.length} listings`}
+                    {loading ? (
+                      <div>
+                        <DotLoader /> listings
+                      </div>
+                    ) : data?.searchListings.hasMore ? (
+                      '20+ stays'
+                    ) : (
+                      `${data?.searchListings.listings.length} listings`
+                    )}
                   </div>
                   <div className={styles.stays__header}>
                     <h1 className={styles.heading}>
@@ -298,26 +305,30 @@ const Search: React.FC<SearchProps> = ({}) => {
               </div>
             </div>
 
-            <div className={styles.listings__container}>
-              <div style={{ overflowAnchor: 'none' }}>
-                <div className={styles.listings__section}>
-                  <div className={styles.listings__padding}>
-                    <div className={styles.listings__margin}>
-                      {data?.searchListings.listings.map((listing) => (
-                        <ListingCard
-                          key={listing.id}
-                          listing={listing}
-                          loading={
-                            loading || networkStatus === NetworkStatus.refetch
-                          }
-                          searchStyles={styles}
-                        />
-                      ))}
+            {loading ? (
+              <DotLoader />
+            ) : (
+              <div className={styles.listings__container}>
+                <div style={{ overflowAnchor: 'none' }}>
+                  <div className={styles.listings__section}>
+                    <div className={styles.listings__padding}>
+                      <div className={styles.listings__margin}>
+                        {data?.searchListings.listings.map((listing) => (
+                          <ListingCard
+                            key={listing.id}
+                            listing={listing}
+                            loading={
+                              loading || networkStatus === NetworkStatus.refetch
+                            }
+                            searchStyles={styles}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className={styles.padding__bottom}></div>

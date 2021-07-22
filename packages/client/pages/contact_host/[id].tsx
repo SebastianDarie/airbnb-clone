@@ -1,6 +1,5 @@
 import {
   ArrowLeftSvg,
-  MessageStatus,
   useCreateHeaderMutation,
   useCreateMessageMutation,
 } from '@airbnb-clone/controller';
@@ -18,7 +17,7 @@ interface ContactHostProps {}
 
 const ContactHost: React.FC<ContactHostProps> = ({}) => {
   const router = useRouter();
-  const { data } = useGetListingFromUrl();
+  const { data } = useGetListingFromUrl(true);
   const [createHeader] = useCreateHeaderMutation();
   const [createMessage] = useCreateMessageMutation();
   const [message, setMessage] = useState('');
@@ -37,7 +36,6 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
             variables: {
               input: {
                 listingId: router.query.id as string,
-                status: MessageStatus.Sending,
                 subject: 'Inquiry',
                 toId: data.listing!.creator.id,
               },

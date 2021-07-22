@@ -29,6 +29,7 @@ import { ReviewResolver } from './resolvers/review';
 import { UserResolver } from './resolvers/user';
 import { createTypeormConn } from './utils/createTypeormConn';
 import { ReservationResolver } from './resolvers/reservation';
+import { ApolloServerLoaderPlugin } from 'type-graphql-dataloader';
 
 const main = async () => {
   const conn = await createTypeormConn();
@@ -117,6 +118,9 @@ const main = async () => {
       onDisconnect: (_webSocket, _context) =>
         console.log('subscriptions disconnect'),
     },
+    plugins: [
+      ApolloServerLoaderPlugin({ typeormGetConnection: getConnection }),
+    ],
   });
 
   const server = createServer(app);
@@ -132,22 +136,22 @@ const main = async () => {
   //await Listing.delete({});
   const listings = await Listing.find({});
   //console.log(listings.length);
-  listings.map(async (listing) => {
-    if (listing.location === null) {
-      const location: Point = {
-        type: 'Point',
-        coordinates: [listing.longitude, listing.latitude],
-      };
+  // listings.map(async (listing) => {
+  //   if (listing.location === null) {
+  //     const location: Point = {
+  //       type: 'Point',
+  //       coordinates: [listing.longitude, listing.latitude],
+  //     };
 
-      await getConnection()
-        .createQueryBuilder()
-        .update(Listing)
-        .set({ location })
-        .where('id = :id', { id: listing.id })
-        .returning('*')
-        .execute();
-    }
-  });
+  //     await getConnection()
+  //       .createQueryBuilder()
+  //       .update(Listing)
+  //       .set({ location })
+  //       .where('id = :id', { id: listing.id })
+  //       .returning('*')
+  //       .execute();
+  //   }
+  // });
   const listingStrings = listings.map((listing) => JSON.stringify(listing));
   await redis.lpush(REDIS_CACHE_PREFIX, ...listingStrings);
 

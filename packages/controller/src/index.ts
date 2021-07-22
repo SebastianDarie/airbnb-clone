@@ -5,7 +5,6 @@ export * from './modules/CreateMessageController';
 export * from './modules/ConfirmEmailController';
 export * from './modules/ChangePasswordController';
 export * from './modules/ForgotPasswordController';
-export * from './modules/FindListingsHoc';
 export * from './modules/ViewListingHoc';
 export * from './modules/LogoutHoc';
 export * from './modules/LoginController';

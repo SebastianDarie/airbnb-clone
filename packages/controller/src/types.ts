@@ -4,7 +4,14 @@ import {
   ApolloQueryResult,
 } from '@apollo/client';
 import { DocumentNode } from 'graphql';
-import { Listing } from './generated/graphql';
+import {
+  Header,
+  Listing,
+  Maybe,
+  Message,
+  Review,
+  User,
+} from './generated/graphql';
 
 export type ApolloFetchMoreType<TData, TVariables> = (<
   K extends keyof TVariables
@@ -68,7 +75,7 @@ export type ActiveElement = {
   el: string;
 };
 
-export type ListingResult = {
+export type SearchListingResult = {
   __typename?: 'Listing' | undefined;
 } & Pick<
   Listing,
@@ -86,4 +93,103 @@ export type ListingResult = {
   | 'latitude'
   | 'longitude'
   | 'createdAt'
+> & {
+    reviews: ({
+      __typename?: 'Review' | undefined;
+    } & Pick<Review, 'id' | 'rating'>)[];
+  };
+
+export type ListingResult = Maybe<
+  {
+    __typename?: 'Listing' | undefined;
+  } & Pick<Listing, 'id' | 'title' | 'city' | 'photos'> & {
+      reviews?:
+        | Maybe<
+            ({
+              __typename?: 'Review' | undefined;
+            } & Pick<
+              Review,
+              | 'id'
+              | 'amenities'
+              | 'rating'
+              | 'value'
+              | 'cleanliness'
+              | 'accuracy'
+              | 'checkIn'
+              | 'communication'
+              | 'location'
+              | 'review'
+            >)[]
+          >
+        | undefined;
+    } & {
+      __typename?: 'Listing' | undefined;
+    } & Pick<
+      Listing,
+      | 'category'
+      | 'bathrooms'
+      | 'bedrooms'
+      | 'beds'
+      | 'guests'
+      | 'amenities'
+      | 'price'
+      | 'latitude'
+      | 'longitude'
+      | 'description'
+      | 'type'
+    > & {
+      creator: {
+        __typename?: 'User' | undefined;
+      } & {
+        __typename?: 'User' | undefined;
+      } & Pick<User, 'id' | 'createdAt' | 'name' | 'photoUrl'>;
+    }
 >;
+
+export type HeaderResult = {
+  __typename?: 'Header' | undefined;
+} & {
+  __typename?: 'Header' | undefined;
+} & Pick<
+    Header,
+    'id' | 'toId' | 'subject' | 'listingId' | 'reservationId' | 'createdAt'
+  > & {
+    creator: {
+      __typename?: 'User' | undefined;
+    } & {
+      __typename?: 'User' | undefined;
+    } & Pick<User, 'id' | 'createdAt' | 'name' | 'photoUrl'>;
+    messages: ({
+      __typename?: 'Message' | undefined;
+    } & {
+      __typename?: 'Message' | undefined;
+    } & Pick<
+        Message,
+        'id' | 'createdAt' | 'isFromSender' | 'text' | 'read' | 'headerId'
+      > & {
+        creator: {
+          __typename?: 'User' | undefined;
+        } & Pick<User, 'id' | 'name' | 'photoUrl'>;
+      })[];
+  };
+
+export type Reviews =
+  | Maybe<
+      ({
+        __typename?: 'Review' | undefined;
+      } & Pick<
+        Review,
+        | 'id'
+        | 'amenities'
+        | 'rating'
+        | 'value'
+        | 'cleanliness'
+        | 'accuracy'
+        | 'checkIn'
+        | 'communication'
+        | 'location'
+        | 'review'
+        | 'createdAt'
+      >)[]
+    >
+  | undefined;

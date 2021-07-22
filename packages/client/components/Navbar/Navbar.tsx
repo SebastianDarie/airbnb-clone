@@ -30,8 +30,8 @@ const Navbar: React.FC<NavbarProps> = ({
   const { data } = useMeQuery({
     skip: isServer(),
   });
-  //  const scrolled = useScrollHandler();
-  const scrolled = true;
+  const scrolled = useScrollHandler();
+  //const scrolled = true;
 
   const Nav = (
     <header

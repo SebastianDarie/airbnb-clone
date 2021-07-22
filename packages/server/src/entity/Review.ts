@@ -1,4 +1,5 @@
-import { Field, Float, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
+import { TypeormLoader } from 'type-graphql-dataloader';
 import {
   BaseEntity,
   Column,
@@ -58,7 +59,9 @@ export class Review extends BaseEntity {
   @Column('uuid')
   listingId: string;
 
+  @Field(() => Listing)
   @ManyToOne(() => Listing, (listing) => listing.reviews)
+  @TypeormLoader()
   listing: Listing;
 
   @Field()

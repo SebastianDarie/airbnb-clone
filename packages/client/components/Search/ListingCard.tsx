@@ -1,11 +1,15 @@
-import { HeartSvg, ListingResult, ReviewSvg } from '@airbnb-clone/controller';
+import {
+  HeartSvg,
+  SearchListingResult,
+  ReviewSvg,
+} from '@airbnb-clone/controller';
 import Link from 'next/link';
 import styles from '../../sass/components/ListingCard.module.scss';
 import { FloorPlanDetails } from '../FloorPlanDetails';
 import { ImageCard } from './ImageCard';
 
 interface ListingCardProps {
-  listing: ListingResult;
+  listing: SearchListingResult;
   loading: boolean;
   searchStyles: {
     readonly [key: string]: string;
@@ -37,6 +41,17 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   //const str = JSON.stringify(request);
   //const enc = btoa(str);
   //console.log(enc);
+
+  // console.log(listing.reviews, listing.reviews.length > 0);
+  let avg = 0;
+  let reviewsLength = listing.reviews.length;
+  if (reviewsLength > 0) {
+    // const avg = listing.reviews.reduce(
+    //   (prev, curr, i) => (prev.value * i + curr.value) / (i + 1)
+    // );
+    // console.log(avg);
+    listing.reviews.forEach(({ rating }) => (avg += rating));
+  }
 
   const ListingContent = (
     <>
@@ -83,10 +98,18 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             <span className={searchStyles.review__star}>
               <ReviewSvg />
             </span>
-            <span className={searchStyles.review__avg}>5.0</span>
-            <span className={searchStyles.review__count}>
-              &nbsp;( 9 reviews )
-            </span>
+            {reviewsLength > 0 ? (
+              <>
+                <span className={searchStyles.review__avg}>
+                  {avg / reviewsLength}
+                </span>
+                <span className={searchStyles.review__count}>
+                  &nbsp;( {reviewsLength} reviews )
+                </span>
+              </>
+            ) : (
+              <span className={searchStyles.review__avg}>New</span>
+            )}
           </span>
         </div>
 

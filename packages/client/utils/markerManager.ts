@@ -1,4 +1,4 @@
-import { ListingResult } from '@airbnb-clone/controller';
+import { SearchListingResult } from '@airbnb-clone/controller';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -12,7 +12,7 @@ export default class MarkerManager {
   }
 
   createMarker(
-    listing: ListingResult,
+    listing: SearchListingResult,
     setSelected: Dispatch<SetStateAction<MarkerWithLabel | null>>
   ) {
     const position = new google.maps.LatLng(
@@ -52,7 +52,7 @@ export default class MarkerManager {
   }
 
   updateMarkers(
-    listings: ListingResult[],
+    listings: SearchListingResult[],
     setSelected: Dispatch<SetStateAction<MarkerWithLabel | null>>
   ) {
     Object.keys(this.markers)

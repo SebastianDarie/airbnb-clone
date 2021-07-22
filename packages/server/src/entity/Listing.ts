@@ -1,5 +1,6 @@
 import { Point } from 'geojson';
 import { Field, ObjectType } from 'type-graphql';
+import { TypeormLoader } from 'type-graphql-dataloader';
 import {
   BaseEntity,
   Column,
@@ -105,7 +106,9 @@ export class Listing extends BaseEntity {
   @OneToMany(() => Reservation, (reservation) => reservation.listing)
   reservations: Reservation[];
 
+  @Field(() => [Review])
   @OneToMany(() => Review, (review) => review.listing)
+  @TypeormLoader()
   reviews: Review[];
 
   @Field(() => String)

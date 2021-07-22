@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   // const currHeader = data?.headers.filter((h) => h.id === variables?.headerId);
   //const newDay = (m, i, arr) => new Date(+arr[i - 1]).getDate() === new Date(+m.createdAt).getDate()
   const headerId = router.query.id ? router.query.id : '';
-  //const currHeader: CurrHeader = data?.headers.filter((h) => h.id === headerId)[0]!;
+  const currHeader = data?.headers.filter((h) => h.id === headerId)[0];
 
   return (
     <Layout search={false}>
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
           <ConversationList
             data={data}
             loading={loading}
-            headerId={headerId as string}
+            currHeader={currHeader}
             roomStyles={roomStyles}
             styles={styles}
           />
@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 data={data}
                 details={details}
                 loading={loading}
-                headerId={headerId as string}
+                currHeader={currHeader}
                 roomStyles={roomStyles}
                 styles={styles}
                 setDetails={setDetails}
@@ -103,10 +103,11 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 : styles.conversation__details__panel__closed
             }
           >
-            {!data || loading ? (
+            {!data || !currHeader || loading ? (
               <DotLoader />
             ) : (
               <ConversationDetails
+                currHeader={currHeader}
                 details={details}
                 roomStyles={roomStyles}
                 styles={styles}

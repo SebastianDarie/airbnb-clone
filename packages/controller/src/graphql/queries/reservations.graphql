@@ -1,9 +1,5 @@
 query Reservations {
   reservations {
-    id
-    arrival
-    departure
-    guests
-    listingId
+    ...RegReservation
   }
 }

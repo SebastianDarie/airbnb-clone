@@ -1,7 +1,6 @@
 import {
   CreatePaymentIntentMutation,
   ErrorSvg,
-  useCreateReservationMutation,
 } from '@airbnb-clone/controller';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
@@ -62,7 +61,6 @@ export const StripeCard: React.FC<StripeCardProps> = ({
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [createReservation] = useCreateReservationMutation();
   const [coords, setCoords] = useGradient();
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
@@ -101,9 +99,6 @@ export const StripeCard: React.FC<StripeCardProps> = ({
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      // createReservation({
-      //   variables: { input: { during: [], guests: 2, listingId: '' } },
-      // });
     }
   };
 

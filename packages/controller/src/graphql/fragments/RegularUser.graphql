@@ -1,8 +1,6 @@
 fragment RegularUser on User {
   id
-  email
   name
   photoUrl
-  confirmed
-  forgotPasswordLocked
+  createdAt
 }

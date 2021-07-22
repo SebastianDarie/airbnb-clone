@@ -5,7 +5,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  InputType,
   Mutation,
   Query,
   Resolver,
@@ -13,9 +12,10 @@ import {
   Subscription,
 } from 'type-graphql';
 import { getConnection } from 'typeorm';
-import { Header, MessageStatus } from '../entity/Header';
+import { Header } from '../entity/Header';
 import { User } from '../entity/User';
 import { MyContext } from '../types';
+import { HeaderInput } from './input';
 
 @ArgsType()
 export class NewHeaderArgs {
@@ -24,21 +24,6 @@ export class NewHeaderArgs {
 
   @Field()
   toId: string;
-}
-
-@InputType()
-class HeaderInput {
-  @Field()
-  toId: string;
-
-  @Field()
-  subject: string;
-
-  @Field(() => MessageStatus)
-  status: MessageStatus;
-
-  @Field()
-  listingId: string;
 }
 
 @Resolver(Header)

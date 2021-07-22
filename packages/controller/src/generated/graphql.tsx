@@ -33,6 +33,7 @@ export type Header = {
   id: Scalars['String'];
   toId: Scalars['String'];
   subject: Scalars['String'];
+  reservationId?: Maybe<Scalars['String']>;
   messages: Array<Message>;
   listingId: Scalars['String'];
   createdAt: Scalars['String'];
@@ -43,8 +44,8 @@ export type Header = {
 export type HeaderInput = {
   toId: Scalars['String'];
   subject: Scalars['String'];
-  status: MessageStatus;
   listingId: Scalars['String'];
+  reservationId?: Maybe<Scalars['String']>;
 };
 
 export type LatLngLiteral = {
@@ -71,6 +72,7 @@ export type Listing = {
   amenities: Array<Scalars['String']>;
   highlights: Array<Scalars['String']>;
   creatorId: Scalars['String'];
+  reviews: Array<Review>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   creator: User;
@@ -111,12 +113,6 @@ export type MessageInput = {
   isFromSender: Scalars['Float'];
   headerId: Scalars['String'];
 };
-
-export enum MessageStatus {
-  Delivered = 'DELIVERED',
-  Sending = 'SENDING',
-  Sent = 'SENT'
-}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -246,7 +242,6 @@ export type Query = {
   headers: Array<Header>;
   headersListing: Array<Header>;
   latestHeader: Header;
-  listings: Array<Listing>;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
   findCity: Scalars['String'];
@@ -255,6 +250,7 @@ export type Query = {
   users: Array<User>;
   me?: Maybe<User>;
   reservations: Array<Reservation>;
+  reservation?: Maybe<Reservation>;
 };
 
 
@@ -288,6 +284,11 @@ export type QueryMessagesArgs = {
 
 export type QueryReviewsArgs = {
   listingId: Scalars['String'];
+};
+
+
+export type QueryReservationArgs = {
+  id: Scalars['String'];
 };
 
 export type Reservation = {
@@ -324,6 +325,7 @@ export type Review = {
   amenities: Scalars['Float'];
   review: Scalars['String'];
   listingId: Scalars['String'];
+  listing: Listing;
   creatorId: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -413,6 +415,20 @@ export type UserResponse = {
   sessionID?: Maybe<Scalars['String']>;
 };
 
+export type ListingDetailsFragment = (
+  { __typename?: 'Listing' }
+  & Pick<Listing, 'description' | 'category' | 'type' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'latitude' | 'longitude'>
+  & { creator: (
+    { __typename?: 'User' }
+    & RegularUserFragment
+  ) }
+);
+
+export type RegReservationFragment = (
+  { __typename?: 'Reservation' }
+  & Pick<Reservation, 'id' | 'arrival' | 'departure' | 'guests' | 'listingId'>
+);
+
 export type RegularErrorFragment = (
   { __typename?: 'FieldError' }
   & Pick<FieldError, 'path' | 'message'>
@@ -420,10 +436,10 @@ export type RegularErrorFragment = (
 
 export type RegularHeadersFragment = (
   { __typename?: 'Header' }
-  & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId' | 'createdAt'>
+  & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId' | 'reservationId' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'photoUrl'>
+    & RegularUserFragment
   ), messages: Array<(
     { __typename?: 'Message' }
     & RegularMessageFragment
@@ -441,7 +457,7 @@ export type RegularMessageFragment = (
 
 export type RegularUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'email' | 'name' | 'photoUrl' | 'confirmed' | 'forgotPasswordLocked'>
+  & Pick<User, 'id' | 'name' | 'photoUrl' | 'createdAt'>
 );
 
 export type RegularUserResponseFragment = (
@@ -656,6 +672,8 @@ export type LatestHeaderQuery = (
 
 export type ListingQueryVariables = Exact<{
   id: Scalars['String'];
+  noreviews: Scalars['Boolean'];
+  slim: Scalars['Boolean'];
 }>;
 
 
@@ -663,22 +681,12 @@ export type ListingQuery = (
   { __typename?: 'Query' }
   & { listing?: Maybe<(
     { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'city' | 'type' | 'photos' | 'price' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'latitude' | 'longitude'>
-    & { creator: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'email' | 'name' | 'photoUrl' | 'createdAt'>
-    ) }
-  )> }
-);
-
-export type ListingsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ListingsQuery = (
-  { __typename?: 'Query' }
-  & { listings: Array<(
-    { __typename?: 'Listing' }
-    & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'price' | 'photos'>
+    & Pick<Listing, 'id' | 'title' | 'city' | 'photos'>
+    & { reviews?: Maybe<Array<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'id' | 'rating' | 'cleanliness' | 'accuracy' | 'checkIn' | 'communication' | 'location' | 'value' | 'amenities' | 'review' | 'createdAt'>
+    )>> }
+    & ListingDetailsFragment
   )> }
 );
 
@@ -706,6 +714,19 @@ export type MessagesQuery = (
   )> }
 );
 
+export type ReservationQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type ReservationQuery = (
+  { __typename?: 'Query' }
+  & { reservation?: Maybe<(
+    { __typename?: 'Reservation' }
+    & RegReservationFragment
+  )> }
+);
+
 export type ReservationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -713,7 +734,7 @@ export type ReservationsQuery = (
   { __typename?: 'Query' }
   & { reservations: Array<(
     { __typename?: 'Reservation' }
-    & Pick<Reservation, 'id' | 'arrival' | 'departure' | 'guests' | 'listingId'>
+    & RegReservationFragment
   )> }
 );
 
@@ -732,6 +753,10 @@ export type SearchListingsQuery = (
     & { listings: Array<(
       { __typename?: 'Listing' }
       & Pick<Listing, 'id' | 'title' | 'description' | 'category' | 'city' | 'photos' | 'bathrooms' | 'bedrooms' | 'beds' | 'guests' | 'amenities' | 'price' | 'latitude' | 'longitude' | 'createdAt'>
+      & { reviews: Array<(
+        { __typename?: 'Review' }
+        & Pick<Review, 'id' | 'rating'>
+      )> }
     )> }
   ) }
 );
@@ -763,6 +788,41 @@ export type NewMessageSubscription = (
   ) }
 );
 
+export const RegularUserFragmentDoc = gql`
+    fragment RegularUser on User {
+  id
+  name
+  photoUrl
+  createdAt
+}
+    `;
+export const ListingDetailsFragmentDoc = gql`
+    fragment ListingDetails on Listing {
+  description
+  category
+  type
+  price
+  bathrooms
+  bedrooms
+  beds
+  guests
+  amenities
+  latitude
+  longitude
+  creator {
+    ...RegularUser
+  }
+}
+    ${RegularUserFragmentDoc}`;
+export const RegReservationFragmentDoc = gql`
+    fragment RegReservation on Reservation {
+  id
+  arrival
+  departure
+  guests
+  listingId
+}
+    `;
 export const RegularMessageFragmentDoc = gql`
     fragment RegularMessage on Message {
   id
@@ -784,31 +844,21 @@ export const RegularHeadersFragmentDoc = gql`
   toId
   subject
   listingId
+  reservationId
   createdAt
   creator {
-    id
-    name
-    photoUrl
+    ...RegularUser
   }
   messages {
     ...RegularMessage
   }
 }
-    ${RegularMessageFragmentDoc}`;
+    ${RegularUserFragmentDoc}
+${RegularMessageFragmentDoc}`;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   path
   message
-}
-    `;
-export const RegularUserFragmentDoc = gql`
-    fragment RegularUser on User {
-  id
-  email
-  name
-  photoUrl
-  confirmed
-  forgotPasswordLocked
 }
     `;
 export const RegularUserResponseFragmentDoc = gql`
@@ -1386,33 +1436,29 @@ export type LatestHeaderQueryHookResult = ReturnType<typeof useLatestHeaderQuery
 export type LatestHeaderLazyQueryHookResult = ReturnType<typeof useLatestHeaderLazyQuery>;
 export type LatestHeaderQueryResult = Apollo.QueryResult<LatestHeaderQuery, LatestHeaderQueryVariables>;
 export const ListingDocument = gql`
-    query Listing($id: String!) {
+    query Listing($id: String!, $noreviews: Boolean!, $slim: Boolean!) {
   listing(id: $id) {
     id
     title
-    description
-    category
     city
-    type
     photos
-    price
-    bathrooms
-    bedrooms
-    beds
-    guests
-    amenities
-    latitude
-    longitude
-    creator {
+    reviews @skip(if: $noreviews) {
       id
-      email
-      name
-      photoUrl
+      rating
+      cleanliness
+      accuracy
+      checkIn
+      communication
+      location
+      value
+      amenities
+      review
       createdAt
     }
+    ...ListingDetails @skip(if: $slim)
   }
 }
-    `;
+    ${ListingDetailsFragmentDoc}`;
 
 /**
  * __useListingQuery__
@@ -1427,6 +1473,8 @@ export const ListingDocument = gql`
  * const { data, loading, error } = useListingQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      noreviews: // value for 'noreviews'
+ *      slim: // value for 'slim'
  *   },
  * });
  */
@@ -1441,45 +1489,6 @@ export function useListingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Li
 export type ListingQueryHookResult = ReturnType<typeof useListingQuery>;
 export type ListingLazyQueryHookResult = ReturnType<typeof useListingLazyQuery>;
 export type ListingQueryResult = Apollo.QueryResult<ListingQuery, ListingQueryVariables>;
-export const ListingsDocument = gql`
-    query Listings {
-  listings {
-    id
-    title
-    description
-    category
-    price
-    photos
-  }
-}
-    `;
-
-/**
- * __useListingsQuery__
- *
- * To run a query within a React component, call `useListingsQuery` and pass it any options that fit your needs.
- * When your component renders, `useListingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useListingsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useListingsQuery(baseOptions?: Apollo.QueryHookOptions<ListingsQuery, ListingsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ListingsQuery, ListingsQueryVariables>(ListingsDocument, options);
-      }
-export function useListingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListingsQuery, ListingsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ListingsQuery, ListingsQueryVariables>(ListingsDocument, options);
-        }
-export type ListingsQueryHookResult = ReturnType<typeof useListingsQuery>;
-export type ListingsLazyQueryHookResult = ReturnType<typeof useListingsLazyQuery>;
-export type ListingsQueryResult = Apollo.QueryResult<ListingsQuery, ListingsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -1549,17 +1558,48 @@ export function useMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
 export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
 export type MessagesLazyQueryHookResult = ReturnType<typeof useMessagesLazyQuery>;
 export type MessagesQueryResult = Apollo.QueryResult<MessagesQuery, MessagesQueryVariables>;
+export const ReservationDocument = gql`
+    query Reservation($id: String!) {
+  reservation(id: $id) {
+    ...RegReservation
+  }
+}
+    ${RegReservationFragmentDoc}`;
+
+/**
+ * __useReservationQuery__
+ *
+ * To run a query within a React component, call `useReservationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReservationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReservationQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useReservationQuery(baseOptions: Apollo.QueryHookOptions<ReservationQuery, ReservationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReservationQuery, ReservationQueryVariables>(ReservationDocument, options);
+      }
+export function useReservationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReservationQuery, ReservationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReservationQuery, ReservationQueryVariables>(ReservationDocument, options);
+        }
+export type ReservationQueryHookResult = ReturnType<typeof useReservationQuery>;
+export type ReservationLazyQueryHookResult = ReturnType<typeof useReservationLazyQuery>;
+export type ReservationQueryResult = Apollo.QueryResult<ReservationQuery, ReservationQueryVariables>;
 export const ReservationsDocument = gql`
     query Reservations {
   reservations {
-    id
-    arrival
-    departure
-    guests
-    listingId
+    ...RegReservation
   }
 }
-    `;
+    ${RegReservationFragmentDoc}`;
 
 /**
  * __useReservationsQuery__
@@ -1606,6 +1646,10 @@ export const SearchListingsDocument = gql`
       latitude
       longitude
       createdAt
+      reviews {
+        id
+        rating
+      }
     }
     hasMore
   }

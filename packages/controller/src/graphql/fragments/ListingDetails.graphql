@@ -1,0 +1,16 @@
+fragment ListingDetails on Listing {
+  description
+  category
+  type
+  price
+  bathrooms
+  bedrooms
+  beds
+  guests
+  amenities
+  latitude
+  longitude
+  creator {
+    ...RegularUser
+  }
+}

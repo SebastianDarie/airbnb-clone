@@ -212,3 +212,18 @@ export class ReservationInput {
   @Field()
   listingId: string;
 }
+
+@InputType()
+export class HeaderInput {
+  @Field()
+  toId: string;
+
+  @Field()
+  subject: string;
+
+  @Field()
+  listingId: string;
+
+  @Field(() => String, { nullable: true })
+  reservationId?: string;
+}

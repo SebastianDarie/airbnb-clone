@@ -1,0 +1,7 @@
+fragment RegReservation on Reservation {
+  id
+  arrival
+  departure
+  guests
+  listingId
+}

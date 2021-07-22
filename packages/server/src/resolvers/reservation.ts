@@ -6,7 +6,6 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql';
-import { getConnection } from 'typeorm';
 import { Reservation } from '../entity/Reservation';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
@@ -18,7 +17,13 @@ export class ReservationResolver {
   async reservations(@Ctx() { req }: MyContext): Promise<Reservation[]> {
     return Reservation.find({
       where: { guestId: req.session.userId },
+      order: { createdAt: 'DESC' },
     });
+  }
+
+  @Query(() => Reservation, { nullable: true })
+  async reservation(@Arg('id') id: string): Promise<Reservation | undefined> {
+    return Reservation.findOne(id);
   }
 
   @Mutation(() => Reservation)
@@ -27,13 +32,6 @@ export class ReservationResolver {
     @Arg('input') input: ReservationInput,
     @Ctx() { req }: MyContext
   ): Promise<Reservation> {
-    // return getConnection().getRepository(Reservation).query(
-    //   `
-    //   INSERT INTO "reservation"("id", "during", "guests", "listingId", "guestId", "createdAt", "updatedAt")
-    //   VALUES(DEFAULT, $1, $2, $3, $4, DEFAULT, DEFAULT) RETURNING "id", "createdAt", "updatedAt"
-    // `,
-    //   [input.during, input.guests, input.listingId, req.session.userId]
-    // );
     return Reservation.create({
       ...input,
       guestId: req.session.userId,

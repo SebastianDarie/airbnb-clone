@@ -3,11 +3,10 @@ fragment RegularHeaders on Header {
   toId
   subject
   listingId
+  reservationId
   createdAt
   creator {
-    id
-    name
-    photoUrl
+    ...RegularUser
   }
   messages {
     ...RegularMessage

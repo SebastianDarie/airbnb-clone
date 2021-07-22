@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { HeadersQuery } from '@airbnb-clone/controller';
+import { HeaderResult, HeadersQuery } from '@airbnb-clone/controller';
 import { DotLoader } from '../DotLoader';
 
 interface ConversationListProps {
   data: HeadersQuery | undefined;
   loading: boolean;
-  headerId: string;
+  currHeader: HeaderResult | undefined;
   roomStyles: {
     readonly [key: string]: string;
   };
@@ -18,12 +18,10 @@ interface ConversationListProps {
 export const ConversationList: React.FC<ConversationListProps> = ({
   data,
   loading,
-  headerId,
+  currHeader,
   roomStyles,
   styles,
 }) => {
-  const currHeader = data?.headers.filter((h) => h.id === headerId)[0];
-
   return (
     <section className={styles.conversation__list__panel}>
       <div className={styles.conversation__list__panel__transition}>

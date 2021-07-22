@@ -7,7 +7,7 @@ interface ProfileSectionProps {
   id: string;
   owner: {
     __typename?: 'User' | undefined;
-  } & Pick<User, 'id' | 'email' | 'name' | 'photoUrl' | 'createdAt'>;
+  } & Pick<User, 'id' | 'name' | 'photoUrl' | 'createdAt'>;
   styles: {
     readonly [key: string]: string;
   };

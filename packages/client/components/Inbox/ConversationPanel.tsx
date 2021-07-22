@@ -1,6 +1,7 @@
 import {
   AirbnbMessageSvg,
   ArchiveSvg,
+  HeaderResult,
   HeadersDocument,
   HeadersQuery,
   MessageFormProps,
@@ -17,7 +18,7 @@ interface ConversationPanelProps {
   data: HeadersQuery | undefined;
   details: boolean;
   loading: boolean;
-  headerId: string;
+  currHeader: HeaderResult | undefined;
 
   roomStyles: {
     readonly [key: string]: string;
@@ -34,7 +35,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
   data,
   details,
   loading,
-  headerId,
+  currHeader,
   roomStyles,
   styles,
   setDetails,
@@ -42,8 +43,6 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
 }) => {
   const { data: meData } = useMeQuery();
   const [message, setMessage] = useState<string>('');
-
-  const currHeader = data?.headers.filter((h) => h.id === headerId)[0];
 
   useNewMessageSubscription({
     variables: { headerId: currHeader ? currHeader.id : '' },

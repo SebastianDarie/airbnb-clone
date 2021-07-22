@@ -53,6 +53,7 @@
     "reflect-metadata": "^0.1.13",
     "stripe": "^8.160.0",
     "type-graphql": "^1.1.1",
+    "type-graphql-dataloader": "^0.4.0",
     "typeorm": "^0.2.32",
     "uuid": "^8.3.2",
     "yup": "^0.32.9"
