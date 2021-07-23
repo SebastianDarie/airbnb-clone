@@ -9,6 +9,7 @@ import {
   Listing,
   Maybe,
   Message,
+  Reservation,
   Review,
   User,
 } from './generated/graphql';
@@ -169,7 +170,7 @@ export type HeaderResult = {
       > & {
         creator: {
           __typename?: 'User' | undefined;
-        } & Pick<User, 'id' | 'name' | 'photoUrl'>;
+        } & Pick<User, 'id' | 'name' | 'photoUrl' | 'createdAt'>;
       })[];
   };
 
@@ -190,6 +191,19 @@ export type Reviews =
         | 'location'
         | 'review'
         | 'createdAt'
-      >)[]
+      > & {
+          creator: {
+            __typename?: 'User' | undefined;
+          } & Pick<User, 'id' | 'name' | 'photoUrl'>;
+        })[]
     >
   | undefined;
+
+export type TripReservation = {
+  __typename?: 'Reservation' | undefined;
+} & Pick<Reservation, 'cancelled' | 'completed' | 'paymentIntent'> & {
+    __typename?: 'Reservation' | undefined;
+  } & Pick<
+    Reservation,
+    'id' | 'arrival' | 'departure' | 'guests' | 'listingId'
+  >;

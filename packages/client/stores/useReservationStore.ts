@@ -1,6 +1,8 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+console.log('import');
+
 type ReservationState = {
   startDate: Date | null;
   endDate: Date | null;

@@ -1,0 +1,90 @@
+@use '../utilities/bootstrap.scss';
+
+.main__wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.category__wrapper {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    &:checked {
+      color: bootstrap.$teal;
+    }
+  }
+
+  & + label ~ label {
+    color: bootstrap.$teal;
+  }
+}
+
+.star__wrapper {
+  direction: rtl;
+  margin-bottom: 15px;
+  margin-left: auto;
+  max-width: 50%;
+}
+
+.star__input {
+  display: none;
+}
+
+.star__category {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 800;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  margin-left: 5px;
+}
+
+.star__label {
+  font-size: 4em;
+  text-decoration: none;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.star {
+  color: bootstrap.$dimgray;
+  height: 26px;
+  width: 26px;
+  transition: all 0.5s;
+
+  &:hover {
+    color: bootstrap.$teal;
+    transform: scale(1.3);
+  }
+}
+
+.s1 {
+  &:hover ~ label svg {
+    color: bootstrap.$teal;
+  }
+}
+
+.s2 {
+  &:hover ~ label svg {
+    color: bootstrap.$teal;
+  }
+}
+
+.s3 {
+  &:hover ~ label svg {
+    color: bootstrap.$teal;
+  }
+}
+
+.s4 {
+  &:hover ~ label svg {
+    color: bootstrap.$teal;
+  }
+}
+
+.s5 {
+  &:hover ~ label svg {
+    color: bootstrap.$teal;
+  }
+}

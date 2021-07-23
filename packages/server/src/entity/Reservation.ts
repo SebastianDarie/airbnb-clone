@@ -18,9 +18,9 @@ export class Reservation extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Field(() => [String])
-  @Column({ type: 'tstzrange', nullable: true })
-  during: [string];
+  // @Field(() => [String])
+  // @Column({ type: 'tstzrange', nullable: true })
+  // during: [string];
 
   @Field(() => String)
   @Column({ type: 'date' })
@@ -33,6 +33,18 @@ export class Reservation extends BaseEntity {
   @Field(() => Int)
   @Column({ type: 'int' })
   guests: number;
+
+  @Field(() => Int)
+  @Column({ type: 'bit', default: 0 })
+  cancelled: number;
+
+  @Field(() => Int)
+  @Column({ type: 'bit', default: 0 })
+  completed: number;
+
+  @Field(() => String)
+  @Column()
+  paymentIntent: string;
 
   @Field()
   @Column('uuid')

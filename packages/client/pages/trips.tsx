@@ -1,10 +1,15 @@
 import {
-  Reservation,
+  CancelReservationMutationFn,
+  RefundReservationMutationFn,
+  TripReservation,
   TripsSvg,
+  useCancelReservationMutation,
   useListingQuery,
+  useRefundReservationMutation,
   useReservationsQuery,
 } from '@airbnb-clone/controller';
 import Link from 'next/link';
+import { NextRouter, useRouter } from 'next/router';
 import { useState } from 'react';
 import { DotLoader } from '../components/DotLoader';
 import Layout from '../components/Layout';
@@ -16,8 +21,14 @@ interface TripsProps {}
 
 const ReservationItem = ({
   r,
+  router,
+  cancelReservation,
+  refundReservation,
 }: {
-  r: Pick<Reservation, 'id' | 'arrival' | 'departure' | 'guests' | 'listingId'>;
+  r: TripReservation;
+  router: NextRouter;
+  cancelReservation: CancelReservationMutationFn;
+  refundReservation: RefundReservationMutationFn;
 }) => {
   const { data, loading } = useListingQuery({
     variables: { id: r.listingId, slim: true, noreviews: true },
@@ -69,12 +80,31 @@ const ReservationItem = ({
                 </li>
               </a>
             </Link>
-            <button className={styles.modify__booking__btn__pink}>
-              Edit this reservation
+            <button
+              className={styles.modify__booking__btn__pink}
+              onClick={() => router.push(`/review-trip/${r.listingId}`)}
+            >
+              {r.completed ? 'Review this trip' : 'Edit this reservation'}
             </button>
-            <button className={styles.modify__booking__btn__green}>
-              Cancel this reservation
-            </button>
+            {!r.completed ? (
+              <button
+                className={styles.modify__booking__btn__green}
+                onClick={() => {
+                  cancelReservation({
+                    variables: { id: r.id },
+                    update: (cache) => {
+                      cache.evict({ id: 'Reservation:' + r.id });
+                      cache.gc();
+                    },
+                  });
+                  refundReservation({
+                    variables: { paymentIntent: r.paymentIntent },
+                  });
+                }}
+              >
+                Cancel this reservation
+              </button>
+            ) : null}
           </div>
         </div>
       )}
@@ -83,7 +113,10 @@ const ReservationItem = ({
 };
 
 const Trips: React.FC<TripsProps> = ({}) => {
+  const router = useRouter();
   const { data, loading, error } = useReservationsQuery();
+  const [cancelReservation] = useCancelReservationMutation();
+  const [refundReservation] = useRefundReservationMutation();
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
 
   if (error) {
@@ -96,6 +129,11 @@ const Trips: React.FC<TripsProps> = ({}) => {
         <DotLoader />
       </Layout>
     );
+  }
+
+  let length = 0;
+  if (data?.reservations) {
+    length = data.reservations.length;
   }
 
   return (
@@ -127,7 +165,7 @@ const Trips: React.FC<TripsProps> = ({}) => {
 
           <div className={styles.trips__list__margin}>
             <div>
-              {data.reservations.length > 0 ? null : (
+              {length > 0 ? null : (
                 <div className={styles.tab__header}>
                   {tab === 'past'
                     ? `You don’t have any past trips yet—but when you do, you’ll find
@@ -136,18 +174,30 @@ const Trips: React.FC<TripsProps> = ({}) => {
                 </div>
               )}
               <div className={roomStyles.room__section__flex}>
-                {data.reservations.length > 0 ? null : (
+                {length > 0 ? null : (
                   <div className={styles.tab__background}>
                     <TripsSvg />
                   </div>
                 )}
 
-                {data.reservations.length > 0 ? (
+                {length > 0 ? (
                   <div className={styles.entire__index}>
                     <ul className={styles.bookings__row}>
-                      {data.reservations.map((r) => (
-                        <ReservationItem key={r.id} r={r} />
-                      ))}
+                      {data.reservations
+                        .filter((r) =>
+                          tab === 'upcoming' && !r.cancelled
+                            ? !r.completed
+                            : r.completed
+                        )
+                        .map((r) => (
+                          <ReservationItem
+                            key={r.id}
+                            r={r}
+                            router={router}
+                            cancelReservation={cancelReservation}
+                            refundReservation={refundReservation}
+                          />
+                        ))}
                     </ul>
                   </div>
                 ) : null}

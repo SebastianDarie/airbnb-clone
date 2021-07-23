@@ -3,6 +3,7 @@ import Link from 'next/link';
 import reviewStyles from './ReviewsSection.module.scss';
 
 interface ReviewsSectionProps {
+  avg: number;
   reviews: Reviews;
   styles: {
     readonly [key: string]: string;
@@ -10,6 +11,7 @@ interface ReviewsSectionProps {
 }
 
 export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
+  avg,
   reviews,
   styles,
 }) => {
@@ -17,7 +19,6 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
     return <></>;
   }
 
-  let avg = 0;
   let cleanliness = 0;
   let accuracy = 0;
   let communication = 0;
@@ -25,14 +26,15 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   let checkIn = 0;
   let value = 0;
   let reviewsLength = reviews.length;
-  for (const review of reviews) {
-    avg += review.rating;
-    cleanliness += review.cleanliness;
-    accuracy += review.accuracy;
-    communication += review.communication;
-    location += review.location;
-    checkIn += review.checkIn;
-    value += review.value;
+  if (reviewsLength > 0) {
+    for (const review of reviews) {
+      cleanliness += review.cleanliness;
+      accuracy += review.accuracy;
+      communication += review.communication;
+      location += review.location;
+      checkIn += review.checkIn;
+      value += review.value;
+    }
   }
 
   return (
@@ -48,7 +50,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                     <ReviewSvg />
                   </span>
                   <span>
-                    {avg / reviewsLength} · {reviews.length} reviews
+                    {avg / reviewsLength || 'New'} · {reviews.length} reviews
                   </span>
                 </h2>
               </div>
@@ -56,7 +58,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
             <div className={styles.display__div}>
               <div className={reviewStyles.reviews__details__margin}>
-                <div className={reviewStyles.amenities__list__grid}>
+                <div className={styles.amenities__list__grid}>
                   <div className={styles.amenity__item__container}>
                     <div className={reviewStyles.review__detail__margin}>
                       <div className={reviewStyles.review__detail__flex}>
@@ -65,10 +67,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                         </div>
                         <div className={reviewStyles.detail__score__margin}>
                           <div className={reviewStyles.detail__bar__container}>
-                            <span className={reviewStyles.detail__bar}></span>
+                            <span
+                              className={reviewStyles.detail__bar}
+                              style={{ width: (cleanliness / 5) * 100 + '%' }}
+                            ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {cleanliness / reviewsLength}
+                            {cleanliness / reviewsLength || 0}
                           </span>
                         </div>
                       </div>
@@ -83,10 +88,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                         </div>
                         <div className={reviewStyles.detail__score__margin}>
                           <div className={reviewStyles.detail__bar__container}>
-                            <span className={reviewStyles.detail__bar}></span>
+                            <span
+                              className={reviewStyles.detail__bar}
+                              style={{ width: (accuracy / 5) * 100 + '%' }}
+                            ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {accuracy / reviewsLength}
+                            {accuracy / reviewsLength || 0}
                           </span>
                         </div>
                       </div>
@@ -101,10 +109,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                         </div>
                         <div className={reviewStyles.detail__score__margin}>
                           <div className={reviewStyles.detail__bar__container}>
-                            <span className={reviewStyles.detail__bar}></span>
+                            <span
+                              className={reviewStyles.detail__bar}
+                              style={{ width: (communication / 5) * 100 + '%' }}
+                            ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {communication / reviewsLength}
+                            {communication / reviewsLength || 0}
                           </span>
                         </div>
                       </div>
@@ -119,10 +130,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                         </div>
                         <div className={reviewStyles.detail__score__margin}>
                           <div className={reviewStyles.detail__bar__container}>
-                            <span className={reviewStyles.detail__bar}></span>
+                            <span
+                              className={reviewStyles.detail__bar}
+                              style={{ width: (location / 5) * 100 + '%' }}
+                            ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {location / reviewsLength}
+                            {location / reviewsLength || 0}
                           </span>
                         </div>
                       </div>
@@ -137,10 +151,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                         </div>
                         <div className={reviewStyles.detail__score__margin}>
                           <div className={reviewStyles.detail__bar__container}>
-                            <span className={reviewStyles.detail__bar}></span>
+                            <span
+                              className={reviewStyles.detail__bar}
+                              style={{ width: (checkIn / 5) * 100 + '%' }}
+                            ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {checkIn / reviewsLength}
+                            {checkIn / reviewsLength || 0}
                           </span>
                         </div>
                       </div>
@@ -155,10 +172,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                         </div>
                         <div className={reviewStyles.detail__score__margin}>
                           <div className={reviewStyles.detail__bar__container}>
-                            <span className={reviewStyles.detail__bar}></span>
+                            <span
+                              className={reviewStyles.detail__bar}
+                              style={{ width: (value / 5) * 100 + '%' }}
+                            ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {value / reviewsLength}
+                            {value / reviewsLength || 0}
                           </span>
                         </div>
                       </div>
@@ -171,19 +191,24 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
             <div className={styles.display__div}>
               <div className={reviewStyles.reviews__details__container}>
                 {reviews.map((r) => (
-                  <div className={styles.amenity__item__container}>
+                  <div key={r.id} className={styles.amenity__item__container}>
                     <div className={reviewStyles.review__bottom__margin}>
                       <div className={reviewStyles.review__header__flex}>
-                        <Link href=''>
-                          <a className={styles.profile__btn}>
-                            <div className={styles.profile}>
-                              <img className={styles.profile__img} src={``} />
-                            </div>
-                          </a>
-                        </Link>
+                        <div className={reviewStyles.profile__container}>
+                          <Link href={`/users/${r.creator.id}`}>
+                            <a className={styles.profile__btn}>
+                              <div className={styles.profile}>
+                                <img
+                                  className={styles.profile__img}
+                                  src={`${r.creator.photoUrl}`}
+                                />
+                              </div>
+                            </a>
+                          </Link>
+                        </div>
 
                         <div className={reviewStyles.header__margin}>
-                          user name here
+                          {r.creator.name}
                           <div className={reviewStyles.review__date}>
                             {new Date(+r.createdAt).toLocaleDateString(
                               'en-US',

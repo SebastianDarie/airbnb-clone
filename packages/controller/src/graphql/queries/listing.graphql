@@ -16,6 +16,11 @@ query Listing($id: String!, $noreviews: Boolean!, $slim: Boolean!) {
       amenities
       review
       createdAt
+      creator {
+        id
+        name
+        photoUrl
+      }
     }
     ...ListingDetails @skip(if: $slim)
   }

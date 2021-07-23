@@ -134,6 +134,8 @@ export type Mutation = {
   changePassword: UserResponse;
   deleteUser: Scalars['Boolean'];
   createReservation: Reservation;
+  cancelReservation: Scalars['Boolean'];
+  refundReservation: Scalars['Boolean'];
 };
 
 
@@ -225,6 +227,16 @@ export type MutationCreateReservationArgs = {
   input: ReservationInput;
 };
 
+
+export type MutationCancelReservationArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationRefundReservationArgs = {
+  paymentIntent: Scalars['String'];
+};
+
 export type PaginatedListings = {
   __typename?: 'PaginatedListings';
   listings: Array<Listing>;
@@ -294,10 +306,12 @@ export type QueryReservationArgs = {
 export type Reservation = {
   __typename?: 'Reservation';
   id: Scalars['String'];
-  during: Array<Scalars['String']>;
   arrival: Scalars['String'];
   departure: Scalars['String'];
   guests: Scalars['Int'];
+  cancelled: Scalars['Int'];
+  completed: Scalars['Int'];
+  paymentIntent: Scalars['String'];
   listingId: Scalars['String'];
   guestId: Scalars['String'];
   createdAt: Scalars['String'];
@@ -307,8 +321,8 @@ export type Reservation = {
 export type ReservationInput = {
   arrival: Scalars['DateTime'];
   departure: Scalars['DateTime'];
-  during?: Maybe<Array<Scalars['String']>>;
   guests: Scalars['Int'];
+  paymentIntent: Scalars['String'];
   listingId: Scalars['String'];
 };
 
@@ -327,6 +341,7 @@ export type Review = {
   listingId: Scalars['String'];
   listing: Listing;
   creatorId: Scalars['String'];
+  creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -426,7 +441,7 @@ export type ListingDetailsFragment = (
 
 export type RegReservationFragment = (
   { __typename?: 'Reservation' }
-  & Pick<Reservation, 'id' | 'arrival' | 'departure' | 'guests' | 'listingId'>
+  & Pick<Reservation, 'id' | 'arrival' | 'departure' | 'cancelled' | 'guests' | 'listingId'>
 );
 
 export type RegularErrorFragment = (
@@ -439,7 +454,7 @@ export type RegularHeadersFragment = (
   & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId' | 'reservationId' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
-    & RegularUserFragment
+    & Pick<User, 'id' | 'name' | 'photoUrl'>
   ), messages: Array<(
     { __typename?: 'Message' }
     & RegularMessageFragment
@@ -469,6 +484,16 @@ export type RegularUserResponseFragment = (
     { __typename?: 'User' }
     & RegularUserFragment
   )> }
+);
+
+export type CancelReservationMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type CancelReservationMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'cancelReservation'>
 );
 
 export type ChangePasswordMutationVariables = Exact<{
@@ -608,6 +633,16 @@ export type LogoutMutation = (
   & Pick<Mutation, 'logout'>
 );
 
+export type RefundReservationMutationVariables = Exact<{
+  paymentIntent: Scalars['String'];
+}>;
+
+
+export type RefundReservationMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'refundReservation'>
+);
+
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
   name: Scalars['String'];
@@ -685,6 +720,10 @@ export type ListingQuery = (
     & { reviews?: Maybe<Array<(
       { __typename?: 'Review' }
       & Pick<Review, 'id' | 'rating' | 'cleanliness' | 'accuracy' | 'checkIn' | 'communication' | 'location' | 'value' | 'amenities' | 'review' | 'createdAt'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name' | 'photoUrl'>
+      ) }
     )>> }
     & ListingDetailsFragment
   )> }
@@ -734,6 +773,7 @@ export type ReservationsQuery = (
   { __typename?: 'Query' }
   & { reservations: Array<(
     { __typename?: 'Reservation' }
+    & Pick<Reservation, 'completed' | 'paymentIntent'>
     & RegReservationFragment
   )> }
 );
@@ -819,6 +859,7 @@ export const RegReservationFragmentDoc = gql`
   id
   arrival
   departure
+  cancelled
   guests
   listingId
 }
@@ -847,14 +888,15 @@ export const RegularHeadersFragmentDoc = gql`
   reservationId
   createdAt
   creator {
-    ...RegularUser
+    id
+    name
+    photoUrl
   }
   messages {
     ...RegularMessage
   }
 }
-    ${RegularUserFragmentDoc}
-${RegularMessageFragmentDoc}`;
+    ${RegularMessageFragmentDoc}`;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   path
@@ -872,6 +914,37 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const CancelReservationDocument = gql`
+    mutation cancelReservation($id: String!) {
+  cancelReservation(id: $id)
+}
+    `;
+export type CancelReservationMutationFn = Apollo.MutationFunction<CancelReservationMutation, CancelReservationMutationVariables>;
+
+/**
+ * __useCancelReservationMutation__
+ *
+ * To run a mutation, you first call `useCancelReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cancelReservationMutation, { data, loading, error }] = useCancelReservationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCancelReservationMutation(baseOptions?: Apollo.MutationHookOptions<CancelReservationMutation, CancelReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CancelReservationMutation, CancelReservationMutationVariables>(CancelReservationDocument, options);
+      }
+export type CancelReservationMutationHookResult = ReturnType<typeof useCancelReservationMutation>;
+export type CancelReservationMutationResult = Apollo.MutationResult<CancelReservationMutation>;
+export type CancelReservationMutationOptions = Apollo.BaseMutationOptions<CancelReservationMutation, CancelReservationMutationVariables>;
 export const ChangePasswordDocument = gql`
     mutation ChangePassword($newPassword: String!, $token: String!) {
   changePassword(newPassword: $newPassword, token: $token) {
@@ -1251,6 +1324,37 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const RefundReservationDocument = gql`
+    mutation refundReservation($paymentIntent: String!) {
+  refundReservation(paymentIntent: $paymentIntent)
+}
+    `;
+export type RefundReservationMutationFn = Apollo.MutationFunction<RefundReservationMutation, RefundReservationMutationVariables>;
+
+/**
+ * __useRefundReservationMutation__
+ *
+ * To run a mutation, you first call `useRefundReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefundReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refundReservationMutation, { data, loading, error }] = useRefundReservationMutation({
+ *   variables: {
+ *      paymentIntent: // value for 'paymentIntent'
+ *   },
+ * });
+ */
+export function useRefundReservationMutation(baseOptions?: Apollo.MutationHookOptions<RefundReservationMutation, RefundReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RefundReservationMutation, RefundReservationMutationVariables>(RefundReservationDocument, options);
+      }
+export type RefundReservationMutationHookResult = ReturnType<typeof useRefundReservationMutation>;
+export type RefundReservationMutationResult = Apollo.MutationResult<RefundReservationMutation>;
+export type RefundReservationMutationOptions = Apollo.BaseMutationOptions<RefundReservationMutation, RefundReservationMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($email: String!, $name: String!, $password: String!, $confirm: String!) {
   register(
@@ -1454,6 +1558,11 @@ export const ListingDocument = gql`
       amenities
       review
       createdAt
+      creator {
+        id
+        name
+        photoUrl
+      }
     }
     ...ListingDetails @skip(if: $slim)
   }
@@ -1596,6 +1705,8 @@ export type ReservationQueryResult = Apollo.QueryResult<ReservationQuery, Reserv
 export const ReservationsDocument = gql`
     query Reservations {
   reservations {
+    completed
+    paymentIntent
     ...RegReservation
   }
 }

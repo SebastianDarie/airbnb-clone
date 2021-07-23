@@ -1,6 +1,10 @@
 import {
   CreatePaymentIntentMutation,
   ErrorSvg,
+  ListingResult,
+  useCreateHeaderMutation,
+  useCreateMessageMutation,
+  useCreateReservationMutation,
 } from '@airbnb-clone/controller';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
@@ -16,6 +20,10 @@ import styles from './Stripe.module.scss';
 
 interface StripeCardProps {
   clientSecret: CreatePaymentIntentMutation | null | undefined;
+  dates: [Date, Date];
+  guests: number;
+  listing: ListingResult | undefined;
+  message: string;
   succeeded: boolean;
   setSucceeded: Dispatch<SetStateAction<boolean>>;
 }
@@ -56,11 +64,18 @@ const ErrorMessage = ({ error }: { error: string }) => (
 
 export const StripeCard: React.FC<StripeCardProps> = ({
   clientSecret,
+  dates,
+  guests,
+  listing,
+  message,
   succeeded,
   setSucceeded,
 }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [createReservation] = useCreateReservationMutation();
+  const [createHeader] = useCreateHeaderMutation();
+  const [createMessage] = useCreateMessageMutation();
   const [coords, setCoords] = useGradient();
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
@@ -99,6 +114,43 @@ export const StripeCard: React.FC<StripeCardProps> = ({
       setError(null);
       setProcessing(false);
       setSucceeded(true);
+
+      if (listing) {
+        const { data: reservationData } = await createReservation({
+          variables: {
+            input: {
+              arrival: dates[0],
+              departure: dates[1],
+              guests,
+              listingId: listing.id,
+              paymentIntent: payload.paymentIntent.id,
+            },
+          },
+        });
+
+        const { data: headerData } = await createHeader({
+          variables: {
+            input: {
+              listingId: listing.id,
+              reservationId: reservationData?.createReservation.id,
+              subject: 'Reservation',
+              toId: listing.creator.id,
+            },
+          },
+        });
+
+        if (headerData) {
+          createMessage({
+            variables: {
+              input: {
+                headerId: headerData.createHeader.id,
+                isFromSender: 1,
+                text: message,
+              },
+            },
+          });
+        }
+      }
     }
   };
 

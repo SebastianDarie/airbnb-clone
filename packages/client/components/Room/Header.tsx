@@ -1,13 +1,20 @@
-import { ReviewSvg } from '@airbnb-clone/controller';
+import { Reviews, ReviewSvg } from '@airbnb-clone/controller';
 import Link from 'next/link';
 import styles from './Header.module.scss';
 
 interface HeaderProps {
-  city: string;
-  title: string;
+  avg: number;
+  city: string | undefined;
+  reviews: Reviews;
+  title: string | undefined;
 }
 
-export const Header: React.FC<HeaderProps> = ({ city, title }) => {
+export const Header: React.FC<HeaderProps> = ({
+  avg,
+  city,
+  reviews,
+  title,
+}) => {
   return (
     <>
       <div className={styles.room__title__container}>
@@ -20,18 +27,17 @@ export const Header: React.FC<HeaderProps> = ({ city, title }) => {
             <span className={styles.header__svg}>
               <ReviewSvg />
             </span>
-            <span className={styles.header__rating}>5.0</span>
+            <span className={styles.header__rating}>{avg || 'New'}</span>
             <Link href='/'>
               <a>
                 <span className={styles.header__reviews__count}>
-                  (9 reviews)
+                  ({reviews?.length} reviews)
                 </span>
               </a>
             </Link>
           </span>
           <span className={styles.room__header__dot}>·</span>
           <span className={styles.room__header__details}>
-            <span>󰀃</span>
             <span className={styles.header__reviews__count}>Superhost</span>
           </span>
           <span className={styles.room__header__dot}>·</span>

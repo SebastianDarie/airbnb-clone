@@ -26,7 +26,6 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
     variables: { id: currHeader.reservationId! },
     skip: currHeader.reservationId === null,
   });
-  console.log(reservationData, reservationLoading);
 
   let nights: number = 1;
   if (reservationData?.reservation) {
@@ -40,7 +39,6 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
   }
 
   return (
-    // <div className={styles.reservation__position}>
     <div
       className={
         details
@@ -63,6 +61,11 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
               <div>
                 <div className={roomStyles.room__section__flex}>
                   <div className={styles.reservation__header}>
+                    {reservationData?.reservation?.cancelled ? (
+                      <div className={styles.reservation__status}>
+                        <span className={styles.cancelled}>Cancelled</span>
+                      </div>
+                    ) : null}
                     <div className={styles.reservation__header__table}>
                       <div className={styles.header__cell}>
                         <div className={styles.header__firstname}>Darie</div>
@@ -87,21 +90,6 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                     </div>
                   </div>
                 </div>
-
-                {/* <div className={roomStyles.room__section__flex}>
-                  <div className={roomStyles.section__divider}></div>
-                  <div className={styles.user__profile__padding}>
-                    <div className={styles.profile__item__margin}>
-                      <div className={styles.reservation__header__table}></div>
-                    </div>
-                    <div className={styles.profile__item__margin}>
-                      <div className={styles.reservation__header__table}></div>
-                    </div>
-                    <div className={styles.profile__item__margin}>
-                      <div className={styles.reservation__header__table}></div>
-                    </div>
-                  </div>
-                </div> */}
 
                 <div className={roomStyles.room__section__flex}>
                   <div className={roomStyles.amenities__heading__padding}>
@@ -273,6 +261,5 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
         </section>
       </div>
     </div>
-    //  </div>
   );
 };

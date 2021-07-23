@@ -920,6 +920,20 @@
   padding-bottom: 16px;
 }
 
+.reservation__status {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 800;
+}
+
+.not__possible {
+  color: bootstrap.$dimgray;
+}
+
+.cancelled {
+  color: rgb(193, 53, 21);
+}
+
 .reservation__header__table {
   display: table;
   width: 100%;

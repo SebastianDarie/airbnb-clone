@@ -2,15 +2,16 @@ import { ArrowDownSvg, ArrowUpSvg, ReviewSvg } from '@airbnb-clone/controller';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useOnclickOutside from 'react-cool-onclickoutside';
+import shallow from 'zustand/shallow';
 import btnStyles from '../../sass/pages/CreateListing.module.scss';
 import { useGradient } from '../../shared-hooks/useGradient';
+import ReservationStore from '../../stores/useReservationStore';
 import styles from './BookRoomMenu.module.scss';
 import { GuestPicker } from './GuestPicker';
 
 interface BookRoomMenuProps {
   id: string;
-  dates: Date[];
-  currGuests: number;
+  avg: number;
   maxGuests: number;
   nights: number;
   price: number;
@@ -21,14 +22,29 @@ interface BookRoomMenuProps {
 
 export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   id,
-  dates,
-  currGuests,
+  avg,
   maxGuests,
   nights,
   price,
   roomStyles,
 }) => {
   const router = useRouter();
+  const [
+    startDate,
+    endDate,
+    adults,
+    children,
+    infants,
+  ] = ReservationStore.useReservationStore(
+    (state) => [
+      state.startDate,
+      state.endDate,
+      state.adults,
+      state.children,
+      state.infants,
+    ],
+    shallow
+  );
   const [coords, setCoords] = useGradient();
   const [active, setActive] = useState<boolean>(false);
   const ref = useOnclickOutside(() => {
@@ -38,7 +54,8 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   const currency = '$';
   const prePrice = price * nights;
   const serviceFee = Math.floor((price / 100) * 17);
-  const isDate = dates[0] && dates[1] !== null;
+  const isDate = startDate && endDate !== null;
+  const currGuests = adults + children;
 
   return (
     <div className={roomStyles.booking__side}>
@@ -64,7 +81,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                           <span className={styles.review__svg}>
                             <ReviewSvg />
                           </span>
-                          <span className={styles.rating}>5.0</span>
+                          <span className={styles.rating}>{avg || 'New'}</span>
                           <span className={styles.invisible__span}></span>
                         </div>
                       </div>
@@ -77,16 +94,13 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                             <div className={styles.menu__dates__grow}>
                               <div className={styles.dates__border__left}></div>
                               <div className={styles.dates__container}>
-                                <div
-                                  className={styles.checkin__container}
-                                  onClick={() => console.log('date')}
-                                >
+                                <div className={styles.checkin__container}>
                                   <div className={styles.checkin__text}>
                                     Check-in
                                   </div>
                                   <div className={styles.add__date}>
                                     {isDate
-                                      ? dates[0].toLocaleDateString('en-GB')
+                                      ? startDate?.toLocaleDateString('en-GB')
                                       : 'Add date'}
                                   </div>
                                 </div>
@@ -96,7 +110,7 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                                   </div>
                                   <div className={styles.add__date}>
                                     {isDate
-                                      ? dates[1].toLocaleDateString('en-GB')
+                                      ? endDate?.toLocaleDateString('en-GB')
                                       : 'Add date'}
                                   </div>
                                 </div>
@@ -126,7 +140,8 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                                   </div>
                                   <div className={styles.guest__btn}>
                                     <span className={styles.guest__span}>
-                                      {currGuests ? currGuests : 0} guests
+                                      {currGuests} guests{' '}
+                                      {infants > 0 && `, ${infants} infants`}
                                     </span>
                                   </div>
                                 </label>

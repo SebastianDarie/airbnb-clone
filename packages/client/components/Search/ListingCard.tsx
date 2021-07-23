@@ -21,36 +21,12 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   loading,
   searchStyles,
 }) => {
-  // console.log(
-  //   'https://d9r6g0xftldzw.cloudfront.net/listings/2021-06-25-yw433-pexels-pixabay-271624-jpg'.replace(
-  //     /.*(?=listings)/,
-  //     ''
-  //   )
-  // );
-  // const request = {
-  //   bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
-  //   key: 'listings/2021-06-25-yw433-pexels-pixabay-271624-jpg',
-  //   edits: {
-  //     resize: {
-  //       width: 300,
-  //       height: 200,
-  //       fit: 'cover',
-  //     },
-  //   },
-  // };
-  //const str = JSON.stringify(request);
-  //const enc = btoa(str);
-  //console.log(enc);
-
-  // console.log(listing.reviews, listing.reviews.length > 0);
   let avg = 0;
   let reviewsLength = listing.reviews.length;
   if (reviewsLength > 0) {
-    // const avg = listing.reviews.reduce(
-    //   (prev, curr, i) => (prev.value * i + curr.value) / (i + 1)
-    // );
-    // console.log(avg);
-    listing.reviews.forEach(({ rating }) => (avg += rating));
+    for (const review of listing.reviews) {
+      avg += review.rating;
+    }
   }
 
   const ListingContent = (

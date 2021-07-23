@@ -203,11 +203,14 @@ export class ReservationInput {
   @Field(() => Date)
   departure: Date;
 
-  @Field(() => [String], { nullable: true })
-  during?: [string];
+  // @Field(() => [String], { nullable: true })
+  // during?: [string];
 
   @Field(() => Int)
   guests: number;
+
+  @Field()
+  paymentIntent: string;
 
   @Field()
   listingId: string;

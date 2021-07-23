@@ -2,10 +2,7 @@ import {
   AirbnbSmallSvg,
   AirbnbSvg,
   ArrowLeftSvg,
-  useCreateHeaderMutation,
-  useCreateMessageMutation,
   useCreatePaymentIntentMutation,
-  useCreateReservationMutation,
 } from '@airbnb-clone/controller';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,9 +26,6 @@ const Book: React.FC<BookProps> = ({}) => {
     { data: clientSecret },
   ] = useCreatePaymentIntentMutation();
   const { data, variables } = useGetListingFromUrl(true);
-  const [createReservation, { loading }] = useCreateReservationMutation();
-  const [createHeader] = useCreateHeaderMutation();
-  const [createMessage] = useCreateMessageMutation();
   const [message, setMessage] = useState('');
   const [succeeded, setSucceeded] = useState<boolean>(false);
   const [
@@ -72,47 +66,6 @@ const Book: React.FC<BookProps> = ({}) => {
     if (variables?.id)
       createPaymentIntent({ variables: { id: variables.id, nights } });
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (succeeded && variables && data.listing) {
-        const { data: reservationData } = await createReservation({
-          variables: {
-            input: {
-              arrival: startDate,
-              departure: endDate,
-              //during: [Date.parse(start), Date.parse(end)],
-              guests,
-              listingId: variables.id,
-            },
-          },
-        });
-
-        const { data: headerData } = await createHeader({
-          variables: {
-            input: {
-              listingId: variables.id,
-              reservationId: reservationData?.createReservation.id,
-              subject: 'Reservation',
-              toId: data.listing.creator.id,
-            },
-          },
-        });
-
-        if (headerData) {
-          createMessage({
-            variables: {
-              input: {
-                headerId: headerData.createHeader.id,
-                isFromSender: 1,
-                text: message,
-              },
-            },
-          });
-        }
-      }
-    })();
-  }, [succeeded]);
 
   const guests = adults + children + infants;
   const currency = '$';
@@ -236,7 +189,7 @@ const Book: React.FC<BookProps> = ({}) => {
 
                   <div
                     className={roomStyles.room__section__flex}
-                    style={{ display: loading || succeeded ? 'none' : '' }}
+                    style={{ display: succeeded ? 'none' : '' }}
                   >
                     <div className={roomStyles.section__divider}></div>
                     <div className={styles.price__details__padding}>
@@ -315,6 +268,10 @@ const Book: React.FC<BookProps> = ({}) => {
                     <div className={styles.required__divider}></div>
                     <StripeCard
                       clientSecret={clientSecret}
+                      dates={[startDate, endDate]}
+                      guests={guests}
+                      listing={data.listing}
+                      message={message}
                       succeeded={succeeded}
                       setSucceeded={setSucceeded}
                     />

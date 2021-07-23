@@ -6,7 +6,9 @@ fragment RegularHeaders on Header {
   reservationId
   createdAt
   creator {
-    ...RegularUser
+    id
+    name
+    photoUrl
   }
   messages {
     ...RegularMessage

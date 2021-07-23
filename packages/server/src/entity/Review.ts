@@ -68,7 +68,9 @@ export class Review extends BaseEntity {
   @Column('uuid')
   creatorId: string;
 
+  @Field(() => User)
   @ManyToOne(() => User, (creator) => creator.reviews)
+  @TypeormLoader()
   creator: User;
 
   @Field(() => String)

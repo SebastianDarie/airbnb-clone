@@ -1,8 +1,4 @@
-import {
-  HomeMarkerSvg,
-  RightArrowSvg,
-  SuperHostSvg,
-} from '@airbnb-clone/controller';
+import { RightArrowSvg, SuperHostSvg } from '@airbnb-clone/controller';
 import { Circle, GoogleMap, Marker } from '@react-google-maps/api';
 import {
   CSSProperties,
@@ -13,13 +9,12 @@ import {
   useRef,
   useState,
 } from 'react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import shallow from 'zustand/shallow';
-import { DotLoader } from '../../components/DotLoader';
 import { FloorPlanDetails } from '../../components/FloorPlanDetails';
 import Layout from '../../components/Layout';
 import { BookRoomMenu } from '../../components/Room/BookRoomMenu';
+import { Calendar } from '../../components/Room/Calendar';
 import { Header } from '../../components/Room/Header';
 import { Highlights } from '../../components/Room/Highlights';
 import { ImageGallery } from '../../components/Room/ImageGallery';
@@ -81,20 +76,8 @@ const SectionWrapper: React.FC<{
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl(false);
-  const [
-    startDate,
-    endDate,
-    adults,
-    children,
-    infants,
-  ] = ReservationStore.useReservationStore(
-    (state) => [
-      state.startDate,
-      state.endDate,
-      state.adults,
-      state.children,
-      state.infants,
-    ],
+  const [startDate, endDate] = ReservationStore.useReservationStore(
+    (state) => [state.startDate, state.endDate],
     shallow
   );
   const [visibleSection, setVisibleSection] = useState<string | undefined>('');
@@ -112,20 +95,20 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     { section: 'Location', ref: locationRef },
   ];
 
-  if (!loading && !data) {
-    return (
-      <div>
-        <div>Failed to load listing</div>
-        <div>{error?.message}</div>
-      </div>
-    );
-  }
-
   if (loading) {
     return (
       <Layout filter room search>
         <RoomSkeleton styles={styles} Wrapper={SectionWrapper} />
       </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <div>Failed to load listing</div>
+        <div>{error.message}</div>
+      </div>
     );
   }
 
@@ -166,11 +149,17 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     };
   }, []);
 
+  let avg = 0;
   let nights: number = 0;
   if (startDate && endDate) {
     nights = Math.ceil(
       Math.abs(endDate.getTime() - startDate.getTime()) / (60 * 60 * 24 * 1000)
     );
+  }
+  if (data?.listing?.reviews) {
+    for (let i = 0; i < data.listing.reviews.length; i++) {
+      avg += data.listing.reviews[i].rating;
+    }
   }
 
   const { isLoaded } = useGoogleMaps();
@@ -179,14 +168,17 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     mapRef.current = map;
   }, []);
 
-  const currGuests = adults + children;
-
   return (
     <Layout isLoaded={isLoaded} filter room search>
       <div className={styles.inherit__div}>
         <div className={styles.display__div}>
           <SectionWrapper>
-            <Header city={data?.listing?.city!} title={data?.listing?.title!} />
+            <Header
+              avg={avg}
+              city={data?.listing?.city}
+              reviews={data?.listing?.reviews}
+              title={data?.listing?.title}
+            />
           </SectionWrapper>
 
           <SectionWrapper photosRef={photosRef}>
@@ -358,82 +350,17 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                 </div>
               </div>
 
-              <div className={styles.room__section__flex}>
-                <div className={styles.section__divider}></div>
-                <div className={styles.section__padding}>
-                  <div>
-                    <div>
-                      <div className={styles.amenities__heading__container}>
-                        <h2 className={styles.section__heading}>
-                          {startDate && endDate
-                            ? `${nights} nights in ${data?.listing?.city}`
-                            : 'Select check-in date'}
-                        </h2>
-                      </div>
-
-                      <div className={styles.calendar__range}>
-                        <div className={styles.calendar__availability}>
-                          {startDate && endDate
-                            ? startDate.toLocaleDateString('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                year: 'numeric',
-                              }) +
-                              '-' +
-                              endDate.toLocaleDateString('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                year: 'numeric',
-                              })
-                            : 'Add your travel dates for exact pricing'}
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.calendar__overflow__container}>
-                      <div className={styles.calendar__margin__container}>
-                        {loading ? (
-                          <div className={styles.loading__margin}>
-                            {' '}
-                            <DotLoader />{' '}
-                          </div>
-                        ) : (
-                          <div className={styles.calendar__minheight}>
-                            <div className={styles.calendar__width}>
-                              <DatePicker
-                                inline
-                                selected={startDate}
-                                onChange={(date) =>
-                                  ReservationStore.updateStart(date as Date)
-                                }
-                                selectsStart
-                                startDate={startDate}
-                                endDate={endDate}
-                              />
-                              <DatePicker
-                                inline
-                                selected={endDate}
-                                onChange={(date) =>
-                                  ReservationStore.updateEnd(date as Date)
-                                }
-                                selectsEnd
-                                startDate={startDate}
-                                endDate={endDate}
-                                minDate={startDate}
-                              />
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Calendar
+                city={data?.listing?.city}
+                loading={loading}
+                nights={nights}
+                styles={styles}
+              />
             </div>
 
             <BookRoomMenu
+              avg={avg}
               id={data?.listing?.id!}
-              dates={startDate && endDate ? [startDate, endDate] : []}
-              currGuests={currGuests}
               maxGuests={data?.listing?.guests!}
               nights={nights}
               price={data?.listing?.price!}
@@ -442,7 +369,11 @@ const Room: React.FC<RoomProps> = memo(({}) => {
           </div>
 
           {data?.listing?.reviews && (
-            <ReviewsSection reviews={data.listing.reviews} styles={styles} />
+            <ReviewsSection
+              avg={avg}
+              reviews={data.listing.reviews}
+              styles={styles}
+            />
           )}
 
           <div className={styles.room__section__flex} ref={locationRef}>
@@ -473,15 +404,6 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                         options={options}
                         onLoad={onMapLoad}
                       >
-                        <Marker
-                          animation={2}
-                          position={{
-                            lat: data.listing?.latitude!,
-                            lng: data.listing?.longitude!,
-                          }}
-                          clickable={false}
-                          draggable={false}
-                        />
                         <Circle
                           center={{
                             lat: data.listing?.latitude!,
