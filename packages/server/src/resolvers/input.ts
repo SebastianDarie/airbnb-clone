@@ -185,9 +185,6 @@ export class ReviewInput {
   @Field(() => Int)
   value: number;
 
-  @Field(() => Int)
-  amenities: number;
-
   @Field()
   review: string;
 

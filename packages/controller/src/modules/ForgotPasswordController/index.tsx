@@ -1,11 +1,11 @@
 import React from 'react';
 import { useForgotPasswordMutation } from '../../generated/graphql';
-import { AuthFormProps } from '../../types';
+import { ForgotPasswordProps } from '../../types';
 
 interface ForgotPasswordControllerProps {
   children: (data: {
     loading?: boolean;
-    submit: (values: AuthFormProps) => Promise<boolean>;
+    submit: (values: ForgotPasswordProps) => Promise<boolean>;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
@@ -14,7 +14,7 @@ export const ForgotPasswordController: React.FC<ForgotPasswordControllerProps> =
 }) => {
   const [forgotPassword, { loading }] = useForgotPasswordMutation();
 
-  const submit = async (values: AuthFormProps) => {
+  const submit = async (values: ForgotPasswordProps) => {
     await forgotPassword({
       variables: { email: values.email },
     });

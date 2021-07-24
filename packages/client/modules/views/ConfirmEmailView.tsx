@@ -1,6 +1,5 @@
 import { ConfirmEmailMutation } from '@airbnb-clone/controller';
-import { Button } from 'antd';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 
 interface ConfirmEmailViewProps {
   data?: ConfirmEmailMutation | null | undefined;
@@ -10,7 +9,6 @@ interface ConfirmEmailViewProps {
 
 export const ConfirmEmailView: React.FC<ConfirmEmailViewProps> = ({
   data,
-  loading,
   submit,
 }) => {
   const router = useRouter();
@@ -20,14 +18,8 @@ export const ConfirmEmailView: React.FC<ConfirmEmailViewProps> = ({
   }
 
   return (
-    <Button
-      type='primary'
-      htmlType='submit'
-      loading={loading}
-      style={{ width: '100%' }}
-      onClick={submit}
-    >
+    <button type='submit' onClick={submit}>
       Confirm Email
-    </Button>
+    </button>
   );
 };

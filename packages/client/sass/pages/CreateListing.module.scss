@@ -240,7 +240,7 @@
 .bar__wrapper {
   overflow-x: hidden;
   height: 2px;
-  background-color: #ebebeb;
+  background-color: bootstrap.$graysmoke;
   border-radius: 2px;
   flex-grow: 1;
 }
@@ -252,8 +252,6 @@
   height: 100%;
   border-radius: 2px;
   background: bootstrap.$black;
-  // transition: transform 0.6s ease 0s;
-  // transform: translateX(0%);
 }
 
 .btn__container {
@@ -288,7 +286,7 @@
   display: inline-block;
   position: relative;
   text-align: center;
-  border-color: black;
+  border-color: bootstrap.$black;
   width: auto;
   touch-action: manipulation;
   font-size: 16px;
@@ -303,7 +301,7 @@
   padding-right: 10px;
   transition: box-shadow 0.2s ease, transform 0.1s ease;
   border: none;
-  color: #222222;
+  color: bootstrap.$nero;
   text-decoration: underline;
   margin-left: -10px;
   margin-right: -10px;
@@ -319,7 +317,7 @@
   display: inline-block;
   position: relative;
   text-align: center;
-  border-color: black;
+  border-color: bootstrap.$black;
   width: auto;
   touch-action: manipulation;
   font-size: 16px;
@@ -334,7 +332,7 @@
   padding-right: 24px;
   transition: box-shadow 0.2s ease, transform 0.1s ease;
   border: none;
-  background: #222222;
+  background: bootstrap.$nero;
   color: bootstrap.$default-color;
 
   &:disabled {

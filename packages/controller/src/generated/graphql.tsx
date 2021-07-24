@@ -336,7 +336,6 @@ export type Review = {
   communication: Scalars['Float'];
   location: Scalars['Float'];
   value: Scalars['Float'];
-  amenities: Scalars['Float'];
   review: Scalars['String'];
   listingId: Scalars['String'];
   listing: Listing;
@@ -354,7 +353,6 @@ export type ReviewInput = {
   communication: Scalars['Int'];
   location: Scalars['Int'];
   value: Scalars['Int'];
-  amenities: Scalars['Int'];
   review: Scalars['String'];
   listingId: Scalars['String'];
 };
@@ -719,7 +717,7 @@ export type ListingQuery = (
     & Pick<Listing, 'id' | 'title' | 'city' | 'photos'>
     & { reviews?: Maybe<Array<(
       { __typename?: 'Review' }
-      & Pick<Review, 'id' | 'rating' | 'cleanliness' | 'accuracy' | 'checkIn' | 'communication' | 'location' | 'value' | 'amenities' | 'review' | 'createdAt'>
+      & Pick<Review, 'id' | 'rating' | 'cleanliness' | 'accuracy' | 'checkIn' | 'communication' | 'location' | 'value' | 'review' | 'createdAt'>
       & { creator: (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'name' | 'photoUrl'>
@@ -1555,7 +1553,6 @@ export const ListingDocument = gql`
       communication
       location
       value
-      amenities
       review
       createdAt
       creator {

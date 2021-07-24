@@ -14,7 +14,7 @@
   h1 {
     text-align: center;
     padding: 20px 0;
-    border-bottom: 1px solid silver;
+    border-bottom: 1px solid hsl(0, 0%, 75%);
   }
 
   form {
@@ -36,8 +36,8 @@
     rgb(227, 28, 95) 50%,
     rgb(215, 4, 102) 100%
   );
-  border: 2px solid bootstrap.$btn-yellow;
-  color: bootstrap.$btn-yellow;
+  border: 2px solid bootstrap.$brand-color;
+  color: bootstrap.$default-color;
   border-radius: 100px;
   transition: all 1000ms;
   cursor: pointer;
@@ -54,10 +54,10 @@
   margin: 30px 0;
   text-align: center;
   font-size: 16px;
-  color: #666666;
+  color: hsl(0, 0%, 40%);
 
   a {
-    color: #2691d9;
+    color: hsl(204, 70%, 50%);
     text-decoration: none;
     &:hover {
       text-decoration: underline;

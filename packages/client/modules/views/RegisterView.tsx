@@ -1,16 +1,15 @@
-import { Form, Button } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { InputField } from '../../components/Fields/InputField';
 import { RegisterFormProps, RegisterMutation } from '@airbnb-clone/controller';
-import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '@airbnb-clone/common';
 import { useEffect } from 'react';
+import styles from '../../sass/layout/Form.module.scss';
 
 interface RegisterViewProps {
   data?: RegisterMutation | null | undefined;
   loading?: boolean;
+  onFinish: () => void;
   submit: (
     values: RegisterFormProps
   ) => Promise<RegisterMutation | null | undefined>;
@@ -18,7 +17,7 @@ interface RegisterViewProps {
 
 export const RegisterView: React.FC<RegisterViewProps> = ({
   data,
-  loading,
+  onFinish,
   submit,
 }) => {
   const {
@@ -27,6 +26,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
     formState: { errors, isDirty, isSubmitting, isValid },
     setError,
   } = useForm<RegisterFormProps>({
+    defaultValues: { confirm: '', email: '', name: '', password: '' },
     mode: 'onBlur',
     resolver: yupResolver(registerSchema),
   });
@@ -39,54 +39,47 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           message: err.message,
         })
       );
+    } else if (data?.register.user) {
+      onFinish();
     }
   }, [data?.register.errors]);
 
   return (
-    <Form
-      {...formItemLayout}
-      name='register'
-      onFinish={handleSubmit((data) => submit(data))}
-      scrollToFirstError
-    >
-      <InputField
-        control={control}
-        errors={errors.email?.message}
-        name='email'
-        label='E-mail'
-        placeholder='e.g. bob@bob.com'
-        prefix={<UserOutlined />}
-      />
+    <div className={styles.center}>
+      <h1>Register</h1>
+      <form onSubmit={handleSubmit((data) => submit(data))}>
+        <InputField
+          control={control}
+          errors={errors}
+          label='E-mail'
+          name='email'
+          placeholder=' '
+          type='email'
+        />
 
-      <InputField
-        control={control}
-        errors={errors.password?.message}
-        name='password'
-        label='Password'
-        hasFeedback
-        placeholder='e.g. secret-password'
-        prefix={<LockOutlined />}
-      />
+        <InputField
+          control={control}
+          errors={errors}
+          label='Password'
+          name='password'
+          placeholder=' '
+        />
 
-      <InputField
-        control={control}
-        errors={errors.confirm?.message}
-        name='confirm'
-        label='Confirm Password'
-        dependecies={['password']}
-        hasFeedback
-      />
+        <InputField
+          control={control}
+          errors={errors}
+          label='Confirm Password'
+          name='confirm'
+          placeholder=' '
+        />
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button
-          type='primary'
-          htmlType='submit'
-          disabled={!isDirty || !isValid}
-          loading={loading || isSubmitting}
-        >
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
+        <input
+          type='submit'
+          value='Register'
+          className={styles.submit}
+          disabled={!isDirty || isSubmitting || !isValid}
+        />
+      </form>
+    </div>
   );
 };

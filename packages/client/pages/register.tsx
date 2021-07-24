@@ -1,30 +1,30 @@
-import { Layout } from 'antd';
 import { RegisterController } from '@airbnb-clone/controller';
+import { useRouter } from 'next/router';
+import Layout from '../components/Layout';
 import { RegisterView } from '../modules/views/RegisterView';
 import { withApollo } from '../utils/withApollo';
-
-const { Content } = Layout;
 
 interface registerProps {}
 
 const Register: React.FC<registerProps> = ({}) => {
+  const router = useRouter();
+
+  const onFinish = (): void => {
+    router.push('/');
+  };
+
   return (
-    <Layout>
-      <Content
-        style={{
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          marginTop: '2rem',
-          maxWidth: '400px',
-          width: '100%',
-        }}
-      >
-        <RegisterController>
-          {({ data, loading, submit }) => (
-            <RegisterView data={data} loading={loading} submit={submit} />
-          )}
-        </RegisterController>
-      </Content>
+    <Layout filter room search={false}>
+      <RegisterController>
+        {({ data, loading, submit }) => (
+          <RegisterView
+            data={data}
+            loading={loading}
+            onFinish={onFinish}
+            submit={submit}
+          />
+        )}
+      </RegisterController>
     </Layout>
   );
 };

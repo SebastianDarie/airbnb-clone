@@ -1,32 +1,18 @@
 import { ConfirmEmailController } from '@airbnb-clone/controller';
-import { Layout } from 'antd';
+import Layout from '../../components/Layout';
 import { ConfirmEmailView } from '../../modules/views/ConfirmEmailView';
 import { withApollo } from '../../utils/withApollo';
-
-const { Content } = Layout;
 
 interface ConfirmEmailProps {}
 
 const ConfirmEmail: React.FC<ConfirmEmailProps> = ({}) => {
   return (
-    <Layout>
-      <Content
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          maxWidth: '400px',
-          width: '100%',
-        }}
-      >
-        <ConfirmEmailController>
-          {({ data, loading, submit }) => (
-            <ConfirmEmailView data={data} loading={loading} submit={submit} />
-          )}
-        </ConfirmEmailController>
-      </Content>
+    <Layout search={false}>
+      <ConfirmEmailController>
+        {({ data, loading, submit }) => (
+          <ConfirmEmailView data={data} loading={loading} submit={submit} />
+        )}
+      </ConfirmEmailController>
     </Layout>
   );
 };

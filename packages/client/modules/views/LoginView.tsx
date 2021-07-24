@@ -16,7 +16,6 @@ interface LoginViewProps {
 
 export const LoginView: React.FC<LoginViewProps> = ({
   data,
-  loading,
   onFinish,
   submit,
 }) => {

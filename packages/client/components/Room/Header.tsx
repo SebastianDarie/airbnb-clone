@@ -27,7 +27,9 @@ export const Header: React.FC<HeaderProps> = ({
             <span className={styles.header__svg}>
               <ReviewSvg />
             </span>
-            <span className={styles.header__rating}>{avg || 'New'}</span>
+            <span className={styles.header__rating}>
+              {avg / (reviews?.length ?? 1) || 'New'}
+            </span>
             <Link href='/'>
               <a>
                 <span className={styles.header__reviews__count}>

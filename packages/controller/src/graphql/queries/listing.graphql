@@ -13,7 +13,6 @@ query Listing($id: String!, $noreviews: Boolean!, $slim: Boolean!) {
       communication
       location
       value
-      amenities
       review
       createdAt
       creator {

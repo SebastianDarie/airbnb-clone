@@ -111,7 +111,6 @@ export type ListingResult = Maybe<
             } & Pick<
               Review,
               | 'id'
-              | 'amenities'
               | 'rating'
               | 'value'
               | 'cleanliness'
@@ -181,7 +180,6 @@ export type Reviews =
       } & Pick<
         Review,
         | 'id'
-        | 'amenities'
         | 'rating'
         | 'value'
         | 'cleanliness'

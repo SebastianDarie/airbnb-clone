@@ -3,13 +3,11 @@ import {
   ChangePasswordMutation,
   ChangePasswordProps,
 } from '@airbnb-clone/controller';
-import { LockOutlined } from '@ant-design/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Form } from 'antd';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { InputField } from '../../components/Fields/InputField';
-import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
+import styles from '../../sass/layout/Form.module.scss';
 
 interface ChangePasswordViewProps {
   data?: ChangePasswordMutation | null | undefined;
@@ -19,7 +17,6 @@ interface ChangePasswordViewProps {
 
 export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
   data,
-  loading,
   submit,
 }) => {
   const {
@@ -44,33 +41,25 @@ export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
   }, [data?.changePassword.errors]);
 
   return (
-    <Form
-      {...formItemLayout}
+    <form
+      className={styles.center}
       name='change-password'
-      onFinish={handleSubmit((data) => submit(data))}
-      scrollToFirstError
+      onSubmit={handleSubmit((data) => submit(data))}
     >
       <InputField
         control={control}
-        errors={errors.password?.message}
-        name='password'
+        errors={errors}
         label='Password'
-        hasFeedback
-        placeholder='e.g. secret-password'
-        prefix={<LockOutlined />}
+        name='password'
+        placeholder=' '
       />
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button
-          type='primary'
-          htmlType='submit'
-          disabled={!isDirty || !isValid}
-          loading={loading || isSubmitting}
-          style={{ width: '100%' }}
-        >
-          Change Password
-        </Button>
-      </Form.Item>
-    </Form>
+      <input
+        type='submit'
+        value='Change Password'
+        className={styles.submit}
+        disabled={!isDirty || isSubmitting || !isValid}
+      />
+    </form>
   );
 };

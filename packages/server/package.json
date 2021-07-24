@@ -6,6 +6,7 @@
   "scripts": {
     "gen-env": "gen-env-types .env -o src/env.d.ts -e .",
     "gen-mig": "typeorm migration:create -n DevelopmentBuild",
+    "gen-init": "typeorm migration:generate -n DBSetup",
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "nodemon dist/index.js"

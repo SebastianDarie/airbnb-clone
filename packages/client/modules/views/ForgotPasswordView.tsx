@@ -1,11 +1,9 @@
 import { forgotPasswordSchema } from '@airbnb-clone/common';
 import { ForgotPasswordProps } from '@airbnb-clone/controller';
-import { UserOutlined } from '@ant-design/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Form } from 'antd';
 import { useForm } from 'react-hook-form';
 import { InputField } from '../../components/Fields/InputField';
-import { formItemLayout, tailFormItemLayout } from '../../styles/formStyles';
+import styles from '../../sass/layout/Form.module.scss';
 
 interface ForgotPasswordViewProps {
   loading?: boolean;
@@ -13,7 +11,6 @@ interface ForgotPasswordViewProps {
 }
 
 export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({
-  loading,
   submit,
 }) => {
   const {
@@ -21,37 +18,30 @@ export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({
     control,
     formState: { errors, isDirty, isSubmitting, isValid },
   } = useForm<ForgotPasswordProps>({
+    defaultValues: { email: '' },
     mode: 'onBlur',
     resolver: yupResolver(forgotPasswordSchema),
   });
 
   return (
-    <Form
-      {...formItemLayout}
+    <form
       name='forgot-password'
-      onFinish={handleSubmit((data) => submit(data))}
-      scrollToFirstError
+      onSubmit={handleSubmit((data) => submit(data))}
     >
       <InputField
         control={control}
-        errors={errors.email?.message}
-        name='email'
+        errors={errors}
         label='E-mail'
-        placeholder='e.g. bob@bob.com'
-        prefix={<UserOutlined />}
+        name='email'
+        placeholder=' '
       />
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button
-          type='primary'
-          htmlType='submit'
-          disabled={!isDirty || !isValid}
-          loading={loading || isSubmitting}
-          style={{ width: '100%' }}
-        >
-          Reset Password
-        </Button>
-      </Form.Item>
-    </Form>
+      <input
+        type='submit'
+        value='Register'
+        className={styles.submit}
+        disabled={!isDirty || isSubmitting || !isValid}
+      />
+    </form>
   );
 };

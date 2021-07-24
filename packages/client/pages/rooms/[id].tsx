@@ -1,5 +1,5 @@
 import { RightArrowSvg, SuperHostSvg } from '@airbnb-clone/controller';
-import { Circle, GoogleMap, Marker } from '@react-google-maps/api';
+import { Circle, GoogleMap } from '@react-google-maps/api';
 import {
   CSSProperties,
   memo,
@@ -359,7 +359,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             </div>
 
             <BookRoomMenu
-              avg={avg}
+              avg={avg / (data?.listing?.reviews?.length ?? 1)}
               id={data?.listing?.id!}
               maxGuests={data?.listing?.guests!}
               nights={nights}

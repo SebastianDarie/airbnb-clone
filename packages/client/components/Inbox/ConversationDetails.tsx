@@ -91,7 +91,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                   </div>
                 </div>
 
-                <div className={roomStyles.room__section__flex}>
+                {/* <div className={roomStyles.room__section__flex}>
                   <div className={roomStyles.amenities__heading__padding}>
                     <div className={styles.profile__link__font}>
                       <Link href=''>
@@ -99,7 +99,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                       </Link>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className={roomStyles.room__section__flex}>
                   <div className={roomStyles.section__divider}></div>

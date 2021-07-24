@@ -120,7 +120,16 @@ const Trips: React.FC<TripsProps> = ({}) => {
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
 
   if (error) {
-    console.log(error);
+    return (
+      <div>
+        <h3>Something went wrong</h3>
+        <div>
+          Unfortunately, a server error prevented your request from being
+          completed. Airbnb may be undergoing maintenance or your connection may
+          have timed out. Please refresh the page or try again.
+        </div>
+      </div>
+    );
   }
 
   if (loading) {

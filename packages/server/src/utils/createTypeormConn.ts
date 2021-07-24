@@ -13,32 +13,6 @@ export const createTypeormConn = () => {
     type: 'postgres',
     url: process.env.DATABASE_URL,
     cache: {
-      // type: 'ioredis/cluster',
-      // options: {
-      //   startupNodes: [
-      //     {
-      //       host: '127.0.0.1',
-      //       port: 6380,
-      //     },
-      //     {
-      //       host: '127.0.0.1',
-      //       port: 6381,
-      //     },
-      //     // {
-      //     //   host: 'localhost',
-      //     //   port: 7002,
-      //     // },
-      //   ],
-      //   options: {
-      //     scaleReads: 'slave',
-      //     clusterRetryStrategy: function (_times: any) {
-      //       return null;
-      //     },
-      //     redisOptions: {
-      //       maxRetriesPerRequest: 1,
-      //     },
-      //   },
-      // },
       type: 'redis',
       duration: 5000,
     },

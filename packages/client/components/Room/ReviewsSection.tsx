@@ -10,6 +10,14 @@ interface ReviewsSectionProps {
   };
 }
 
+const calcAvg = (value: number, reviewsLength: number): string => {
+  return (value / reviewsLength).toFixed(1);
+};
+
+const calcWidth = (value: number, reviewsLength: number): string => {
+  return (value / (reviewsLength * 5)) * 100 + '%';
+};
+
 export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   avg,
   reviews,
@@ -26,6 +34,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   let checkIn = 0;
   let value = 0;
   let reviewsLength = reviews.length;
+
   if (reviewsLength > 0) {
     for (const review of reviews) {
       cleanliness += review.cleanliness;
@@ -50,7 +59,8 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                     <ReviewSvg />
                   </span>
                   <span>
-                    {avg / reviewsLength || 'New'} · {reviews.length} reviews
+                    {(avg / reviewsLength).toFixed(2) || 'New'} ·{' '}
+                    {reviews.length} reviews
                   </span>
                 </h2>
               </div>
@@ -69,11 +79,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <div className={reviewStyles.detail__bar__container}>
                             <span
                               className={reviewStyles.detail__bar}
-                              style={{ width: (cleanliness / 5) * 100 + '%' }}
+                              style={{
+                                width: calcWidth(cleanliness, reviewsLength),
+                              }}
                             ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {cleanliness / reviewsLength || 0}
+                            {calcAvg(cleanliness, reviewsLength) || 0}
                           </span>
                         </div>
                       </div>
@@ -90,11 +102,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <div className={reviewStyles.detail__bar__container}>
                             <span
                               className={reviewStyles.detail__bar}
-                              style={{ width: (accuracy / 5) * 100 + '%' }}
+                              style={{
+                                width: calcWidth(accuracy, reviewsLength),
+                              }}
                             ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {accuracy / reviewsLength || 0}
+                            {calcAvg(accuracy, reviewsLength) || 0}
                           </span>
                         </div>
                       </div>
@@ -111,11 +125,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <div className={reviewStyles.detail__bar__container}>
                             <span
                               className={reviewStyles.detail__bar}
-                              style={{ width: (communication / 5) * 100 + '%' }}
+                              style={{
+                                width: calcWidth(communication, reviewsLength),
+                              }}
                             ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {communication / reviewsLength || 0}
+                            {calcAvg(communication, reviewsLength) || 0}
                           </span>
                         </div>
                       </div>
@@ -132,11 +148,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <div className={reviewStyles.detail__bar__container}>
                             <span
                               className={reviewStyles.detail__bar}
-                              style={{ width: (location / 5) * 100 + '%' }}
+                              style={{
+                                width: calcWidth(location, reviewsLength),
+                              }}
                             ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {location / reviewsLength || 0}
+                            {calcAvg(location, reviewsLength) || 0}
                           </span>
                         </div>
                       </div>
@@ -153,11 +171,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <div className={reviewStyles.detail__bar__container}>
                             <span
                               className={reviewStyles.detail__bar}
-                              style={{ width: (checkIn / 5) * 100 + '%' }}
+                              style={{
+                                width: calcWidth(checkIn, reviewsLength),
+                              }}
                             ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {checkIn / reviewsLength || 0}
+                            {calcAvg(checkIn, reviewsLength) || 0}
                           </span>
                         </div>
                       </div>
@@ -174,11 +194,13 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                           <div className={reviewStyles.detail__bar__container}>
                             <span
                               className={reviewStyles.detail__bar}
-                              style={{ width: (value / 5) * 100 + '%' }}
+                              style={{
+                                width: calcWidth(value, reviewsLength),
+                              }}
                             ></span>
                           </div>
                           <span className={reviewStyles.detail__rating}>
-                            {value / reviewsLength || 0}
+                            {calcAvg(value, reviewsLength) || 0}
                           </span>
                         </div>
                       </div>

@@ -48,10 +48,6 @@ export class Review extends BaseEntity {
   value: number;
 
   @Field()
-  @Column({ type: 'int' })
-  amenities: number;
-
-  @Field()
   @Column()
   review: string;
 

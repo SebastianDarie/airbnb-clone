@@ -3,12 +3,12 @@ import { useEffect } from 'react';
 import { useMeQuery } from '@airbnb-clone/controller';
 
 export const useIsAuth = (): void => {
-  const router = useRouter();
+  const { asPath, replace } = useRouter();
   const { data, loading } = useMeQuery();
 
   useEffect(() => {
     if (!loading && !data?.me) {
-      router.replace('/login?next=' + router.pathname);
+      replace(`/login?next=${asPath}`);
     }
-  }, [data, loading, router]);
+  }, [data, loading, asPath, replace]);
 };
