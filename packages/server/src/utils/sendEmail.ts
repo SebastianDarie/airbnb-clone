@@ -5,8 +5,6 @@ export const sendEmail = async (
   subject: string,
   html: string
 ): Promise<void> => {
-  // let testAccount = await nodemailer.createTestAccount();
-  // console.log(testAccount.user, testAccount.pass);
   const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,

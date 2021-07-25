@@ -19,16 +19,6 @@ module.exports = (phase, { defaultConfig }) => {
           'd9r6g0xftldzw.cloudfront.net',
         ],
       },
-
-      // async redirects() {
-      //   return [
-      //     {
-      //       source: '/inbox',
-      //       destination: '/inbox/header/:id',
-      //       permanent: true,
-      //     },
-      //   ];
-      // },
     };
   }
 
@@ -38,7 +28,7 @@ module.exports = (phase, { defaultConfig }) => {
       webpack5: true,
     },
     images: {
-      domains: ['a0.muscache.com'],
+      domains: ['a0.muscache.com', 'd9r6g0xftldzw.cloudfront.net'],
     },
   };
 };

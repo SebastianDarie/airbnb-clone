@@ -57,7 +57,7 @@ export class User extends BaseEntity {
   @OneToMany(() => Message, (message) => message.creator)
   messages: Message[];
 
-  @OneToMany(() => Reservation, (reservation) => reservation.creator)
+  @OneToMany(() => Reservation, (reservation) => reservation.guest)
   reservations: Reservation[];
 
   @OneToMany(() => Review, (review) => review.creator)

@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Header } from './Header';
-import { Listing } from './Listing';
 import { User } from './User';
 
 @ObjectType()
@@ -28,10 +27,6 @@ export class Message extends BaseEntity {
   text!: string;
 
   @Field()
-  @Column({ type: 'bit', default: 0 })
-  read: number;
-
-  @Field()
   @Column('uuid')
   headerId: string;
 
@@ -43,13 +38,6 @@ export class Message extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.messages)
   creator: User;
-
-  // @Field()
-  // @Column('uuid')
-  // listingId: string;
-
-  // @ManyToOne(() => Listing, (listing) => listing.messages)
-  // listing: Listing;
 
   @Field(() => String)
   @CreateDateColumn()

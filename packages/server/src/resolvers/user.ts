@@ -24,7 +24,7 @@ import { formatYupError } from '../utils/formatYupError';
 import { forgotPasswordLockAccount } from '../utils/forgotPasswordLockAccount';
 import { sendEmail } from '../utils/sendEmail';
 import { removeAllUsersSessions } from '../utils/removeAllUsersSessions';
-import { changePasswordSchema, registerSchema } from '@airbnb-clone/common';
+import { changePasswordSchema, registerSchema } from '@second-gear/common';
 import { UserInput } from './input';
 
 @ObjectType()

@@ -1,5 +1,0 @@
-*
-!./package.json 
-!./yarn.lock 
-!./packages/common
-!./packages/server

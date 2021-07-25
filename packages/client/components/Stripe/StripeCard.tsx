@@ -14,8 +14,7 @@ import React, {
   SetStateAction,
   useState,
 } from 'react';
-import btnStyles from '../../sass/pages/CreateListing.module.scss';
-import { useGradient } from '../../shared-hooks/useGradient';
+import { GradientBtn } from '../GradientBtn';
 import styles from './Stripe.module.scss';
 
 interface StripeCardProps {
@@ -76,7 +75,6 @@ export const StripeCard: React.FC<StripeCardProps> = ({
   const [createReservation] = useCreateReservationMutation();
   const [createHeader] = useCreateHeaderMutation();
   const [createMessage] = useCreateMessageMutation();
-  const [coords, setCoords] = useGradient();
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
@@ -181,31 +179,20 @@ export const StripeCard: React.FC<StripeCardProps> = ({
               onChange={handleChange}
             />
 
-            <button
-              className={btnStyles.btn__save}
-              onMouseMove={(e) => setCoords(e)}
+            <GradientBtn
               type='submit'
               disabled={
                 !stripe || !elements || processing || disabled || succeeded
               }
-              style={{ borderRadius: 2, height: 45, width: '100%' }}
-            >
-              <span className={btnStyles.absolute__span}>
-                <span
-                  className={btnStyles.radial__span}
-                  style={{
-                    backgroundPosition: `calc((100 - ${coords.x}) * 1%) calc((100 - ${coords.y}) * 1%)`,
-                  }}
-                ></span>
-              </span>
-              <span className={btnStyles.text__span}>
-                {processing ? (
+              text={
+                processing ? (
                   <div className={styles.processing}></div>
                 ) : (
                   'Request to book'
-                )}
-              </span>
-            </button>
+                )
+              }
+              style={{ borderRadius: 2, height: 45, width: '100%' }}
+            />
           </div>
         </fieldset>
         {error && <ErrorMessage error={error} />}

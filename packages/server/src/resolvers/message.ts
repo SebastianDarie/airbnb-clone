@@ -5,7 +5,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  InputType,
   Mutation,
   Query,
   Resolver,
@@ -17,21 +16,10 @@ import { Message } from '../entity/Message';
 import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
 import { MyContext } from '../types';
+import { MessageInput } from './input';
 
 @ArgsType()
 export class NewMessageArgs {
-  @Field()
-  headerId: string;
-}
-
-@InputType()
-class MessageInput {
-  @Field()
-  text: string;
-
-  @Field()
-  isFromSender: number;
-
   @Field()
   headerId: string;
 }
@@ -71,7 +59,7 @@ export class MessageResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteMessage(
+  async deleteMessages(
     @Arg('ids', () => [String]) ids: string[]
   ): Promise<boolean> {
     await Message.delete(ids);

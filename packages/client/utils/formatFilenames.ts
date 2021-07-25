@@ -1,4 +1,4 @@
-import { Photo } from '@airbnb-clone/common';
+import { Photo } from '@second-gear/common';
 
 export const formatFilenames = (
   photos: [File, Photo][],

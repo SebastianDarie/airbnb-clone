@@ -1,4 +1,4 @@
-import { forgotPasswordSchema } from '@airbnb-clone/common';
+import { forgotPasswordSchema } from '@second-gear/common';
 import { ForgotPasswordProps } from '@airbnb-clone/controller';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';

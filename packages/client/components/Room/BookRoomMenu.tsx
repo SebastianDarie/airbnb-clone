@@ -3,9 +3,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import shallow from 'zustand/shallow';
-import btnStyles from '../../sass/pages/CreateListing.module.scss';
-import { useGradient } from '../../shared-hooks/useGradient';
 import ReservationStore from '../../stores/useReservationStore';
+import { GradientBtn } from '../GradientBtn';
 import styles from './BookRoomMenu.module.scss';
 import { GuestPicker } from './GuestPicker';
 
@@ -45,7 +44,6 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
     ],
     shallow
   );
-  const [coords, setCoords] = useGradient();
   const [active, setActive] = useState<boolean>(false);
   const ref = useOnclickOutside(() => {
     setActive(false);
@@ -169,28 +167,15 @@ export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
                     </div>
 
                     <div className={styles.menu__btn__container}>
-                      <button
-                        className={btnStyles.btn__save}
-                        id={styles.btn__save}
-                        onMouseMove={(e) => setCoords(e)}
+                      <GradientBtn
+                        text={isDate ? 'Reserve' : 'Check Availability'}
                         onClick={() => {
                           if (isDate && currGuests) {
                             router.push(`/book/${id}`);
                           }
                         }}
-                      >
-                        <span className={btnStyles.absolute__span}>
-                          <span
-                            className={btnStyles.radial__span}
-                            style={{
-                              backgroundPosition: `calc((100 - ${coords.x}) * 1%) calc((100 - ${coords.y}) * 1%)`,
-                            }}
-                          ></span>
-                        </span>
-                        <span className={btnStyles.text__span}>
-                          {isDate ? 'Reserve' : 'Check Availability'}
-                        </span>
-                      </button>
+                        style={{ width: '100%' }}
+                      />
                     </div>
                   </div>
 

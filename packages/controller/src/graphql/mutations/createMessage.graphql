@@ -1,14 +1,5 @@
 mutation CreateMessage($input: MessageInput!) {
   createMessage(input: $input) {
-    id
-    isFromSender
-    text
-    read
-    createdAt
-    headerId
-    creator {
-      name
-      photoUrl
-    }
+    ...RegularMessage
   }
 }

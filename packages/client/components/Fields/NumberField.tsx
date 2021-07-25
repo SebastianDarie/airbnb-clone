@@ -12,7 +12,8 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   value,
   updateFloor,
 }) => {
-  //console.log(label, value + 1);
+  console.log(value);
+
   return (
     <>
       <div className={styles.field}>
@@ -33,7 +34,6 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             </button>
             <div className={styles.guests__count}>
               <span>{value}</span>
-              <span className={styles.guests__value__hidden}>{value}</span>
             </div>
             <button
               className={styles.guests__plus}

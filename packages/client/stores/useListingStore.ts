@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { Photo } from '@airbnb-clone/common';
+import { Photo } from '@second-gear/common';
 import { LatLon } from 'use-places-autocomplete';
 
 interface ListingState {
@@ -34,7 +34,7 @@ namespace ListingStore {
       coords: {} as any,
       description: '',
       guests: 2,
-      highlights: [''],
+      highlights: [] as string[],
       photos: [] as any,
       price: 10,
       title: '',

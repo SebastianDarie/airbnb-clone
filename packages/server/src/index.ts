@@ -6,7 +6,6 @@ import 'dotenv-safe/config';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import session from 'express-session';
-import { Point } from 'geojson';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { createServer } from 'http';
 import Redis from 'ioredis';
@@ -20,7 +19,6 @@ import {
   __prod__,
 } from './constants';
 import { Listing } from './entity/Listing';
-import { createMessageLoader } from './loaders/createMessageLoader';
 import { createUserLoader } from './loaders/createUserLoader';
 import { HeaderResolver } from './resolvers/header';
 import { ListingResolver } from './resolvers/listing';
@@ -34,23 +32,12 @@ import { ApolloServerLoaderPlugin } from 'type-graphql-dataloader';
 const main = async () => {
   const conn = await createTypeormConn();
 
-  //await conn.runMigrations();
+  await conn.runMigrations();
 
   const app = express();
 
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
-  //new Redis(process.env.REDIS_CACHE_URL);
-  // const cluster = new Redis.Cluster([
-  //   {
-  //     port: 6380,
-  //     host: '127.0.0.1',
-  //   },
-  //   {
-  //     port: 6381,
-  //     host: '127.0.0.1',
-  //   },
-  // ]);
 
   app.set('trust proxy', 1);
 
@@ -108,7 +95,6 @@ const main = async () => {
       res,
       redis,
       redisPubsub,
-      messageLoader: createMessageLoader(),
       userLoader: createUserLoader(),
     }),
     subscriptions: {
@@ -133,34 +119,17 @@ const main = async () => {
 
   await redis.del(REDIS_CACHE_PREFIX);
 
-  //await Listing.delete({});
   const listings = await Listing.find({});
-  //console.log(listings.length);
-  // listings.map(async (listing) => {
-  //   if (listing.location === null) {
-  //     const location: Point = {
-  //       type: 'Point',
-  //       coordinates: [listing.longitude, listing.latitude],
-  //     };
-
-  //     await getConnection()
-  //       .createQueryBuilder()
-  //       .update(Listing)
-  //       .set({ location })
-  //       .where('id = :id', { id: listing.id })
-  //       .returning('*')
-  //       .execute();
-  //   }
-  // });
   const listingStrings = listings.map((listing) => JSON.stringify(listing));
-  await redis.lpush(REDIS_CACHE_PREFIX, ...listingStrings);
+  if (listingStrings.length > 0) {
+    await redis.lpush(REDIS_CACHE_PREFIX, ...listingStrings);
+  }
 
-  server.listen(process.env.PORT, async () => {
+  const port = process.env.PORT || 8080;
+  server.listen(port, async () => {
+    console.log(`Server running on port ${port} ${apolloServer.graphqlPath}`);
     console.log(
-      `Server running on port ${process.env.PORT} ${apolloServer.graphqlPath}`
-    );
-    console.log(
-      `Subscriptions running on port ${process.env.PORT} ${apolloServer.subscriptionsPath}`
+      `Subscriptions running on port ${port} ${apolloServer.subscriptionsPath}`
     );
   });
 };

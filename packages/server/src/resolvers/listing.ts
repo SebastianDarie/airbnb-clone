@@ -53,7 +53,7 @@ export class ListingResolver {
   @Query(() => PaginatedListings)
   async searchListings(
     @Arg('input')
-    { bounds, latitude, longitude, title, beds, guests }: SearchInput,
+    { bounds, latitude, longitude, guests }: SearchInput,
     @Arg('limit', () => Int) limit: number,
     @Arg('cursor', () => String, { nullable: true }) cursor: string | null
   ): Promise<PaginatedListings> {
@@ -64,33 +64,6 @@ export class ListingResolver {
       type: 'Point',
       coordinates: [longitude, latitude],
     };
-
-    // const listingsTest = await getConnection().query(
-    //   `
-    //   select l.*, ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON($1), ST_SRID(location))) * 0.000621371 as distance
-    //   from listing l
-    //   having ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON($1), ST_SRID(location))) * 0.000621371 < $2
-    //   order by distance ASC
-    //   limit 6
-    // `,
-    //   [origin, 300 * 1000]
-    // );
-    // console.log(listingsTest);
-
-    // let qb = getConnection()
-    //   .getRepository(Listing)
-    //   .createQueryBuilder('l')
-    //   .select([
-    //     '*',
-    //     `ST_Distance(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location))) * 0.000621371 AS distance`,
-    //   ])
-    //   .where(
-    //     ` ST_DWithin(location, ST_SetSRID(ST_GeomFromGeoJSON(:origin), ST_SRID(location)), :range)`
-    //   )
-    //   .orderBy('distance', 'ASC')
-    //   .setParameters({ origin: JSON.stringify(origin), range: 100 * 1000 })
-    //   .cache(60000)
-    //   .take(realLimitPlusOne);
 
     let qb: SelectQueryBuilder<Listing> = getConnection()
       .getRepository(Listing)
@@ -107,7 +80,6 @@ export class ListingResolver {
           sw_lng: bounds?.southWest.lng,
         })
         .cache(true);
-      //.take(realLimitPlusOne);
     } else if (latitude && longitude) {
       qb.select([
         '*',
@@ -131,17 +103,9 @@ export class ListingResolver {
       });
     }
 
-    // if (guests) {
-    //   qb = qb.andWhere('l.guests = :guests', { guests });
-    // }
-    // if (beds) {
-    //   qb = qb.andWhere('l.beds = :beds', { beds });
-    // }
-    // if (title) {
-    //   qb = qb.andWhere('l.title ilike :title', {
-    //     title: `%${title}%`,
-    //   });
-    // }
+    if (guests) {
+      qb = qb.andWhere('l.guests = :guests', { guests });
+    }
 
     const listings = await qb.getRawMany();
 
@@ -162,18 +126,6 @@ export class ListingResolver {
     `,
       [lng, lat]
     );
-
-    // const c = await getConnection()
-    //   .getRepository(Listing)
-    //   .createQueryBuilder('c')
-    //   .select([
-    //     '*',
-    //     `
-    // reverse_geocode(ST_SetSRID(ST_Point(:lng, :lat), 4326))
-    // `,
-    //   ])
-    //   .setParameters({ lng, lat })
-    //   .getMany();
 
     return res;
   }
@@ -209,24 +161,6 @@ export class ListingResolver {
 
     return [...sArr, ...uArr];
   }
-
-  // @Mutation(() => Boolean)
-  // async changeCreator(
-  //   @Arg('id') id: string,
-  //   @Arg('listingId') listingId: string
-  // ): Promise<Boolean> {
-  //   await getConnection()
-  //     .createQueryBuilder()
-  //     .update(Listing)
-  //     .set({ creatorId: id })
-  //     .where('id = :listingId', {
-  //       listingId,
-  //     })
-  //     .returning('*')
-  //     .execute();
-
-  //   return true;
-  // }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
@@ -272,27 +206,6 @@ export class ListingResolver {
 
     return result.raw[0];
   }
-
-  // @Mutation(() => Listing)
-  // async createLocation(
-  //   @Arg('id') id: string,
-  //   @Arg('latitude', () => Float) latitude: number,
-  //   @Arg('longitude', () => Float) longitude: number
-  // ): Promise<Listing> {
-  //   const location: Point = {
-  //     type: 'Point',
-  //     coordinates: [longitude, latitude],
-  //   };
-
-  //   const result = await getConnection()
-  //     .createQueryBuilder()
-  //     .update(Listing)
-  //     .set({ location })
-  //     .where('id = :id', { id })
-  //     .returning('*')
-  //     .execute();
-  //   return result.raw[0];
-  // }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)

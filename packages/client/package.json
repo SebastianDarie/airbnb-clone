@@ -5,10 +5,10 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "find:unused": "next-unused"
   },
   "dependencies": {
-    "@airbnb-clone/common": "1.0.0",
     "@airbnb-clone/controller": "1.0.0",
     "@apollo/client": "^3.3.15",
     "@googlemaps/markerclustererplus": "^1.2.0",
@@ -17,14 +17,12 @@
     "@hookform/resolvers": "^2.4.0",
     "@reach/combobox": "^0.15.3",
     "@react-google-maps/api": "^2.2.0",
+    "@second-gear/common": "1.0.0",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.15.1",
-    "esri-leaflet": "^3.0.2",
-    "esri-leaflet-geocoder": "^3.0.0",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "immutability-helper": "^3.1.1",
-    "leaflet": "^1.7.1",
     "next": "^10.1.3",
     "next-apollo": "^5.0.4",
     "react": "^17.0.2",
@@ -34,25 +32,39 @@
     "react-dnd-html5-backend": "^14.0.0",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.2",
-    "react-esri-leaflet": "^1.3.1",
     "react-hook-form": "^7.3.6",
-    "react-leaflet": "^3.2.0",
     "sass": "^1.34.0",
     "subscriptions-transport-ws": "^0.9.18",
     "swiper": "^6.7.5",
-    "ts-overlapping-marker-spiderfier": "^1.0.3",
     "use-places-autocomplete": "^1.9.3",
     "zustand": "^3.5.2"
   },
   "devDependencies": {
-    "@types/esri-leaflet-geocoder": "^2.2.3",
     "@types/googlemaps": "^3.43.3",
-    "@types/leaflet": "^1.7.4",
     "@types/node": "^14.14.41",
     "@types/react": "^17.0.3",
     "@types/react-datepicker": "^4.1.1",
     "@types/react-dom": "^17.0.3",
+    "next-unused": "^0.0.6",
     "typescript": "^4.2.4"
+  },
+  "next-unused": {
+    "alias": {},
+    "include": [
+      "components",
+      "constants",
+      "modules",
+      "pages",
+      "public",
+      "sass",
+      "shared-hooks",
+      "stores",
+      "utils"
+    ],
+    "exclude": [],
+    "entrypoints": [
+      "pages"
+    ]
   },
   "license": "MIT"
 }

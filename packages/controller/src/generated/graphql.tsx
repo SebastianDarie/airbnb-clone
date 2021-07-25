@@ -101,7 +101,6 @@ export type Message = {
   id: Scalars['String'];
   isFromSender: Scalars['Float'];
   text: Scalars['String'];
-  read: Scalars['Float'];
   headerId: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -461,7 +460,7 @@ export type RegularHeadersFragment = (
 
 export type RegularMessageFragment = (
   { __typename?: 'Message' }
-  & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt' | 'headerId'>
+  & Pick<Message, 'id' | 'isFromSender' | 'text' | 'createdAt' | 'headerId'>
   & { creator: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'photoUrl'>
@@ -553,11 +552,7 @@ export type CreateMessageMutation = (
   { __typename?: 'Mutation' }
   & { createMessage: (
     { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'isFromSender' | 'text' | 'read' | 'createdAt' | 'headerId'>
-    & { creator: (
-      { __typename?: 'User' }
-      & Pick<User, 'name' | 'photoUrl'>
-    ) }
+    & RegularMessageFragment
   ) }
 );
 
@@ -867,7 +862,6 @@ export const RegularMessageFragmentDoc = gql`
   id
   isFromSender
   text
-  read
   createdAt
   headerId
   creator {
@@ -1080,19 +1074,10 @@ export type CreateListingMutationOptions = Apollo.BaseMutationOptions<CreateList
 export const CreateMessageDocument = gql`
     mutation CreateMessage($input: MessageInput!) {
   createMessage(input: $input) {
-    id
-    isFromSender
-    text
-    read
-    createdAt
-    headerId
-    creator {
-      name
-      photoUrl
-    }
+    ...RegularMessage
   }
 }
-    `;
+    ${RegularMessageFragmentDoc}`;
 export type CreateMessageMutationFn = Apollo.MutationFunction<CreateMessageMutation, CreateMessageMutationVariables>;
 
 /**

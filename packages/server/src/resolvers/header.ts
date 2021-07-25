@@ -116,10 +116,7 @@ export class HeaderResolver {
       return context.redisPubsub.asyncIterator('HEADERS');
     },
   })
-  newHeader(
-    @Args() { creatorId, toId }: NewHeaderArgs,
-    @Root() header: Header
-  ): Header {
+  newHeader(@Args() {}: NewHeaderArgs, @Root() header: Header): Header {
     return header;
   }
 }

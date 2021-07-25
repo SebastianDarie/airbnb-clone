@@ -2,7 +2,6 @@ fragment RegularMessage on Message {
   id
   isFromSender
   text
-  read
   createdAt
   headerId
   creator {

@@ -6,8 +6,7 @@ export default class Document extends NextDocument {
       <Html lang='en'>
         <Head>
           <meta charSet='utf-8' />
-          {/* <link rel="icon" href="/favicon.io" /> */}
-
+          <meta name='viewport' content='width=device-width, initial-scale=1' />
           <meta
             name='description'
             content='Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.'
@@ -20,40 +19,40 @@ export default class Document extends NextDocument {
             rel='stylesheet'
           ></link>
 
-          {/* <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/apple-touch-icon.png"
-          />
           <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon-32x32.png"
+            rel='apple-touch-icon'
+            sizes='180x180'
+            href='https://a0.muscache.com/airbnb/static/icons/apple-touch-icon-180x180-bcbe0e3960cd084eb8eaf1353cf3c730.png'
           />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
-          />
-          <link rel="manifest" href="/site.webmanifest" />
-          <link rel="canonical" href="https://reddit-clone.tech/" /> */}
 
-          {/* <meta property="og:image" content="/" />
+          <link rel='manifest' href='/manifest.json' />
+          <link rel='canonical' href='https://mernlabs.team/' />
+
+          <meta property='og:image' content='/' />
           <meta
-            property="og:title"
-            content="reddit: the front page of the internet"
+            property='og:title'
+            content='Airbnb: Vacation Rentals, Cabins, Beach Houses, Unique Homes &amp; Experiences'
           />
           <meta
-            property="og:description"
-            content="Reddit is a network of communities based on people&#x27;s interests."
+            property='og:description'
+            content='Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.'
           />
-          <meta property="og:type" content="website" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" content="@DarieSebastian6" />
-          <meta name="twitter:title" content="RedditClone" />
-          <meta property="twitter:url" content="https://reddit-clone.tech/" /> */}
+          <meta property='og:type' content='website' />
+          <meta name='twitter:card' content='summary_large_image' />
+          <meta name='twitter:site' content='@DarieSebastian6' />
+          <meta name='twitter:app:name:iphone' content='Airbnb' />
+          <meta name='twitter:app:name:ipad' content='Airbnb' />
+          <meta name='twitter:app:name:googleplay' content='Airbnb' />
+          <meta
+            name='twitter:title'
+            content='Airbnb: Vacation Rentals, Cabins, Beach Houses, Unique Homes &amp; Experiences'
+          />
+          <meta property='twitter:url' content='https://mernlabs.team/' />
+          <meta
+            name='twitter:description'
+            content='Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.'
+          />
+          <meta name='twitter:image' content='' />
         </Head>
         <body>
           <Main />

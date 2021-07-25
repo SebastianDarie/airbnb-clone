@@ -140,12 +140,6 @@ export class SearchInput {
   @Field(() => Bounds, { nullable: true })
   bounds?: Bounds;
 
-  @Field(() => String, { nullable: true })
-  title?: string;
-
-  @Field(() => Int, { nullable: true })
-  beds?: number;
-
   @Field(() => Int, { nullable: true })
   guests?: number;
 }
@@ -200,9 +194,6 @@ export class ReservationInput {
   @Field(() => Date)
   departure: Date;
 
-  // @Field(() => [String], { nullable: true })
-  // during?: [string];
-
   @Field(() => Int)
   guests: number;
 
@@ -226,4 +217,16 @@ export class HeaderInput {
 
   @Field(() => String, { nullable: true })
   reservationId?: string;
+}
+
+@InputType()
+export class MessageInput {
+  @Field()
+  text: string;
+
+  @Field()
+  isFromSender: number;
+
+  @Field()
+  headerId: string;
 }

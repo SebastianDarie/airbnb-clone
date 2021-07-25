@@ -2,7 +2,7 @@ import { InputField } from '../../components/Fields/InputField';
 import { RegisterFormProps, RegisterMutation } from '@airbnb-clone/controller';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { registerSchema } from '@airbnb-clone/common';
+import { registerSchema } from '@second-gear/common';
 import { useEffect } from 'react';
 import styles from '../../sass/layout/Form.module.scss';
 

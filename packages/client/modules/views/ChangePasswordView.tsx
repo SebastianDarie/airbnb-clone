@@ -1,4 +1,4 @@
-import { changePasswordSchema } from '@airbnb-clone/common';
+import { changePasswordSchema } from '@second-gear/common';
 import {
   ChangePasswordMutation,
   ChangePasswordProps,

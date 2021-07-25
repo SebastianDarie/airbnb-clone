@@ -6,10 +6,9 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../sass/pages/CreateListing.module.scss';
-import { useGradient } from '../shared-hooks/useGradient';
 import { useListingNavigation } from '../shared-hooks/useListingNavigation';
 import { formatFilenames } from '../utils/formatFilenames';
-import { DotLoader } from './DotLoader';
+import { GradientBtn } from './GradientBtn';
 
 interface CreateListingLayoutProps {
   disabled?: boolean;
@@ -25,7 +24,6 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
 }) => {
   const router = useRouter();
   const [placeholderText, progressBar, nextPage] = useListingNavigation(router);
-  const [coords, setCoords] = useGradient();
   const [createListing, { loading }] = useCreateListingMutation();
   const [s3Sign] = useSignS3Mutation();
 
@@ -102,9 +100,9 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                 </div>
                 <div className={styles.btn__right}>
                   {final ? (
-                    <button
-                      className={styles.btn__save}
-                      onMouseMove={(e) => setCoords(e)}
+                    <GradientBtn
+                      loading={loading}
+                      text='Save your listing'
                       onClick={async () => {
                         const store = (
                           await import('../stores/useListingStore')
@@ -159,25 +157,7 @@ export const CreateListingLayout: React.FC<CreateListingLayoutProps> = ({
                           router.push('/');
                         }
                       }}
-                    >
-                      <span
-                        className={
-                          loading ? styles.inset__span : styles.absolute__span
-                        }
-                      >
-                        <span
-                          className={styles.radial__span}
-                          style={{
-                            backgroundPosition: `calc((100 - ${coords.x}) * 1%) calc((100 - ${coords.y}) * 1%)`,
-                            display: loading ? 'none' : '',
-                          }}
-                        ></span>
-                        {loading ? <DotLoader /> : null}
-                      </span>
-                      <span className={styles.text__span}>
-                        Save your listing
-                      </span>
-                    </button>
+                    />
                   ) : (
                     <button
                       className={styles.btn__next}

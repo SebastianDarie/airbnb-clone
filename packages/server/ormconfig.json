@@ -1,6 +1,5 @@
 [
   {
-    "name": "default",
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
@@ -9,23 +8,5 @@
     "database": "airbnb2",
     "entities": ["dist/entity/*.js"],
     "migrations": ["dist/migrations/*.js"]
-  },
-  {
-    "name": "test",
-    "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "sebastian",
-    "password": "2772",
-    "database": "airbnb-test",
-    "synchronize": true,
-    "logging": false,
-    "dropSchema": true,
-    "entities": ["src/entity/**/*.ts"],
-    "migrations": ["src/migrations/**/*.ts"],
-    "cli": {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migrations"
-    }
   }
 ]

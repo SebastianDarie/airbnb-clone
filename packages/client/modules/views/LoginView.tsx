@@ -3,7 +3,7 @@ import { AuthFormProps, LoginMutation } from '@airbnb-clone/controller';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginSchema } from '@airbnb-clone/common';
+import { loginSchema } from '@second-gear/common';
 import { useEffect, useState } from 'react';
 import styles from '../../sass/layout/Form.module.scss';
 

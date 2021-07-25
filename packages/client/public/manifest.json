@@ -1,0 +1,39 @@
+{
+  "name": "Airbnb",
+  "short_name": "Airbnb",
+  "description": "Vacation Rentals, Homes, Experiences & Places - Airbnb",
+  "lang": "en",
+  "display": "browser",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "https://a0.muscache.com/airbnb/static/icons/android-icon-192x192-c0465f9f0380893768972a31a614b670.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://a0.muscache.com/airbnb/static/icons/apple-touch-icon-180x180-bcbe0e3960cd084eb8eaf1353cf3c730.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "https://a0.muscache.com/airbnb/static/icons/apple-touch-icon-152x152-7b7c6444b63d8b6ebad9dae7169e5ed6.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "https://a0.muscache.com/airbnb/static/icons/apple-touch-icon-120x120-52b1adb4fe3a8f825fc4b143de12ea4b.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "https://a0.muscache.com/airbnb/static/icons/apple-touch-icon-76x76-3b313d93b1b5823293524b9764352ac9.png",
+      "sizes": "76x76",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "related_applications": [],
+  "prefer_related_applications": false
+}
