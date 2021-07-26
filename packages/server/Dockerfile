@@ -6,7 +6,6 @@ COPY package.json ./
 RUN yarn install --ignore-optional 
 
 COPY . .
-RUN yarn gen-env
 RUN yarn build
 
 FROM node:lts-alpine
@@ -18,8 +17,8 @@ COPY --from=builder /usr/src/app/yarn.lock ./
 RUN yarn install --ignore-optional --frozen-lockfile --production
 
 COPY --from=builder /usr/src/app/dist ./dist
-COPY .env .
-
+COPY ormconfig.json ormconfig.json
+COPY .env.production .env
 
 ENV NODE_ENV production
 

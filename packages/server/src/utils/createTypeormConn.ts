@@ -9,7 +9,6 @@ import { User } from '../entity/User';
 
 export const createTypeormConn = () => {
   return createConnection({
-    name: 'default',
     type: 'postgres',
     url: process.env.DATABASE_URL,
     cache: {

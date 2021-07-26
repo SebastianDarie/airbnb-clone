@@ -133,7 +133,7 @@ __metadata:
     connect-redis: ^5.1.0
     cors: ^2.8.5
     dataloader: ^2.0.0
-    dotenv-safe: ^8.2.0
+    dotenv: ^10.0.0
     express: ^4.17.1
     express-rate-limit: ^5.2.6
     express-session: ^1.17.1
@@ -2903,7 +2903,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@second-gear/common@1.0.0, @second-gear/common@workspace:packages/common":
+"@second-gear/common@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@second-gear/common@npm:1.0.0"
+  dependencies:
+    yup: ^0.32.9
+  checksum: 1747c8cae76eb3787cbed5de49ef91498caab5d61846265235f1279e6985398592b485ebe0cb1be1ecc8c2078237bf5664808c68cce029f0f2aecca522de5bec
+  languageName: node
+  linkType: hard
+
+"@second-gear/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@second-gear/common@workspace:packages/common"
   dependencies:
@@ -6880,12 +6889,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-safe@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "dotenv-safe@npm:8.2.0"
-  dependencies:
-    dotenv: ^8.2.0
-  checksum: 8525ceed5a8ae4a4b9264080a3ad1550cb4c5d8d5990b4772fd62a6d245c01a01f77a540bab4fb16ae0513d9ea804cbaa6d19acb370b5bc68f2d103813c2eb2e
+"dotenv@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "dotenv@npm:10.0.0"
+  checksum: 9c45712e213de63bdb646b8e5344749b7566e25a67bbd3f03711d54e40eff10066c1f23eff0081d0949fda7c8efcc6e9e8bf18d0f023a8274f55f5d5f97bb6db
   languageName: node
   linkType: hard
 

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
-import 'dotenv-safe/config';
+import 'dotenv/config';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import session from 'express-session';
@@ -11,7 +11,7 @@ import { createServer } from 'http';
 import Redis from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
 import { buildSchema } from 'type-graphql';
-import { getConnection } from 'typeorm';
+import { Connection, getConnection } from 'typeorm';
 import {
   COOKIE_NAME,
   REDIS_CACHE_PREFIX,
@@ -30,9 +30,23 @@ import { ReservationResolver } from './resolvers/reservation';
 import { ApolloServerLoaderPlugin } from 'type-graphql-dataloader';
 
 const main = async () => {
-  const conn = await createTypeormConn();
+  let conn: Connection | null = null;
+  let retries = 5;
+  while (retries) {
+    try {
+      conn = await createTypeormConn();
+      break;
+    } catch (err) {
+      console.log(err);
+      retries -= 1;
+      console.log(`retries left: ${retries}`);
+      await new Promise((res) => setTimeout(res, 5000));
+    }
+  }
 
-  await conn.runMigrations();
+  if (conn) {
+    await conn.runMigrations();
+  }
 
   const app = express();
 

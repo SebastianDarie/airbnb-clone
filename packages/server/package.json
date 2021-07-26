@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "gen-env": "gen-env-types .env -o src/env.d.ts -e .",
+    "gen-env": "gen-env-types .env -o src/env.d.ts",
     "gen-mig": "typeorm migration:create -n DevelopmentBuild",
     "gen-init": "typeorm migration:generate -n DBSetup",
     "build": "tsc",
@@ -44,7 +44,7 @@
     "connect-redis": "^5.1.0",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
-    "dotenv-safe": "^8.2.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
