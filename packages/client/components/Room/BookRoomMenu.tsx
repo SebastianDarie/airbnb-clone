@@ -1,4 +1,4 @@
-import { ArrowDownSvg, ArrowUpSvg, ReviewSvg } from '@airbnb-clone/controller';
+import { ArrowDownSvg, ArrowUpSvg, ReviewSvg } from '@second-gear/controller';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useOnclickOutside from 'react-cool-onclickoutside';

@@ -2,7 +2,7 @@ import {
   AirbnbSmallSvg,
   useCreateListingMutation,
   useSignS3Mutation,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../sass/pages/CreateListing.module.scss';

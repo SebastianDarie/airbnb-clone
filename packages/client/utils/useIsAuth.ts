@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useMeQuery } from '@airbnb-clone/controller';
+import { useMeQuery } from '@second-gear/controller';
 
 export const useIsAuth = (): void => {
   const { asPath, replace } = useRouter();

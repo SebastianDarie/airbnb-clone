@@ -1,5 +1,5 @@
 import { forgotPasswordSchema } from '@second-gear/common';
-import { ForgotPasswordProps } from '@airbnb-clone/controller';
+import { ForgotPasswordProps } from '@second-gear/controller';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { InputField } from '../../components/Fields/InputField';

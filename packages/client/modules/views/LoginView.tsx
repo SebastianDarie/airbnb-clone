@@ -1,5 +1,5 @@
 import { InputField } from '../../components/Fields/InputField';
-import { AuthFormProps, LoginMutation } from '@airbnb-clone/controller';
+import { AuthFormProps, LoginMutation } from '@second-gear/controller';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useLatestHeaderQuery } from '../../../controller/dist';
+import { useLatestHeaderQuery } from '@second-gear/controller';
 import { withApollo } from '../../utils/withApollo';
 
 interface InboxProps {}

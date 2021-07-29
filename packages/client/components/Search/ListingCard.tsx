@@ -2,7 +2,7 @@ import {
   HeartSvg,
   SearchListingResult,
   ReviewSvg,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import Link from 'next/link';
 import styles from '../../sass/components/ListingCard.module.scss';
 import { FloorPlanDetails } from '../FloorPlanDetails';

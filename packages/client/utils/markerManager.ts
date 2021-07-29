@@ -1,4 +1,4 @@
-import { SearchListingResult } from '@airbnb-clone/controller';
+import { SearchListingResult } from '@second-gear/controller';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { Dispatch, SetStateAction } from 'react';
 

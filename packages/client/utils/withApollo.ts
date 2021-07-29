@@ -14,7 +14,7 @@ import {
   Listing,
   Message,
   PaginatedListings,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 
 const linkCreate = (
   ctx: NextPageContext | undefined

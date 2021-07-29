@@ -1,4 +1,4 @@
-import { CleanSvg, HomeSvg, LikeSvg, MedalSvg } from '@airbnb-clone/controller';
+import { CleanSvg, HomeSvg, LikeSvg, MedalSvg } from '@second-gear/controller';
 import styles from './Highlights.module.scss';
 
 interface HighlightsProps {

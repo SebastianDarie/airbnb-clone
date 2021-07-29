@@ -1,7 +1,7 @@
 import {
   SearchListingsDocument,
   useSearchListingsQuery,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import { NetworkStatus } from '@apollo/client';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { GoogleMap } from '@react-google-maps/api';

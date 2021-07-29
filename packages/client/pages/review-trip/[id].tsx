@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ReviewSvg, useCreateReviewMutation } from '@airbnb-clone/controller';
+import { ReviewSvg, useCreateReviewMutation } from '@second-gear/controller';
 import { withApollo } from '../../utils/withApollo';
 import styles from '../../sass/pages/ReviewTrip.module.scss';
 import headerStyles from '../../sass/pages/Header.module.scss';
@@ -8,8 +8,7 @@ import Layout from '../../components/Layout';
 import { autosizeTextarea } from '../../utils/autosizeTextarea';
 import { useRouter } from 'next/router';
 import { DotLoader } from '../../components/DotLoader';
-import gql from 'graphql-tag';
-import { StoreObject, Reference } from '@apollo/client';
+import { gql, StoreObject, Reference } from '@apollo/client';
 
 interface ReviewTripProps {}
 

@@ -1,4 +1,4 @@
-import { LoginController } from '@airbnb-clone/controller';
+import { LoginController } from '@second-gear/controller';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { LoginView } from '../modules/views/LoginView';

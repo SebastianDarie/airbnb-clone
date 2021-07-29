@@ -1,12 +1,12 @@
 @use 'sass:math';
 @use '../utilities/bootstrap.scss';
 
-.HomeView__container {
+.container {
   min-height: 400px;
   overflow-anchor: none;
 }
 
-.HomeView__bg__container {
+.bg__container {
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -34,7 +34,7 @@
   }
 }
 
-.HomeView__img__container {
+.img__container {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -44,7 +44,7 @@
   z-index: 0;
 }
 
-.HomeView__img__config {
+.img__config {
   display: inline-block;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -53,7 +53,7 @@
   width: 100%;
 }
 
-.HomeView__img {
+.img {
   position: absolute;
   object-fit: cover;
   vertical-align: bottom;
@@ -61,7 +61,7 @@
   width: 100%;
 }
 
-.HomeView__service__container {
+.service__container {
   position: relative;
   max-width: 1760px;
   padding: 96px 24px 32px;
@@ -76,7 +76,7 @@
   }
 }
 
-.HomeView__flexer {
+.flexer {
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
@@ -95,7 +95,7 @@
   }
 }
 
-.HomeView__text__container {
+.text__container {
   display: none;
   flex-direction: column;
   align-items: flex-start;
@@ -117,7 +117,7 @@
   }
 }
 
-.HomeView__logo__container {
+.logo__container {
   display: inline-block;
   vertical-align: bottom;
   min-height: 1px;
@@ -125,17 +125,17 @@
   background-repeat: no-repeat;
 }
 
-.HomeView__service__text {
+.service__text {
   white-space: pre-line;
   max-width: 100%;
   font-size: 44px;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 52.8px;
-  color: #222222;
+  color: bootstrap.$nero;
 }
 
-.HomeView__learnnew {
+.learnnew {
   line-height: initial;
   padding-top: 12px;
 
@@ -144,19 +144,19 @@
   }
 }
 
-.HomeView__new__btn {
+.new__btn {
   display: inline-block;
   position: relative;
   text-align: center;
   border-width: 1px;
   border-style: solid;
-  border-color: black;
+  border-color: bootstrap.$black;
   width: auto;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 8px;
   padding-right: 8px;
-  color: black;
+  color: bootstrap.$black;
   font-size: 14px;
   font-family: inherit;
   touch-action: manipulation;
@@ -166,14 +166,14 @@
   overflow: hidden;
 }
 
-.HomeView__btn__bg {
+.btn__bg {
   justify-content: flex-start;
   padding: 8px 16px;
-  background-color: #222222;
+  background-color: bootstrap.$nero;
   border-radius: 8px;
 }
 
-.HomeView__btn__text {
+.btn__text {
   white-space: pre-line;
   max-width: 100%;
   font-size: 14px;

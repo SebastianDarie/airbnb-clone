@@ -1,4 +1,4 @@
-import {useMeQuery} from '@airbnb-clone/controller';
+import {useMeQuery} from '@second-gear/controller';
 import React from 'react';
 import {View, Text} from 'react-native';
 import {Button} from 'react-native-paper';

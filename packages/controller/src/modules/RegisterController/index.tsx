@@ -1,6 +1,12 @@
 import React from 'react';
 import { RegisterFormProps } from '../../types';
-import { RegisterMutation, useRegisterMutation } from '../../generated/graphql';
+import {
+  MeDocument,
+  MeQuery,
+  RegisterMutation,
+  useRegisterMutation,
+} from '../../generated/graphql';
+import { FetchResult } from '@apollo/client';
 
 interface RegisterControllerProps {
   children: (data: {
@@ -8,7 +14,9 @@ interface RegisterControllerProps {
     loading?: boolean;
     submit: (
       values: RegisterFormProps
-    ) => Promise<RegisterMutation | null | undefined>;
+    ) => Promise<
+      FetchResult<RegisterMutation, Record<string, any>, Record<string, any>>
+    >;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
@@ -18,11 +26,18 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
   const [register, { data, loading }] = useRegisterMutation();
 
   const submit = async (values: RegisterFormProps) => {
-    const { data } = await register({
+    return register({
       variables: { ...values },
+      update: (cache, { data }) => {
+        cache.writeQuery<MeQuery>({
+          query: MeDocument,
+          data: {
+            __typename: 'Query',
+            me: data?.register.user,
+          },
+        });
+      },
     });
-
-    return data;
   };
 
   return <>{children({ data, loading, submit })}</>;

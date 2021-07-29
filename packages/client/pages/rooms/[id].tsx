@@ -1,4 +1,4 @@
-import { RightArrowSvg, SuperHostSvg } from '@airbnb-clone/controller';
+import { RightArrowSvg, SuperHostSvg } from '@second-gear/controller';
 import { Circle, GoogleMap } from '@react-google-maps/api';
 import {
   CSSProperties,

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeaderResult, useReservationQuery } from '@airbnb-clone/controller';
+import { HeaderResult, useReservationQuery } from '@second-gear/controller';
 import { DotLoader } from '../DotLoader';
 
 interface ConversationDetailsProps {
@@ -90,16 +90,6 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                     </div>
                   </div>
                 </div>
-
-                {/* <div className={roomStyles.room__section__flex}>
-                  <div className={roomStyles.amenities__heading__padding}>
-                    <div className={styles.profile__link__font}>
-                      <Link href=''>
-                        <a className={styles.profile__link}></a>
-                      </Link>
-                    </div>
-                  </div>
-                </div> */}
 
                 <div className={roomStyles.room__section__flex}>
                   <div className={roomStyles.section__divider}></div>

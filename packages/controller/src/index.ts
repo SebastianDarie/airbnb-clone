@@ -2,8 +2,6 @@ export * from './modules/CreateListing';
 export * from './modules/UpdateListing';
 export * from './modules/SearchListings';
 export * from './modules/CreateMessageController';
-export * from './modules/ConfirmEmailController';
-export * from './modules/ChangePasswordController';
 export * from './modules/ForgotPasswordController';
 export * from './modules/ViewListingHoc';
 export * from './modules/LogoutHoc';

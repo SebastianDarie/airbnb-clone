@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { HeaderResult, HeadersQuery } from '@airbnb-clone/controller';
+import { HeaderResult, HeadersQuery } from '@second-gear/controller';
 import { DotLoader } from '../DotLoader';
 
 interface ConversationListProps {

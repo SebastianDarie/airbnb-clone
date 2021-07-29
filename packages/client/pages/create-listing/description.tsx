@@ -8,7 +8,7 @@ import {
   LocationSvg,
   PeopleSvg,
   SlippersSvg,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import { useEffect, useState } from 'react';
 import { Highlight } from '../../components/Highlight';
 import ListingStore from '../../stores/useListingStore';

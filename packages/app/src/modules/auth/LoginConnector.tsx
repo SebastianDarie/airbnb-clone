@@ -1,4 +1,4 @@
-import {LoginController} from '@airbnb-clone/controller';
+import {LoginController} from '@second-gear/controller';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {Button} from 'react-native-paper';

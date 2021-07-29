@@ -11,7 +11,7 @@ import { createServer } from 'http';
 import Redis from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
 import { buildSchema } from 'type-graphql';
-import { Connection, getConnection } from 'typeorm';
+import { getConnection } from 'typeorm';
 import {
   COOKIE_NAME,
   REDIS_CACHE_PREFIX,
@@ -30,23 +30,9 @@ import { ReservationResolver } from './resolvers/reservation';
 import { ApolloServerLoaderPlugin } from 'type-graphql-dataloader';
 
 const main = async () => {
-  let conn: Connection | null = null;
-  let retries = 5;
-  while (retries) {
-    try {
-      conn = await createTypeormConn();
-      break;
-    } catch (err) {
-      console.log(err);
-      retries -= 1;
-      console.log(`retries left: ${retries}`);
-      await new Promise((res) => setTimeout(res, 5000));
-    }
-  }
+  const conn = await createTypeormConn();
 
-  if (conn) {
-    await conn.runMigrations();
-  }
+  //  await conn.runMigrations();
 
   const app = express();
 

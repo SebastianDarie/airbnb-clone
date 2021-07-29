@@ -3,7 +3,7 @@ import {
   AirbnbSvg,
   ArrowLeftSvg,
   useCreatePaymentIntentMutation,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

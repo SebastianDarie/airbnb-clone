@@ -1,4 +1,4 @@
-import { ReviewSvg, SearchListingsQuery } from '@airbnb-clone/controller';
+import { ReviewSvg, SearchListingsQuery } from '@second-gear/controller';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { InfoWindow } from '@react-google-maps/api';
 import { SetStateAction } from 'react';

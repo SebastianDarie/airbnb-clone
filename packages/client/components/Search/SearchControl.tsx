@@ -1,4 +1,4 @@
-import { CheckMarkSvg } from '@airbnb-clone/controller';
+import { CheckMarkSvg } from '@second-gear/controller';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import styles from '../../sass/components/SearchControl.module.scss';
 

@@ -1,4 +1,4 @@
-import { ForgotPasswordController } from '@airbnb-clone/controller';
+import { ForgotPasswordController } from '@second-gear/controller';
 import Layout from '../components/Layout';
 import { ForgotPasswordView } from '../modules/views/ForgotPasswordView';
 import { withApollo } from '../utils/withApollo';

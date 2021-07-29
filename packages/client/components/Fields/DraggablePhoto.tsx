@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import Dropzone from 'react-dropzone';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
 import ListingStore from '../../stores/useListingStore';
-import { EditSvg, ImageSvg, TrashSvg } from '@airbnb-clone/controller';
+import { EditSvg, ImageSvg, TrashSvg } from '@second-gear/controller';
 
 interface DraggablePhotoProps {
   id: string;

@@ -1,11 +1,11 @@
 [
   {
     "type": "postgres",
-    "host": "postgres",
+    "host": "localhost",
     "port": 5432,
-    "username": "postgres",
-    "password": "postgres",
-    "database": "airbnb2",
+    "username": "sebastian",
+    "password": "2772",
+    "database": "airbnb",
     "entities": ["dist/entity/*.js"],
     "migrations": ["dist/migrations/*.js"]
   }

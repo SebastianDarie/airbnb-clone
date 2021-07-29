@@ -2,7 +2,7 @@ import {
   ListingFormProps,
   withPhotoUpload,
   WithPhotoUploadProps,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import {ApolloError} from '@apollo/client';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';

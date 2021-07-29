@@ -1,10 +1,11 @@
 import { InputField } from '../../components/Fields/InputField';
-import { RegisterFormProps, RegisterMutation } from '@airbnb-clone/controller';
+import { RegisterFormProps, RegisterMutation } from '@second-gear/controller';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '@second-gear/common';
 import { useEffect } from 'react';
 import styles from '../../sass/layout/Form.module.scss';
+import { FetchResult } from '@apollo/client';
 
 interface RegisterViewProps {
   data?: RegisterMutation | null | undefined;
@@ -12,7 +13,9 @@ interface RegisterViewProps {
   onFinish: () => void;
   submit: (
     values: RegisterFormProps
-  ) => Promise<RegisterMutation | null | undefined>;
+  ) => Promise<
+    FetchResult<RegisterMutation, Record<string, any>, Record<string, any>>
+  >;
 }
 
 export const RegisterView: React.FC<RegisterViewProps> = ({

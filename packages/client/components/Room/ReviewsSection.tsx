@@ -1,4 +1,4 @@
-import { Reviews, ReviewSvg } from '@airbnb-clone/controller';
+import { Reviews, ReviewSvg } from '@second-gear/controller';
 import Link from 'next/link';
 import reviewStyles from './ReviewsSection.module.scss';
 

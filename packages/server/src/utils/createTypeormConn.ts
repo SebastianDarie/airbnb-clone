@@ -12,7 +12,7 @@ export const createTypeormConn = () => {
     type: 'postgres',
     url: process.env.DATABASE_URL,
     cache: {
-      type: 'redis',
+      type: 'database',
       duration: 5000,
     },
     logging: true,

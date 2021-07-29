@@ -1,4 +1,4 @@
-import {AuthFormProps, LoginMutation} from '@airbnb-clone/controller';
+import {AuthFormProps, LoginMutation} from '@second-gear/controller';
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';

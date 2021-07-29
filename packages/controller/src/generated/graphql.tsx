@@ -123,7 +123,7 @@ export type Mutation = {
   deleteListing: Scalars['Boolean'];
   createPaymentIntent?: Maybe<Scalars['String']>;
   createMessage: Message;
-  deleteMessage: Scalars['Boolean'];
+  deleteMessages: Scalars['Boolean'];
   createReview: Review;
   register: UserResponse;
   login: UserResponse;
@@ -180,7 +180,7 @@ export type MutationCreateMessageArgs = {
 };
 
 
-export type MutationDeleteMessageArgs = {
+export type MutationDeleteMessagesArgs = {
   ids: Array<Scalars['String']>;
 };
 
@@ -251,22 +251,15 @@ export type Photo = {
 export type Query = {
   __typename?: 'Query';
   headers: Array<Header>;
-  headersListing: Array<Header>;
   latestHeader: Header;
   listing?: Maybe<Listing>;
   searchListings: PaginatedListings;
-  findCity: Scalars['String'];
   messages: Array<Message>;
   reviews: Array<Review>;
   users: Array<User>;
   me?: Maybe<User>;
   reservations: Array<Reservation>;
   reservation?: Maybe<Reservation>;
-};
-
-
-export type QueryHeadersListingArgs = {
-  listingId: Scalars['String'];
 };
 
 
@@ -279,12 +272,6 @@ export type QuerySearchListingsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
   input: SearchInput;
-};
-
-
-export type QueryFindCityArgs = {
-  lng: Scalars['Float'];
-  lat: Scalars['Float'];
 };
 
 
@@ -360,8 +347,6 @@ export type SearchInput = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   bounds?: Maybe<Bounds>;
-  title?: Maybe<Scalars['String']>;
-  beds?: Maybe<Scalars['Int']>;
   guests?: Maybe<Scalars['Int']>;
 };
 
@@ -451,7 +436,7 @@ export type RegularHeadersFragment = (
   & Pick<Header, 'id' | 'toId' | 'subject' | 'listingId' | 'reservationId' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'photoUrl'>
+    & Pick<User, 'id' | 'name' | 'photoUrl' | 'createdAt'>
   ), messages: Array<(
     { __typename?: 'Message' }
     & RegularMessageFragment
@@ -463,7 +448,7 @@ export type RegularMessageFragment = (
   & Pick<Message, 'id' | 'isFromSender' | 'text' | 'createdAt' | 'headerId'>
   & { creator: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'photoUrl'>
+    & Pick<User, 'id' | 'name' | 'photoUrl' | 'createdAt'>
   ) }
 );
 
@@ -868,6 +853,7 @@ export const RegularMessageFragmentDoc = gql`
     id
     name
     photoUrl
+    createdAt
   }
 }
     `;
@@ -883,6 +869,7 @@ export const RegularHeadersFragmentDoc = gql`
     id
     name
     photoUrl
+    createdAt
   }
   messages {
     ...RegularMessage

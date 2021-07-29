@@ -1,6 +1,8 @@
+import { FetchResult } from '@apollo/client';
 import {
   AirbnbMessageSvg,
   ArchiveSvg,
+  CreateMessageMutation,
   HeaderResult,
   HeadersDocument,
   HeadersQuery,
@@ -8,7 +10,7 @@ import {
   SendMessageSvg,
   useMeQuery,
   useNewMessageSubscription,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { autosizeTextarea } from '../../utils/autosizeTextarea';
@@ -28,7 +30,12 @@ interface ConversationPanelProps {
   };
 
   setDetails: Dispatch<SetStateAction<boolean>>;
-  submit: (values: MessageFormProps, currHeader: any) => Promise<boolean>;
+  submit: (
+    values: MessageFormProps,
+    currHeader: any
+  ) => Promise<
+    FetchResult<CreateMessageMutation, Record<string, any>, Record<string, any>>
+  >;
 }
 
 export const ConversationPanel: React.FC<ConversationPanelProps> = ({

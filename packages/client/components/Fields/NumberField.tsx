@@ -1,4 +1,4 @@
-import { MinusSvg, PlusSvg } from '@airbnb-clone/controller';
+import { MinusSvg, PlusSvg } from '@second-gear/controller';
 import styles from '../../sass/components/GuestsMenu.module.scss';
 
 type NumberFieldProps = {

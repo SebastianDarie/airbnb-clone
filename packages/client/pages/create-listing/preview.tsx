@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import shallow from 'zustand/shallow';
-import { useMeQuery } from '@airbnb-clone/controller';
+import { useMeQuery } from '@second-gear/controller';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import styles from '../../sass/components/Preview.module.scss';
 import ListingStore from '../../stores/useListingStore';
@@ -44,7 +44,7 @@ const Preview: React.FC<PreviewProps> = ({}) => {
                 <div className={styles.image__padding}>
                   <div className={styles.image__flex}>
                     <img
-                      src={cover[1]?.src}
+                      src={cover[1].src ?? ''}
                       className={styles.image__preview}
                     />
                   </div>
@@ -87,4 +87,4 @@ const Preview: React.FC<PreviewProps> = ({}) => {
   );
 };
 
-export default withApollo({ ssr: false })(Preview);
+export default withApollo({ ssr: true })(Preview);

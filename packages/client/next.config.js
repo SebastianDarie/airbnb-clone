@@ -24,6 +24,9 @@ module.exports = (phase, { defaultConfig }) => {
 
   return {
     ...defaultConfig,
+    env: {
+      stripe: 'pk_test_dZb4PNLF72WK9NZenscqBEB1008RXx0tOT',
+    },
     future: {
       webpack5: true,
     },

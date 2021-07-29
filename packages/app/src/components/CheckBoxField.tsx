@@ -9,7 +9,7 @@ import {
 } from 'react-hook-form';
 import {Checkbox, Subheading} from 'react-native-paper';
 import {ErrorMessage} from '@hookform/error-message';
-import {ListingFormProps} from '@airbnb-clone/controller';
+import {ListingFormProps} from '@second-gear/controller';
 
 interface CheckboxFieldProps {
   control: Control<any>;

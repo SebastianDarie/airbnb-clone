@@ -6,7 +6,7 @@ import {
   useMeQuery,
   withLogout,
   WithLogoutProps,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import { useScrollHandler } from '../../shared-hooks/useScrollHandler';
 import { isServer } from '../../utils/isServer';
 import Link from 'next/link';
@@ -31,7 +31,6 @@ const Navbar: React.FC<NavbarProps> = ({
     skip: isServer(),
   });
   const scrolled = useScrollHandler();
-  //const scrolled = true;
 
   const Nav = (
     <header

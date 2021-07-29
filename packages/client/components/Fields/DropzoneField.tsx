@@ -1,5 +1,5 @@
 import Dropzone from 'react-dropzone';
-import { DropImagesSvg } from '@airbnb-clone/controller';
+import { DropImagesSvg } from '@second-gear/controller';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
 import { Photo } from '@second-gear/common';
 

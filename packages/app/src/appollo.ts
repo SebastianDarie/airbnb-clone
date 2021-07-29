@@ -1,6 +1,6 @@
 import {Platform} from 'react-native';
 import {ApolloClient, InMemoryCache} from '@apollo/client';
-import {PaginatedListings} from '@airbnb-clone/controller';
+import {PaginatedListings} from '@second-gear/controller';
 
 const host =
   Platform.OS === 'ios'

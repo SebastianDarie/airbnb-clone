@@ -1,4 +1,4 @@
-import { ActiveElement, MinusSvg, PlusSvg } from '@airbnb-clone/controller';
+import { ActiveElement, MinusSvg, PlusSvg } from '@second-gear/controller';
 import { MutableRefObject } from 'react';
 import shallow from 'zustand/shallow';
 import styles from '../../sass/components/GuestsMenu.module.scss';

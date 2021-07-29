@@ -20,7 +20,6 @@ interface LoginControllerProps {
 
 export const LoginController: React.FC<LoginControllerProps> = ({
   children,
-  //onSessionId,
 }) => {
   const [login, { data, loading }] = useLoginMutation({
     notifyOnNetworkStatusChange: true,
@@ -39,18 +38,6 @@ export const LoginController: React.FC<LoginControllerProps> = ({
         });
       },
     });
-
-    // if (data?.login.user) {
-    //   if (typeof router.query.next === 'string') {
-    //     router.push(router.query.next);
-    //   } else {
-    //     router.push('/');
-    //   }
-    // }
-
-    // if (data?.login.sessionID && onSessionId) {
-    //   onSessionId(data.login.sessionID);
-    // }
 
     return data;
   };

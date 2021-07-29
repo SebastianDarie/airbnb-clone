@@ -1,4 +1,4 @@
-import { MinusSvg, PlusSvg } from '@airbnb-clone/controller';
+import { MinusSvg, PlusSvg } from '@second-gear/controller';
 import { CreateListingLayout } from '../../components/CreateListingLayout';
 import styles from '../../sass/components/PriceControl.module.scss';
 import ListingStore from '../../stores/useListingStore';

@@ -1,4 +1,4 @@
-import { SearchSvg } from '@airbnb-clone/controller';
+import { SearchSvg } from '@second-gear/controller';
 import { Searchbar } from './Searchbar';
 import styles from '../../sass/components/SearchForm.module.scss';
 import { getInitialCln } from '../../utils/getInitialCln';

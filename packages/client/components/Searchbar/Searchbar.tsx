@@ -1,8 +1,4 @@
-import {
-  ActiveElement,
-  BigSearchSvg,
-  ClearSvg,
-} from '@airbnb-clone/controller';
+import { ActiveElement, BigSearchSvg, ClearSvg } from '@second-gear/controller';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import {

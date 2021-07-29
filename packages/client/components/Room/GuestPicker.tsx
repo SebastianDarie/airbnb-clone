@@ -1,6 +1,6 @@
 import { Return } from 'react-cool-onclickoutside';
 import menuStyles from '../../sass/components/GuestsMenu.module.scss';
-import { MinusSvg, PlusSvg } from '@airbnb-clone/controller';
+import { MinusSvg, PlusSvg } from '@second-gear/controller';
 import ReservationStore from '../../stores/useReservationStore';
 import shallow from 'zustand/shallow';
 

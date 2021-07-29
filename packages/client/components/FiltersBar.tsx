@@ -1,4 +1,4 @@
-import { FiltersSvg } from '@airbnb-clone/controller';
+import { FiltersSvg } from '@second-gear/controller';
 import FiltersStore, { FilterKey } from '../stores/useFiltersStore';
 import { AmenityOption } from './AmenityOption';
 import styles from '../sass/components/FiltersBar.module.scss';

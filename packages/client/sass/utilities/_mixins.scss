@@ -1,18 +1,5 @@
 @use 'sass:math';
 
-@mixin media($name) {
-  @if map-has-key($breakpoints, $name) {
-    $value: map-get($breakpoints, $name);
-    $query: if(type-of($value) == 'string', $value, inspect($value));
-    @media #{$query} {
-      @content;
-    }
-  } @else {
-    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-          + "Please make sure it is defined in `$breakpoints` map.";
-  }
-}
-
 @mixin fade-mixin {
   @keyframes fade-in {
     0% {

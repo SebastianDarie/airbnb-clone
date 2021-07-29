@@ -1,4 +1,4 @@
-import { ConfirmEmailMutation } from '@airbnb-clone/controller';
+import { ConfirmEmailMutation } from '@second-gear/controller';
 import { useRouter } from 'next/router';
 
 interface ConfirmEmailViewProps {

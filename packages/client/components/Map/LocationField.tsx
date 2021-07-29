@@ -1,4 +1,4 @@
-import { MarkerSvg } from '@airbnb-clone/controller';
+import { MarkerSvg } from '@second-gear/controller';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import {
   Combobox,

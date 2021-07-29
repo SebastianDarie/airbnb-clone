@@ -1,4 +1,4 @@
-import { Exact, ListingQuery, useListingQuery } from '@airbnb-clone/controller';
+import { Exact, ListingQuery, useListingQuery } from '@second-gear/controller';
 import { QueryResult } from '@apollo/client';
 import { useRouter } from 'next/router';
 

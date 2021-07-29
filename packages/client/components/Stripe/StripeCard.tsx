@@ -5,7 +5,7 @@ import {
   useCreateHeaderMutation,
   useCreateMessageMutation,
   useCreateReservationMutation,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
 import React, {

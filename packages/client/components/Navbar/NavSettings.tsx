@@ -4,7 +4,7 @@ import {
   HamburgerSvg,
   MeQuery,
   WithLogoutProps,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import { useApolloClient } from '@apollo/client';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
@@ -125,7 +125,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                       <MenuLink href='/login' light={false}>
                         Log in
                       </MenuLink>
-                      <MenuLink href='/signup' light>
+                      <MenuLink href='/register' light>
                         Sign up
                       </MenuLink>
                     </>

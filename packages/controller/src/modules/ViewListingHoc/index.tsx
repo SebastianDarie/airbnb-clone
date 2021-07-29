@@ -10,12 +10,14 @@ export interface WithListingProps {
 
 export function withListing<ComponentProps>(
   WrappedComponent: React.ComponentType<ComponentProps & WithListingProps>,
-  id: string
+  id: string,
+  noreviews: boolean,
+  slim: boolean
 ) {
   return (props: ComponentProps) => {
     const { data, error, loading } = useListingQuery({
       notifyOnNetworkStatusChange: true,
-      variables: { id },
+      variables: { id, noreviews, slim },
     });
 
     return (

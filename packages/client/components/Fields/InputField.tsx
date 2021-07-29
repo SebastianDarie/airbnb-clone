@@ -1,4 +1,4 @@
-import { DeepPartial } from '@airbnb-clone/controller';
+import { DeepPartial } from '@second-gear/controller';
 import { ErrorMessage } from '@hookform/error-message';
 import {
   DetailedHTMLProps,

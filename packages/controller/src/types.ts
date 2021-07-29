@@ -165,7 +165,7 @@ export type HeaderResult = {
       __typename?: 'Message' | undefined;
     } & Pick<
         Message,
-        'id' | 'createdAt' | 'isFromSender' | 'text' | 'read' | 'headerId'
+        'id' | 'createdAt' | 'isFromSender' | 'text' | 'headerId'
       > & {
         creator: {
           __typename?: 'User' | undefined;

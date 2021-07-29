@@ -8,5 +8,6 @@ fragment RegularMessage on Message {
     id
     name
     photoUrl
+    createdAt
   }
 }

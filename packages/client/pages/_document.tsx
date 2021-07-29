@@ -6,7 +6,6 @@ export default class Document extends NextDocument {
       <Html lang='en'>
         <Head>
           <meta charSet='utf-8' />
-          <meta name='viewport' content='width=device-width, initial-scale=1' />
           <meta
             name='description'
             content='Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.'

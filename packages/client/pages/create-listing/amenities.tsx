@@ -9,20 +9,9 @@ import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
 
 const Amenities: React.FC<{}> = ({}) => {
-  // const poolSvg = useRef<HTMLObjectElement | null>(null);
   const amenities = ListingStore.useListingStore((state) => state.amenities);
   const updateAmenities = ListingStore.updateAmenities;
-  //console.log(amenities, amenities.includes('pool'));
-  // const pooldefs =
-  //   poolSvg.current?.contentDocument?.childNodes[0].childNodes[3];
-  // console.log(pooldefs);
-  // if (pooldefs) {
-  //   for (let i = 0; i < pooldefs?.childNodes?.length; i++) {
-  //     let animate = pooldefs.childNodes[i];
-  //     animate.addEventListener('onClick', () => animate.beginElement());
-  //     console.log(pooldefs.childNodes[i]);
-  //   }
-  // }
+
   return (
     <CreateListingLayout>
       <div className={styles.amenities__container}>
@@ -43,7 +32,6 @@ const Amenities: React.FC<{}> = ({}) => {
                 style={{ animationDelay: `calc(${i} * 40ms + 400ms)` }}
               >
                 <div className={styles.svg__container}>
-                  {/* <Image src={amenity.path} height={52} width={52} /> */}
                   <object
                     data={amenity.path}
                     height={52}
@@ -74,7 +62,6 @@ const Amenities: React.FC<{}> = ({}) => {
                 style={{ animationDelay: `calc(${i} * 40ms + 400ms)` }}
               >
                 <div className={styles.svg__container}>
-                  {/* <Image src={favorite.path} height={52} width={52} /> */}
                   <object
                     data={favorite.path}
                     height={52}
@@ -105,7 +92,6 @@ const Amenities: React.FC<{}> = ({}) => {
                 style={{ animationDelay: `calc(${i} * 40ms + 400ms)` }}
               >
                 <div className={styles.svg__container}>
-                  {/* <Image src={item.path} height={52} width={52} /> */}
                   <object
                     data={item.path}
                     height={52}

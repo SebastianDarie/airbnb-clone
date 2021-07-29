@@ -36,14 +36,6 @@ export class HeaderResolver {
     return userLoader.load(header.creatorId);
   }
 
-  // @FieldResolver(() => Message)
-  // messages(
-  //   @Root() header: Header,
-  //   @Ctx() { messageLoader }: MyContext
-  // ): Promise<Message> {
-  //   return messageLoader.load(header.id);
-  // }
-
   @Query(() => [Header])
   async headers(@Ctx() { req }: MyContext): Promise<Header[]> {
     return getConnection()
@@ -57,21 +49,6 @@ export class HeaderResolver {
       .orderBy('h."createdAt"', 'DESC')
       .cache(true)
       .getMany();
-  }
-
-  @Query(() => [Header])
-  async headersListing(@Arg('listingId') listingId: string): Promise<Header[]> {
-    // return getConnection()
-    //   .getRepository(Header)
-    //   .createQueryBuilder('h')
-    //   .select('*')
-    //   .where(`h."listingId" = :listingId`, { listingId })
-    //   .addSelect('m.id')
-    //   .leftJoin('h.messages', 'm', 'm."listingId" = h.id')
-    //   .orderBy('h."createdAt"', 'DESC')
-    //   .getRawMany();
-
-    return Header.find({ relations: ['messages'], where: { listingId } });
   }
 
   @Query(() => Header || undefined)

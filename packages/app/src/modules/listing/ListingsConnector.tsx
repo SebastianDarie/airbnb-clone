@@ -1,4 +1,4 @@
-import {SearchListings, WithListingsProps} from '@airbnb-clone/controller';
+import {SearchListings, WithListingsProps} from '@second-gear/controller';
 import Slider from '@react-native-community/slider';
 import React, {useState} from 'react';
 import {View} from 'react-native';

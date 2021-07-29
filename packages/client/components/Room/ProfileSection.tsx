@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ProtectSvg, User } from '@airbnb-clone/controller';
+import { ProtectSvg, User } from '@second-gear/controller';
 import profileStyles from './ProfileSection.module.scss';
 
 interface ProfileSectionProps {

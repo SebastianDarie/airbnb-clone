@@ -1,4 +1,4 @@
-import { RegisterController } from '@airbnb-clone/controller';
+import { RegisterController } from '@second-gear/controller';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { RegisterView } from '../modules/views/RegisterView';

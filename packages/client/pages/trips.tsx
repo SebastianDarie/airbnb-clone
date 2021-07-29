@@ -7,7 +7,7 @@ import {
   useListingQuery,
   useRefundReservationMutation,
   useReservationsQuery,
-} from '@airbnb-clone/controller';
+} from '@second-gear/controller';
 import Link from 'next/link';
 import { NextRouter, useRouter } from 'next/router';
 import { useState } from 'react';

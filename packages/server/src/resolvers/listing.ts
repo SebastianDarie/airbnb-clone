@@ -5,7 +5,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  Float,
   Int,
   Mutation,
   ObjectType,
@@ -113,21 +112,6 @@ export class ListingResolver {
       listings: listings.slice(0, realLimit),
       hasMore: listings.length === realLimitPlusOne,
     };
-  }
-
-  @Query(() => String)
-  async findCity(
-    @Arg('lat', () => Float) lat: number,
-    @Arg('lng', () => Float) lng: number
-  ): Promise<string> {
-    const res = await getConnection().query(
-      `
-      select * as data from reverse_geocode(ST_SetSRID(ST_Point(${lng}, ${lat}), 4326)) as r
-    `,
-      [lng, lat]
-    );
-
-    return res;
   }
 
   @Mutation(() => [String])

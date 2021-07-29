@@ -1,4 +1,4 @@
-import { SearchListingResult } from '@airbnb-clone/controller';
+import { SearchListingResult } from '@second-gear/controller';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import styles from '../../sass/components/ListingCard.module.scss';

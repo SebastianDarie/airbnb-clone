@@ -10,7 +10,6 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@airbnb-clone/controller": "1.0.0",
     "@apollo/client": "^3.3.15",
     "@hookform/error-message": "^2.0.0",
     "@react-native-async-storage/async-storage": "^1.15.4",
@@ -19,6 +18,7 @@
     "@react-navigation/bottom-tabs": "next",
     "@react-navigation/native": "next",
     "@react-navigation/stack": "next",
+    "@second-gear/controller": "^1.2.1",
     "graphql": "^15.5.0",
     "react": "^17.0.2",
     "react-hook-form": "^7.3.0",

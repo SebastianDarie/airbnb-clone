@@ -8,8 +8,6 @@ import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-ur
 
 import { GoogleMapsProvider } from '../utils/GoogleMapsProvider';
 
-import 'leaflet/dist/leaflet.css';
-import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 import '../sass/base/base.scss';
 
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;

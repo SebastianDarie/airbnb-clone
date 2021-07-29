@@ -1,4 +1,4 @@
-import {RegisterController} from '@airbnb-clone/controller';
+import {RegisterController} from '@second-gear/controller';
 import React from 'react';
 import {Button} from 'react-native-paper';
 import {AuthNavProps} from '../../navigation/stacks/auth/AuthParamList';

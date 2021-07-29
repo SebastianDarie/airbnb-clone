@@ -1,8 +1,7 @@
-import { ApolloError } from '@apollo/client';
+import { ApolloError, FetchResult } from '@apollo/client';
 import React from 'react';
 import {
-  HeadersDocument,
-  HeadersQuery,
+  CreateMessageMutation,
   useCreateMessageMutation,
 } from '../../generated/graphql';
 import { MessageFormProps } from '../../types';
@@ -11,17 +10,25 @@ interface CreateMessageControllerProps {
   children: (data: {
     error?: ApolloError | undefined;
     loading?: boolean;
-    submit: (values: MessageFormProps, currHeader: any) => Promise<boolean>;
+    submit: (
+      values: MessageFormProps
+    ) => Promise<
+      FetchResult<
+        CreateMessageMutation,
+        Record<string, any>,
+        Record<string, any>
+      >
+    >;
   }) => (JSX.Element & React.ReactNode) | null;
 }
 
 export const CreateMessageController: React.FC<CreateMessageControllerProps> = ({
   children,
 }) => {
-  const [createMessage, { data }] = useCreateMessageMutation();
+  const [createMessage] = useCreateMessageMutation();
 
-  const submit = async (values: MessageFormProps, currHeader: any) => {
-    await createMessage({
+  const submit = (values: MessageFormProps) => {
+    return createMessage({
       variables: {
         input: {
           ...values,
@@ -32,43 +39,19 @@ export const CreateMessageController: React.FC<CreateMessageControllerProps> = (
           __typename: 'Message',
           createdAt: new Date().toUTCString(),
           creator: {
+            id: 'temp-id',
             __typename: 'User',
-            name: 'Test User',
+            name: 'User',
             photoUrl: 'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3',
+            createdAt: Math.floor(new Date().getTime() / 1000).toString(),
           },
           headerId: values.headerId,
-          id: 'cjsdcsbvhfbsjhbsj',
+          id: 'temp-id',
           isFromSender: values.isFromSender,
-          read: 0,
           text: values.text,
         },
       },
-      // update: (cache) => {
-      //   const newMessage = data?.createMessage;
-      //   const currHeaders = cache.readQuery<HeadersQuery>({
-      //     query: HeadersDocument,
-      //   });
-      //   const newHeaders = currHeaders?.headers.map((h) => {
-      //     if (h.id === newMessage?.headerId) {
-      //       Object.assign(
-      //         [...(currHeader?.[0].messages || []), newMessage!],
-      //         h.messages
-      //       );
-      //     }
-      //   });
-
-      //   cache.writeQuery({
-      //     query: HeadersDocument,
-      //     data: {
-      //       headers: {
-      //         ...newHeaders,
-      //       },
-      //     },
-      //   });
-      // },
     });
-
-    return true;
   };
 
   return <>{children({ submit })}</>;
