@@ -1,5 +1,0 @@
-query Messages($headerId: String!) {
-  messages(headerId: $headerId) {
-    ...RegularMessage
-  }
-}

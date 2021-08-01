@@ -2,20 +2,24 @@ import {
   CancelReservationMutationFn,
   RefundReservationMutationFn,
   TripReservation,
-  TripsSvg,
   useCancelReservationMutation,
   useListingQuery,
   useRefundReservationMutation,
   useReservationsQuery,
 } from '@second-gear/controller';
-import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { NextRouter, useRouter } from 'next/router';
 import { useState } from 'react';
 import { DotLoader } from '../components/DotLoader';
-import Layout from '../components/Layout';
 import roomStyles from '../sass/pages/Room.module.scss';
 import styles from '../sass/pages/Trips.module.scss';
 import { withApollo } from '../utils/withApollo';
+
+const Layout = dynamic(() => import('../components/Layout'));
+const Link = dynamic(() => import('next/link'));
+const TripsSvg = dynamic<{}>(() =>
+  import('@second-gear/controller').then((mod) => mod.TripsSvg)
+);
 
 interface TripsProps {}
 

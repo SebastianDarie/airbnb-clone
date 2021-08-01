@@ -1,12 +1,4 @@
-interface HighlightProps {
-  delay: string;
-  styles: {
-    readonly [key: string]: string;
-  };
-  svg: JSX.Element;
-  text: string;
-  highlights: string[];
-}
+import { HighlightProps } from '../types';
 
 export const Highlight: React.FC<HighlightProps> = ({
   delay,

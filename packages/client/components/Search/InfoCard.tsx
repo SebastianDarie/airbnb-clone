@@ -1,17 +1,7 @@
-import { ReviewSvg, SearchListingsQuery } from '@second-gear/controller';
-import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { InfoWindow } from '@react-google-maps/api';
-import { SetStateAction } from 'react';
+import { ReviewSvg } from '@second-gear/controller';
+import { InfoCardProps } from '../../types';
 import { ImageCard } from './ImageCard';
-
-interface InfoCardProps {
-  data: SearchListingsQuery | undefined;
-  selected: MarkerWithLabel;
-  styles: {
-    readonly [key: string]: string;
-  };
-  setSelected: (value: SetStateAction<MarkerWithLabel | null>) => void;
-}
 
 export const InfoCard: React.FC<InfoCardProps> = ({
   data,

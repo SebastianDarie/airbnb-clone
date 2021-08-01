@@ -1,14 +1,7 @@
-import { Reviews, ReviewSvg } from '@second-gear/controller';
+import { ReviewSvg } from '@second-gear/controller';
 import Link from 'next/link';
+import { ReviewsSectionProps } from '../../types';
 import reviewStyles from './ReviewsSection.module.scss';
-
-interface ReviewsSectionProps {
-  avg: number;
-  reviews: Reviews;
-  styles: {
-    readonly [key: string]: string;
-  };
-}
 
 const calcAvg = (value: number, reviewsLength: number): string => {
   return (value / reviewsLength).toFixed(1);

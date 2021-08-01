@@ -1,3 +1,0 @@
-mutation refundReservation($paymentIntent: String!) {
-  refundReservation(paymentIntent: $paymentIntent)
-}

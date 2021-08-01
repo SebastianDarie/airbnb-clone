@@ -1,8 +1,19 @@
-import { MinusSvg, PlusSvg } from '@second-gear/controller';
-import { CreateListingLayout } from '../../components/CreateListingLayout';
+import dynamic from 'next/dynamic';
 import styles from '../../sass/components/PriceControl.module.scss';
 import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
+
+const CreateListingLayout = dynamic<{}>(() =>
+  import('../../components/CreateListingLayout').then(
+    (mod) => mod.CreateListingLayout
+  )
+);
+const MinusSvg = dynamic<{}>(() =>
+  import('@second-gear/controller').then((mod) => mod.MinusSvg)
+);
+const PlusSvg = dynamic<{}>(() =>
+  import('@second-gear/controller').then((mod) => mod.PlusSvg)
+);
 
 interface PriceProps {}
 

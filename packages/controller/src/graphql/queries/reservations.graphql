@@ -1,7 +1,0 @@
-query Reservations {
-  reservations {
-    completed
-    paymentIntent
-    ...RegReservation
-  }
-}

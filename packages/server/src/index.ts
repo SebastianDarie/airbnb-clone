@@ -12,13 +12,7 @@ import Redis from 'ioredis';
 import RateLimitRedisStore from 'rate-limit-redis';
 import { buildSchema } from 'type-graphql';
 import { getConnection } from 'typeorm';
-import {
-  COOKIE_NAME,
-  REDIS_CACHE_PREFIX,
-  REDIS_SESSION_PREFIX,
-  __prod__,
-} from './constants';
-import { Listing } from './entity/Listing';
+import { COOKIE_NAME, REDIS_SESSION_PREFIX, __prod__ } from './constants';
 import { createUserLoader } from './loaders/createUserLoader';
 import { HeaderResolver } from './resolvers/header';
 import { ListingResolver } from './resolvers/listing';
@@ -32,7 +26,7 @@ import { ApolloServerLoaderPlugin } from 'type-graphql-dataloader';
 const main = async () => {
   const conn = await createTypeormConn();
 
-  //  await conn.runMigrations();
+  // await conn.runMigrations();
 
   const app = express();
 
@@ -116,14 +110,6 @@ const main = async () => {
     cors: false,
   });
   apolloServer.installSubscriptionHandlers(server);
-
-  await redis.del(REDIS_CACHE_PREFIX);
-
-  const listings = await Listing.find({});
-  const listingStrings = listings.map((listing) => JSON.stringify(listing));
-  if (listingStrings.length > 0) {
-    await redis.lpush(REDIS_CACHE_PREFIX, ...listingStrings);
-  }
 
   const port = process.env.PORT || 8080;
   server.listen(port, async () => {

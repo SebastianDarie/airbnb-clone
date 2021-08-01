@@ -1,14 +1,14 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { forgotPasswordSchema } from '@second-gear/common';
 import { ForgotPasswordProps } from '@second-gear/controller';
-import { yupResolver } from '@hookform/resolvers/yup';
+import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
-import { InputField } from '../../components/Fields/InputField';
 import styles from '../../sass/layout/Form.module.scss';
+import { ForgotPasswordViewProps, InputFieldProps } from '../../types';
 
-interface ForgotPasswordViewProps {
-  loading?: boolean;
-  submit: (values: ForgotPasswordProps) => Promise<boolean>;
-}
+const InputField = dynamic<InputFieldProps>(() =>
+  import('../../components/Fields/InputField').then((mod) => mod.InputField)
+);
 
 export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({
   submit,
@@ -20,28 +20,32 @@ export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({
   } = useForm<ForgotPasswordProps>({
     defaultValues: { email: '' },
     mode: 'onBlur',
-    resolver: yupResolver(forgotPasswordSchema),
+    resolver: yupResolver(forgotPasswordSchema as any),
   });
 
   return (
-    <form
-      name='forgot-password'
-      onSubmit={handleSubmit((data) => submit(data))}
-    >
-      <InputField
-        control={control}
-        errors={errors}
-        label='E-mail'
-        name='email'
-        placeholder=' '
-      />
+    <div className={styles.center}>
+      <form
+        name='forgot-password'
+        onSubmit={handleSubmit((data) => submit(data))}
+      >
+        <InputField
+          control={control}
+          errors={errors}
+          label='E-mail'
+          name='email'
+          placeholder=' '
+          type='email'
+        />
 
-      <input
-        type='submit'
-        value='Register'
-        className={styles.submit}
-        disabled={!isDirty || isSubmitting || !isValid}
-      />
-    </form>
+        <input
+          type='submit'
+          value='Reset Password'
+          className={styles.submit}
+          disabled={!isDirty || isSubmitting || !isValid}
+        />
+        <br />
+      </form>
+    </div>
   );
 };

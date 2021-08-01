@@ -1,5 +1,6 @@
 @use '../utilities/bootstrap.scss';
 
+@include bootstrap.fade-mixin;
 @include bootstrap.opacity-mixin;
 @include bootstrap.skeleton-mixin;
 
@@ -64,7 +65,7 @@
 .invisible__link {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: 40%;
   bottom: 0px;
   right: 0px;
   border-radius: 12px;
@@ -145,6 +146,113 @@
   height: 100%;
   width: 100%;
   white-space: nowrap;
+}
+
+.image__controls__position {
+  position: absolute;
+  pointer-events: none;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.image__controls__div {
+  background: transparent;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+}
+
+.prev__btn__container {
+  position: absolute;
+  top: 50%;
+  pointer-events: auto;
+  transform: translateY(-50%);
+  left: 8px;
+  animation-duration: 0.3s;
+  animation-name: fade-in;
+  opacity: 1;
+  visibility: visible;
+}
+
+.prev__btn {
+  display: inline-flex;
+  border-radius: 50%;
+  border: 0px;
+  outline: none;
+  padding: 0px;
+  color: bootstrap.$nero;
+  background-color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  touch-action: manipulation;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 1px;
+  background-clip: padding-box;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+    0px 2px 4px rgb(0 0 0 / 18%);
+  transition: transform 0.25s ease;
+  width: 32px;
+  height: 32px;
+  z-index: 10;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.08);
+    background-color: bootstrap.$default-color;
+    color: bootstrap.$black;
+    box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+      0px 6px 16px rgb(0 0 0 / 12%);
+    transform: scale(1.04);
+  }
+}
+
+.next__btn__container {
+  position: absolute;
+  top: 50%;
+  pointer-events: auto;
+  transform: translateY(-50%);
+  right: 8px;
+  animation-duration: 0.3s;
+  animation-name: fade-in;
+  opacity: 1;
+  visibility: visible;
+}
+
+.next__btn {
+  display: inline-flex;
+  border-radius: 50%;
+  border: 0px;
+  outline: none;
+  padding: 0px;
+  color: bootstrap.$nero;
+  background-color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  touch-action: manipulation;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 1px;
+  background-clip: padding-box;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+    0px 2px 4px rgb(0 0 0 / 18%);
+  transition: transform 0.25s ease;
+  width: 32px;
+  height: 32px;
+  z-index: 10;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.08);
+    background-color: bootstrap.$default-color;
+    color: bootstrap.$black;
+    box-shadow: 0px 0px 0px 1px transparent, 0px 0px 0px 4px transparent,
+      0px 6px 16px rgb(0 0 0 / 12%);
+    transform: scale(1.04);
+  }
 }
 
 .card__content__margin {

@@ -1,17 +1,22 @@
 import {
-  ArrowLeftSvg,
   useCreateHeaderMutation,
   useCreateMessageMutation,
 } from '@second-gear/controller';
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
-import Layout from '../../components/Layout';
 import styles from '../../sass/pages/ContactHost.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
-import { autosizeTextarea } from '../../utils/autosizeTextarea';
 import { withApollo } from '../../utils/withApollo';
+
+const ArrowLeftSvg = dynamic<{
+  height: string;
+  width: string;
+  strokeWidth: string;
+}>(() => import('@second-gear/controller').then((mod) => mod.ArrowLeftSvg));
+const Image = dynamic(() => import('next/image'));
+const Layout = dynamic(() => import('../../components/Layout'));
 
 interface ContactHostProps {}
 
@@ -130,7 +135,13 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
                       className={styles.textarea}
                       autoComplete='off'
                       onChange={(e) => setMessage(e.currentTarget.value)}
-                      onKeyDown={autosizeTextarea}
+                      onKeyDown={async (e) =>
+                        (
+                          await import('../../utils/autosizeTextarea').then(
+                            (mod) => mod.autosizeTextarea
+                          )
+                        )(e)
+                      }
                       value={message}
                     ></textarea>
                   </div>

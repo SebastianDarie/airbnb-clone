@@ -4,20 +4,10 @@ import { useState } from 'react';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import shallow from 'zustand/shallow';
 import ReservationStore from '../../stores/useReservationStore';
+import { BookRoomMenuProps } from '../../types';
 import { GradientBtn } from '../GradientBtn';
 import styles from './BookRoomMenu.module.scss';
 import { GuestPicker } from './GuestPicker';
-
-interface BookRoomMenuProps {
-  id: string;
-  avg: number;
-  maxGuests: number;
-  nights: number;
-  price: number;
-  roomStyles: {
-    readonly [key: string]: string;
-  };
-}
 
 export const BookRoomMenu: React.FC<BookRoomMenuProps> = ({
   id,

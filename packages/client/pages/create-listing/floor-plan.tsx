@@ -1,8 +1,20 @@
+import dynamic from 'next/dynamic';
 import shallow from 'zustand/shallow';
-import { CreateListingLayout } from '../../components/CreateListingLayout';
-import { NumberField } from '../../components/Fields/NumberField';
 import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
+
+const CreateListingLayout = dynamic<{}>(() =>
+  import('../../components/CreateListingLayout').then(
+    (mod) => mod.CreateListingLayout
+  )
+);
+const NumberField = dynamic<{
+  label: string;
+  value: number;
+  updateFloor: (type: string, value: number) => void;
+}>(() =>
+  import('../../components/Fields/NumberField').then((mod) => mod.NumberField)
+);
 
 const FloorPlan: React.FC<{}> = ({}) => {
   const [beds, guests, bathrooms, bedrooms] = ListingStore.useListingStore(

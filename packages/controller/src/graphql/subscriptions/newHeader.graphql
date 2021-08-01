@@ -1,5 +1,0 @@
-subscription NewHeader($creatorId: String!, $toId: String!) {
-  newHeader(creatorId: $creatorId, toId: $toId) {
-    ...RegularHeaders
-  }
-}

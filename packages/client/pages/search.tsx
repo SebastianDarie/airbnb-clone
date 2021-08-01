@@ -8,15 +8,22 @@ import { GoogleMap } from '@react-google-maps/api';
 import { CSSProperties, memo, useCallback, useRef, useState } from 'react';
 import shallow from 'zustand/shallow';
 import { DotLoader } from '../components/DotLoader';
-import Layout from '../components/Layout';
-import { InfoCard } from '../components/Search/InfoCard';
 import { ListingCard } from '../components/Search/ListingCard';
-import { SearchControl } from '../components/Search/SearchControl';
 import styles from '../sass/pages/Search.module.scss';
 import SearchStore from '../stores/useSearchStore';
 import { useGoogleMaps } from '../utils/GoogleMapsProvider';
 import MarkerManager from '../utils/markerManager';
 import { withApollo } from '../utils/withApollo';
+import dynamic from 'next/dynamic';
+import { InfoCardProps, SearchControlProps } from '../types';
+
+const Layout = dynamic(() => import('../components/Layout'));
+const InfoCard = dynamic<InfoCardProps>(() =>
+  import('../components/Search/InfoCard').then((mod) => mod.InfoCard)
+);
+const SearchControl = dynamic<SearchControlProps>(() =>
+  import('../components/Search/SearchControl').then((mod) => mod.SearchControl)
+);
 
 interface SearchProps {}
 

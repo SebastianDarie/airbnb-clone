@@ -1,19 +1,15 @@
-import { changePasswordSchema } from '@second-gear/common';
-import {
-  ChangePasswordMutation,
-  ChangePasswordProps,
-} from '@second-gear/controller';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { changePasswordSchema } from '@second-gear/common';
+import { ChangePasswordProps } from '@second-gear/controller';
+import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { InputField } from '../../components/Fields/InputField';
 import styles from '../../sass/layout/Form.module.scss';
+import { ChangePasswordViewProps, InputFieldProps } from '../../types';
 
-interface ChangePasswordViewProps {
-  data?: ChangePasswordMutation | null | undefined;
-  loading?: boolean;
-  submit: (values: ChangePasswordProps) => Promise<boolean>;
-}
+const InputField = dynamic<InputFieldProps>(() =>
+  import('../../components/Fields/InputField').then((mod) => mod.InputField)
+);
 
 export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
   data,
@@ -26,7 +22,7 @@ export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
     setError,
   } = useForm<ChangePasswordProps>({
     mode: 'onBlur',
-    resolver: yupResolver(changePasswordSchema),
+    resolver: yupResolver(changePasswordSchema as any),
   });
 
   useEffect(() => {
@@ -41,25 +37,28 @@ export const ChangePasswordView: React.FC<ChangePasswordViewProps> = ({
   }, [data?.changePassword.errors]);
 
   return (
-    <form
-      className={styles.center}
-      name='change-password'
-      onSubmit={handleSubmit((data) => submit(data))}
-    >
-      <InputField
-        control={control}
-        errors={errors}
-        label='Password'
-        name='password'
-        placeholder=' '
-      />
+    <div className={styles.center}>
+      <form
+        name='change-password'
+        onSubmit={handleSubmit((data) =>
+          submit({ password: data.password, token: '' })
+        )}
+      >
+        <InputField
+          control={control}
+          errors={errors}
+          label='Password'
+          name='password'
+          placeholder=' '
+        />
 
-      <input
-        type='submit'
-        value='Change Password'
-        className={styles.submit}
-        disabled={!isDirty || isSubmitting || !isValid}
-      />
-    </form>
+        <input
+          type='submit'
+          value='Change Password'
+          className={styles.submit}
+          disabled={!isDirty || isSubmitting || !isValid}
+        />
+      </form>
+    </div>
   );
 };

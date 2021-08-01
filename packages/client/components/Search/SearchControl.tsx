@@ -1,13 +1,6 @@
 import { CheckMarkSvg } from '@second-gear/controller';
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import styles from '../../sass/components/SearchControl.module.scss';
-
-interface SearchControlProps {
-  checked: boolean;
-  loading: boolean;
-  controlRef: MutableRefObject<HTMLDivElement | null>;
-  setChecked: Dispatch<SetStateAction<boolean>>;
-}
+import { SearchControlProps } from '../../types';
 
 export const SearchControl: React.FC<SearchControlProps> = ({
   checked,

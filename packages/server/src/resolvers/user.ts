@@ -18,12 +18,9 @@ import {
   CONFIRM_EMAIL_PREFIX,
   COOKIE_NAME,
   FORGOT_PASSWORD_PREFIX,
-  USER_SESSION_ID_PREFIX,
 } from '../constants';
 import { formatYupError } from '../utils/formatYupError';
-import { forgotPasswordLockAccount } from '../utils/forgotPasswordLockAccount';
 import { sendEmail } from '../utils/sendEmail';
-import { removeAllUsersSessions } from '../utils/removeAllUsersSessions';
 import { changePasswordSchema, registerSchema } from '@second-gear/common';
 import { UserInput } from './input';
 
@@ -43,9 +40,6 @@ class UserResponse {
 
   @Field(() => User, { nullable: true })
   user?: User;
-
-  @Field(() => String, { nullable: true })
-  sessionID?: string;
 }
 
 @Resolver(User)
@@ -95,7 +89,6 @@ export class UserResolver {
           email: credentials.email,
           name: credentials.name,
           password: hashedPassword,
-          //confirmed: true,
         })
         .returning('*')
         .execute();
@@ -115,9 +108,6 @@ export class UserResolver {
     }
 
     req.session.userId = user.id;
-    if (req.sessionID) {
-      await redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, req.sessionID);
-    }
 
     if (process.env.NODE_ENV !== 'test') {
       const token = v4();
@@ -143,7 +133,7 @@ export class UserResolver {
   async login(
     @Arg('email') email: string,
     @Arg('password') password: string,
-    @Ctx() { req, redis }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
     const user = await User.findOne({ email });
     if (!user) {
@@ -192,17 +182,13 @@ export class UserResolver {
     }
 
     req.session.userId = user.id;
-    if (req.sessionID) {
-      await redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, req.sessionID);
-    }
 
-    return { user, sessionID: req.sessionID };
+    return { user };
   }
 
   @Mutation(() => Boolean)
-  logout(@Ctx() { req, res, redis }: MyContext): Promise<boolean> {
+  logout(@Ctx() { req, res }: MyContext): Promise<boolean> {
     return new Promise((resolve) => {
-      removeAllUsersSessions(req.session.userId, redis);
       req.session.destroy((err) => {
         res.clearCookie(COOKIE_NAME);
         if (err) {
@@ -260,7 +246,7 @@ export class UserResolver {
       return true;
     }
 
-    await forgotPasswordLockAccount(user.id, redis);
+    await User.update({ id: user.id }, { forgotPasswordLocked: true });
 
     const token = v4();
 

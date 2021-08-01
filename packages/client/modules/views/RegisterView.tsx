@@ -1,22 +1,11 @@
-import { InputField } from '../../components/Fields/InputField';
-import { RegisterFormProps, RegisterMutation } from '@second-gear/controller';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '@second-gear/common';
+import { RegisterFormProps } from '@second-gear/controller';
 import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { InputField } from '../../components/Fields/InputField';
 import styles from '../../sass/layout/Form.module.scss';
-import { FetchResult } from '@apollo/client';
-
-interface RegisterViewProps {
-  data?: RegisterMutation | null | undefined;
-  loading?: boolean;
-  onFinish: () => void;
-  submit: (
-    values: RegisterFormProps
-  ) => Promise<
-    FetchResult<RegisterMutation, Record<string, any>, Record<string, any>>
-  >;
-}
+import { RegisterViewProps } from '../../types';
 
 export const RegisterView: React.FC<RegisterViewProps> = ({
   data,
@@ -31,7 +20,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   } = useForm<RegisterFormProps>({
     defaultValues: { confirm: '', email: '', name: '', password: '' },
     mode: 'onBlur',
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(registerSchema as any),
   });
 
   useEffect(() => {
@@ -42,7 +31,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           message: err.message,
         })
       );
-    } else if (data?.register.user) {
+    } else if (data?.register.user && onFinish) {
       onFinish();
     }
   }, [data?.register.errors]);

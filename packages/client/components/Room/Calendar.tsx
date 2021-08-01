@@ -1,16 +1,8 @@
 import DatePicker from 'react-datepicker';
 import shallow from 'zustand/shallow';
 import ReservationStore from '../../stores/useReservationStore';
+import { CalendarProps } from '../../types';
 import { DotLoader } from '../DotLoader';
-
-interface CalendarProps {
-  city: string | undefined;
-  loading: boolean;
-  nights: number;
-  styles: {
-    readonly [key: string]: string;
-  };
-}
 
 export const Calendar: React.FC<CalendarProps> = ({
   city,

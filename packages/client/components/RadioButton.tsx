@@ -1,14 +1,5 @@
 import styles from '../sass/components/RadioButton.module.scss';
-
-interface RadioButtonProps {
-  delay: string;
-  option: string;
-  description?: string;
-  selected: boolean;
-  src?: string;
-  withImage?: boolean;
-  select: (category: string) => void;
-}
+import { RadioButtonProps } from '../types';
 
 export const RadioButton: React.FC<RadioButtonProps> = ({
   delay,
@@ -17,7 +8,6 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
   selected,
   src,
   withImage = true,
-  select,
 }) => {
   let content = withImage ? (
     <>
@@ -46,7 +36,17 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
     >
       <button
         className={selected ? styles.btn__radio__checked : styles.btn__radio}
-        onClick={() => select(option)}
+        onClick={async () => {
+          if (withImage) {
+            (await import('../stores/useListingStore')).default.selectCategory(
+              option
+            );
+          } else {
+            (await import('../stores/useListingStore')).default.selectType(
+              option
+            );
+          }
+        }}
       >
         {content}
       </button>

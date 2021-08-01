@@ -13,7 +13,6 @@ import {
 } from '@second-gear/controller';
 import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { autosizeTextarea } from '../../utils/autosizeTextarea';
 import { DotLoader } from '../DotLoader';
 
 interface ConversationPanelProps {
@@ -31,8 +30,7 @@ interface ConversationPanelProps {
 
   setDetails: Dispatch<SetStateAction<boolean>>;
   submit: (
-    values: MessageFormProps,
-    currHeader: any
+    values: MessageFormProps
   ) => Promise<
     FetchResult<CreateMessageMutation, Record<string, any>, Record<string, any>>
   >;
@@ -287,7 +285,13 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                           <textarea
                             className={styles.message__input}
                             onChange={(e) => setMessage(e.currentTarget.value)}
-                            onKeyDown={autosizeTextarea}
+                            onKeyDown={async (e) =>
+                              (
+                                await import(
+                                  '../../utils/autosizeTextarea'
+                                ).then((mod) => mod.autosizeTextarea)
+                              )(e)
+                            }
                             placeholder='Type a message'
                             value={message}
                           ></textarea>
@@ -298,17 +302,14 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                             <button
                               className={styles.send__btn}
                               onClick={() =>
-                                submit(
-                                  {
-                                    text: message,
-                                    headerId: currHeader ? currHeader.id : '',
-                                    isFromSender:
-                                      currHeader?.creator.id === meData?.me?.id
-                                        ? 1
-                                        : 0,
-                                  },
-                                  currHeader
-                                )
+                                submit({
+                                  text: message,
+                                  headerId: currHeader ? currHeader.id : '',
+                                  isFromSender:
+                                    currHeader?.creator.id === meData?.me?.id
+                                      ? 1
+                                      : 0,
+                                })
                               }
                             >
                               <span className={styles.svg__relative}>

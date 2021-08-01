@@ -4,15 +4,7 @@ import Dropzone from 'react-dropzone';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
 import ListingStore from '../../stores/useListingStore';
 import { EditSvg, ImageSvg, TrashSvg } from '@second-gear/controller';
-
-interface DraggablePhotoProps {
-  id: string;
-  cover: boolean;
-  delay: string;
-  src: string;
-  findImage: (id: string) => { index: number };
-  moveImage: (id: string, to: number) => void;
-}
+import { DraggablePhotoProps } from '../../types';
 
 interface Image {
   id: string;

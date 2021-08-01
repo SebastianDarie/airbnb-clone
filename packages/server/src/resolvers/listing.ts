@@ -14,7 +14,6 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 import { getConnection, SelectQueryBuilder } from 'typeorm';
-import { REDIS_CACHE_PREFIX } from '../constants';
 import { Listing } from '../entity/Listing';
 import { User } from '../entity/User';
 import { isAuth } from '../middleware/isAuth';
@@ -46,7 +45,7 @@ export class ListingResolver {
 
   @Query(() => Listing, { nullable: true })
   async listing(@Arg('id') id: string): Promise<Listing | undefined> {
-    return Listing.findOne(id);
+    return Listing.findOne(id, { cache: 60000 });
   }
 
   @Query(() => PaginatedListings)
@@ -150,9 +149,9 @@ export class ListingResolver {
   @UseMiddleware(isAuth)
   async createListing(
     @Arg('input') input: ListingInput,
-    @Ctx() { req, redis }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<boolean> {
-    const listing = await Listing.create({
+    await Listing.create({
       ...input,
       creatorId: req.session.userId,
       location: {
@@ -160,8 +159,6 @@ export class ListingResolver {
         coordinates: [input.longitude, input.latitude],
       },
     }).save();
-
-    redis.lpush(REDIS_CACHE_PREFIX, JSON.stringify(listing));
 
     return true;
   }
@@ -171,7 +168,7 @@ export class ListingResolver {
   async updateListing(
     @Arg('id') id: string,
     @Arg('input') input: UpdateListing,
-    @Ctx() { req, redis }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<Listing | null> {
     const result = await getConnection()
       .createQueryBuilder()
@@ -183,10 +180,6 @@ export class ListingResolver {
       })
       .returning('*')
       .execute();
-
-    const listings = await redis.lrange(REDIS_CACHE_PREFIX, 0, -1);
-    const idx = listings.findIndex((listing) => JSON.parse(listing).id === id);
-    await redis.lset(REDIS_CACHE_PREFIX, idx, JSON.stringify(result.raw[0]));
 
     return result.raw[0];
   }

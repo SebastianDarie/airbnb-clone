@@ -1,4 +1,4 @@
-import { CreateListingLayout } from '../../components/CreateListingLayout';
+import dynamic from 'next/dynamic';
 import {
   guestFavorites,
   safetyItems,
@@ -7,6 +7,12 @@ import {
 import styles from '../../sass/pages/Amenities.module.scss';
 import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
+
+const CreateListingLayout = dynamic<{}>(() =>
+  import('../../components/CreateListingLayout').then(
+    (mod) => mod.CreateListingLayout
+  )
+);
 
 const Amenities: React.FC<{}> = ({}) => {
   const amenities = ListingStore.useListingStore((state) => state.amenities);

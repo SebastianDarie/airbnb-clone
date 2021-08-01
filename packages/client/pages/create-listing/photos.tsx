@@ -1,13 +1,33 @@
 import { memo, useCallback, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import update from 'immutability-helper';
-import { CreateListingLayout } from '../../components/CreateListingLayout';
 import ListingStore from '../../stores/useListingStore';
 import styles from '../../sass/components/PhotoDropzone.module.scss';
-import { DraggablePhoto } from '../../components/Fields/DraggablePhoto';
-import { DropzoneField } from '../../components/Fields/DropzoneField';
-import { UploadSvg } from '@second-gear/controller';
 import { withApollo } from '../../utils/withApollo';
+import dynamic from 'next/dynamic';
+import { DraggablePhotoProps } from '../../types';
+import { Photo } from '@second-gear/common';
+
+const CreateListingLayout = dynamic<{ disabled?: boolean }>(() =>
+  import('../../components/CreateListingLayout').then(
+    (mod) => mod.CreateListingLayout
+  )
+);
+const DraggablePhoto = dynamic<DraggablePhotoProps>(() =>
+  import('../../components/Fields/DraggablePhoto').then(
+    (mod) => mod.DraggablePhoto
+  )
+);
+const DropzoneField = dynamic<{
+  addPhoto: (file: File, photo: Photo) => void;
+}>(() =>
+  import('../../components/Fields/DropzoneField').then(
+    (mod) => mod.DropzoneField
+  )
+);
+const UploadSvg = dynamic<{}>(() =>
+  import('@second-gear/controller').then((mod) => mod.UploadSvg)
+);
 
 interface PhotosProps {}
 

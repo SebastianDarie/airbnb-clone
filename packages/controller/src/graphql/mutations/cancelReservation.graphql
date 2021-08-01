@@ -1,3 +1,0 @@
-mutation cancelReservation($id: String!) {
-  cancelReservation(id: $id)
-}

@@ -1,17 +1,26 @@
 import {
-  CreateMessageController,
+  ControllerProps,
+  CreateMessageMutation,
+  MessageFormProps,
   useHeadersQuery,
 } from '@second-gear/controller';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { DotLoader } from '../../../components/DotLoader';
 import { ConversationDetails } from '../../../components/Inbox/ConversationDetails';
 import { ConversationList } from '../../../components/Inbox/ConversationList';
 import { ConversationPanel } from '../../../components/Inbox/ConversationPanel';
-import Layout from '../../../components/Layout';
 import styles from '../../../sass/pages/Header.module.scss';
 import roomStyles from '../../../sass/pages/Room.module.scss';
 import { withApollo } from '../../../utils/withApollo';
+
+const Layout = dynamic(() => import('../../../components/Layout'));
+const CreateMessageController = dynamic<
+  ControllerProps<CreateMessageMutation, MessageFormProps>
+>(() =>
+  import('@second-gear/controller').then((mod) => mod.CreateMessageController)
+);
 
 interface HeaderProps {}
 

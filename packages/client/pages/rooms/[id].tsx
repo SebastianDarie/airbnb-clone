@@ -12,14 +12,8 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 import shallow from 'zustand/shallow';
 import { FloorPlanDetails } from '../../components/FloorPlanDetails';
-import Layout from '../../components/Layout';
-import { BookRoomMenu } from '../../components/Room/BookRoomMenu';
-import { Calendar } from '../../components/Room/Calendar';
 import { Header } from '../../components/Room/Header';
-import { Highlights } from '../../components/Room/Highlights';
 import { ImageGallery } from '../../components/Room/ImageGallery';
-import { ProfileSection } from '../../components/Room/ProfileSection';
-import { ReviewsSection } from '../../components/Room/ReviewsSection';
 import { RoomSkeleton } from '../../components/RoomSkeleton';
 import { dynamicSvgs } from '../../constants/dynamicSvgs';
 import styles from '../../sass/pages/Room.module.scss';
@@ -27,6 +21,34 @@ import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
 import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
 import { withApollo } from '../../utils/withApollo';
+import dynamic from 'next/dynamic';
+import {
+  BookRoomMenuProps,
+  CalendarProps,
+  ProfileSectionProps,
+  ReviewsSectionProps,
+} from '../../types';
+
+const Layout = dynamic(() => import('../../components/Layout'));
+const BookRoomMenu = dynamic<BookRoomMenuProps>(() =>
+  import('../../components/Room/BookRoomMenu').then((mod) => mod.BookRoomMenu)
+);
+const Calendar = dynamic<CalendarProps>(() =>
+  import('../../components/Room/Calendar').then((mod) => mod.Calendar)
+);
+const Highlights = dynamic<{ type: string }>(() =>
+  import('../../components/Room/Highlights').then((mod) => mod.Highlights)
+);
+const ProfileSection = dynamic<ProfileSectionProps>(() =>
+  import('../../components/Room/ProfileSection').then(
+    (mod) => mod.ProfileSection
+  )
+);
+const ReviewsSection = dynamic<ReviewsSectionProps>(() =>
+  import('../../components/Room/ReviewsSection').then(
+    (mod) => mod.ReviewsSection
+  )
+);
 
 const mapContainerStyle: CSSProperties = {
   height: '100%',

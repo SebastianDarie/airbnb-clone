@@ -1,5 +1,0 @@
-subscription NewMessage($headerId: String!) {
-  newMessage(headerId: $headerId) {
-    ...RegularMessage
-  }
-}

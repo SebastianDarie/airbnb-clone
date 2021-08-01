@@ -1,9 +1,0 @@
-mutation CreateReview($input: ReviewInput!) {
-  createReview(input: $input) {
-    id
-    rating
-    review
-    listingId
-    creatorId
-  }
-}

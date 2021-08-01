@@ -1,37 +1,22 @@
-const fs = require('fs');
-const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+const withTM = require('next-transpile-modules')([
+  '@second-gear/common',
+  '@second-gear/controller',
+]);
 
-module.exports = (phase, { defaultConfig }) => {
-  if (phase === PHASE_DEVELOPMENT_SERVER) {
-    return {
-      ...defaultConfig,
-      env: {
-        stripe: 'pk_test_dZb4PNLF72WK9NZenscqBEB1008RXx0tOT',
-      },
-      future: {
-        webpack5: true,
-      },
-      images: {
-        domains: [
-          'res.cloudinary.com',
-          'dummyimage.com',
-          'a0.muscache.com',
-          'd9r6g0xftldzw.cloudfront.net',
-        ],
-      },
-    };
-  }
-
-  return {
-    ...defaultConfig,
+module.exports = withBundleAnalyzer(
+  withTM({
     env: {
       stripe: 'pk_test_dZb4PNLF72WK9NZenscqBEB1008RXx0tOT',
     },
-    future: {
-      webpack5: true,
-    },
     images: {
-      domains: ['a0.muscache.com', 'd9r6g0xftldzw.cloudfront.net'],
+      domains: [
+        'a0.muscache.com',
+        'dummyimage.com',
+        'd9r6g0xftldzw.cloudfront.net',
+      ],
     },
-  };
-};
+  })
+);

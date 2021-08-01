@@ -1,31 +1,21 @@
 import {
-  CreatePaymentIntentMutation,
-  ErrorSvg,
-  ListingResult,
   useCreateHeaderMutation,
   useCreateMessageMutation,
   useCreateReservationMutation,
 } from '@second-gear/controller';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js';
-import React, {
-  BaseSyntheticEvent,
-  Dispatch,
-  SetStateAction,
-  useState,
-} from 'react';
-import { GradientBtn } from '../GradientBtn';
+import dynamic from 'next/dynamic';
+import React, { BaseSyntheticEvent, useState } from 'react';
+import { StripeCardProps } from '../../types';
 import styles from './Stripe.module.scss';
 
-interface StripeCardProps {
-  clientSecret: CreatePaymentIntentMutation | null | undefined;
-  dates: [Date, Date];
-  guests: number;
-  listing: ListingResult | undefined;
-  message: string;
-  succeeded: boolean;
-  setSucceeded: Dispatch<SetStateAction<boolean>>;
-}
+const ErrorSvg = dynamic<{}>(() =>
+  import('@second-gear/controller').then((mod) => mod.ErrorSvg)
+);
+const GradientBtn = dynamic<any>(() =>
+  import('../GradientBtn').then((mod) => mod.GradientBtn)
+);
 
 const CARD_OPTIONS = {
   hidePostalCode: true,

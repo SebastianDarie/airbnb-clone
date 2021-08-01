@@ -1,8 +1,17 @@
-import { CreateListingLayout } from '../../components/CreateListingLayout';
-import { RadioButton } from '../../components/RadioButton';
+import dynamic from 'next/dynamic';
 import styles from '../../sass/pages/CreateListing.module.scss';
 import ListingStore from '../../stores/useListingStore';
+import { RadioButtonProps } from '../../types';
 import { withApollo } from '../../utils/withApollo';
+
+const CreateListingLayout = dynamic<{}>(() =>
+  import('../../components/CreateListingLayout').then(
+    (mod) => mod.CreateListingLayout
+  )
+);
+const RadioButton = dynamic<RadioButtonProps>(() =>
+  import('../../components/RadioButton').then((mod) => mod.RadioButton)
+);
 
 interface PropertyTypeProps {}
 
@@ -41,7 +50,6 @@ const types = [
 
 const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
   const type = ListingStore.useListingStore((state) => state.type);
-  const selectType = ListingStore.selectType;
 
   return (
     <CreateListingLayout>
@@ -54,7 +62,6 @@ const PropertyType: React.FC<PropertyTypeProps> = ({}) => {
             description={t.description}
             selected={type === t.option}
             withImage={false}
-            select={selectType}
           />
         ))}
       </div>

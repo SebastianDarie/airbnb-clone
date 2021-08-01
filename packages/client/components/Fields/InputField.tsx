@@ -1,24 +1,7 @@
-import { DeepPartial } from '@second-gear/controller';
 import { ErrorMessage } from '@hookform/error-message';
-import {
-  DetailedHTMLProps,
-  Dispatch,
-  InputHTMLAttributes,
-  SetStateAction,
-} from 'react';
-import { Control, Controller, DeepMap, FieldError } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import styles from '../../sass/components/InputField.module.scss';
-
-type InputFieldProps = {
-  control: Control<any>;
-  errors: DeepMap<any, FieldError>;
-  label: string;
-  name: string;
-  showPassword?: boolean;
-  setShowPassword?: Dispatch<SetStateAction<boolean>>;
-} & DeepPartial<
-  DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
->;
+import { InputFieldProps } from '../../types';
 
 export const InputField: React.FC<InputFieldProps> = ({
   control,

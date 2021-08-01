@@ -1,18 +1,34 @@
-//import { ChangePasswordController } from '@second-gear/controller';
-import Layout from '../../components/Layout';
-import { ChangePasswordView } from '../../modules/views/ChangePasswordView';
+import {
+  ChangePasswordForm,
+  ChangePasswordMutation,
+  ControllerProps,
+} from '@second-gear/controller';
+import dynamic from 'next/dynamic';
+import { ChangePasswordViewProps } from '../../types';
 import { withApollo } from '../../utils/withApollo';
 
 interface ChangePasswordProps {}
 
+const Layout = dynamic(() => import('../../components/Layout'));
+const ChangePasswordController = dynamic<
+  ControllerProps<ChangePasswordMutation, ChangePasswordForm>
+>(() =>
+  import('@second-gear/controller').then((mod) => mod.ChangePasswordController)
+);
+const ChangePasswordView = dynamic<ChangePasswordViewProps>(() =>
+  import('../../modules/views/ChangePasswordView').then(
+    (mod) => mod.ChangePasswordView
+  )
+);
+
 const ChangePassword: React.FC<ChangePasswordProps> = ({}) => {
   return (
     <Layout>
-      {/* <ChangePasswordController>
-        {({ data, loading, submit }) => (
-          <ChangePasswordView data={data} loading={loading} submit={submit} />
+      <ChangePasswordController>
+        {({ data, submit }) => (
+          <ChangePasswordView data={data} submit={submit} />
         )}
-      </ChangePasswordController> */}
+      </ChangePasswordController>
     </Layout>
   );
 };

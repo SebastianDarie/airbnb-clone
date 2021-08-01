@@ -1,10 +1,16 @@
 import { useCallback } from 'react';
 import shallow from 'zustand/shallow';
 import { useMeQuery } from '@second-gear/controller';
-import { CreateListingLayout } from '../../components/CreateListingLayout';
 import styles from '../../sass/components/Preview.module.scss';
 import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
+import dynamic from 'next/dynamic';
+
+const CreateListingLayout = dynamic<{ final?: boolean }>(() =>
+  import('../../components/CreateListingLayout').then(
+    (mod) => mod.CreateListingLayout
+  )
+);
 
 interface PreviewProps {}
 

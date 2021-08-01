@@ -1,11 +1,6 @@
-import { ConfirmEmailMutation } from '@second-gear/controller';
 import { useRouter } from 'next/router';
-
-interface ConfirmEmailViewProps {
-  data?: ConfirmEmailMutation | null | undefined;
-  loading?: boolean;
-  submit: () => Promise<boolean>;
-}
+import styles from '../../sass/layout/Form.module.scss';
+import { ConfirmEmailViewProps } from '../../types';
 
 export const ConfirmEmailView: React.FC<ConfirmEmailViewProps> = ({
   data,
@@ -18,8 +13,10 @@ export const ConfirmEmailView: React.FC<ConfirmEmailViewProps> = ({
   }
 
   return (
-    <button type='submit' onClick={submit}>
-      Confirm Email
-    </button>
+    <div className={styles.center}>
+      <form onSubmit={() => submit('')}>
+        <input type='submit' value='Confirm Email' className={styles.submit} />
+      </form>
+    </div>
   );
 };

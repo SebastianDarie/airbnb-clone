@@ -1,21 +1,31 @@
-import {
-  AirbnbSmallSvg,
-  AirbnbSvg,
-  ArrowLeftSvg,
-  useCreatePaymentIntentMutation,
-} from '@second-gear/controller';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useCreatePaymentIntentMutation } from '@second-gear/controller';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import shallow from 'zustand/shallow';
-import { StripeCard } from '../../components/Stripe/StripeCard';
 import styles from '../../sass/pages/Book.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
-import { autosizeTextarea } from '../../utils/autosizeTextarea';
+import { StripeCardProps } from '../../types';
 import { withApollo } from '../../utils/withApollo';
+
+const AirbnbSmallSvg = dynamic<{ fill: string }>(() =>
+  import('@second-gear/controller').then((mod) => mod.AirbnbSmallSvg)
+);
+const AirbnbSvg = dynamic<{}>(() =>
+  import('@second-gear/controller').then((mod) => mod.AirbnbSvg)
+);
+const ArrowLeftSvg = dynamic<{
+  height: string;
+  width: string;
+  strokeWidth: string;
+}>(() => import('@second-gear/controller').then((mod) => mod.ArrowLeftSvg));
+const Image = dynamic(() => import('next/image'));
+const Link = dynamic(() => import('next/link'));
+const StripeCard = dynamic<StripeCardProps>(() =>
+  import('../../components/Stripe/StripeCard').then((mod) => mod.StripeCard)
+);
 
 interface BookProps {}
 
@@ -253,7 +263,13 @@ const Book: React.FC<BookProps> = ({}) => {
                               onChange={(e) =>
                                 setMessage(e.currentTarget.value)
                               }
-                              onKeyDown={autosizeTextarea}
+                              onKeyDown={async (e) =>
+                                (
+                                  await import(
+                                    '../../utils/autosizeTextarea'
+                                  ).then((mod) => mod.autosizeTextarea)
+                                )(e)
+                              }
                               value={message}
                               rows={5}
                             ></textarea>

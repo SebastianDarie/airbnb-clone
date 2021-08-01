@@ -1,17 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ProtectSvg, User } from '@second-gear/controller';
+import { ProtectSvg } from '@second-gear/controller';
 import profileStyles from './ProfileSection.module.scss';
-
-interface ProfileSectionProps {
-  id: string;
-  owner: {
-    __typename?: 'User' | undefined;
-  } & Pick<User, 'id' | 'name' | 'photoUrl' | 'createdAt'>;
-  styles: {
-    readonly [key: string]: string;
-  };
-}
+import { ProfileSectionProps } from '../../types';
 
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   id,

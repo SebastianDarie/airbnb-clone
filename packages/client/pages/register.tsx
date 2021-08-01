@@ -1,8 +1,22 @@
-import { RegisterController } from '@second-gear/controller';
+import {
+  ControllerProps,
+  RegisterFormProps,
+  RegisterMutation,
+} from '@second-gear/controller';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import Layout from '../components/Layout';
-import { RegisterView } from '../modules/views/RegisterView';
+import { RegisterViewProps } from '../types';
 import { withApollo } from '../utils/withApollo';
+
+const Layout = dynamic(() => import('../components/Layout'));
+const RegisterController = dynamic<
+  ControllerProps<RegisterMutation, RegisterFormProps>
+>(() =>
+  import('@second-gear/controller').then((mod) => mod.RegisterController)
+);
+const RegisterView = dynamic<RegisterViewProps>(() =>
+  import('../modules/views/RegisterView').then((mod) => mod.RegisterView)
+);
 
 interface registerProps {}
 
@@ -16,13 +30,8 @@ const Register: React.FC<registerProps> = ({}) => {
   return (
     <Layout filter room search={false}>
       <RegisterController>
-        {({ data, loading, submit }) => (
-          <RegisterView
-            data={data}
-            loading={loading}
-            onFinish={onFinish}
-            submit={submit}
-          />
+        {({ data, submit }) => (
+          <RegisterView data={data} onFinish={onFinish} submit={submit} />
         )}
       </RegisterController>
     </Layout>

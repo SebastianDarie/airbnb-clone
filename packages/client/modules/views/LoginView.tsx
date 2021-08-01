@@ -1,18 +1,16 @@
-import { InputField } from '../../components/Fields/InputField';
-import { AuthFormProps, LoginMutation } from '@second-gear/controller';
-import Link from 'next/link';
+import { AuthFormProps } from '@second-gear/controller';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginSchema } from '@second-gear/common';
 import { useEffect, useState } from 'react';
 import styles from '../../sass/layout/Form.module.scss';
+import dynamic from 'next/dynamic';
+import { InputFieldProps, LoginViewProps } from '../../types';
+import { loginSchema } from '@second-gear/common';
 
-interface LoginViewProps {
-  data?: LoginMutation | null | undefined;
-  loading?: boolean;
-  onFinish: () => void;
-  submit: (values: AuthFormProps) => Promise<LoginMutation | null | undefined>;
-}
+const InputField = dynamic<InputFieldProps>(() =>
+  import('../../components/Fields/InputField').then((mod) => mod.InputField)
+);
+const Link = dynamic(() => import('next/link'));
 
 export const LoginView: React.FC<LoginViewProps> = ({
   data,
@@ -30,7 +28,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
       password: '',
     },
     mode: 'onChange',
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(loginSchema as any),
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -43,7 +41,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
           message: err.message,
         })
       );
-    } else if (data?.login.user) {
+    } else if (data?.login.user && onFinish) {
       onFinish();
     }
   }, [data?.login.errors]);

@@ -1,7 +1,11 @@
-import Layout from '../components/Layout';
-import { HomeView } from '../modules/views/HomeView';
+import dynamic from 'next/dynamic';
 import { useGoogleMaps } from '../utils/GoogleMapsProvider';
 import { withApollo } from '../utils/withApollo';
+
+const Layout = dynamic(() => import('../components/Layout'));
+const HomeView = dynamic<{}>(() =>
+  import('../modules/views/HomeView').then((mod) => mod.HomeView)
+);
 
 type IndexProps = {};
 

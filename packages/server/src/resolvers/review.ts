@@ -17,6 +17,7 @@ export class ReviewResolver {
   async reviews(@Arg('listingId') listingId: string): Promise<Review[]> {
     return Review.find({
       where: { listingId },
+      cache: true,
     });
   }
 

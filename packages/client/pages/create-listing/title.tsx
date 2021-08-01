@@ -1,7 +1,17 @@
-import { CreateListingLayout } from '../../components/CreateListingLayout';
-import { TitleDescription } from '../../components/Fields/TitleDescription';
+import dynamic from 'next/dynamic';
 import ListingStore from '../../stores/useListingStore';
 import { withApollo } from '../../utils/withApollo';
+
+const CreateListingLayout = dynamic<{ disabled?: boolean }>(() =>
+  import('../../components/CreateListingLayout').then(
+    (mod) => mod.CreateListingLayout
+  )
+);
+const TitleDescription = dynamic<{ description?: string; title?: string }>(() =>
+  import('../../components/Fields/TitleDescription').then(
+    (mod) => mod.TitleDescription
+  )
+);
 
 interface TitleProps {}
 
