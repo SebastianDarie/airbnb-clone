@@ -18,7 +18,7 @@
     "@react-navigation/bottom-tabs": "^6.0.0-next.22",
     "@react-navigation/native": "^6.0.0-next.17",
     "@react-navigation/stack": "^6.0.0-next.29",
-    "@second-gear/controller": "^1.2.7",
+    "@second-gear/controller": "^1.2.8",
     "graphql": "^15.5.1",
     "react": "^17.0.2",
     "react-hook-form": "^7.12.1",

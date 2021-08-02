@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -28,12 +29,14 @@ export class Message extends BaseEntity {
 
   @Field()
   @Column('uuid')
+  @Index()
   headerId: string;
 
   @ManyToOne(() => Header, (header) => header.messages)
   header: Header;
 
   @Column('uuid')
+  @Index()
   creatorId: string;
 
   @ManyToOne(() => User, (user) => user.messages)

@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -20,10 +21,12 @@ export class Reservation extends BaseEntity {
 
   @Field(() => String)
   @Column({ type: 'date' })
+  @Index()
   arrival: Date;
 
   @Field(() => String)
   @Column({ type: 'date' })
+  @Index()
   departure: Date;
 
   @Field(() => Int)
@@ -44,6 +47,7 @@ export class Reservation extends BaseEntity {
 
   @Field()
   @Column('uuid')
+  @Index()
   listingId: string;
 
   @ManyToOne(() => Listing, (listing) => listing.reservations)
@@ -51,6 +55,7 @@ export class Reservation extends BaseEntity {
 
   @Field()
   @Column('uuid')
+  @Index()
   guestId: string;
 
   @ManyToOne(() => User, (guest) => guest.reservations)

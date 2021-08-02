@@ -83,6 +83,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                             <img
                               src='https://a0.muscache.com/defaults/user_pic-225x225.png?v=3'
                               className={styles.profile__img}
+                              alt='profile image'
                             />
                           </a>
                         </Link>

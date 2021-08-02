@@ -10,6 +10,7 @@ export default class Document extends NextDocument {
             name='description'
             content='Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb.'
           />
+          <meta name='theme-color' content='#ffffff' />
 
           <link rel='preconnect' href='https://fonts.gstatic.com' />
 

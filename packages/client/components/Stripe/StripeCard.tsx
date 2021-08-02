@@ -42,10 +42,7 @@ const CARD_OPTIONS = {
 };
 
 const ErrorMessage = ({ error }: { error: string }) => (
-  <div
-    className={`${styles.error__message} ${error ? styles.visible : ''}`}
-    role='alert'
-  >
+  <div className={`${styles.error__message} ${error ? styles.visible : ''}`}>
     <ErrorSvg />
     <span>Your card number is incomplete.</span>
   </div>

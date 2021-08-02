@@ -23,6 +23,9 @@ const ArrowLeftSvg = dynamic<{
 }>(() => import('@second-gear/controller').then((mod) => mod.ArrowLeftSvg));
 const Image = dynamic(() => import('next/image'));
 const Link = dynamic(() => import('next/link'));
+const ServerError = dynamic<{}>(() =>
+  import('../../components/ServerError').then((mod) => mod.ServerError)
+);
 const StripeCard = dynamic<StripeCardProps>(() =>
   import('../../components/Stripe/StripeCard').then((mod) => mod.StripeCard)
 );
@@ -56,16 +59,7 @@ const Book: React.FC<BookProps> = ({}) => {
   );
 
   if (!startDate || !endDate || !data) {
-    return (
-      <div>
-        <h3>Something went wrong</h3>
-        <div>
-          Unfortunately, a server error prevented your request from being
-          completed. Airbnb may be undergoing maintenance or your connection may
-          have timed out. Please refresh the page or try again.
-        </div>
-      </div>
-    );
+    return <ServerError />;
   }
 
   const nights = Math.ceil(

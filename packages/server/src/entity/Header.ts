@@ -10,6 +10,7 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { Listing } from './Listing';
 import { Message } from './Message';
@@ -25,6 +26,7 @@ export class Header extends BaseEntity {
 
   @Field()
   @Column('uuid')
+  @Index()
   toId: string;
 
   @Field()
@@ -46,6 +48,7 @@ export class Header extends BaseEntity {
   messages: Message[];
 
   @Column('uuid')
+  @Index()
   creatorId: string;
 
   @ManyToOne(() => User, (user) => user.headers)

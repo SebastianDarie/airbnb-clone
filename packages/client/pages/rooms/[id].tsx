@@ -49,6 +49,9 @@ const ReviewsSection = dynamic<ReviewsSectionProps>(() =>
     (mod) => mod.ReviewsSection
   )
 );
+const ServerError = dynamic<{}>(() =>
+  import('../../components/ServerError').then((mod) => mod.ServerError)
+);
 
 const mapContainerStyle: CSSProperties = {
   height: '100%',
@@ -98,6 +101,7 @@ const SectionWrapper: React.FC<{
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl(false);
+  console.log(data);
   const [startDate, endDate] = ReservationStore.useReservationStore(
     (state) => [state.startDate, state.endDate],
     shallow
@@ -125,12 +129,11 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     );
   }
 
-  if (error) {
+  if (error || data?.listing === null) {
     return (
-      <div>
-        <div>Failed to load listing</div>
-        <div>{error.message}</div>
-      </div>
+      <Layout filter room search={false}>
+        <ServerError />
+      </Layout>
     );
   }
 
@@ -299,6 +302,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                                 <img
                                   className={styles.profile__img}
                                   src={`${data?.listing?.creator.photoUrl}`}
+                                  alt='profile image'
                                 />
                               </div>
                             </button>

@@ -62,6 +62,7 @@ export class Listing extends BaseEntity {
 
   @Field()
   @Column({ type: 'int' })
+  @Index()
   guests!: number;
 
   @Field()
@@ -70,19 +71,21 @@ export class Listing extends BaseEntity {
 
   @Field()
   @Column({ type: 'double precision' })
+  @Index()
   latitude!: number;
 
   @Field()
   @Column({ type: 'double precision' })
+  @Index()
   longitude!: number;
 
-  @Index({ spatial: true })
   @Column({
     type: 'geography',
     spatialFeatureType: 'Point',
     srid: 4326,
     nullable: true,
   })
+  @Index({ spatial: true })
   location: Point;
 
   @Field(() => [String])
@@ -95,6 +98,7 @@ export class Listing extends BaseEntity {
 
   @Field()
   @Column('uuid')
+  @Index()
   creatorId: string;
 
   @ManyToOne(() => User, (user) => user.listings)

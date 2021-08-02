@@ -87,6 +87,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                     <img
                       className={styles.profile__img}
                       src='https://res.cloudinary.com/dryhgptoc/image/upload/v1622364566/jngkp0wf1yvgbfpcjb9n.png'
+                      alt='profile image'
                     />
                   ) : (
                     <AnonymousUserSvg />

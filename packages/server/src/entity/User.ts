@@ -38,10 +38,6 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ default: false })
-  confirmed: boolean;
-
-  @Field()
-  @Column({ default: false })
   forgotPasswordLocked: boolean;
 
   @Field()

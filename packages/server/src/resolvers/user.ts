@@ -14,11 +14,7 @@ import { v4 } from 'uuid';
 import { getConnection } from 'typeorm';
 import { User } from '../entity/User';
 import { MyContext } from '../types';
-import {
-  CONFIRM_EMAIL_PREFIX,
-  COOKIE_NAME,
-  FORGOT_PASSWORD_PREFIX,
-} from '../constants';
+import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from '../constants';
 import { formatYupError } from '../utils/formatYupError';
 import { sendEmail } from '../utils/sendEmail';
 import { changePasswordSchema, registerSchema } from '@second-gear/common';
@@ -53,11 +49,6 @@ export class UserResolver {
     return '';
   }
 
-  @Query(() => [User])
-  users(): Promise<User[]> {
-    return User.find({});
-  }
-
   @Query(() => User, { nullable: true })
   me(@Ctx() { req }: MyContext): Promise<User | undefined> | null {
     if (!req.session.userId) {
@@ -70,7 +61,7 @@ export class UserResolver {
   @Mutation(() => UserResponse)
   async register(
     @Arg('credentials') credentials: UserInput,
-    @Ctx() { req, redis }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
     try {
       await registerSchema.validate({ ...credentials }, { abortEarly: false });
@@ -109,23 +100,6 @@ export class UserResolver {
 
     req.session.userId = user.id;
 
-    if (process.env.NODE_ENV !== 'test') {
-      const token = v4();
-
-      await redis.set(
-        CONFIRM_EMAIL_PREFIX + token,
-        user.id,
-        'ex',
-        1000 * 60 * 60 * 24
-      );
-
-      await sendEmail(
-        credentials.email,
-        'Confirm your email',
-        `<a href="${process.env.CORS_ORIGIN}/confirm-email/${token}">Confirm your email</a>`
-      );
-    }
-
     return { user };
   }
 
@@ -142,17 +116,6 @@ export class UserResolver {
           {
             path: 'email',
             message: "email doesn't exist",
-          },
-        ],
-      };
-    }
-
-    if (!user.confirmed) {
-      return {
-        errors: [
-          {
-            path: 'email',
-            message: 'please confirm your email',
           },
         ],
       };
@@ -201,48 +164,13 @@ export class UserResolver {
     });
   }
 
-  @Mutation(() => UserResponse)
-  async confirmEmail(
-    @Arg('token') token: string,
-    @Ctx() { req, redis }: MyContext
-  ): Promise<UserResponse> {
-    const key = CONFIRM_EMAIL_PREFIX + token;
-    const userId = await redis.get(key);
-    if (!userId) {
-      return {
-        errors: [
-          {
-            path: 'token',
-            message: 'token expired',
-          },
-        ],
-      };
-    }
-
-    const user = await User.findOne(userId);
-
-    if (!user) {
-      return {
-        errors: [{ path: 'user', message: 'user no longer exists' }],
-      };
-    }
-
-    await User.update({ id: userId }, { confirmed: true });
-
-    await redis.del(key);
-
-    req.session.userId = user.id;
-
-    return { user };
-  }
-
   @Mutation(() => Boolean)
   async forgotPassword(
     @Arg('email') email: string,
     @Ctx() { redis }: MyContext
   ): Promise<boolean> {
     const user = await User.findOne({ email });
-    if (!user || !user.confirmed) {
+    if (!user) {
       return true;
     }
 

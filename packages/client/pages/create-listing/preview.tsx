@@ -52,6 +52,7 @@ const Preview: React.FC<PreviewProps> = ({}) => {
                     <img
                       src={cover[1].src ?? ''}
                       className={styles.image__preview}
+                      alt='cover image'
                     />
                   </div>
                 </div>
@@ -66,6 +67,7 @@ const Preview: React.FC<PreviewProps> = ({}) => {
                   <img
                     src={data?.me?.photoUrl}
                     className={styles.profile__img}
+                    alt='cover image'
                   />
                 </div>
               </div>

@@ -16,7 +16,7 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
       </div>
       <div className={styles.img__margin}>
         <div className={styles.img__position}>
-          <img src={src} className={styles.house__img} />
+          <img src={src} className={styles.house__img} alt='house type' />
         </div>
       </div>
     </>

@@ -17,6 +17,9 @@ const ArrowLeftSvg = dynamic<{
 }>(() => import('@second-gear/controller').then((mod) => mod.ArrowLeftSvg));
 const Image = dynamic(() => import('next/image'));
 const Layout = dynamic(() => import('../../components/Layout'));
+const ServerError = dynamic<{}>(() =>
+  import('../../components/ServerError').then((mod) => mod.ServerError)
+);
 
 interface ContactHostProps {}
 
@@ -28,7 +31,7 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
   const [message, setMessage] = useState('');
 
   if (!data) {
-    return <div>failed to load user</div>;
+    return <ServerError />;
   }
 
   return (

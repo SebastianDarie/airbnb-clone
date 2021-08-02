@@ -17,6 +17,9 @@ import { withApollo } from '../utils/withApollo';
 
 const Layout = dynamic(() => import('../components/Layout'));
 const Link = dynamic(() => import('next/link'));
+const ServerError = dynamic<{}>(() =>
+  import('../components/ServerError').then((mod) => mod.ServerError)
+);
 const TripsSvg = dynamic<{}>(() =>
   import('@second-gear/controller').then((mod) => mod.TripsSvg)
 );
@@ -57,6 +60,7 @@ const ReservationItem = ({
             <img
               className={`${styles.index__photo} ${styles.booking}`}
               src={data.listing?.photos[0]}
+              alt='cover image'
             />
             <li className={styles.booking__city}>{data.listing?.city}</li>
             <li className={`${styles.item__type} ${styles.booking}`}>
@@ -125,14 +129,9 @@ const Trips: React.FC<TripsProps> = ({}) => {
 
   if (error) {
     return (
-      <div>
-        <h3>Something went wrong</h3>
-        <div>
-          Unfortunately, a server error prevented your request from being
-          completed. Airbnb may be undergoing maintenance or your connection may
-          have timed out. Please refresh the page or try again.
-        </div>
-      </div>
+      <Layout filter room search={false}>
+        <ServerError />
+      </Layout>
     );
   }
 

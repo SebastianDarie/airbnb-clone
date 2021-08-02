@@ -36,7 +36,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                 search,
                 filter ? filter : scrolled
               )}
-              role='search'
             >
               {filter ? (
                 <>
@@ -91,9 +90,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                       className={styles.search__radio}
                       id='stays'
                       type='radio'
-                      role='tab'
                       value='/homes'
-                      aria-selected
                       checked
                       readOnly
                     />

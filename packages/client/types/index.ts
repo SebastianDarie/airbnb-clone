@@ -4,7 +4,6 @@ import {
   AuthFormProps,
   ChangePasswordForm,
   ChangePasswordMutation,
-  ConfirmEmailMutation,
   CreatePaymentIntentMutation,
   DeepPartial,
   ForgotPasswordMutation,
@@ -39,8 +38,6 @@ export type ChangePasswordViewProps = AuthViewProps<
   ChangePasswordMutation,
   ChangePasswordForm
 >;
-
-export type ConfirmEmailViewProps = AuthViewProps<ConfirmEmailMutation, string>;
 
 export type ForgotPasswordViewProps = AuthViewProps<
   ForgotPasswordMutation,
@@ -90,8 +87,6 @@ export interface DraggablePhotoProps {
   cover: boolean;
   delay: string;
   src: string;
-  findImage: (id: string) => { index: number };
-  moveImage: (id: string, to: number) => void;
 }
 
 export interface RadioButtonProps {

@@ -26,6 +26,7 @@ export const HomeView: React.FC<HomeViewProps> = ({}) => {
                 <img
                   className={styles.img}
                   src='https://a0.muscache.com/im/pictures/8096fa47-0535-49d2-9aca-8db39b3faacd.jpg?im_q=highq&im_w=720'
+                  alt='background'
                 />
               </picture>
             </div>

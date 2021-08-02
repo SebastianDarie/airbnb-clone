@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -53,6 +54,7 @@ export class Review extends BaseEntity {
 
   @Field()
   @Column('uuid')
+  @Index()
   listingId: string;
 
   @Field(() => Listing)
@@ -62,6 +64,7 @@ export class Review extends BaseEntity {
 
   @Field()
   @Column('uuid')
+  @Index()
   creatorId: string;
 
   @Field(() => User)

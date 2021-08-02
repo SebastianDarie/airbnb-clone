@@ -216,6 +216,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                                 <img
                                   className={styles.profile__img}
                                   src={`${r.creator.photoUrl}`}
+                                  alt='user image'
                                 />
                               </div>
                             </a>

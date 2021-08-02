@@ -1,12 +1,10 @@
-import { memo, useCallback, useState } from 'react';
-import { useDrop } from 'react-dnd';
-import update from 'immutability-helper';
-import ListingStore from '../../stores/useListingStore';
-import styles from '../../sass/components/PhotoDropzone.module.scss';
-import { withApollo } from '../../utils/withApollo';
-import dynamic from 'next/dynamic';
-import { DraggablePhotoProps } from '../../types';
 import { Photo } from '@second-gear/common';
+import dynamic from 'next/dynamic';
+import { memo } from 'react';
+import styles from '../../sass/components/PhotoDropzone.module.scss';
+import ListingStore from '../../stores/useListingStore';
+import { DraggablePhotoProps } from '../../types';
+import { withApollo } from '../../utils/withApollo';
 
 const CreateListingLayout = dynamic<{ disabled?: boolean }>(() =>
   import('../../components/CreateListingLayout').then(
@@ -60,38 +58,7 @@ const items = [
 ];
 
 const Photos: React.FC<PhotosProps> = memo(({}) => {
-  const [draggables, setDraggables] = useState<
-    { id: number; cover: boolean; delay: string }[]
-  >(items);
   const photos = ListingStore.useListingStore((state) => state.photos);
-
-  const findImage = useCallback(
-    (id: string) => {
-      const image = draggables.filter((i) => `${i.id}` === id)[0];
-      return {
-        image,
-        index: draggables.indexOf(image),
-      };
-    },
-    [draggables]
-  );
-
-  const moveImage = useCallback(
-    (id: string, atIndex: number) => {
-      const { image, index } = findImage(id);
-      setDraggables(
-        update(draggables, {
-          $splice: [
-            [index, 1],
-            [atIndex, 0, image],
-          ],
-        })
-      );
-    },
-    [findImage, draggables, setDraggables]
-  );
-
-  const [, drop] = useDrop(() => ({ accept: 'preview' }));
 
   return (
     <CreateListingLayout disabled={photos.length !== 5}>
@@ -128,16 +95,14 @@ const Photos: React.FC<PhotosProps> = memo(({}) => {
               </div>
 
               <div className={styles.preview__section}>
-                <div className={styles.preview__grid} ref={drop}>
-                  {draggables.map((el) => (
+                <div className={styles.preview__grid}>
+                  {items.map((el) => (
                     <DraggablePhoto
                       key={el.id}
                       id={`${el.id}`}
                       cover={el.cover}
                       delay={el.delay}
                       src={photos[el.id - 1]?.[1].src}
-                      findImage={findImage}
-                      moveImage={moveImage}
                     />
                   ))}
                 </div>
