@@ -8,6 +8,8 @@ import { FormEvent, useState } from 'react';
 import styles from '../../sass/pages/ContactHost.module.scss';
 import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
+import { autosizeTextarea } from '../../utils/autosizeTextarea';
+import { useIsAuth } from '../../utils/useIsAuth';
 import { withApollo } from '../../utils/withApollo';
 
 const ArrowLeftSvg = dynamic<{
@@ -24,6 +26,7 @@ const ServerError = dynamic<{}>(() =>
 interface ContactHostProps {}
 
 const ContactHost: React.FC<ContactHostProps> = ({}) => {
+  useIsAuth();
   const router = useRouter();
   const { data } = useGetListingFromUrl(true);
   const [createHeader] = useCreateHeaderMutation();
@@ -138,13 +141,7 @@ const ContactHost: React.FC<ContactHostProps> = ({}) => {
                       className={styles.textarea}
                       autoComplete='off'
                       onChange={(e) => setMessage(e.currentTarget.value)}
-                      onKeyDown={async (e) =>
-                        (
-                          await import('../../utils/autosizeTextarea').then(
-                            (mod) => mod.autosizeTextarea
-                          )
-                        )(e)
-                      }
+                      onKeyDown={autosizeTextarea}
                       value={message}
                     ></textarea>
                   </div>

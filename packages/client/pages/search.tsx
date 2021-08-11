@@ -24,6 +24,9 @@ const InfoCard = dynamic<InfoCardProps>(() =>
 const SearchControl = dynamic<SearchControlProps>(() =>
   import('../components/Search/SearchControl').then((mod) => mod.SearchControl)
 );
+const ServerError = dynamic<{}>(() =>
+  import('../components/ServerError').then((mod) => mod.ServerError)
+);
 
 interface SearchProps {}
 
@@ -99,10 +102,9 @@ const Search: React.FC<SearchProps> = ({}) => {
 
   if (!data && error) {
     return (
-      <>
-        <div>Failed To Load Listings</div>
-        <div>{error.message}</div>
-      </>
+      <Layout filter room>
+        <ServerError />
+      </Layout>
     );
   }
 

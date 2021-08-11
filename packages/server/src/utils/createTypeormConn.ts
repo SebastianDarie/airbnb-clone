@@ -16,7 +16,7 @@ export const createTypeormConn = () => {
       duration: 5000,
     },
     logging: true,
-    synchronize: true,
+    // synchronize: true,
     migrations: [path.join(__dirname, '../migrations/*')],
     entities: [Header, Listing, Message, Reservation, Review, User],
   });

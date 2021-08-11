@@ -12,8 +12,6 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   value,
   updateFloor,
 }) => {
-  console.log(value);
-
   return (
     <>
       <div className={styles.field}>

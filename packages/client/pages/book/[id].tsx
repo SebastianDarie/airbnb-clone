@@ -8,6 +8,8 @@ import roomStyles from '../../sass/pages/Room.module.scss';
 import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
 import ReservationStore from '../../stores/useReservationStore';
 import { StripeCardProps } from '../../types';
+import { autosizeTextarea } from '../../utils/autosizeTextarea';
+import { useIsAuth } from '../../utils/useIsAuth';
 import { withApollo } from '../../utils/withApollo';
 
 const AirbnbSmallSvg = dynamic<{ fill: string }>(() =>
@@ -33,6 +35,7 @@ const StripeCard = dynamic<StripeCardProps>(() =>
 interface BookProps {}
 
 const Book: React.FC<BookProps> = ({}) => {
+  useIsAuth();
   const router = useRouter();
   const [
     createPaymentIntent,
@@ -257,13 +260,7 @@ const Book: React.FC<BookProps> = ({}) => {
                               onChange={(e) =>
                                 setMessage(e.currentTarget.value)
                               }
-                              onKeyDown={async (e) =>
-                                (
-                                  await import(
-                                    '../../utils/autosizeTextarea'
-                                  ).then((mod) => mod.autosizeTextarea)
-                                )(e)
-                              }
+                              onKeyDown={autosizeTextarea}
                               value={message}
                               rows={5}
                             ></textarea>

@@ -26,7 +26,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   useEffect(() => {
     if (data?.register.errors) {
       data.register.errors.map((err) =>
-        setError(err.path as 'email' | 'password' | 'confirm', {
+        setError(err.path as 'name' | 'email' | 'password' | 'confirm', {
           type: 'server',
           message: err.message,
         })
@@ -40,6 +40,14 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
     <div className={styles.center}>
       <h1>Register</h1>
       <form onSubmit={handleSubmit((data) => submit(data))}>
+        <InputField
+          control={control}
+          errors={errors}
+          label='Name'
+          name='name'
+          placeholder=' '
+        />
+
         <InputField
           control={control}
           errors={errors}

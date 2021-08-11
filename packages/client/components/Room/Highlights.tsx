@@ -2,10 +2,11 @@ import { CleanSvg, HomeSvg, LikeSvg, MedalSvg } from '@second-gear/controller';
 import styles from './Highlights.module.scss';
 
 interface HighlightsProps {
-  type: string;
+  host: string | undefined;
+  type: string | undefined;
 }
 
-export const Highlights: React.FC<HighlightsProps> = ({ type }) => {
+export const Highlights: React.FC<HighlightsProps> = ({ host, type }) => {
   return (
     <div className={styles.highlights__padding}>
       <div className={styles.highlight__flex}>
@@ -13,9 +14,9 @@ export const Highlights: React.FC<HighlightsProps> = ({ type }) => {
           <HomeSvg />
         </div>
         <div className={styles.highlight__description__container}>
-          <div className={styles.highlight__title}>Entire Home</div>
+          <div className={styles.highlight__title}>Entire {type}</div>
           <div className={styles.highlight__description}>
-            You'll have the {type.toLowerCase()} to yourself
+            You'll have the {type?.toLowerCase()} to yourself
           </div>
         </div>
       </div>
@@ -37,7 +38,7 @@ export const Highlights: React.FC<HighlightsProps> = ({ type }) => {
           <MedalSvg />
         </div>
         <div className={styles.highlight__description__container}>
-          <div className={styles.highlight__title}>Sergiu is a SuperHost</div>
+          <div className={styles.highlight__title}>{host} is a SuperHost</div>
           <div className={styles.highlight__description}>
             Superhosts are experienced, highly rated hosts who are committed to
             providing great stays for guests.
@@ -52,7 +53,7 @@ export const Highlights: React.FC<HighlightsProps> = ({ type }) => {
         <div className={styles.highlight__description__container}>
           <div className={styles.highlight__title}>Outstanding hospitality</div>
           <div className={styles.highlight__description}>
-            4 recent guests complimented Sergiu for outstanding hospitality.
+            4 recent guests complimented {host} for outstanding hospitality.
           </div>
         </div>
       </div>

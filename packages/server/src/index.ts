@@ -26,7 +26,7 @@ import { ApolloServerLoaderPlugin } from 'type-graphql-dataloader';
 const main = async () => {
   const conn = await createTypeormConn();
 
-  await conn.runMigrations();
+  // await conn.runMigrations();
 
   const app = express();
 

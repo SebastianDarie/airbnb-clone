@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { ReviewsSectionProps } from '../../types';
 import reviewStyles from './ReviewsSection.module.scss';
 
-const calcAvg = (value: number, reviewsLength: number): string => {
-  return (value / reviewsLength).toFixed(1);
+const calcAvg = (value: number, reviewsLength: number): string | number => {
+  const avg = (value / reviewsLength).toFixed(1);
+  return avg !== 'NaN' ? avg : 0;
 };
 
 const calcWidth = (value: number, reviewsLength: number): string => {
@@ -14,6 +15,7 @@ const calcWidth = (value: number, reviewsLength: number): string => {
 export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   avg,
   reviews,
+  reviewsRef,
   styles,
 }) => {
   if (reviews == null) {
@@ -40,7 +42,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   }
 
   return (
-    <div className={styles.room__section__flex}>
+    <div className={styles.room__section__flex} ref={reviewsRef}>
       <div className={styles.room__section__padding}>
         <div className={styles.room__section__margin}>
           <div className={styles.section__divider}></div>
@@ -52,8 +54,10 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                     <ReviewSvg />
                   </span>
                   <span>
-                    {(avg / reviewsLength).toFixed(2) || 'New'} ·{' '}
-                    {reviews.length} reviews
+                    {(avg / reviewsLength).toFixed(2) !== 'NaN'
+                      ? (avg / reviewsLength).toFixed(2)
+                      : 'New'}{' '}
+                    · {reviews.length} reviews
                   </span>
                 </h2>
               </div>

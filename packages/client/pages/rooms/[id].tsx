@@ -36,7 +36,10 @@ const BookRoomMenu = dynamic<BookRoomMenuProps>(() =>
 const Calendar = dynamic<CalendarProps>(() =>
   import('../../components/Room/Calendar').then((mod) => mod.Calendar)
 );
-const Highlights = dynamic<{ type: string }>(() =>
+const Highlights = dynamic<{
+  host: string | undefined;
+  type: string | undefined;
+}>(() =>
   import('../../components/Room/Highlights').then((mod) => mod.Highlights)
 );
 const ProfileSection = dynamic<ProfileSectionProps>(() =>
@@ -101,7 +104,6 @@ const SectionWrapper: React.FC<{
 
 const Room: React.FC<RoomProps> = memo(({}) => {
   const { data, loading, error } = useGetListingFromUrl(false);
-  console.log(data);
   const [startDate, endDate] = ReservationStore.useReservationStore(
     (state) => [state.startDate, state.endDate],
     shallow
@@ -120,22 +122,6 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     { section: 'Reviews', ref: reviewsRef },
     { section: 'Location', ref: locationRef },
   ];
-
-  if (loading) {
-    return (
-      <Layout filter room search>
-        <RoomSkeleton styles={styles} Wrapper={SectionWrapper} />
-      </Layout>
-    );
-  }
-
-  if (error || data?.listing === null) {
-    return (
-      <Layout filter room search={false}>
-        <ServerError />
-      </Layout>
-    );
-  }
 
   const onScroll = () => {
     if (nav.current) {
@@ -192,6 +178,22 @@ const Room: React.FC<RoomProps> = memo(({}) => {
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
   }, []);
+
+  if (loading) {
+    return (
+      <Layout filter room search>
+        <RoomSkeleton styles={styles} Wrapper={SectionWrapper} />
+      </Layout>
+    );
+  }
+
+  if (error || data?.listing === null) {
+    return (
+      <Layout filter room search={false}>
+        <ServerError />
+      </Layout>
+    );
+  }
 
   return (
     <Layout isLoaded={isLoaded} filter room search>
@@ -319,7 +321,10 @@ const Room: React.FC<RoomProps> = memo(({}) => {
 
               <div className={styles.room__section__flex}>
                 <div className={styles.section__divider}></div>
-                <Highlights type={data?.listing?.type!} />
+                <Highlights
+                  host={data?.listing?.creator.name}
+                  type={data?.listing?.type}
+                />
               </div>
 
               <div className={styles.room__section__flex}>
@@ -398,6 +403,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
             <ReviewsSection
               avg={avg}
               reviews={data.listing.reviews}
+              reviewsRef={reviewsRef}
               styles={styles}
             />
           )}

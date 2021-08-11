@@ -21,6 +21,7 @@ import {
   Dispatch,
   InputHTMLAttributes,
   MutableRefObject,
+  RefObject,
   SetStateAction,
 } from 'react';
 import { Control, DeepMap, FieldError } from 'react-hook-form';
@@ -112,6 +113,7 @@ export interface BookRoomMenuProps {
 export interface ReviewsSectionProps {
   avg: number;
   reviews: Reviews;
+  reviewsRef: RefObject<HTMLDivElement>;
   styles: {
     readonly [key: string]: string;
   };

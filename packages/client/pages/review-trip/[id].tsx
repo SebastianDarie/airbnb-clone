@@ -12,6 +12,8 @@ import roomStyles from '../../sass/pages/Room.module.scss';
 import { useRouter } from 'next/router';
 import { DotLoader } from '../../components/DotLoader';
 import dynamic from 'next/dynamic';
+import { autosizeTextarea } from '../../utils/autosizeTextarea';
+import { useIsAuth } from '../../utils/useIsAuth';
 
 const Layout = dynamic(() => import('../../components/Layout'));
 const CreateReviewController = dynamic<
@@ -97,6 +99,7 @@ const StarRating = ({
 };
 
 const ReviewTrip: React.FC<ReviewTripProps> = ({}) => {
+  useIsAuth();
   const router = useRouter();
   const [review, setReview] = useState('');
   const [starValues, setStarValues] = useState<
@@ -176,13 +179,7 @@ const ReviewTrip: React.FC<ReviewTripProps> = ({}) => {
                     placeholder='Write a public review'
                     rows={4}
                     onChange={(e) => setReview(e.currentTarget.value)}
-                    onKeyDown={async (e) =>
-                      (
-                        await import('../../utils/autosizeTextarea').then(
-                          (mod) => mod.autosizeTextarea
-                        )
-                      )(e)
-                    }
+                    onKeyDown={autosizeTextarea}
                     value={review}
                   ></textarea>
                   <div className={roomStyles.amenities__heading__padding}></div>

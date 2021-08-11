@@ -13,6 +13,7 @@ import {
 } from '@second-gear/controller';
 import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { autosizeTextarea } from '../../utils/autosizeTextarea';
 import { DotLoader } from '../DotLoader';
 
 interface ConversationPanelProps {
@@ -285,13 +286,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                           <textarea
                             className={styles.message__input}
                             onChange={(e) => setMessage(e.currentTarget.value)}
-                            onKeyDown={async (e) =>
-                              (
-                                await import(
-                                  '../../utils/autosizeTextarea'
-                                ).then((mod) => mod.autosizeTextarea)
-                              )(e)
-                            }
+                            onKeyDown={autosizeTextarea}
                             placeholder='Type a message'
                             value={message}
                           ></textarea>
