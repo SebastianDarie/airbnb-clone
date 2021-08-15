@@ -8,7 +8,7 @@
 .idea/
 .vscode/
 *.log
-**/*.env
+.env
 .env.production
 .docker
 dist/

@@ -296,7 +296,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                           >
                             <button
                               className={styles.send__btn}
-                              onClick={() =>
+                              onClick={() => {
                                 submit({
                                   text: message,
                                   headerId: currHeader ? currHeader.id : '',
@@ -304,8 +304,9 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                                     currHeader?.creator.id === meData?.me?.id
                                       ? 1
                                       : 0,
-                                })
-                              }
+                                });
+                                setMessage('');
+                              }}
                             >
                               <span className={styles.svg__relative}>
                                 <SendMessageSvg />

@@ -1,5 +1,10 @@
 import Link from 'next/link';
-import { HeaderResult, useReservationQuery } from '@second-gear/controller';
+import {
+  HeaderResult,
+  useListingLazyQuery,
+  useListingQuery,
+  useReservationQuery,
+} from '@second-gear/controller';
 import { DotLoader } from '../DotLoader';
 
 interface ConversationDetailsProps {
@@ -26,6 +31,11 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
     variables: { id: currHeader.reservationId! },
     skip: currHeader.reservationId === null,
   });
+  const id = reservationData?.reservation?.listingId;
+  const { data } = useListingQuery({
+    skip: !id,
+    variables: { id: id!, noreviews: true, slim: false },
+  });
 
   let nights: number = 1;
   if (reservationData?.reservation) {
@@ -37,6 +47,9 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
         (60 * 60 * 24 * 1000)
     );
   }
+
+  const total = Math.floor((data?.listing?.price ?? 1) * nights);
+  const serviceFee = Math.floor((total / 100) * 17);
 
   return (
     <div
@@ -71,7 +84,8 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                         <div className={styles.header__firstname}>Darie</div>
                         <div className={styles.header__summary}>
                           {reservationData?.reservation?.guests} guests ·{' '}
-                          {nights} nights · $14.46
+                          {nights} nights · $
+                          {nights * (data?.listing?.price ?? 1)}
                         </div>
                         <div className={styles.header__summary}>
                           Test listing
@@ -178,7 +192,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                     <div className={styles.reservation__header__table}>
                       <div className={styles.header__cell}>
                         <div className={styles.potential__earnings}>
-                          Potential earnings
+                          Payment Details
                         </div>
                       </div>
                     </div>
@@ -189,14 +203,14 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                   <div className={styles.reservation__header__table}>
                     <div className={styles.header__cell}>
                       <span className={styles.profile__link__font}>
-                        $2.14 x 7 nights
+                        ${data?.listing?.price} x {nights} nights
                       </span>
                     </div>
                     <div className={styles.img__cell}>
                       <div className={roomStyles.profile__margin}>
                         <div className={styles.cell__wrap}>
                           <div className={styles.profile__link__font}>
-                            $15.00
+                            ${total}
                           </div>
                         </div>
                       </div>
@@ -209,14 +223,14 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                     <div className={styles.reservation__header__table}>
                       <div className={styles.header__cell}>
                         <span className={styles.profile__link__font}>
-                          Service fee (host)
+                          Service fee
                         </span>
                       </div>
                       <div className={styles.img__cell}>
                         <div className={roomStyles.profile__margin}>
                           <div className={styles.cell__wrap}>
                             <div className={styles.profile__link__font}>
-                              -$0.54
+                              ${serviceFee}
                             </div>
                           </div>
                         </div>
@@ -238,7 +252,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                         <div className={roomStyles.profile__margin}>
                           <div className={styles.cell__wrap}>
                             <div className={styles.profile__link__font}>
-                              $14.46
+                              ${total + serviceFee}
                             </div>
                           </div>
                         </div>

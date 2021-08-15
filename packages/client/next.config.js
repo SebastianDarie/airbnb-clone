@@ -1,5 +1,4 @@
 const withPWA = require('next-pwa');
-const runtimeCaching = require('next-pwa/cache');
 const withTM = require('next-transpile-modules')([
   '@second-gear/common',
   '@second-gear/controller',
@@ -13,7 +12,6 @@ module.exports = withTM(
       register: true,
       skipWaiting: true,
       dynamicStartUrl: false,
-      runtimeCaching,
     },
     env: {
       stripe: 'pk_test_dZb4PNLF72WK9NZenscqBEB1008RXx0tOT',
