@@ -91,3 +91,8 @@ Start the frontend
 ![Create Listing Page](https://ik.imagekit.io/1nlnne3ilbe/airbnb-clone-create_W4dS551s3.png?updatedAt=1629312824154&tr=w-1200,h-575)\
 ![Room Page](https://ik.imagekit.io/1nlnne3ilbe/airbnb-clone-room_ZlV2lXg1m.png?updatedAt=1629312824365&tr=w-1000,h-575)
   
+## Tech Stack
+
+**Client:** Next.js, Apollo Client, Sass, Zustand, React Hook Form, Stripe.js, Google Maps Api 
+
+**Server:** Node, Express, Apollo Server, GraphQL, Redis, PostgreSQL, Stripe, TypeGraphQL, TypeORM, AWS S3
