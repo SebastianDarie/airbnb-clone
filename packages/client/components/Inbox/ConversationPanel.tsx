@@ -1,4 +1,4 @@
-import { FetchResult } from '@apollo/client';
+import { FetchResult } from "@apollo/client";
 import {
   AirbnbMessageSvg,
   ArchiveSvg,
@@ -10,11 +10,11 @@ import {
   SendMessageSvg,
   useMeQuery,
   useNewMessageSubscription,
-} from '@second-gear/controller';
-import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { autosizeTextarea } from '../../utils/autosizeTextarea';
-import { DotLoader } from '../DotLoader';
+} from "@second-gear/controller";
+import Image from "next/image";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { autosizeTextarea } from "../../utils/autosizeTextarea";
+import { DotLoader } from "../DotLoader";
 
 interface ConversationPanelProps {
   data: HeadersQuery | undefined;
@@ -48,10 +48,11 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
   submit,
 }) => {
   const { data: meData } = useMeQuery();
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>("");
 
   useNewMessageSubscription({
-    variables: { headerId: currHeader ? currHeader.id : '' },
+    shouldResubscribe: false,
+    variables: { headerId: currHeader ? currHeader.id : "" },
     onSubscriptionData: ({ client, subscriptionData: { data } }) => {
       const newMessage = data?.newMessage;
       const currHeaders = client.cache.readQuery<HeadersQuery>({
@@ -105,7 +106,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                   }
                   onClick={() => setDetails(!details)}
                 >
-                  {details ? 'Hide details' : 'Get details'}
+                  {details ? "Hide details" : "Get details"}
                 </button>
               </div>
             </div>
@@ -125,10 +126,10 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                           <h3 className={styles.conversation__date}>
                             {new Date(
                               +currHeader?.createdAt!
-                            ).toLocaleDateString('en-US', {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric',
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
                             })}
                           </h3>
                           <div className={styles.message__width}>
@@ -178,11 +179,11 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                                 {conversationStart ? (
                                   <h3 className={styles.conversation__date}>
                                     {new Date(+m.createdAt).toLocaleDateString(
-                                      'en-US',
+                                      "en-US",
                                       {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric',
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric",
                                       }
                                     )}
                                   </h3>
@@ -206,15 +207,15 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                                             styles.standard__message__profile
                                           }
                                           style={{
-                                            display: minDiff ? 'none' : '',
+                                            display: minDiff ? "none" : "",
                                           }}
                                         >
                                           <Image
                                             src={m.creator.photoUrl}
-                                            height='100%'
-                                            width='100%'
-                                            layout='responsive'
-                                            objectFit='cover'
+                                            height="100%"
+                                            width="100%"
+                                            layout="responsive"
+                                            objectFit="cover"
                                           />
                                         </div>
                                         <div
@@ -222,7 +223,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                                             styles.standard__message__content
                                           }
                                           style={{
-                                            display: minDiff ? 'none' : '',
+                                            display: minDiff ? "none" : "",
                                           }}
                                         >
                                           <div
@@ -242,9 +243,9 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                                             >
                                               {new Date(
                                                 +m.createdAt
-                                              ).toLocaleTimeString('en-US', {
-                                                hour: 'numeric',
-                                                minute: 'numeric',
+                                              ).toLocaleTimeString("en-US", {
+                                                hour: "numeric",
+                                                minute: "numeric",
                                               })}
                                             </span>
                                           </div>
@@ -261,7 +262,7 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                                             styles.standard__message__text
                                           }
                                           style={{
-                                            display: !minDiff ? 'none' : '',
+                                            display: !minDiff ? "none" : "",
                                           }}
                                         >
                                           {m.text}
@@ -287,25 +288,25 @@ export const ConversationPanel: React.FC<ConversationPanelProps> = ({
                             className={styles.message__input}
                             onChange={(e) => setMessage(e.currentTarget.value)}
                             onKeyDown={autosizeTextarea}
-                            placeholder='Type a message'
+                            placeholder="Type a message"
                             value={message}
                           ></textarea>
                           <div
                             className={styles.send__btn__margin}
-                            style={{ display: message ? '' : 'none' }}
+                            style={{ display: message ? "" : "none" }}
                           >
                             <button
                               className={styles.send__btn}
                               onClick={() => {
                                 submit({
                                   text: message,
-                                  headerId: currHeader ? currHeader.id : '',
+                                  headerId: currHeader ? currHeader.id : "",
                                   isFromSender:
                                     currHeader?.creator.id === meData?.me?.id
                                       ? 1
                                       : 0,
                                 });
-                                setMessage('');
+                                setMessage("");
                               }}
                             >
                               <span className={styles.svg__relative}>

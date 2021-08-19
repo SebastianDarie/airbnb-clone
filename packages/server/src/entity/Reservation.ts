@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -8,37 +8,37 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { Listing } from './Listing';
-import { User } from './User';
+} from "typeorm";
+import { Listing } from "./Listing";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
 export class Reservation extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Field(() => String)
-  @Column({ type: 'date' })
+  @Column({ type: "date" })
   @Index()
   arrival: Date;
 
   @Field(() => String)
-  @Column({ type: 'date' })
+  @Column({ type: "date" })
   @Index()
   departure: Date;
 
   @Field(() => Int)
-  @Column({ type: 'int' })
+  @Column({ type: "int" })
   guests: number;
 
   @Field(() => Int)
-  @Column({ type: 'bit', default: 0 })
+  @Column({ type: "bit", default: 0 })
   cancelled: number;
 
   @Field(() => Int)
-  @Column({ type: 'bit', default: 0 })
+  @Column({ type: "bit", default: 0 })
   completed: number;
 
   @Field(() => String)
@@ -46,7 +46,7 @@ export class Reservation extends BaseEntity {
   paymentIntent: string;
 
   @Field()
-  @Column('uuid')
+  @Column("uuid")
   @Index()
   listingId: string;
 
@@ -54,7 +54,7 @@ export class Reservation extends BaseEntity {
   listing: Listing;
 
   @Field()
-  @Column('uuid')
+  @Column("uuid")
   @Index()
   guestId: string;
 

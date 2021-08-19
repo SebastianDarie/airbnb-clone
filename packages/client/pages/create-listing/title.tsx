@@ -1,14 +1,10 @@
-import dynamic from 'next/dynamic';
-import ListingStore from '../../stores/useListingStore';
-import { withApollo } from '../../utils/withApollo';
+import dynamic from "next/dynamic";
+import { CreateListingLayout } from "../../components/CreateListingLayout";
+import ListingStore from "../../stores/useListingStore";
+import { withApollo } from "../../utils/withApollo";
 
-const CreateListingLayout = dynamic<{ disabled?: boolean }>(() =>
-  import('../../components/CreateListingLayout').then(
-    (mod) => mod.CreateListingLayout
-  )
-);
 const TitleDescription = dynamic<{ description?: string; title?: string }>(() =>
-  import('../../components/Fields/TitleDescription').then(
+  import("../../components/Fields/TitleDescription").then(
     (mod) => mod.TitleDescription
   )
 );

@@ -1,6 +1,6 @@
-import { Point } from 'geojson';
-import { Field, ObjectType } from 'type-graphql';
-import { TypeormLoader } from 'type-graphql-dataloader';
+import { Point } from "geojson";
+import { Field, ObjectType } from "type-graphql";
+import { TypeormLoader } from "type-graphql-dataloader";
 import {
   BaseEntity,
   Column,
@@ -11,17 +11,17 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { Header } from './Header';
-import { Reservation } from './Reservation';
-import { Review } from './Review';
-import { User } from './User';
+} from "typeorm";
+import { Header } from "./Header";
+import { Reservation } from "./Reservation";
+import { Review } from "./Review";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
 export class Listing extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Field()
@@ -41,27 +41,27 @@ export class Listing extends BaseEntity {
   type!: string;
 
   @Field(() => [String])
-  @Column({ type: 'text', array: true })
+  @Column({ type: "text", array: true })
   photos!: string[];
 
   @Field()
-  @Column({ type: 'double precision', default: 25 })
+  @Column({ type: "double precision", default: 25 })
   price!: number;
 
   @Field()
-  @Column({ type: 'int' })
+  @Column({ type: "int" })
   bathrooms!: number;
 
   @Field()
-  @Column({ type: 'int' })
+  @Column({ type: "int" })
   bedrooms!: number;
 
   @Field()
-  @Column({ type: 'int' })
+  @Column({ type: "int" })
   beds!: number;
 
   @Field()
-  @Column({ type: 'int' })
+  @Column({ type: "int" })
   @Index()
   guests!: number;
 
@@ -70,18 +70,18 @@ export class Listing extends BaseEntity {
   city!: string;
 
   @Field()
-  @Column({ type: 'double precision' })
+  @Column({ type: "double precision" })
   @Index()
   latitude!: number;
 
   @Field()
-  @Column({ type: 'double precision' })
+  @Column({ type: "double precision" })
   @Index()
   longitude!: number;
 
   @Column({
-    type: 'geography',
-    spatialFeatureType: 'Point',
+    type: "geography",
+    spatialFeatureType: "Point",
     srid: 4326,
     nullable: true,
   })
@@ -89,15 +89,15 @@ export class Listing extends BaseEntity {
   location: Point;
 
   @Field(() => [String])
-  @Column({ type: 'text', array: true })
+  @Column({ type: "text", array: true })
   amenities: string[];
 
   @Field(() => [String])
-  @Column({ type: 'text', array: true })
+  @Column({ type: "text", array: true })
   highlights: string[];
 
   @Field()
-  @Column('uuid')
+  @Column("uuid")
   @Index()
   creatorId: string;
 

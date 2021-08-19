@@ -6,22 +6,22 @@ import {
   useListingQuery,
   useRefundReservationMutation,
   useReservationsQuery,
-} from '@second-gear/controller';
-import dynamic from 'next/dynamic';
-import { NextRouter, useRouter } from 'next/router';
-import { useState } from 'react';
-import { DotLoader } from '../components/DotLoader';
-import roomStyles from '../sass/pages/Room.module.scss';
-import styles from '../sass/pages/Trips.module.scss';
-import { withApollo } from '../utils/withApollo';
+} from "@second-gear/controller";
+import dynamic from "next/dynamic";
+import { NextRouter, useRouter } from "next/router";
+import { useState } from "react";
+import { DotLoader } from "../components/DotLoader";
+import roomStyles from "../sass/pages/Room.module.scss";
+import styles from "../sass/pages/Trips.module.scss";
+import { withApollo } from "../utils/withApollo";
 
-const Layout = dynamic(() => import('../components/Layout'));
-const Link = dynamic(() => import('next/link'));
+const Layout = dynamic(() => import("../components/Layout"));
+const Link = dynamic(() => import("next/link"));
 const ServerError = dynamic<{}>(() =>
-  import('../components/ServerError').then((mod) => mod.ServerError)
+  import("../components/ServerError").then((mod) => mod.ServerError)
 );
 const TripsSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.TripsSvg)
+  import("@second-gear/controller").then((mod) => mod.TripsSvg)
 );
 
 interface TripsProps {}
@@ -53,29 +53,29 @@ const ReservationItem = ({
 
   return (
     <>
-      {' '}
+      {" "}
       {data && (
         <div key={r.id} className={styles.booking__item}>
           <div className={styles.interior__booking__item}>
             <img
               className={`${styles.index__photo} ${styles.booking}`}
               src={data.listing?.photos[0]}
-              alt='cover image'
+              alt="cover image"
             />
             <li className={styles.booking__city}>{data.listing?.city}</li>
             <li className={`${styles.item__type} ${styles.booking}`}>
-              {new Date(r.arrival).toLocaleDateString('en-US', {
-                day: '2-digit',
-                year: 'numeric',
-                weekday: 'short',
-                month: 'short',
-              })}{' '}
-              -{' '}
-              {new Date(r.departure).toLocaleDateString('en-US', {
-                day: '2-digit',
-                year: 'numeric',
-                weekday: 'short',
-                month: 'short',
+              {new Date(r.arrival).toLocaleDateString("en-US", {
+                day: "2-digit",
+                year: "numeric",
+                weekday: "short",
+                month: "short",
+              })}{" "}
+              -{" "}
+              {new Date(r.departure).toLocaleDateString("en-US", {
+                day: "2-digit",
+                year: "numeric",
+                weekday: "short",
+                month: "short",
               })}
             </li>
             <li className={`${styles.item__type} ${styles.booking}`}>
@@ -92,7 +92,7 @@ const ReservationItem = ({
               className={styles.modify__booking__btn__pink}
               onClick={() => router.push(`/review-trip/${r.listingId}`)}
             >
-              {r.completed ? 'Review this trip' : 'Edit this reservation'}
+              {r.completed ? "Review this trip" : "Edit this reservation"}
             </button>
             {!r.completed ? (
               <button
@@ -101,7 +101,7 @@ const ReservationItem = ({
                   cancelReservation({
                     variables: { id: r.id },
                     update: (cache) => {
-                      cache.evict({ id: 'Reservation:' + r.id });
+                      cache.evict({ id: "Reservation:" + r.id });
                       cache.gc();
                     },
                   });
@@ -125,7 +125,7 @@ const Trips: React.FC<TripsProps> = ({}) => {
   const { data, loading, error } = useReservationsQuery();
   const [cancelReservation] = useCancelReservationMutation();
   const [refundReservation] = useRefundReservationMutation();
-  const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
 
   if (error) {
     return (
@@ -159,17 +159,17 @@ const Trips: React.FC<TripsProps> = ({}) => {
           <div className={styles.trips__tabs__margin}>
             <button
               className={
-                tab === 'upcoming' ? styles.tab__active : styles.tab__default
+                tab === "upcoming" ? styles.tab__active : styles.tab__default
               }
-              onClick={() => setTab('upcoming')}
+              onClick={() => setTab("upcoming")}
             >
               Upcoming
             </button>
             <button
               className={
-                tab === 'past' ? styles.tab__active : styles.tab__default
+                tab === "past" ? styles.tab__active : styles.tab__default
               }
-              onClick={() => setTab('past')}
+              onClick={() => setTab("past")}
             >
               Past
             </button>
@@ -179,7 +179,7 @@ const Trips: React.FC<TripsProps> = ({}) => {
             <div>
               {length > 0 ? null : (
                 <div className={styles.tab__header}>
-                  {tab === 'past'
+                  {tab === "past"
                     ? `You don’t have any past trips yet—but when you do, you’ll find
               them here.`
                     : `When you’re ready to start planning your next trip, we’re here to help.`}
@@ -197,7 +197,7 @@ const Trips: React.FC<TripsProps> = ({}) => {
                     <ul className={styles.bookings__row}>
                       {data.reservations
                         .filter((r) =>
-                          tab === 'upcoming' && !r.cancelled
+                          tab === "upcoming" && !r.cancelled
                             ? !r.completed
                             : r.completed
                         )

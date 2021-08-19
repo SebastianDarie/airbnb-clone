@@ -2,13 +2,14 @@ import {
   HeartSvg,
   SearchListingResult,
   ReviewSvg,
-} from '@second-gear/controller';
-import Link from 'next/link';
-import styles from '../../sass/components/ListingCard.module.scss';
-import { FloorPlanDetails } from '../FloorPlanDetails';
-import { ImageCard } from './ImageCard';
+} from "@second-gear/controller";
+import Link from "next/link";
+import styles from "../../sass/components/ListingCard.module.scss";
+import { FloorPlanDetails } from "../FloorPlanDetails";
+import { ImageCard } from "./ImageCard";
 
 interface ListingCardProps {
+  id: string;
   listing: SearchListingResult;
   loading: boolean;
   searchStyles: {
@@ -17,6 +18,7 @@ interface ListingCardProps {
 }
 
 export const ListingCard: React.FC<ListingCardProps> = ({
+  id,
   listing,
   loading,
   searchStyles,
@@ -104,7 +106,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   );
 
   return (
-    <div className={styles.size__div}>
+    <div key={id} className={styles.size__div}>
       <div className={styles.border__padding}>
         <div className={styles.card__grid}>
           <div
@@ -116,7 +118,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
                   <Link href={`/rooms/${listing.id}`}>
                     <a
                       className={styles.invisible__link}
-                      rel='noopener noreferrer'
+                      rel="noopener noreferrer"
                     ></a>
                   </Link>
                 )}

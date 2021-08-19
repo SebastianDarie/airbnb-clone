@@ -4,28 +4,28 @@ import {
   HttpLink,
   InMemoryCache,
   split,
-} from '@apollo/client';
-import { WebSocketLink } from '@apollo/client/link/ws';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { NextPageContext } from 'next';
-import { withApollo as createWithApollo } from 'next-apollo';
+} from "@apollo/client";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { NextPageContext } from "next";
+import { withApollo as createWithApollo } from "next-apollo";
 import {
   Header,
   Listing,
   Message,
   PaginatedListings,
-} from '@second-gear/controller';
+} from "@second-gear/controller";
 
 const linkCreate = (
   ctx: NextPageContext | undefined
 ): ApolloLink | undefined => {
   const httpLink = new HttpLink({
-    credentials: 'include',
+    credentials: "include",
     headers: {
       cookie:
-        (typeof window === 'undefined'
+        (typeof window === "undefined"
           ? ctx?.req?.headers.cookie
-          : undefined) || '',
+          : undefined) || "",
     },
     uri: process.env.NEXT_PUBLIC_API_URL as string,
   });
@@ -36,6 +36,8 @@ const linkCreate = (
         options: {
           lazy: true,
           reconnect: true,
+          minTimeout: 10000,
+          timeout: 30000,
         },
       })
     : null;
@@ -45,8 +47,8 @@ const linkCreate = (
         ({ query }) => {
           const definition = getMainDefinition(query);
           return (
-            definition.kind === 'OperationDefinition' &&
-            definition.operation === 'subscription'
+            definition.kind === "OperationDefinition" &&
+            definition.operation === "subscription"
           );
         },
         wsLink!,
@@ -59,7 +61,7 @@ const createClient = (ctx: NextPageContext | undefined) =>
   new ApolloClient({
     assumeImmutableResults: true,
     queryDeduplication: true,
-    ssrMode: typeof window === 'undefined',
+    ssrMode: typeof window === "undefined",
     uri: process.env.NEXT_PUBLIC_API_URL as string,
     link: linkCreate(ctx),
     cache: new InMemoryCache({
@@ -74,7 +76,7 @@ const createClient = (ctx: NextPageContext | undefined) =>
               },
             },
             searchListings: {
-              keyArgs: ['id'],
+              keyArgs: ["id"],
               merge(
                 existing: PaginatedListings | null,
                 incoming: PaginatedListings,
@@ -87,14 +89,14 @@ const createClient = (ctx: NextPageContext | undefined) =>
 
                 if (existing) {
                   existing.listings.forEach((l, idx) => {
-                    idToIndex[readField<string>('id', l)!] = idx;
+                    idToIndex[readField<string>("id", l)!] = idx;
                   });
                 }
 
                 incoming.listings.forEach((l) => {
-                  const id = readField<string>('id', l);
+                  const id = readField<string>("id", l);
                   const idx = idToIndex[id!];
-                  if (typeof idx === 'number') {
+                  if (typeof idx === "number") {
                     merged[idx] = mergeObjects(merged[idx], l);
                   } else {
                     idToIndex[id!] = merged.length;
@@ -113,7 +115,7 @@ const createClient = (ctx: NextPageContext | undefined) =>
         Header: {
           fields: {
             messages: {
-              keyArgs: ['headerId'],
+              keyArgs: ["headerId"],
               merge(
                 existing: Message[],
                 incoming: Message[],
@@ -124,14 +126,14 @@ const createClient = (ctx: NextPageContext | undefined) =>
 
                 if (existing) {
                   existing.forEach((m, idx) => {
-                    textToIndex[readField<string>('text', m)!] = idx;
+                    textToIndex[readField<string>("text", m)!] = idx;
                   });
                 }
 
                 incoming.forEach((m) => {
-                  const text = readField<string>('text', m);
+                  const text = readField<string>("text", m);
                   const idx = textToIndex[text!];
-                  if (typeof idx === 'number') {
+                  if (typeof idx === "number") {
                     merged[idx] = mergeObjects(merged[idx], m);
                   } else {
                     textToIndex[text!] = merged.length;

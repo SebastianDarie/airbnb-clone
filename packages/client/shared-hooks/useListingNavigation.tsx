@@ -1,10 +1,10 @@
-import { NextRouter } from 'next/router';
-import { useMemo } from 'react';
+import { NextRouter } from "next/router";
+import { useMemo } from "react";
 
-const rootPath = '/create-listing';
+const rootPath = "/create-listing";
 
-let placeholderText: string = 'What kind of place will you host?';
-let progressBar = 9;
+let placeholderText: string = "What kind of place will you host?";
+let progressBar: number = 9;
 
 export const useListingNavigation = (
   router: NextRouter
@@ -15,14 +15,14 @@ export const useListingNavigation = (
     switch (router.asPath) {
       case `${rootPath}/property-type-group`:
         return [
-          (placeholderText = 'What kind of place will you host?'),
+          (placeholderText = "What kind of place will you host?"),
           (progressBar = 9),
           (nextPage = () => router.push(`${rootPath}/property-type`)),
         ];
 
       case `${rootPath}/property-type`:
         return [
-          (placeholderText = 'Which of these best describes your place?'),
+          (placeholderText = "Which of these best describes your place?"),
           (progressBar = 18),
           (nextPage = () => router.push(`${rootPath}/location`)),
         ];
@@ -36,14 +36,14 @@ export const useListingNavigation = (
 
       case `${rootPath}/floor-plan`:
         return [
-          (placeholderText = 'How many guests would you like to welcome?'),
+          (placeholderText = "How many guests would you like to welcome?"),
           (progressBar = 36),
           (nextPage = () => router.push(`${rootPath}/amenities`)),
         ];
 
       case `${rootPath}/amenities`:
         return [
-          (placeholderText = 'Let guests know what your place has to offer'),
+          (placeholderText = "Let guests know what your place has to offer"),
           (progressBar = 45),
           (nextPage = () => router.push(`${rootPath}/photos`)),
         ];
@@ -79,21 +79,21 @@ export const useListingNavigation = (
 
       case `${rootPath}/price`:
         return [
-          (placeholderText = 'Now for the fun part—set your price'),
+          (placeholderText = "Now for the fun part—set your price"),
           (progressBar = 82),
           (nextPage = () => router.push(`${rootPath}/preview`)),
         ];
 
       case `${rootPath}/preview`:
         return [
-          (placeholderText = 'Check out your listing!'),
+          (placeholderText = "Check out your listing!"),
           (progressBar = 100),
           (nextPage = () => null),
         ];
 
       default:
         return [
-          (placeholderText = 'What kind of place will you host?'),
+          (placeholderText = "What kind of place will you host?"),
           (progressBar = 9),
           (nextPage = () => router.push(`${rootPath}/property-type`)),
         ];

@@ -1,31 +1,31 @@
 import {
   SearchListingsDocument,
   useSearchListingsQuery,
-} from '@second-gear/controller';
-import { NetworkStatus } from '@apollo/client';
-import MarkerWithLabel from '@googlemaps/markerwithlabel';
-import { GoogleMap } from '@react-google-maps/api';
-import { CSSProperties, memo, useCallback, useRef, useState } from 'react';
-import shallow from 'zustand/shallow';
-import { DotLoader } from '../components/DotLoader';
-import { ListingCard } from '../components/Search/ListingCard';
-import styles from '../sass/pages/Search.module.scss';
-import SearchStore from '../stores/useSearchStore';
-import { useGoogleMaps } from '../utils/GoogleMapsProvider';
-import MarkerManager from '../utils/markerManager';
-import { withApollo } from '../utils/withApollo';
-import dynamic from 'next/dynamic';
-import { InfoCardProps, SearchControlProps } from '../types';
+} from "@second-gear/controller";
+import { NetworkStatus } from "@apollo/client";
+import MarkerWithLabel from "@googlemaps/markerwithlabel";
+import { GoogleMap } from "@react-google-maps/api";
+import { CSSProperties, memo, useCallback, useRef, useState } from "react";
+import shallow from "zustand/shallow";
+import { DotLoader } from "../components/DotLoader";
+import { ListingCard } from "../components/Search/ListingCard";
+import styles from "../sass/pages/Search.module.scss";
+import SearchStore from "../stores/useSearchStore";
+import { useGoogleMaps } from "../utils/GoogleMapsProvider";
+import MarkerManager from "../utils/markerManager";
+import { withApollo } from "../utils/withApollo";
+import dynamic from "next/dynamic";
+import { InfoCardProps, SearchControlProps } from "../types";
 
-const Layout = dynamic(() => import('../components/Layout'));
+const Layout = dynamic(() => import("../components/Layout"));
 const InfoCard = dynamic<InfoCardProps>(() =>
-  import('../components/Search/InfoCard').then((mod) => mod.InfoCard)
+  import("../components/Search/InfoCard").then((mod) => mod.InfoCard)
 );
 const SearchControl = dynamic<SearchControlProps>(() =>
-  import('../components/Search/SearchControl').then((mod) => mod.SearchControl)
+  import("../components/Search/SearchControl").then((mod) => mod.SearchControl)
 );
 const ServerError = dynamic<{}>(() =>
-  import('../components/ServerError').then((mod) => mod.ServerError)
+  import("../components/ServerError").then((mod) => mod.ServerError)
 );
 
 interface SearchProps {}
@@ -38,8 +38,8 @@ interface DirectionsBoundsLiteral extends google.maps.LatLngBoundsLiteral {
 }
 
 const mapContainerStyle: CSSProperties = {
-  height: '100%',
-  width: '100%',
+  height: "100%",
+  width: "100%",
 };
 
 const options: google.maps.MapOptions = {
@@ -113,7 +113,7 @@ const Search: React.FC<SearchProps> = ({}) => {
       <div className={styles.inset__div}>
         <div className={styles.stays__container}>
           <div className={styles.filters__bar__padding}>
-            <div style={{ width: '100%' }}>
+            <div style={{ width: "100%" }}>
               <div className={styles.meta__padding}>
                 <div className={styles.top__padding}>
                   <div className={styles.stays__count}>
@@ -122,7 +122,7 @@ const Search: React.FC<SearchProps> = ({}) => {
                         <DotLoader /> listings
                       </div>
                     ) : data?.searchListings.hasMore ? (
-                      '20+ stays'
+                      "20+ stays"
                     ) : (
                       `${data?.searchListings.listings.length} listings`
                     )}
@@ -140,13 +140,14 @@ const Search: React.FC<SearchProps> = ({}) => {
               <DotLoader />
             ) : (
               <div className={styles.listings__container}>
-                <div style={{ overflowAnchor: 'none' }}>
+                <div style={{ overflowAnchor: "none" }}>
                   <div className={styles.listings__section}>
                     <div className={styles.listings__padding}>
                       <div className={styles.listings__margin}>
                         {data?.searchListings.listings.map((listing) => (
                           <ListingCard
                             key={listing.id}
+                            id={listing.id}
                             listing={listing}
                             loading={
                               loading || networkStatus === NetworkStatus.refetch
@@ -166,7 +167,7 @@ const Search: React.FC<SearchProps> = ({}) => {
 
           <div
             className={styles.load__more__margin}
-            style={{ display: data?.searchListings.hasMore ? 'flex' : 'none' }}
+            style={{ display: data?.searchListings.hasMore ? "flex" : "none" }}
           >
             <button
               className={styles.load__more__btn}
@@ -197,7 +198,7 @@ const Search: React.FC<SearchProps> = ({}) => {
           <aside className={styles.map__position}>
             {isLoaded ? (
               <GoogleMap
-                id='map'
+                id="map"
                 mapContainerStyle={mapContainerStyle}
                 center={{ lat: latitude, lng: longitude }}
                 zoom={12}
@@ -207,7 +208,7 @@ const Search: React.FC<SearchProps> = ({}) => {
                     const newLat = mapRef.current?.getCenter().lat();
                     const newLng = mapRef.current?.getCenter().lng();
                     if (latitude !== newLat || longitude !== newLng) {
-                      SearchStore.setLocation('', newLat!, newLng!);
+                      SearchStore.setLocation("", newLat!, newLng!);
                     }
 
                     const currBounds = mapRef.current?.getBounds();
@@ -240,7 +241,7 @@ const Search: React.FC<SearchProps> = ({}) => {
                     const newLat = mapRef.current?.getCenter().lat();
                     const newLng = mapRef.current?.getCenter().lng();
                     if (latitude !== newLat || longitude !== newLng) {
-                      SearchStore.setLocation('', newLat!, newLng!);
+                      SearchStore.setLocation("", newLat!, newLng!);
                     }
                   }
                 }}

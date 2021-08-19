@@ -1,11 +1,11 @@
-import Link from 'next/link';
+import Link from "next/link";
 import {
   HeaderResult,
   useListingLazyQuery,
   useListingQuery,
   useReservationQuery,
-} from '@second-gear/controller';
-import { DotLoader } from '../DotLoader';
+} from "@second-gear/controller";
+import { DotLoader } from "../DotLoader";
 
 interface ConversationDetailsProps {
   currHeader: HeaderResult;
@@ -28,8 +28,8 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
     data: reservationData,
     loading: reservationLoading,
   } = useReservationQuery({
+    skip: !currHeader.reservationId,
     variables: { id: currHeader.reservationId! },
-    skip: currHeader.reservationId === null,
   });
   const id = reservationData?.reservation?.listingId;
   const { data } = useListingQuery({
@@ -37,7 +37,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
     variables: { id: id!, noreviews: true, slim: false },
   });
 
-  let nights: number = 1;
+  let nights: number = 2;
   if (reservationData?.reservation) {
     nights = Math.ceil(
       Math.abs(
@@ -83,7 +83,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                       <div className={styles.header__cell}>
                         <div className={styles.header__firstname}>Darie</div>
                         <div className={styles.header__summary}>
-                          {reservationData?.reservation?.guests} guests ·{' '}
+                          {reservationData?.reservation?.guests ?? 2} guests ·{" "}
                           {nights} nights · $
                           {nights * (data?.listing?.price ?? 1)}
                         </div>
@@ -92,12 +92,12 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                         </div>
                       </div>
                       <div className={styles.img__cell}>
-                        <Link href='/users/'>
+                        <Link href="/users/">
                           <a>
                             <img
-                              src='https://a0.muscache.com/defaults/user_pic-225x225.png?v=3'
+                              src="https://a0.muscache.com/defaults/user_pic-225x225.png?v=3"
                               className={styles.profile__img}
-                              alt='profile image'
+                              alt="profile image"
                             />
                           </a>
                         </Link>
@@ -119,7 +119,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                         <div className={roomStyles.profile__margin}>
                           <div className={styles.cell__wrap}>
                             <div className={styles.profile__link__font}>
-                              {reservationData?.reservation?.guests} guests
+                              {reservationData?.reservation?.guests ?? 2} guests
                             </div>
                           </div>
                         </div>
@@ -143,11 +143,11 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                             <div className={styles.profile__link__font}>
                               {new Date(
                                 reservationData?.reservation?.arrival!
-                              ).toLocaleDateString('en-US', {
-                                weekday: 'short',
-                                month: 'short',
-                                day: '2-digit',
-                                year: 'numeric',
+                              ).toLocaleDateString("en-US", {
+                                weekday: "short",
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
                               })}
                             </div>
                           </div>
@@ -172,11 +172,11 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                             <div className={styles.profile__link__font}>
                               {new Date(
                                 reservationData?.reservation?.departure!
-                              ).toLocaleDateString('en-US', {
-                                weekday: 'short',
-                                month: 'short',
-                                day: '2-digit',
-                                year: 'numeric',
+                              ).toLocaleDateString("en-US", {
+                                weekday: "short",
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
                               })}
                             </div>
                           </div>
@@ -203,7 +203,7 @@ export const ConversationDetails: React.FC<ConversationDetailsProps> = ({
                   <div className={styles.reservation__header__table}>
                     <div className={styles.header__cell}>
                       <span className={styles.profile__link__font}>
-                        ${data?.listing?.price} x {nights} nights
+                        ${data?.listing?.price ?? 1} x {nights} nights
                       </span>
                     </div>
                     <div className={styles.img__cell}>

@@ -1,18 +1,14 @@
-import dynamic from 'next/dynamic';
-import styles from '../../sass/components/PriceControl.module.scss';
-import ListingStore from '../../stores/useListingStore';
-import { withApollo } from '../../utils/withApollo';
+import dynamic from "next/dynamic";
+import { CreateListingLayout } from "../../components/CreateListingLayout";
+import styles from "../../sass/components/PriceControl.module.scss";
+import ListingStore from "../../stores/useListingStore";
+import { withApollo } from "../../utils/withApollo";
 
-const CreateListingLayout = dynamic<{}>(() =>
-  import('../../components/CreateListingLayout').then(
-    (mod) => mod.CreateListingLayout
-  )
-);
 const MinusSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.MinusSvg)
+  import("@second-gear/controller").then((mod) => mod.MinusSvg)
 );
 const PlusSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.PlusSvg)
+  import("@second-gear/controller").then((mod) => mod.PlusSvg)
 );
 
 interface PriceProps {}
@@ -42,10 +38,10 @@ const Price: React.FC<PriceProps> = ({}) => {
                     <div>
                       <div className={styles.input__container}>
                         <input
-                          autoComplete='off'
-                          pattern='[0-9]*'
-                          placeholder='$00'
-                          type='text'
+                          autoComplete="off"
+                          pattern="[0-9]*"
+                          placeholder="$00"
+                          type="text"
                           className={styles.input}
                           value={price}
                           onChange={(e) =>

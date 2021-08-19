@@ -1,7 +1,6 @@
-import create from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { Photo } from '@second-gear/common';
-import { LatLon } from 'use-places-autocomplete';
+import create from "zustand";
+import { Photo } from "@second-gear/common";
+import { LatLon } from "use-places-autocomplete";
 
 interface ListingState {
   addressFound: boolean;
@@ -22,25 +21,23 @@ interface ListingState {
 }
 
 namespace ListingStore {
-  export const useListingStore = create<ListingState>(
-    devtools(() => ({
-      addressFound: false as boolean,
-      amenities: [''],
-      bathrooms: 1,
-      bedrooms: 1,
-      beds: 1,
-      category: 'Apartment',
-      city: '',
-      coords: {} as any,
-      description: '',
-      guests: 2,
-      highlights: [] as string[],
-      photos: [] as any,
-      price: 10,
-      title: '',
-      type: 'Rental unit',
-    }))
-  );
+  export const useListingStore = create<ListingState>(() => ({
+    addressFound: false as boolean,
+    amenities: [""],
+    bathrooms: 1,
+    bedrooms: 1,
+    beds: 1,
+    category: "Apartment",
+    city: "",
+    coords: {} as any,
+    description: "",
+    guests: 2,
+    highlights: [] as string[],
+    photos: [] as any,
+    price: 10,
+    title: "",
+    type: "Rental unit",
+  }));
 
   export const selectCategory = (category: string) =>
     useListingStore.setState((state) => ({ ...state, category }));
@@ -61,10 +58,10 @@ namespace ListingStore {
   export const updateFloor = (type: string, value: number) =>
     useListingStore.setState((state) => ({
       ...state,
-      guests: type === 'Guests' ? value : state.guests,
-      beds: type === 'Beds' ? value : state.beds,
-      bedrooms: type === 'Bedrooms' ? value : state.bedrooms,
-      bathrooms: type === 'Bathrooms' ? value : state.bathrooms,
+      guests: type === "Guests" ? value : state.guests,
+      beds: type === "Beds" ? value : state.beds,
+      bedrooms: type === "Bedrooms" ? value : state.bedrooms,
+      bathrooms: type === "Bathrooms" ? value : state.bathrooms,
     }));
 
   export const updateAmenities = (amenity: string) =>

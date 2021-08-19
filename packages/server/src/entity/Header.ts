@@ -1,4 +1,4 @@
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field } from "type-graphql";
 import {
   Entity,
   Column,
@@ -11,30 +11,30 @@ import {
   OneToOne,
   JoinColumn,
   Index,
-} from 'typeorm';
-import { Listing } from './Listing';
-import { Message } from './Message';
-import { Reservation } from './Reservation';
-import { User } from './User';
+} from "typeorm";
+import { Listing } from "./Listing";
+import { Message } from "./Message";
+import { Reservation } from "./Reservation";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
 export class Header extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Field()
-  @Column('uuid')
+  @Column("uuid")
   @Index()
   toId: string;
 
   @Field()
-  @Column({ type: 'varchar' })
+  @Column({ type: "varchar" })
   subject: string;
 
   @Field({ nullable: true })
-  @Column('uuid', { nullable: true })
+  @Column("uuid", { nullable: true })
   reservationId: string;
 
   @OneToOne(() => Reservation, { cascade: true, nullable: true })
@@ -43,11 +43,11 @@ export class Header extends BaseEntity {
 
   @Field(() => [Message])
   @OneToMany(() => Message, (message) => message.header, {
-    onDelete: 'CASCADE',
+    onDelete: "CASCADE",
   })
   messages: Message[];
 
-  @Column('uuid')
+  @Column("uuid")
   @Index()
   creatorId: string;
 
@@ -55,7 +55,7 @@ export class Header extends BaseEntity {
   creator: User;
 
   @Field()
-  @Column('uuid')
+  @Column("uuid")
   listingId: string;
 
   @ManyToOne(() => Listing, (listing) => listing.headers)

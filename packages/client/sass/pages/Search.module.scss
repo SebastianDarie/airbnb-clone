@@ -9,12 +9,12 @@
   }
 
   &::before {
-    content: ' ';
+    content: " ";
     display: table;
   }
 
   &::after {
-    content: ' ';
+    content: " ";
     display: table;
     clear: both;
   }
@@ -101,12 +101,12 @@
 
 .listings__section {
   &::before {
-    content: ' ';
+    content: " ";
     display: flex;
   }
 
   &::after {
-    content: ' ';
+    content: " ";
     display: flex;
   }
 }
@@ -154,7 +154,7 @@
   border: none;
   border-radius: 4px;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.5;
   padding: 0.75em 2em;
   @include bootstrap.btn-border-drawing(

@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -7,32 +7,32 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { Header } from './Header';
-import { Listing } from './Listing';
-import { Message } from './Message';
-import { Reservation } from './Reservation';
-import { Review } from './Review';
+} from "typeorm";
+import { Header } from "./Header";
+import { Listing } from "./Listing";
+import { Message } from "./Message";
+import { Reservation } from "./Reservation";
+import { Review } from "./Review";
 
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Column({ length: 255, unique: true })
   email!: string;
 
   @Field()
-  @Column({ default: 'Test User' })
+  @Column({ default: "Test User" })
   name!: string;
 
   @Column() password!: string;
 
   @Field()
   @Column({
-    default: 'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3',
+    default: "https://a0.muscache.com/defaults/user_pic-50x50.png?v=3",
   })
   photoUrl!: string;
 
@@ -41,7 +41,7 @@ export class User extends BaseEntity {
   forgotPasswordLocked: boolean;
 
   @Field()
-  @Column({ type: 'bit', default: 0 })
+  @Column({ type: "bit", default: 0 })
   superhost: number;
 
   @OneToMany(() => Header, (header) => header.creator)

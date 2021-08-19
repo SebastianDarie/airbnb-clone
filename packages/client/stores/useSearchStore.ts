@@ -1,5 +1,4 @@
-import create from 'zustand';
-import { devtools } from 'zustand/middleware';
+import create from "zustand";
 
 interface SearchState {
   suggestion: string;
@@ -11,7 +10,7 @@ interface SearchState {
 }
 
 const initialState = {
-  suggestion: '',
+  suggestion: "",
   latitude: 0,
   longitude: 0,
   adults: 0,
@@ -20,9 +19,7 @@ const initialState = {
 };
 
 namespace SearchStore {
-  export const useSearchStore = create<SearchState>(
-    devtools(() => initialState)
-  );
+  export const useSearchStore = create<SearchState>(() => initialState);
 
   export const setLocation = (s: string, lat: number, lng: number) =>
     useSearchStore.setState((state) => ({

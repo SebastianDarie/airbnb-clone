@@ -2,10 +2,10 @@ import {
   SearchListingResult,
   PreviousSvg,
   NextSvg,
-} from '@second-gear/controller';
-import Image from 'next/image';
-import { useState } from 'react';
-import styles from '../../sass/components/ListingCard.module.scss';
+} from "@second-gear/controller";
+import Image from "next/image";
+import { useState } from "react";
+import styles from "../../sass/components/ListingCard.module.scss";
 
 interface ImageCardProps {
   listing: SearchListingResult;
@@ -35,8 +35,8 @@ export const ImageCard: React.FC<ImageCardProps> = ({ listing }) => {
           <div className={styles.card__image__div}>
             <Image
               src={listing.photos[currIdx]}
-              layout='fill'
-              objectFit='cover'
+              layout="fill"
+              objectFit="cover"
             />
           </div>
         </div>
@@ -47,7 +47,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({ listing }) => {
             <button
               className={styles.prev__btn}
               onClick={prevSlide}
-              style={{ display: currIdx === 0 ? 'none' : '' }}
+              style={{ display: currIdx === 0 ? "none" : "" }}
             >
               <PreviousSvg />
             </button>
@@ -57,7 +57,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({ listing }) => {
               className={styles.next__btn}
               onClick={nextSlide}
               style={{
-                display: currIdx === listing.photos.length - 1 ? 'none' : '',
+                display: currIdx === listing.photos.length - 1 ? "none" : "",
               }}
             >
               <NextSvg />

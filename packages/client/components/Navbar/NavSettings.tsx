@@ -4,14 +4,14 @@ import {
   HamburgerSvg,
   MeQuery,
   WithLogoutProps,
-} from '@second-gear/controller';
-import { useApolloClient } from '@apollo/client';
-import Link from 'next/link';
-import React, { useRef, useState } from 'react';
-import useOnclickOutside from 'react-cool-onclickoutside';
-import styles from '../../sass/components/NavSettings.module.scss';
-import { getInitialCln } from '../../utils/getInitialCln';
-import { MenuLink } from './MenuLink';
+} from "@second-gear/controller";
+import { useApolloClient } from "@apollo/client";
+import Link from "next/link";
+import React, { useRef, useState } from "react";
+import useOnclickOutside from "react-cool-onclickoutside";
+import styles from "../../sass/components/NavSettings.module.scss";
+import { getInitialCln } from "../../utils/getInitialCln";
+import { MenuLink } from "./MenuLink";
 
 type NavSettingsProps = {
   data: MeQuery | undefined;
@@ -37,7 +37,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
       <div className={styles.container}>
         <nav className={styles.nav}>
           <div className={styles.btn__container}>
-            <Link href='/create-listing/property-type-group'>
+            <Link href="/create-listing/property-type-group">
               <a
                 className={getInitialCln(
                   styles.host__link,
@@ -86,8 +86,8 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                   {data?.me ? (
                     <img
                       className={styles.profile__img}
-                      src='https://res.cloudinary.com/dryhgptoc/image/upload/v1622364566/jngkp0wf1yvgbfpcjb9n.png'
-                      alt='profile image'
+                      src={data.me.photoUrl}
+                      alt="profile image"
                     />
                   ) : (
                     <AnonymousUserSvg />
@@ -101,57 +101,57 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                 className={styles.menu}
                 ref={menu}
                 style={{
-                  display: `${active ? 'block' : 'none'}`,
+                  display: `${active ? "block" : "none"}`,
                 }}
               >
                 <div>
                   {data?.me ? (
                     <>
-                      <MenuLink href='/inbox' light={false}>
+                      <MenuLink href="/inbox" light={false}>
                         Messages
                       </MenuLink>
-                      <MenuLink href='/notifications' light={false}>
+                      <MenuLink href="/notifications" light={false}>
                         Notifications
                         <div className={styles.menu__notif}></div>
                       </MenuLink>
-                      <MenuLink href='/trips' light={false}>
+                      <MenuLink href="/trips" light={false}>
                         Trips
                       </MenuLink>
-                      <MenuLink href='/wishlists' light={false}>
+                      <MenuLink href="/wishlists" light={false}>
                         Wishlists
                       </MenuLink>
                     </>
                   ) : (
                     <>
-                      <MenuLink href='/login' light={false}>
+                      <MenuLink href="/login" light={false}>
                         Log in
                       </MenuLink>
-                      <MenuLink href='/register' light>
+                      <MenuLink href="/register" light>
                         Sign up
                       </MenuLink>
                     </>
                   )}
                   <div className={styles.hline}></div>
-                  <MenuLink href='/host/homes' light>
+                  <MenuLink href="/host/homes" light>
                     Host your home
                   </MenuLink>
-                  <MenuLink href='/host/experiences' light>
+                  <MenuLink href="/host/experiences" light>
                     Host an experience
                   </MenuLink>
                   <MenuLink
-                    href={data?.me ? '/account-settings' : '/help'}
+                    href={data?.me ? "/account-settings" : "/help"}
                     light
                   >
-                    {data?.me ? 'Account' : 'Help'}
+                    {data?.me ? "Account" : "Help"}
                   </MenuLink>
                   {data?.me ? (
                     <>
                       <div className={styles.hline}></div>
-                      <MenuLink href='/help' light>
+                      <MenuLink href="/help" light>
                         Help
                       </MenuLink>
                       <MenuLink
-                        href=''
+                        href=""
                         light
                         onClick={async () => {
                           await logout();
@@ -159,7 +159,7 @@ export const NavSettings: React.FC<NavSettingsProps> = React.memo(
                         }}
                       >
                         Logout
-                      </MenuLink>{' '}
+                      </MenuLink>{" "}
                     </>
                   ) : null}
                 </div>

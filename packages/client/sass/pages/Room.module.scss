@@ -5,7 +5,7 @@
 
 .inherit__div {
   color: bootstrap.$nero;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 15px;
   line-height: 20px;
 }
@@ -20,12 +20,12 @@
 
 .room__section__flex {
   &::before {
-    content: '';
+    content: "";
     display: flex;
   }
 
   &::after {
-    content: '';
+    content: "";
     display: flex;
   }
 }
@@ -252,7 +252,7 @@
 
   &::after {
     background-color: bootstrap.$nero;
-    content: '';
+    content: "";
     display: block;
     bottom: 0px;
     height: 4px;
@@ -366,7 +366,7 @@
 
   &::after {
     border: 0 solid bootstrap.$black;
-    content: '';
+    content: "";
     display: block;
     pointer-events: none;
     position: absolute;

@@ -1,42 +1,38 @@
-import { withApollo } from '../../utils/withApollo';
-import styles from '../../sass/pages/Description.module.scss';
-import { useEffect, useState } from 'react';
-import ListingStore from '../../stores/useListingStore';
-import { useRouter } from 'next/router';
-import { descriptionsList } from '../../constants/descriptionsList';
-import dynamic from 'next/dynamic';
-import { HighlightProps } from '../../types';
+import { withApollo } from "../../utils/withApollo";
+import styles from "../../sass/pages/Description.module.scss";
+import { useEffect, useState } from "react";
+import ListingStore from "../../stores/useListingStore";
+import { useRouter } from "next/router";
+import { descriptionsList } from "../../constants/descriptionsList";
+import dynamic from "next/dynamic";
+import { HighlightProps } from "../../types";
+import { CreateListingLayout } from "../../components/CreateListingLayout";
 
-const CreateListingLayout = dynamic<{}>(() =>
-  import('../../components/CreateListingLayout').then(
-    (mod) => mod.CreateListingLayout
-  )
-);
 const Highlight = dynamic<HighlightProps>(() =>
-  import('../../components/Highlight').then((mod) => mod.Highlight)
+  import("../../components/Highlight").then((mod) => mod.Highlight)
 );
 const TitleDescription = dynamic<{ description?: string; title?: string }>(() =>
-  import('../../components/Fields/TitleDescription').then(
+  import("../../components/Fields/TitleDescription").then(
     (mod) => mod.TitleDescription
   )
 );
 const HorseSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.HorseSvg)
+  import("@second-gear/controller").then((mod) => mod.HorseSvg)
 );
 const HouseSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.HouseSvg)
+  import("@second-gear/controller").then((mod) => mod.HouseSvg)
 );
 const LightHouseSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.LightHouseSvg)
+  import("@second-gear/controller").then((mod) => mod.LightHouseSvg)
 );
 const LocationSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.LocationSvg)
+  import("@second-gear/controller").then((mod) => mod.LocationSvg)
 );
 const PeopleSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.PeopleSvg)
+  import("@second-gear/controller").then((mod) => mod.PeopleSvg)
 );
 const SlippersSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.SlippersSvg)
+  import("@second-gear/controller").then((mod) => mod.SlippersSvg)
 );
 
 interface DescriptionProps {}
@@ -44,39 +40,39 @@ interface DescriptionProps {}
 const items = [
   {
     id: 1,
-    delay: '449ms',
+    delay: "449ms",
     svg: <SlippersSvg />,
-    text: 'Peaceful',
+    text: "Peaceful",
   },
   {
     id: 2,
-    delay: '497ms',
+    delay: "497ms",
     svg: <LightHouseSvg />,
-    text: 'Unique',
+    text: "Unique",
   },
   {
     id: 3,
-    delay: '543ms',
+    delay: "543ms",
     svg: <HorseSvg />,
-    text: 'Family-friendly',
+    text: "Family-friendly",
   },
   {
     id: 4,
-    delay: '584ms',
+    delay: "584ms",
     svg: <HouseSvg />,
-    text: 'Stylish',
+    text: "Stylish",
   },
   {
     id: 5,
-    delay: '621ms',
+    delay: "621ms",
     svg: <LocationSvg />,
-    text: 'Central',
+    text: "Central",
   },
   {
     id: 6,
-    delay: '654ms',
+    delay: "654ms",
     svg: <PeopleSvg />,
-    text: 'Spacious',
+    text: "Spacious",
   },
 ];
 

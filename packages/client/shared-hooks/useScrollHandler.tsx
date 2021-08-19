@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const useScrollHandler = () => {
+  let unmounted = false;
   const [scroll, setScroll] = useState<boolean>(false);
 
   useEffect(() => {
     const onScroll = () => {
-      if (window.pageYOffset > 1) {
+      if (window.pageYOffset > 1 && !unmounted) {
         setScroll(true);
-      } else {
+      } else if (!unmounted) {
         setScroll(false);
       }
     };
 
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
-      document.removeEventListener('scroll', onScroll);
+      unmounted = true;
+      document.removeEventListener("scroll", onScroll);
     };
   }, []);
 

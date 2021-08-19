@@ -1,14 +1,14 @@
-import { useGradient } from '../shared-hooks/useGradient';
-import { DotLoader } from './DotLoader';
-import styles from '../sass/components/GradientBtn.module.scss';
-import { CSSProperties, MouseEventHandler } from 'react';
+import { useGradient } from "../shared-hooks/useGradient";
+import { DotLoader } from "./DotLoader";
+import styles from "../sass/components/GradientBtn.module.scss";
+import { CSSProperties, MouseEventHandler } from "react";
 
 interface GradientBtnProps {
   disabled?: boolean;
   loading?: boolean;
   style?: CSSProperties;
   text: string | JSX.Element;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -27,7 +27,7 @@ export const GradientBtn: React.FC<GradientBtnProps> = ({
       className={styles.btn__save}
       disabled={disabled}
       style={style}
-      type={type ?? 'button'}
+      type={type ?? "button"}
       onMouseMove={(e) => setCoords(e)}
       onClick={onClick}
     >
@@ -36,12 +36,12 @@ export const GradientBtn: React.FC<GradientBtnProps> = ({
           className={styles.radial__span}
           style={{
             backgroundPosition: `calc((100 - ${coords.x}) * 1%) calc((100 - ${coords.y}) * 1%)`,
-            display: loading ? 'none' : '',
+            display: loading ? "none" : "",
           }}
         ></span>
         {loading ? <DotLoader /> : null}
       </span>
-      <span className={styles.text__span}>{text}</span>
+      {!loading ? <span className={styles.text__span}>{text}</span> : null}
     </button>
   );
 };

@@ -1,16 +1,10 @@
-import { useCallback } from 'react';
-import shallow from 'zustand/shallow';
-import { useMeQuery } from '@second-gear/controller';
-import styles from '../../sass/components/Preview.module.scss';
-import ListingStore from '../../stores/useListingStore';
-import { withApollo } from '../../utils/withApollo';
-import dynamic from 'next/dynamic';
-
-const CreateListingLayout = dynamic<{ final?: boolean }>(() =>
-  import('../../components/CreateListingLayout').then(
-    (mod) => mod.CreateListingLayout
-  )
-);
+import { useCallback } from "react";
+import shallow from "zustand/shallow";
+import { useMeQuery } from "@second-gear/controller";
+import styles from "../../sass/components/Preview.module.scss";
+import ListingStore from "../../stores/useListingStore";
+import { withApollo } from "../../utils/withApollo";
+import { CreateListingLayout } from "../../components/CreateListingLayout";
 
 interface PreviewProps {}
 
@@ -50,9 +44,9 @@ const Preview: React.FC<PreviewProps> = ({}) => {
                 <div className={styles.image__padding}>
                   <div className={styles.image__flex}>
                     <img
-                      src={cover[1].src ?? ''}
+                      src={cover[1].src ?? ""}
                       className={styles.image__preview}
-                      alt='cover image'
+                      alt="cover image"
                     />
                   </div>
                 </div>
@@ -61,13 +55,13 @@ const Preview: React.FC<PreviewProps> = ({}) => {
 
               <div className={styles.typeicon__container}>
                 <h2 className={styles.property__type}>
-                  {type} hosted by {data?.me?.name}{' '}
+                  {type} hosted by {data?.me?.name}{" "}
                 </h2>
                 <div className={styles.profile__container}>
                   <img
                     src={data?.me?.photoUrl}
                     className={styles.profile__img}
-                    alt='cover image'
+                    alt="cover image"
                   />
                 </div>
               </div>

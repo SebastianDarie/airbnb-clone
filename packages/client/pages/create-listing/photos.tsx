@@ -1,30 +1,26 @@
-import { Photo } from '@second-gear/common';
-import dynamic from 'next/dynamic';
-import { memo } from 'react';
-import styles from '../../sass/components/PhotoDropzone.module.scss';
-import ListingStore from '../../stores/useListingStore';
-import { DraggablePhotoProps } from '../../types';
-import { withApollo } from '../../utils/withApollo';
+import { Photo } from "@second-gear/common";
+import dynamic from "next/dynamic";
+import { memo } from "react";
+import { CreateListingLayout } from "../../components/CreateListingLayout";
+import styles from "../../sass/components/PhotoDropzone.module.scss";
+import ListingStore from "../../stores/useListingStore";
+import { DraggablePhotoProps } from "../../types";
+import { withApollo } from "../../utils/withApollo";
 
-const CreateListingLayout = dynamic<{ disabled?: boolean }>(() =>
-  import('../../components/CreateListingLayout').then(
-    (mod) => mod.CreateListingLayout
-  )
-);
 const DraggablePhoto = dynamic<DraggablePhotoProps>(() =>
-  import('../../components/Fields/DraggablePhoto').then(
+  import("../../components/Fields/DraggablePhoto").then(
     (mod) => mod.DraggablePhoto
   )
 );
 const DropzoneField = dynamic<{
   addPhoto: (file: File, photo: Photo) => void;
 }>(() =>
-  import('../../components/Fields/DropzoneField').then(
+  import("../../components/Fields/DropzoneField").then(
     (mod) => mod.DropzoneField
   )
 );
 const UploadSvg = dynamic<{}>(() =>
-  import('@second-gear/controller').then((mod) => mod.UploadSvg)
+  import("@second-gear/controller").then((mod) => mod.UploadSvg)
 );
 
 interface PhotosProps {}
@@ -33,27 +29,27 @@ const items = [
   {
     id: 1,
     cover: true,
-    delay: '400ms',
+    delay: "400ms",
   },
   {
     id: 2,
     cover: false,
-    delay: '449ms',
+    delay: "449ms",
   },
   {
     id: 3,
     cover: false,
-    delay: '497ms',
+    delay: "497ms",
   },
   {
     id: 4,
     cover: false,
-    delay: '543ms',
+    delay: "543ms",
   },
   {
     id: 5,
     cover: false,
-    delay: '584ms',
+    delay: "584ms",
   },
 ];
 

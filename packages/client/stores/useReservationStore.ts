@@ -1,5 +1,4 @@
-import create from 'zustand';
-import { devtools } from 'zustand/middleware';
+import create from "zustand";
 
 type ReservationState = {
   startDate: Date | null;
@@ -10,15 +9,13 @@ type ReservationState = {
 };
 
 namespace ReservationStore {
-  export const useReservationStore = create<ReservationState>(
-    devtools(() => ({
-      startDate: null as Date | null,
-      endDate: null as Date | null,
-      adults: 0,
-      children: 0,
-      infants: 0,
-    }))
-  );
+  export const useReservationStore = create<ReservationState>(() => ({
+    startDate: null as Date | null,
+    endDate: null as Date | null,
+    adults: 0,
+    children: 0,
+    infants: 0,
+  }));
   export const updateStart = (date: Date) =>
     useReservationStore.setState((state) => ({ ...state, startDate: date }));
   export const updateEnd = (date: Date) =>

@@ -1,18 +1,12 @@
-import dynamic from 'next/dynamic';
+import { CreateListingLayout } from "../../components/CreateListingLayout";
 import {
   guestFavorites,
   safetyItems,
   standoutAmenities,
-} from '../../constants/amenityList';
-import styles from '../../sass/pages/Amenities.module.scss';
-import ListingStore from '../../stores/useListingStore';
-import { withApollo } from '../../utils/withApollo';
-
-const CreateListingLayout = dynamic<{}>(() =>
-  import('../../components/CreateListingLayout').then(
-    (mod) => mod.CreateListingLayout
-  )
-);
+} from "../../constants/amenityList";
+import styles from "../../sass/pages/Amenities.module.scss";
+import ListingStore from "../../stores/useListingStore";
+import { withApollo } from "../../utils/withApollo";
 
 const Amenities: React.FC<{}> = ({}) => {
   const amenities = ListingStore.useListingStore((state) => state.amenities);
@@ -42,7 +36,7 @@ const Amenities: React.FC<{}> = ({}) => {
                     data={amenity.path}
                     height={52}
                     width={52}
-                    style={{ pointerEvents: 'none' }}
+                    style={{ pointerEvents: "none" }}
                   />
                 </div>
                 <div className={styles.svg__text}>{amenity.title}</div>
@@ -72,7 +66,7 @@ const Amenities: React.FC<{}> = ({}) => {
                     data={favorite.path}
                     height={52}
                     width={52}
-                    style={{ pointerEvents: 'none' }}
+                    style={{ pointerEvents: "none" }}
                   />
                 </div>
                 <div className={styles.svg__text}>{favorite.title}</div>
@@ -102,7 +96,7 @@ const Amenities: React.FC<{}> = ({}) => {
                     data={item.path}
                     height={52}
                     width={52}
-                    style={{ pointerEvents: 'none' }}
+                    style={{ pointerEvents: "none" }}
                   />
                 </div>
                 <div className={styles.svg__text}>{item.title}</div>

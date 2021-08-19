@@ -1,24 +1,24 @@
-import { ActiveElement, BigSearchSvg, ClearSvg } from '@second-gear/controller';
-import Link from 'next/link';
-import { useState, useRef } from 'react';
+import { ActiveElement, BigSearchSvg, ClearSvg } from "@second-gear/controller";
+import Link from "next/link";
+import { useState, useRef } from "react";
 import {
   Combobox,
   ComboboxInput,
   ComboboxList,
   ComboboxOption,
   ComboboxPopover,
-} from '@reach/combobox';
+} from "@reach/combobox";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
-} from 'use-places-autocomplete';
-import shallow from 'zustand/shallow';
-import useOnclickOutside from 'react-cool-onclickoutside';
-import SearchStore from '../../stores/useSearchStore';
-import { GuestsMenu } from './GuestsMenu';
-import styles from '../../sass/components/Searchbar.module.scss';
+} from "use-places-autocomplete";
+import shallow from "zustand/shallow";
+import useOnclickOutside from "react-cool-onclickoutside";
+import SearchStore from "../../stores/useSearchStore";
+import { GuestsMenu } from "./GuestsMenu";
+import styles from "../../sass/components/Searchbar.module.scss";
 
-import '@reach/combobox/styles.css';
+import "@reach/combobox/styles.css";
 
 interface SearchbarProps {
   isLoaded: boolean;
@@ -54,16 +54,16 @@ const PlacesAutocomplete = ({
   };
 
   return (
-    <Combobox onSelect={handleSelect}>
+    <Combobox aria-label="search for place" onSelect={handleSelect}>
       <ComboboxInput
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
-        placeholder='Where are you going?'
+        placeholder="Where are you going?"
       />
       <ComboboxPopover style={{ zIndex: 999 }}>
         <ComboboxList>
-          {status === 'OK' &&
+          {status === "OK" &&
             data.map(({ id, description }) => (
               <ComboboxOption key={id} value={description} />
             ))}
@@ -76,7 +76,7 @@ const PlacesAutocomplete = ({
 export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     active: false,
-    el: '',
+    el: "",
   });
   const menuRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -85,7 +85,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
   const handleClickOutside = () => {
     setActiveElement({
       active: false,
-      el: '',
+      el: "",
     });
   };
 
@@ -97,7 +97,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
   );
 
   const barScroll = scrolled ? styles.scroll : styles.Searchbar;
-  const barActive = activeElement.active ? styles.active : '';
+  const barActive = activeElement.active ? styles.active : "";
 
   return (
     <div className={`${barScroll} ${barActive}`} ref={ref}>
@@ -105,10 +105,10 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
         <div className={styles.part1}>
           <div
             className={styles.part1__container}
-            onClick={() => setActiveElement({ active: true, el: 'searchbar' })}
+            onClick={() => setActiveElement({ active: true, el: "searchbar" })}
           >
             <label className={styles.location}>
-              <div className={styles.location__position} id='location_box'>
+              <div className={styles.location__position} id="location_box">
                 <div className={styles.location__label}>Location</div>
                 {isLoaded ? (
                   <PlacesAutocomplete setLocation={SearchStore.setLocation} />
@@ -117,25 +117,25 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
             </label>
           </div>
 
-          <div id='output' style={{ visibility: 'hidden' }} ref={geoRef}></div>
+          <div id="output" style={{ visibility: "hidden" }} ref={geoRef}></div>
         </div>
 
         <div
           className={styles.vline}
           style={{
             visibility:
-              activeElement.el === 'searchbar' || activeElement.el === 'checkin'
-                ? 'hidden'
-                : 'visible',
+              activeElement.el === "searchbar" || activeElement.el === "checkin"
+                ? "hidden"
+                : "visible",
           }}
         ></div>
 
         <div className={styles.part2__container}>
           <div
             className={styles.part2__checkin}
-            onClick={() => setActiveElement({ active: true, el: 'checkin' })}
+            onClick={() => setActiveElement({ active: true, el: "checkin" })}
           >
-            <button className={styles.btn} type='button'>
+            <button className={styles.btn} type="button">
               <div className={styles.text__container}>
                 <div className={styles.text__bold}>Check in</div>
                 <div className={styles.text__gray}>Add dates</div>
@@ -147,18 +147,18 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
             className={styles.vline}
             style={{
               visibility:
-                activeElement.el === 'checkin' ||
-                activeElement.el === 'checkout'
-                  ? 'hidden'
-                  : 'visible',
+                activeElement.el === "checkin" ||
+                activeElement.el === "checkout"
+                  ? "hidden"
+                  : "visible",
             }}
           ></div>
 
           <div
             className={styles.part2__checkin}
-            onClick={() => setActiveElement({ active: true, el: 'checkout' })}
+            onClick={() => setActiveElement({ active: true, el: "checkout" })}
           >
-            <button className={styles.btn} type='button'>
+            <button className={styles.btn} type="button">
               <div className={styles.text__container}>
                 <div className={styles.text__bold}>Check out</div>
                 <div className={styles.text__gray}>Add dates</div>
@@ -171,28 +171,28 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
           className={styles.vline}
           style={{
             visibility:
-              activeElement.el === 'checkout' || activeElement.el === 'guests'
-                ? 'hidden'
-                : 'visible',
+              activeElement.el === "checkout" || activeElement.el === "guests"
+                ? "hidden"
+                : "visible",
           }}
         ></div>
 
         <div className={styles.part3__container} ref={searchRef}>
           <button
             className={
-              activeElement.el === 'guests' && activeElement.active
+              activeElement.el === "guests" && activeElement.active
                 ? styles.btn__clicked
                 : styles.btn
             }
-            type='button'
-            onClick={() => setActiveElement({ active: true, el: 'guests' })}
+            type="button"
+            onClick={() => setActiveElement({ active: true, el: "guests" })}
           >
             <div className={styles.text__container}>
               <div className={styles.text__bold}>Guests</div>
               {adults || children || infants > 0 ? (
                 <div className={styles.text__guests}>
                   {adults + children} guests
-                  {infants ? ', ' + infants + ' infants' : null}
+                  {infants ? ", " + infants + " infants" : null}
                 </div>
               ) : (
                 <div className={styles.text__gray}>Add guests</div>
@@ -207,7 +207,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
                   className={styles.clear__btn}
                   onClick={SearchStore.resetGuests}
                 >
-                  <span style={{ position: 'relative' }}>
+                  <span style={{ position: "relative" }}>
                     <ClearSvg />
                   </span>
                 </button>
@@ -218,10 +218,10 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
           <GuestsMenu activeElement={activeElement} menuRef={menuRef} />
 
           <div className={styles.icon__btn__container}>
-            <Link href='/search'>
+            <Link href="/search">
               <button
                 className={
-                  activeElement.el === 'guests' && activeElement.active
+                  activeElement.el === "guests" && activeElement.active
                     ? styles.icon__btn__active
                     : styles.icon__btn
                 }
@@ -231,7 +231,7 @@ export const Searchbar: React.FC<SearchbarProps> = ({ isLoaded, scrolled }) => {
 
                   <div
                     className={
-                      activeElement.el === 'guests' && activeElement.active
+                      activeElement.el === "guests" && activeElement.active
                         ? styles.hidden__text__active
                         : styles.hidden__text
                     }
