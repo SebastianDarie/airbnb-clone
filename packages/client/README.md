@@ -39,3 +39,55 @@ When we run `next dev` the next time, Next.js will start looking for any `.ts` o
 Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
 
 A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env.local file
+
+`NEXT_PUBLIC_API_URL`
+
+`NEXT_PUBLIC_BUCKET_NAME`
+
+`NEXT_PUBLIC_CLOUDFRONT_API_ENDPOINT`
+
+`NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
+
+`NEXT_PUBLIC_STRIPE_TEST`
+
+`NEXT_PUBLIC_SUBSCRIPTIONS_URL`
+## Features
+
+- PWA
+- SSR with Next.js and Apollo
+- Sass modules 
+- Map provider managed with Context
+
+  
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/SebastianDarie/airbnb-clone.git
+```
+
+Go to the project directory
+
+```bash
+  cd airbnb-clone/packages/client
+```
+
+Install dependencies
+
+```bash
+  yarn
+```
+
+Start the server
+
+```bash
+  yarn dev
+```
+
+  
