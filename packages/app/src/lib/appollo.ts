@@ -1,11 +1,9 @@
 import {Platform} from 'react-native';
 import {ApolloClient, InMemoryCache} from '@apollo/client';
 import {PaginatedListings} from '@second-gear/controller';
+import {API_URL} from 'react-native-dotenv';
 
-const host =
-  Platform.OS === 'ios'
-    ? 'http://localhost:4000/graphql'
-    : 'http://10.0.2.2:4000/graphql';
+const host = Platform.OS === 'ios' ? API_URL : 'http://10.0.2.2:4000/graphql';
 
 export const client = new ApolloClient({
   assumeImmutableResults: true,

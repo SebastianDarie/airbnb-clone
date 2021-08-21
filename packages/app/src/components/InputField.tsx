@@ -36,6 +36,8 @@ export const InputField: React.FC<InputFieldProps> = ({
             value={value}
             style={styles.input}
             mode={mode}
+            outlineColor="#000000"
+            selectionColor="#000000"
             {...props}
           />
         )}

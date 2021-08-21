@@ -2,122 +2,81 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  *
+ * Generated with the TypeScript template
+ * https://github.com/react-native-community/react-native-template-typescript
+ *
  * @format
- * @flow strict-local
  */
 
-import 'react-native-gesture-handler';
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 import {ApolloProvider} from '@apollo/client';
-import {Provider as PaperProvider} from 'react-native-paper';
-
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {client} from './src/appollo';
-import {Routes} from './src/Routes';
+  NavigationContainer,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native';
+import React from 'react';
+import 'react-native-gesture-handler';
+import {
+  configureFonts,
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperDefaultTheme,
+  Provider as PaperProvider,
+} from 'react-native-paper';
+import {client} from './src/lib/appollo';
+import {AuthSwitch} from './src/navigation/AuthSwitch';
+import {PreferencesContext} from './src/lib/PreferencesContext';
+import {fontConfig} from './src/lib/fontConfig';
+import {navigationRef} from './src/navigation/RootNavigation';
 
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+const CombinedDefaultTheme = {
+  ...PaperDefaultTheme,
+  ...NavigationDefaultTheme,
+  colors: {
+    ...PaperDefaultTheme.colors,
+    ...NavigationDefaultTheme.colors,
+    primary: '#ff385d',
+  },
+  // fonts: configureFonts(fontConfig),
+};
+const CombinedDarkTheme = {
+  ...PaperDarkTheme,
+  ...NavigationDarkTheme,
+  colors: {
+    ...PaperDarkTheme.colors,
+    ...NavigationDarkTheme.colors,
+    // primary: '#ff385d',
+  },
+  fonts: configureFonts(fontConfig),
 };
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [isThemeDark, setIsThemeDark] = React.useState(false);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-  console.log(client.link);
+  let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+
+  const toggleTheme = React.useCallback(() => {
+    return setIsThemeDark(!isThemeDark);
+  }, [isThemeDark]);
+
+  const preferences = React.useMemo(
+    () => ({
+      toggleTheme,
+      isThemeDark,
+    }),
+    [toggleTheme, isThemeDark],
+  );
+
   return (
     <ApolloProvider client={client}>
-      <PaperProvider>
-        {/* <SafeAreaView style={backgroundStyle}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={backgroundStyle}>
-            <Header />
-            <View
-              style={{
-                backgroundColor: isDarkMode ? Colors.black : Colors.white,
-              }}>
-              <Section title="Step One">
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Section>
-              <Section title="See Your Changes">
-                <ReloadInstructions />
-              </Section>
-              <Section title="Debug">
-                <DebugInstructions />
-              </Section>
-              <Section title="Learn More">
-                Read the docs to discover what to do next:
-              </Section>
-              <LearnMoreLinks />
-            </View>
-          </ScrollView>
-        </SafeAreaView> */}
-        <Routes />
-      </PaperProvider>
+      <PreferencesContext.Provider value={preferences}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer ref={navigationRef} theme={theme}>
+            <AuthSwitch />
+          </NavigationContainer>
+        </PaperProvider>
+      </PreferencesContext.Provider>
     </ApolloProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

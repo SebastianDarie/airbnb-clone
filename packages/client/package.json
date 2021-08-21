@@ -30,7 +30,7 @@
     "react-datepicker": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.4",
-    "react-hook-form": "^7.12.1",
+    "react-hook-form": "^7.12.2",
     "sass": "^1.36.0",
     "subscriptions-transport-ws": "^0.9.19",
     "use-places-autocomplete": "^1.9.4",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@types/googlemaps": "^3.43.3",
     "@types/node": "^14.17.6",
-    "@types/react": "^17.0.15",
+    "@types/react": "^17.0.19",
     "@types/react-datepicker": "^4.1.4",
     "@types/react-dom": "^17.0.9",
     "next-unused": "^0.0.6",
