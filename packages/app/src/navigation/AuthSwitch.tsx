@@ -1,22 +1,23 @@
 import {useMeQuery} from '@second-gear/controller';
 import React from 'react';
+import {Text, View} from 'react-native';
 import {Loading} from '../components/Loading';
-import {LandingController} from '../modules/LandingPageController';
+import {AuthNavigator} from './AuthNavigator';
 import {MainNavigator} from './MainNavigator';
+import {BottomNavigator} from './mainNavigator/BottomNavigator';
 
 interface AuthSwitchProps {}
 
 export const AuthSwitch: React.FC<AuthSwitchProps> = () => {
-  const {data, error, loading} = useMeQuery();
-  console.log(error, loading);
+  const {data, loading} = useMeQuery();
 
-  if (loading && !data?.me) {
+  if (loading) {
     return <Loading />;
   }
 
   if (!data?.me && !loading) {
-    return <LandingController />;
+    return <AuthNavigator />;
   }
 
-  return <MainNavigator />;
+  return <BottomNavigator />;
 };

@@ -30,7 +30,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         render={({field: {onChange, onBlur, value}}) => (
           <TextInput
             autoCapitalize="none"
-            error={!!errors?.email}
+            error={!!errors?.[name]}
             onBlur={onBlur}
             onChangeText={val => onChange(val)}
             value={value}
@@ -45,14 +45,9 @@ export const InputField: React.FC<InputFieldProps> = ({
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({messages}) =>
-          messages &&
-          Object.entries(messages).map(([type, message]) => (
-            <Subheading key={type} style={styles.subheading}>
-              {message}
-            </Subheading>
-          ))
-        }
+        render={({message}) => (
+          <Subheading style={styles.subheading}>{message}</Subheading>
+        )}
       />
     </>
   );

@@ -1,6 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {LoginModal} from '../components/LoginModal';
 import {MainPage} from './mainNavigator/MainPage';
 
 export type RootStackParamList = {
@@ -16,15 +15,15 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const MainNavigator = () => {
   return (
     <>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Group>
-          <Stack.Screen
-            name="Explore"
-            component={MainPage}
-            options={{headerShown: false}}
-          />
-        </Stack.Group>
-        <Stack.Group screenOptions={{presentation: 'modal'}}>
+      <Stack.Navigator
+        initialRouteName="Explore"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen
+          name="Explore"
+          component={MainPage}
+          options={{headerShown: false}}
+        />
+        {/* <Stack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen
             name="LoginModal"
             component={LoginModal}
@@ -32,7 +31,7 @@ export const MainNavigator = () => {
               headerBackTitleVisible: false,
             }}
           />
-        </Stack.Group>
+        </Stack.Group> */}
         {/* <Stack.Screen
           name="Main"
           component={MainPage}

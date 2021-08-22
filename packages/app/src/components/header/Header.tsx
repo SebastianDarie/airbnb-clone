@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTheme, Appbar, Switch} from 'react-native-paper';
-import {PreferencesContext} from '../lib/PreferencesContext';
+import {PreferencesContext} from '../../lib/PreferencesContext';
 
 export const Header: React.FC = () => {
   const theme = useTheme();

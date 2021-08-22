@@ -17,6 +17,7 @@ import {
 import React from 'react';
 import 'react-native-gesture-handler';
 import {
+  Colors,
   configureFonts,
   DarkTheme as PaperDarkTheme,
   DefaultTheme as PaperDefaultTheme,
@@ -27,6 +28,11 @@ import {AuthSwitch} from './src/navigation/AuthSwitch';
 import {PreferencesContext} from './src/lib/PreferencesContext';
 import {fontConfig} from './src/lib/fontConfig';
 import {navigationRef} from './src/navigation/RootNavigation';
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+} from 'react-native-safe-area-context';
+import {StatusBar, useColorScheme} from 'react-native';
 
 const CombinedDefaultTheme = {
   ...PaperDefaultTheme,
@@ -34,9 +40,9 @@ const CombinedDefaultTheme = {
   colors: {
     ...PaperDefaultTheme.colors,
     ...NavigationDefaultTheme.colors,
-    primary: '#ff385d',
+    primary: '#00858a',
   },
-  // fonts: configureFonts(fontConfig),
+  fonts: configureFonts(fontConfig),
 };
 const CombinedDarkTheme = {
   ...PaperDarkTheme,
@@ -44,7 +50,7 @@ const CombinedDarkTheme = {
   colors: {
     ...PaperDarkTheme.colors,
     ...NavigationDarkTheme.colors,
-    // primary: '#ff385d',
+    primary: '#ff385d',
   },
   fonts: configureFonts(fontConfig),
 };
@@ -70,9 +76,15 @@ const App = () => {
     <ApolloProvider client={client}>
       <PreferencesContext.Provider value={preferences}>
         <PaperProvider theme={theme}>
-          <NavigationContainer ref={navigationRef} theme={theme}>
-            <AuthSwitch />
-          </NavigationContainer>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor={isThemeDark ? '#ff385c' : '#176e71'}
+            />
+            <NavigationContainer theme={theme}>
+              <AuthSwitch />
+            </NavigationContainer>
+          </SafeAreaProvider>
         </PaperProvider>
       </PreferencesContext.Provider>
     </ApolloProvider>
