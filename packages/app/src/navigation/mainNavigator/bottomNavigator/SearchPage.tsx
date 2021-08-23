@@ -1,9 +1,10 @@
 import React from 'react';
 import {SearchPageController} from '../../../modules/search/SearchPageController';
-import {SearchScreenNavigationProp} from '../../RootNavigation';
+import {ExploreNavigationProp} from '../../RootNavigation';
 
-export const SearchPage: React.FC<SearchScreenNavigationProp> = ({
+export const SearchPage: React.FC<ExploreNavigationProp> = ({
   navigation,
+  route,
 }) => {
-  return <SearchPageController navigation={navigation} />;
+  return <SearchPageController navigation={navigation} route={route} />;
 };

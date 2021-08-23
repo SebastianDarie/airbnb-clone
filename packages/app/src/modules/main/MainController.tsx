@@ -1,34 +1,23 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  Modal,
-  Pressable,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {GOOGLE_MAPS_API_KEY} from 'react-native-dotenv';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import LinearGradient from 'react-native-linear-gradient';
-import {Colors, IconButton} from 'react-native-paper';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Colors} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import {ExploreStackParamList} from '../../navigation/mainNavigator/BottomNavigator';
+import {ExploreNavigationProp} from '../../navigation/RootNavigation';
 
-interface MainControllerProps {
-  navigation: NativeStackNavigationProp<ExploreStackParamList, 'Main'>;
-}
+// interface MainControllerProps {
+//   navigation?: ExploreScreenNavigationProp;
+// }
 
-export const MainController: React.FC<MainControllerProps> = ({navigation}) => {
-  const [search, setSearch] = React.useState(false);
-
+export const MainController: React.FC<ExploreNavigationProp> = ({
+  navigation,
+}) => {
   return (
     <SafeAreaView>
       <View style={styles.searchContainer}>
         <Pressable
           android_ripple={{borderless: true, radius: 5}}
-          onPress={() => setSearch(true)}>
+          onPress={() => navigation?.navigate('Explore', {screen: 'Search'})}>
           <View style={styles.searchArea}>
             <View style={styles.flex}>
               <FontAwesome5Icon name="search" color="#ff385c" size={15} />
@@ -119,14 +108,5 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 16,
     marginLeft: 10,
-  },
-
-  modalArea: {
-    flex: 1,
-    borderRadius: 50,
-  },
-
-  backBtn: {
-    // marginRight: -15,
   },
 });

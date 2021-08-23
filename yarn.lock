@@ -4228,6 +4228,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-native-calendars@npm:^1.1264.2":
+  version: 1.1264.2
+  resolution: "@types/react-native-calendars@npm:1.1264.2"
+  dependencies:
+    "@types/react": "*"
+    "@types/react-native": "*"
+    "@types/xdate": "*"
+  checksum: 5b1b9f1c5633a141b3a2bcbd846e55d2fd1cc2abaeb8550dbd72e07d3b5aa2e453e04c6f31f0e79828eb1b9f6aad1ab54649d8489d3cee3a9b990a33bbd9dcc6
+  languageName: node
+  linkType: hard
+
 "@types/react-native-dotenv@npm:^0.2.0":
   version: 0.2.0
   resolution: "@types/react-native-dotenv@npm:0.2.0"
@@ -4424,6 +4435,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 69a752f6ffd809d170098e84bad046fa6589d9485e8e5292d2c48f8b8014b6b58779e4fac07a808895de79f595032ef055bb36b41945c6e1cc9d63010a0f50fb
+  languageName: node
+  linkType: hard
+
+"@types/xdate@npm:*":
+  version: 0.8.32
+  resolution: "@types/xdate@npm:0.8.32"
+  checksum: b7dc5ab35bb5fcde36c87595469c664dd23d379036e1cb294a3d37b343cc8b6f7bc74ebe775c1b571a96403418be0406e87525a1255a4924ac407d7e2d89fc81
   languageName: node
   linkType: hard
 
@@ -5135,10 +5153,12 @@ __metadata:
     "@second-gear/controller": ^1.2.8
     "@types/jest": ^26.0.23
     "@types/react-native": ^0.64.13
+    "@types/react-native-calendars": ^1.1264.2
     "@types/react-native-dotenv": ^0.2.0
     "@types/react-native-vector-icons": ^6.4.8
     "@types/react-test-renderer": ^16.9.5
     babel-jest: ^26.6.3
+    dayjs: ^1.10.6
     eslint: ^7.14.0
     graphql: ^15.5.1
     jest: ^26.6.3
@@ -5146,6 +5166,7 @@ __metadata:
     react: 17.0.1
     react-hook-form: ^7.12.2
     react-native: 0.64.2
+    react-native-calendars: ^1.1264.0
     react-native-dotenv: ^3.2.0
     react-native-gesture-handler: ^1.10.3
     react-native-google-places-autocomplete: ^2.4.1
@@ -5156,6 +5177,7 @@ __metadata:
     react-native-vector-icons: ^8.1.0
     react-test-renderer: 17.0.1
     typescript: ^4.3.5
+    zustand: ^3.5.9
   languageName: unknown
   linkType: soft
 
@@ -7069,6 +7091,13 @@ __metadata:
   version: 2.22.1
   resolution: "date-fns@npm:2.22.1"
   checksum: a89dc6cdf3929b3f0d54d129a3c288df995fc3e6c8099dacc215e5404b4950fc8551d11a58968dfd3b8d576d0c5e637072f615e8f9c3e47d82c81e3952007d5b
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.10.6":
+  version: 1.10.6
+  resolution: "dayjs@npm:1.10.6"
+  checksum: 474d21162c12d269d40e90cb3ce049bb2d987b8038c173224c8eb5805d6f38f07d11875779a81e282d8f889d3803c4bbb91d09b6ee08a1a44ae60ec26afd8f45
   languageName: node
   linkType: hard
 
@@ -9260,7 +9289,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.2":
+"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -9452,6 +9481,13 @@ __metadata:
   bin:
     image-size: bin/image-size.js
   checksum: 72035834016da448e3bf34a9a314ff41d08f71b1b805d6b78605a35180d57a5895c50a5e0ac3f710c380c5512240bb3fe0d9e49eafb969c8063ad2d86cd2b937
+  languageName: node
+  linkType: hard
+
+"immutable@npm:^4.0.0-rc.12":
+  version: 4.0.0-rc.14
+  resolution: "immutable@npm:4.0.0-rc.14"
+  checksum: 285c1a983694770334f5ce566b7652771ea2626b85979f94a68fcbceacc9dea02847154d237f10a88cab22ffbc0cc612b1cc66a32e44e042f134d3c3c8a79474
   languageName: node
   linkType: hard
 
@@ -11454,6 +11490,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"memoize-one@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "memoize-one@npm:5.2.1"
+  checksum: 6b7dab7d8d9dca696d500dbc7f6b1445cbc4168d8208ee2746dd1a7f75378445d9bc6a2def7868afee81c87e630294456310f33f3f1eb738f69d748c797d87d5
+  languageName: node
+  linkType: hard
+
 "memory-fs@npm:^0.5.0":
   version: 0.5.0
   resolution: "memory-fs@npm:0.5.0"
@@ -12102,6 +12145,13 @@ __metadata:
   bin:
     lookup-amd: bin/cli.js
   checksum: 3407b5d3f43a4c22b709c33bda5502c6d4c565c26a1281f31f9840ace97f65e796ec4eb38a712bd41ac79d4e10454f5397e3807ff181b2f26f3bd69a29588225
+  languageName: node
+  linkType: hard
+
+"moment@npm:^2.24.0":
+  version: 2.29.1
+  resolution: "moment@npm:2.29.1"
+  checksum: 86729013febf7160de5b93da69273dd304d674b0224f9544b3abd09a87671ddd2cdd57598261ce57588910d63747ffd5590965e83c790d8bf327083c0e0a06e0
   languageName: node
   linkType: hard
 
@@ -13628,7 +13678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.7.2, prop-types@npm:^15.7.2":
+"prop-types@npm:15.7.2, prop-types@npm:^15.5.10, prop-types@npm:^15.7.2":
   version: 15.7.2
   resolution: "prop-types@npm:15.7.2"
   dependencies:
@@ -13966,6 +14016,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-calendars@npm:^1.1264.0":
+  version: 1.1264.0
+  resolution: "react-native-calendars@npm:1.1264.0"
+  dependencies:
+    hoist-non-react-statics: ^3.3.1
+    immutable: ^4.0.0-rc.12
+    lodash: ^4.17.15
+    memoize-one: ^5.2.1
+    moment: ^2.24.0
+    prop-types: ^15.5.10
+    react-native-swipe-gestures: ^1.0.5
+    xdate: ^0.8.0
+  dependenciesMeta:
+    moment:
+      optional: true
+  checksum: 87d9ca7ada83cd2aa678e4e3f78d092d666ffc72037a9eeac16e312de4ebdacf9018a66feb57f040b87284212eaf47fd3e55a901003f90b3854827df265e2e71
+  languageName: node
+  linkType: hard
+
 "react-native-codegen@npm:^0.0.6":
   version: 0.0.6
   resolution: "react-native-codegen@npm:0.0.6"
@@ -14064,6 +14133,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f304bc78afbf3f48ce557e4c9e3a65fe41e02e40798f017ec6928dd54204783cc146a99b8f4f53cdbb6930c3c5796002bae68976a660d8189e2fc9ac58e9be00
+  languageName: node
+  linkType: hard
+
+"react-native-swipe-gestures@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "react-native-swipe-gestures@npm:1.0.5"
+  checksum: b4f97cd5861098e370891456b230356228ea0a1441778823183dfd66b254828905896540f1fb483d7da22beb5590a8b012c7044326d513255fd441607b86bcd4
   languageName: node
   linkType: hard
 
@@ -17462,6 +17538,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"xdate@npm:^0.8.0":
+  version: 0.8.2
+  resolution: "xdate@npm:0.8.2"
+  checksum: 834028b40dcfdb9ec080601171b893e7b248c6859927dadb283169198f30f8efff3360badaeedc8d0ce07bc20eae93eb678bd39cdeb0c49369bdee3a5750db59
+  languageName: node
+  linkType: hard
+
 "xdg-basedir@npm:^4.0.0":
   version: 4.0.0
   resolution: "xdg-basedir@npm:4.0.0"
@@ -17716,5 +17799,17 @@ resolve@^2.0.0-next.3:
     react:
       optional: true
   checksum: fab75e4a7a9659ab4fd01a8ec2d5782b8a67ad06be9ec909c7b978f399cb9c0e7a6d44e1dcd0f38055d116392d3a91819ef28d90ae9f7a05556ba19524f7cff3
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^3.5.9":
+  version: 3.5.9
+  resolution: "zustand@npm:3.5.9"
+  peerDependencies:
+    react: ">=16.8"
+  peerDependenciesMeta:
+    react:
+      optional: true
+  checksum: 7247391b60eb9d08c1e40375601f7e09703997b02ea51aa72d894a62429b076b4e534698a2462012bb0674d6dedf8a36890e3f9a1a762d851efb088ecd689594
   languageName: node
   linkType: hard

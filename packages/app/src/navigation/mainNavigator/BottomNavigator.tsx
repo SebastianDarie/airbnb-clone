@@ -5,12 +5,18 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {MainPage} from './MainPage';
-import LinearGradient from 'react-native-linear-gradient';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SearchPage} from './bottomNavigator/SearchPage';
-const Tab = createBottomTabNavigator();
+import {
+  getFocusedRouteNameFromRoute,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import {CalendarPage} from './bottomNavigator/CalendarPage';
+import {GuestsPage} from './GuestsPage';
 
 export type ExploreStackParamList = {
+  Calendar: undefined;
+  Guests: undefined;
   Main: undefined;
   Search: undefined;
 };
@@ -19,39 +25,64 @@ const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
 
 const ExploreStackScreen: React.FC = () => {
   return (
-    <ExploreStack.Navigator screenOptions={{headerShown: false}}>
+    <ExploreStack.Navigator
+      initialRouteName="Main"
+      screenOptions={{headerShown: false}}>
       <ExploreStack.Screen name="Main" component={MainPage} />
       <ExploreStack.Screen
         name="Search"
         component={SearchPage}
-        options={{presentation: 'modal'}}
+        options={{
+          presentation: 'modal',
+        }}
+      />
+      <ExploreStack.Screen
+        name="Calendar"
+        component={CalendarPage}
+        options={{presentation: 'card'}}
+      />
+      <ExploreStack.Screen
+        name="Guests"
+        component={GuestsPage}
+        options={{presentation: 'card'}}
       />
     </ExploreStack.Navigator>
   );
 };
 
+export type TabParamList = {
+  Explore: NavigatorScreenParams<ExploreStackParamList>;
+  Wishlists: undefined;
+  Trips: undefined;
+  Inbox: undefined;
+  Profile: undefined;
+};
+
+const Tab = createBottomTabNavigator<TabParamList>();
+
 export const BottomNavigator: React.FC = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Explore"
       screenOptions={{
         tabBarActiveTintColor: '#ff385d',
       }}>
       <Tab.Screen
         name="Explore"
         component={ExploreStackScreen}
-        options={{
-          // headerBackground: () => (
-          //   <LinearGradient
-          //     start={{x: 0, y: 0}}
-          //     end={{x: 1, y: 0}}
-          //     colors={['#5b49a4', '#8e4a99', '#bd487f', '#d44a76']}
-          //   />
-          // ),
+        options={({route}) => ({
           headerShown: false,
           tabBarIcon: ({color, size}) => (
             <Ionicon name="md-search-outline" color={color} size={size} />
           ),
-        }}
+          tabBarStyle: (_r => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+
+            if (routeName === 'Search') {
+              return {display: 'none'};
+            }
+          })(route),
+        })}
       />
       <Tab.Screen
         name="Wishlists"
