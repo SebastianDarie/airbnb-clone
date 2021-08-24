@@ -18,6 +18,10 @@ target 'app' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+  pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
+
   target 'appTests' do
     inherit! :complete
     # Pods for testing

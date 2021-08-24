@@ -2,10 +2,17 @@ import {
   SearchListingsDocument,
   useSearchListingsQuery,
 } from "@second-gear/controller";
-import { NetworkStatus } from "@apollo/client";
+import { NetworkStatus, useApolloClient } from "@apollo/client";
 import MarkerWithLabel from "@googlemaps/markerwithlabel";
 import { GoogleMap } from "@react-google-maps/api";
-import { CSSProperties, memo, useCallback, useRef, useState } from "react";
+import {
+  CSSProperties,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import shallow from "zustand/shallow";
 import { DotLoader } from "../components/DotLoader";
 import { ListingCard } from "../components/Search/ListingCard";
@@ -51,6 +58,7 @@ const options: google.maps.MapOptions = {
 };
 
 const Search: React.FC<SearchProps> = ({}) => {
+  const apolloClient = useApolloClient();
   const { isLoaded } = useGoogleMaps();
   const [checked, setChecked] = useState<boolean>(true);
   const [markerManager, setMarkerManager] = useState<MarkerManager>();
@@ -68,37 +76,39 @@ const Search: React.FC<SearchProps> = ({}) => {
     }
   }, []);
 
-  const [
-    latitude,
-    longitude,
-    adults,
-    children,
-    infants,
-  ] = SearchStore.useSearchStore(
-    (state) => [
-      state.latitude,
-      state.longitude,
-      state.adults,
-      state.children,
-      state.infants,
-    ],
-    shallow
-  );
-  const {
-    data,
-    error,
-    loading,
-    networkStatus,
-    fetchMore,
-    refetch,
-  } = useSearchListingsQuery({
-    variables: {
-      input: { latitude, longitude, guests: adults + children + infants },
-      limit: 20,
-      cursor: null,
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+  const [bounds, latitude, longitude, adults, children, infants] =
+    SearchStore.useSearchStore(
+      (state) => [
+        state.bounds,
+        state.latitude,
+        state.longitude,
+        state.adults,
+        state.children,
+        state.infants,
+      ],
+      shallow
+    );
+  const { data, error, loading, networkStatus, fetchMore, refetch } =
+    useSearchListingsQuery({
+      variables: {
+        input: {
+          bounds: {
+            northEast: bounds.getNorthEast().toJSON(),
+            southWest: bounds.getSouthWest().toJSON(),
+          },
+          guests: adults + children + infants,
+        },
+        limit: 20,
+        cursor: null,
+      },
+      notifyOnNetworkStatusChange: true,
+    });
+
+  useEffect(() => {
+    return () => {
+      apolloClient.cache.evict({ fieldName: "searchListings:{}" });
+    };
+  }, []);
 
   if (!data && error) {
     return (
@@ -176,8 +186,7 @@ const Search: React.FC<SearchProps> = ({}) => {
                   query: SearchListingsDocument,
                   variables: {
                     input: {
-                      latitude,
-                      longitude,
+                      bounds,
                       guests: adults + children + infants,
                     },
                     limit: 20,
@@ -207,18 +216,19 @@ const Search: React.FC<SearchProps> = ({}) => {
                   if (checked) {
                     const newLat = mapRef.current?.getCenter().lat();
                     const newLng = mapRef.current?.getCenter().lng();
-                    if (latitude !== newLat || longitude !== newLng) {
-                      SearchStore.setLocation("", newLat!, newLng!);
-                    }
-
                     const currBounds = mapRef.current?.getBounds();
 
-                    const {
-                      north,
-                      east,
-                      south,
-                      west,
-                    } = currBounds?.toJSON() as DirectionsBoundsLiteral;
+                    if (latitude !== newLat || longitude !== newLng) {
+                      SearchStore.setLocation(
+                        "",
+                        newLat!,
+                        newLng!,
+                        currBounds!
+                      );
+                    }
+
+                    const { north, east, south, west } =
+                      currBounds?.toJSON() as DirectionsBoundsLiteral;
 
                     const bounds = {
                       northEast: { lat: north, lng: east },
@@ -240,8 +250,14 @@ const Search: React.FC<SearchProps> = ({}) => {
                   } else if (!checked) {
                     const newLat = mapRef.current?.getCenter().lat();
                     const newLng = mapRef.current?.getCenter().lng();
+                    const currBounds = mapRef.current?.getBounds();
                     if (latitude !== newLat || longitude !== newLng) {
-                      SearchStore.setLocation("", newLat!, newLng!);
+                      SearchStore.setLocation(
+                        "",
+                        newLat!,
+                        newLng!,
+                        currBounds!
+                      );
                     }
                   }
                 }}

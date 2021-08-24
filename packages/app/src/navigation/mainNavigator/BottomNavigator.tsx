@@ -1,24 +1,17 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigatorScreenParams} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import Feather from 'react-native-vector-icons/Feather';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {MainPage} from './MainPage';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {SearchPage} from './bottomNavigator/SearchPage';
-import {
-  getFocusedRouteNameFromRoute,
-  NavigatorScreenParams,
-} from '@react-navigation/native';
-import {CalendarPage} from './bottomNavigator/CalendarPage';
-import {GuestsPage} from './GuestsPage';
+import {ListingsPage} from './bottomNavigator/ListingsPage';
+import {MainPage} from './bottomNavigator/MainPage';
 
 export type ExploreStackParamList = {
-  Calendar: undefined;
-  Guests: undefined;
+  Listings: undefined;
   Main: undefined;
-  Search: undefined;
 };
 
 const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
@@ -29,23 +22,7 @@ const ExploreStackScreen: React.FC = () => {
       initialRouteName="Main"
       screenOptions={{headerShown: false}}>
       <ExploreStack.Screen name="Main" component={MainPage} />
-      <ExploreStack.Screen
-        name="Search"
-        component={SearchPage}
-        options={{
-          presentation: 'modal',
-        }}
-      />
-      <ExploreStack.Screen
-        name="Calendar"
-        component={CalendarPage}
-        options={{presentation: 'card'}}
-      />
-      <ExploreStack.Screen
-        name="Guests"
-        component={GuestsPage}
-        options={{presentation: 'card'}}
-      />
+      <ExploreStack.Screen name="Listings" component={ListingsPage} />
     </ExploreStack.Navigator>
   );
 };
@@ -65,24 +42,24 @@ export const BottomNavigator: React.FC = () => {
     <Tab.Navigator
       initialRouteName="Explore"
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: '#ff385d',
       }}>
       <Tab.Screen
         name="Explore"
         component={ExploreStackScreen}
-        options={({route}) => ({
-          headerShown: false,
+        // listeners={({navigation, route}) => ({
+        //   tabPress: e => {
+        //     if (route.name === 'Explore') {
+        //       e.preventDefault();
+        //     }
+        //   },
+        // })}
+        options={{
           tabBarIcon: ({color, size}) => (
             <Ionicon name="md-search-outline" color={color} size={size} />
           ),
-          tabBarStyle: (_r => {
-            const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-
-            if (routeName === 'Search') {
-              return {display: 'none'};
-            }
-          })(route),
-        })}
+        }}
       />
       <Tab.Screen
         name="Wishlists"

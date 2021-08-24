@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {AppHeader} from '../components/header/AppHeader';
+import {AuthHeader} from '../components/header/AuthHeader';
 import {LandingPage} from './LandingPage';
 import {LoginPage} from './LoginPage';
 
@@ -17,7 +17,7 @@ export const AuthNavigator = () => {
       <Stack.Navigator
         initialRouteName="LandingModal"
         screenOptions={{
-          header: props => <AppHeader {...props} />,
+          header: props => <AuthHeader {...props} />,
         }}>
         <Stack.Screen
           name="LandingModal"

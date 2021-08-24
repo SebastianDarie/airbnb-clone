@@ -3,7 +3,7 @@ import React from 'react';
 import {Appbar, Colors, IconButton} from 'react-native-paper';
 import {PreferencesContext} from '../../lib/PreferencesContext';
 
-export const AppHeader: React.FC<NativeStackHeaderProps> = ({
+export const AuthHeader: React.FC<NativeStackHeaderProps> = ({
   back,
   navigation,
   options,

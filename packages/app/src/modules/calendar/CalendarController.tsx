@@ -1,19 +1,16 @@
 import dayjs from 'dayjs';
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {CalendarList, DateObject, PeriodMarking} from 'react-native-calendars';
-import {Colors, Headline, IconButton, Title} from 'react-native-paper';
+import {Colors} from 'react-native-paper';
 import shallow from 'zustand/shallow';
-import {GradientButton} from '../../components/GradientBtn';
 import {GradientWrapper} from '../../components/GradientWrapper';
+import {SearchHeader} from '../../components/header/SearchHeader';
+import {SearchActions} from '../../components/SearchActions';
 import {useSearchStore} from '../../global-stores/useSearchStore';
-import {ExploreNavigationProp} from '../../navigation/RootNavigation';
+import {CalendarScreenNavigationProp} from '../../navigation/RootNavigation';
 
-interface PeriodObject {
-  [date: string]: PeriodMarking;
-}
-
-export const CalendarController: React.FC<ExploreNavigationProp> = ({
+export const CalendarController: React.FC<CalendarScreenNavigationProp> = ({
   navigation,
 }) => {
   const [fromDate, setFromDate] = React.useState('');
@@ -26,101 +23,6 @@ export const CalendarController: React.FC<ExploreNavigationProp> = ({
     state => [state.setStartDate, state.setEndDate],
     shallow,
   );
-
-  // const isEmpty = (obj: Object) => {
-  //   return Object.keys(obj).length === 0;
-  // };
-
-  // const getPeriod = (startTimestamp: number, endTimestamp: number) => {
-  //   const period: {
-  //     [date: string]: PeriodMarking;
-  //   } = {};
-  //   let start = dayjs.unix(startTimestamp);
-  //   const end = dayjs.unix(endTimestamp);
-  //   while (end.isAfter(start)) {
-  //     period[start.format('YYYY-MM-DD')] = {
-  //       color: '#ff385d',
-  //       textColor: Colors.white,
-  //       startingDay: dayjs(start).unix() === startTimestamp,
-  //     };
-  //     start = start.add(1, 'days');
-  //   }
-  //   period[end.format('YYYY-MM-DD')] = {
-  //     color: '#ff385d',
-  //     textColor: Colors.white,
-  //     endingDay: true,
-  //   };
-
-  //   return period;
-  // };
-
-  // const setDate = (date: DateObject) => {
-  //   const {dateString, timestamp} = date;
-
-  //   if (isEmpty(startDate) || !isEmpty(startDate) || !isEmpty(endDate)) {
-  //     const period: PeriodObject = {
-  //       [dateString]: {
-  //         color: '#ff385d',
-  //         textColor: Colors.white,
-  //         startingDay: true,
-  //       },
-  //     };
-  //     setMarkedDates(period);
-  //     setStartDate(date);
-  //     setEndDate({});
-  //   } else {
-  //     const {timestamp: endTimestamp} = startDate;
-  //     if (endTimestamp > timestamp) {
-  //       const period = getPeriod(timestamp, endTimestamp);
-  //       console.log(period);
-  //       setMarkedDates(period);
-  //     } else {
-  //       const period = getPeriod(endTimestamp, timestamp);
-  //       console.log(period);
-  //       setMarkedDates(period);
-  //     }
-  //   }
-  // };
-
-  // const selectDate = (date: DateObject) => {
-  //   if (isStartDatePicked === false) {
-  //     let markedDates: {[date: string]: PeriodMarking} = {};
-  //     markedDates[date.dateString] = {
-  //       startingDay: true,
-  //       color: '#ff385d',
-  //       textColor: Colors.white,
-  //     };
-  //     setPeriod(markedDates);
-  //     setIsEndDatePicked(false);
-  //     setIsStartDatePicked(true);
-  //     setStartDate(date.dateString);
-  //   } else {
-  //     let markedDates: {[date: string]: PeriodMarking} = {};
-  //     let startDay = dayjs(startDate);
-  //     let endDay = dayjs(date.dateString);
-  //     let range = endDay.diff(startDay, 'days');
-  //     if (range > 0) {
-  //       for (let i = 1; i <= range; i++) {
-  //         let tempDate: dayjs.Dayjs | string = startDay.add(1, 'day');
-  //         tempDate = dayjs(tempDate).format('YYYY-MM-DD');
-  //         if (i < range) {
-  //           markedDates[tempDate] = {color: '#ff385d', textColor: Colors.white};
-  //         } else {
-  //           markedDates[tempDate] = {
-  //             endingDay: true,
-  //             color: '#ff385d',
-  //             textColor: Colors.white,
-  //           };
-  //         }
-  //       }
-
-  //       setPeriod(markedDates);
-  //       setIsEndDatePicked(true);
-  //       setIsStartDatePicked(false);
-  //       setStartDate('');
-  //     }
-  //   }
-  // };
 
   const setupStartMarker = (day: DateObject) => {
     let _markedDates: {[date: string]: PeriodMarking} = {
@@ -144,10 +46,6 @@ export const CalendarController: React.FC<ExploreNavigationProp> = ({
     let mFromDate = dayjs(_fromDate);
     let mToDate = dayjs(toDate);
     let range = mToDate.diff(mFromDate, 'days');
-    // console.log(
-    //   mFromDate.diff(mToDate, 'days'),
-    //   mToDate.diff(mFromDate, 'days'),
-    // );
     if (range >= 0) {
       if (range === 0) {
         _markedDates = {[toDate]: {color: '#ff385d', textColor: Colors.white}};
@@ -179,7 +77,6 @@ export const CalendarController: React.FC<ExploreNavigationProp> = ({
         day.dateString,
         _markedDates,
       );
-      // console.log(mMarkedDates, range);
       if (range >= 0) {
         setIsStartDatePicked(true);
         setIsEndDatePicked(true);
@@ -199,14 +96,21 @@ export const CalendarController: React.FC<ExploreNavigationProp> = ({
     navigation.navigate('Guests');
   };
 
+  let during = '';
+  let startDay = dayjs(markedArray[0]);
+  let endDay = dayjs(markedArray[markedArray.length - 1]);
+  if (startDay.day() === endDay.day()) {
+    during = startDay.format('MMM DD ');
+  } else if (startDay.month() === endDay.month()) {
+    during = startDay.format('MMM DD ') + endDay.format('- DD');
+  } else {
+    during = startDay.format('MMM DD ') + endDay.format('- MMM DD');
+  }
+
   return (
     <GradientWrapper>
       <View style={styles.calendarContainer}>
-        <View style={styles.headerContainer}>
-          <IconButton icon="arrow-left" onPress={() => navigation.goBack()} />
-          <Title>When will you be there?</Title>
-          <View style={styles.invisibleView} />
-        </View>
+        <SearchHeader title="When will you be there?" subheading={during} />
         <CalendarList
           current={fromDate}
           minDate={new Date()}
@@ -228,21 +132,14 @@ export const CalendarController: React.FC<ExploreNavigationProp> = ({
           onDayPress={onDayPress}
         />
       </View>
-      <View style={styles.calendarActions}>
-        <View>
-          <Pressable
-            onPress={() => {
-              if (disabled) {
-                navigation.navigate('Guests');
-              } else {
-                setMarkedDates({});
-              }
-            }}>
-            <Text style={styles.textBtn}>{disabled ? 'Skip' : 'Clear'}</Text>
-          </Pressable>
-        </View>
-        <GradientButton disabled={disabled} onPress={onPress} />
-      </View>
+
+      <SearchActions
+        disabled={disabled}
+        navigation={navigation}
+        route={'Guests'}
+        onPress={onPress}
+        setMarkedDates={setMarkedDates}
+      />
     </GradientWrapper>
   );
 };
@@ -250,29 +147,5 @@ export const CalendarController: React.FC<ExploreNavigationProp> = ({
 const styles = StyleSheet.create({
   calendarContainer: {
     flex: 1,
-  },
-
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: 5,
-  },
-
-  invisibleView: {
-    marginLeft: 35,
-  },
-
-  calendarActions: {
-    borderTopColor: Colors.grey100,
-    borderTopWidth: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-  },
-
-  textBtn: {
-    textDecorationLine: 'underline',
   },
 });

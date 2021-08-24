@@ -5162,12 +5162,15 @@ __metadata:
     eslint: ^7.14.0
     graphql: ^15.5.1
     jest: ^26.6.3
+    lottie-ios: 3.2.3
+    lottie-react-native: ^4.0.3
     metro-react-native-babel-preset: ^0.66.2
     react: 17.0.1
     react-hook-form: ^7.12.2
     react-native: 0.64.2
     react-native-calendars: ^1.1264.0
     react-native-dotenv: ^3.2.0
+    react-native-fast-image: ^8.3.7
     react-native-gesture-handler: ^1.10.3
     react-native-google-places-autocomplete: ^2.4.1
     react-native-linear-gradient: ^2.5.6
@@ -7174,6 +7177,13 @@ __metadata:
   dependencies:
     mimic-response: ^1.0.0
   checksum: 93b0dcc8f0c32f1d5eb656e7db54fa5554227b8bfefd242c9d28f7b9c3908052c2ab8297b4af6256759da496679ee3a806d559f22d29b7e71a25879a2c25b99b
+  languageName: node
+  linkType: hard
+
+"dedent@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "dedent@npm:0.6.0"
+  checksum: f1861a7413297e6b21324c24a366da34d0affdc51de8d0a113a3ac58a7aab3ebd712fde04de49decdfe4ee36048d7feaf0133b6b08fdb8bc3e68b62f9a080029
   languageName: node
   linkType: hard
 
@@ -9621,7 +9631,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:2.2.4, invariant@npm:^2.2.4":
+"invariant@npm:2.2.4, invariant@npm:^2.2.2, invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -11338,6 +11348,28 @@ __metadata:
   bin:
     loose-envify: cli.js
   checksum: 5c3b47bbe5f597a3889fb001a3a98aaea2a3fafa48089c19034de1e0121bf57dbee609d184478514d74d5c5a7e9cfa3d846343455e5123b060040d46c39e91dc
+  languageName: node
+  linkType: hard
+
+"lottie-ios@npm:3.2.3":
+  version: 3.2.3
+  resolution: "lottie-ios@npm:3.2.3"
+  checksum: e1e176fd8a86999ff876d49c841b0af0153fedc17a7c4a1368bda9c7539c19254f7c747744b1b29c69f71c6e0e54af2859e3721cba9b5cefdf4f5717638f8203
+  languageName: node
+  linkType: hard
+
+"lottie-react-native@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "lottie-react-native@npm:4.0.3"
+  dependencies:
+    invariant: ^2.2.2
+    prop-types: ^15.5.10
+    react-native-safe-modules: ^1.0.3
+  peerDependencies:
+    lottie-ios: ^3.2.3
+    react: "*"
+    react-native: ">=0.46"
+  checksum: e3d9a743e772ad54d81f712b3d9f64a96f57a1e286171081694832c0cf455d800de363b9a1a5653a5e0a95a5f782b8b45aabe20b32406d094ef41dc512da81b1
   languageName: node
   linkType: hard
 
@@ -14055,6 +14087,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-fast-image@npm:^8.3.7":
+  version: 8.3.7
+  resolution: "react-native-fast-image@npm:8.3.7"
+  peerDependencies:
+    react: ^16.8.6 || ^17.0.0
+    react-native: ">=0.60.0"
+  checksum: c16a5e3ed37d3bbf184b01c7d0e5332f6b30c65d124d1457832586d90cc368f8107fcdf2dc9d841518d3b609f02a87f9715c1fcca2463d474d6c27bf7d981dca
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^1.10.3":
   version: 1.10.3
   resolution: "react-native-gesture-handler@npm:1.10.3"
@@ -14121,6 +14163,17 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 122f1c35c8f89f7beb9a27f6106b3567a3c537ae2a8971f51e0ab674dc6d3c3d6988e7f3895a9b3078269e7cf37e42f52af5fe47ef9c2287ef8b9e0d631348ad
+  languageName: node
+  linkType: hard
+
+"react-native-safe-modules@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "react-native-safe-modules@npm:1.0.3"
+  dependencies:
+    dedent: ^0.6.0
+  peerDependencies:
+    react-native: "*"
+  checksum: 1bf834471330fd5a817539c0bbc97d281ec1d840d73947611d0ed7481c6c46949db640a5461e5fc0b1879c5630c499010fb1a4e9567baafa6b92f2ca62ef40e6
   languageName: node
   linkType: hard
 

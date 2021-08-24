@@ -3,13 +3,9 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Colors} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import {ExploreNavigationProp} from '../../navigation/RootNavigation';
+import {MainScreenNavigationProp} from '../../navigation/RootNavigation';
 
-// interface MainControllerProps {
-//   navigation?: ExploreScreenNavigationProp;
-// }
-
-export const MainController: React.FC<ExploreNavigationProp> = ({
+export const MainController: React.FC<MainScreenNavigationProp> = ({
   navigation,
 }) => {
   return (
@@ -17,7 +13,7 @@ export const MainController: React.FC<ExploreNavigationProp> = ({
       <View style={styles.searchContainer}>
         <Pressable
           android_ripple={{borderless: true, radius: 5}}
-          onPress={() => navigation?.navigate('Explore', {screen: 'Search'})}>
+          onPress={() => navigation.navigate('Search')}>
           <View style={styles.searchArea}>
             <View style={styles.flex}>
               <FontAwesome5Icon name="search" color="#ff385c" size={15} />
@@ -25,54 +21,6 @@ export const MainController: React.FC<ExploreNavigationProp> = ({
             </View>
           </View>
         </Pressable>
-        {/* <Modal visible={search} animationType="slide">
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['#5b49a4', '#8e4a99', '#bd487f', '#d44a76']}>
-            <StatusBar
-              animated={true}
-              barStyle="light-content"
-              backgroundColor="transparent"
-              translucent={true}
-            />
-          </LinearGradient>
-
-          <SafeAreaView style={styles.modalArea}>
-            <GooglePlacesAutocomplete
-              query={{
-                key: GOOGLE_MAPS_API_KEY,
-                language: 'en',
-              }}
-              placeholder="Where are you going?"
-              renderLeftButton={() => (
-                <IconButton
-                  icon="arrow-left"
-                  style={styles.backBtn}
-                  onPress={() => setSearch(false)}
-                />
-              )}
-              styles={{
-                container: {
-                  // paddingHorizontal: 15,
-                  paddingTop: 15,
-                },
-                textInput: {
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                },
-                textInputContainer: {
-                  color: Colors.black,
-                  // alignItems: 'center',
-                },
-              }}
-              onPress={(data, details = null) => {
-                // 'details' is provided when fetchDetails = true
-                console.log(data, details);
-              }}
-            />
-          </SafeAreaView>
-        </Modal> */}
       </View>
     </SafeAreaView>
   );

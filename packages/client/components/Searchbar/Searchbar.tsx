@@ -28,7 +28,12 @@ interface SearchbarProps {
 const PlacesAutocomplete = ({
   setLocation,
 }: {
-  setLocation: (s: string, lat: number, lng: number) => void;
+  setLocation: (
+    s: string,
+    lat: number,
+    lng: number,
+    bounds: google.maps.LatLngBounds
+  ) => void;
 }) => {
   const {
     ready,
@@ -47,7 +52,7 @@ const PlacesAutocomplete = ({
     try {
       const res = await getGeocode({ address });
       const { lat, lng } = await getLatLng(res[0]);
-      setLocation(res[0].formatted_address, lat, lng);
+      setLocation(res[0].formatted_address, lat, lng, res[0].geometry.bounds);
     } catch (err) {
       console.log(err);
     }

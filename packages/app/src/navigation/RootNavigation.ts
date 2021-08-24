@@ -1,12 +1,16 @@
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {
-  CompositeNavigationProp,
+  CompositeScreenProps,
   createNavigationContainerRef,
   ParamListBase,
   RouteProp,
 } from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {AuthStackParamList} from './AuthNavigator';
+import {RootStackParamList} from './MainNavigator';
 import {
   ExploreStackParamList,
   TabParamList,
@@ -40,25 +44,50 @@ export type LoginScreenNavigationProp = StackNavigationProps<
   'LoginModal'
 >;
 
-// export type MainScreenNavigationProp = StackNavigationProps<
-//   ExploreStackParamList,
-//   'Main'
-// >;
+export type MainScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Home'
+>;
 
-// export type SearchScreenNavigationProp = StackNavigationProps<
-//   ExploreStackParamList,
-//   'Search'
-// >;
+export type CalendarScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Calendar'
+>;
 
-export type ExploreScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<TabParamList, 'Explore'>,
-  NativeStackNavigationProp<ExploreStackParamList>
+export type GuestsScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Guests'
+>;
+
+export type SearchScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Search'
+>;
+
+export type ListingsScreenNavigationProp = CompositeScreenProps<
+  NativeStackScreenProps<ExploreStackParamList, 'Listings'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabParamList, 'Explore'>,
+    NativeStackScreenProps<RootStackParamList>
+  >
+>;
+
+export type ExploreScreenNavigationProp = CompositeScreenProps<
+  BottomTabScreenProps<TabParamList, 'Explore'>,
+  NativeStackScreenProps<ExploreStackParamList>
 >;
 
 export type ExploreNavigationProp = {
   navigation: ExploreScreenNavigationProp;
   route: RouteProp<TabParamList, 'Explore'>;
 };
+
+export type RootStackRoutes =
+  | 'Calendar'
+  | 'Guests'
+  | 'Home'
+  | 'Room'
+  | 'Search';
 
 export const navigationRef = createNavigationContainerRef();
 

@@ -5,11 +5,13 @@ import {Button} from 'react-native-paper';
 
 interface GradientBtnProps {
   disabled?: boolean;
+  text?: string;
   onPress: ((event: GestureResponderEvent) => void) | null | undefined;
 }
 
 export const GradientButton: React.FC<GradientBtnProps> = ({
   disabled,
+  text,
   onPress,
 }) => {
   return (
@@ -29,7 +31,7 @@ export const GradientButton: React.FC<GradientBtnProps> = ({
         </LinearGradient>
       ) : (
         <Button mode="contained" disabled={true}>
-          Continue
+          {text ?? 'Continue'}
         </Button>
       )}
     </Pressable>
@@ -46,8 +48,7 @@ const styles = StyleSheet.create({
   },
 
   linearGradient: {
-    paddingLeft: 15,
-    paddingRight: 15,
     borderRadius: 5,
+    paddingHorizontal: 15,
   },
 });

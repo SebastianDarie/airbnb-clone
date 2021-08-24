@@ -1,12 +1,12 @@
-import {DateObject} from 'react-native-calendars';
-import {Point} from 'react-native-google-places-autocomplete';
+import {Geometry} from 'react-native-google-places-autocomplete';
 import create from 'zustand';
 import {combine} from 'zustand/middleware';
 
 export const useSearchStore = create(
   combine(
     {
-      location: {lat: 0, lng: 0},
+      city: '',
+      viewPort: {} as Geometry['viewport'],
       startDate: '',
       endDate: '',
       adults: 0,
@@ -14,7 +14,8 @@ export const useSearchStore = create(
       infants: 0,
     },
     set => ({
-      setLocation: (location: Point) => set({location}),
+      setCity: (city: string) => set({city}),
+      setViewPort: (viewPort: Geometry['viewport']) => set({viewPort}),
       setStartDate: (startDate: string) => set({startDate}),
       setEndDate: (endDate: string) => set({endDate}),
       setAdults: (adults: number) => set({adults}),
