@@ -59,6 +59,11 @@ export type GuestsScreenNavigationProp = StackNavigationProps<
   'Guests'
 >;
 
+// export type ListingsScreenNavigationProp = StackNavigationProps<
+//   RootStackParamList,
+//   'Listings'
+// >;
+
 export type SearchScreenNavigationProp = StackNavigationProps<
   RootStackParamList,
   'Search'

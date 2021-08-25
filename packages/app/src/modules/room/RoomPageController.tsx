@@ -3,7 +3,7 @@ import {View} from 'react-native';
 
 interface RoomControllerProps {}
 
-export const RoomController: React.FC<RoomControllerProps> = ({}) => {
+export const RoomPageController: React.FC<RoomControllerProps> = ({}) => {
   return (
     <View>
       <View></View>

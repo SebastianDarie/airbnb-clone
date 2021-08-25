@@ -8,6 +8,7 @@
  * @format
  */
 
+import 'react-native-gesture-handler';
 import {ApolloProvider} from '@apollo/client';
 import {
   NavigationContainer,
@@ -15,7 +16,6 @@ import {
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
 import React from 'react';
-import 'react-native-gesture-handler';
 import {
   Colors,
   configureFonts,

@@ -1,31 +1,48 @@
 import {useSearchListingsQuery} from '@second-gear/controller';
-import React from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Pressable,
-  TouchableWithoutFeedback,
-  Text,
-} from 'react-native';
-import {Colors, Headline, IconButton, Subheading} from 'react-native-paper';
 import LottieView from 'lottie-react-native';
-import shallow from 'zustand/shallow';
-import {useSearchStore} from '../../global-stores/useSearchStore';
+import React, {useCallback, useLayoutEffect, useMemo, useRef} from 'react';
+import {
+  Button,
+  FlatList,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import {Colors, Subheading} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ListingCard} from '../../components/ListingCard';
-import {
-  ExploreNavigationProp,
-  ExploreScreenNavigationProp,
-  ListingsScreenNavigationProp,
-} from '../../navigation/RootNavigation';
+import BottomSheet, {
+  BottomSheetFlatList,
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet';
+import shallow from 'zustand/shallow';
+import {ListingCard} from '../../components/listing/ListingCard';
+import {useSearchStore} from '../../global-stores/useSearchStore';
+import {ListingsScreenNavigationProp} from '../../navigation/RootNavigation';
+import {useFocusEffect} from '@react-navigation/native';
+import {NativeViewGestureHandler} from 'react-native-gesture-handler';
+import HeaderHandle from '../../components/header/HeaderHandle';
 
 export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
   navigation,
 }) => {
-  const [adults, children, infants, viewPort] = useSearchStore(
-    state => [state.adults, state.children, state.infants, state.viewPort],
+  const sheetRef = useRef<BottomSheet>(null);
+  const {
+    animatedContentHeight,
+    animatedHandleHeight,
+    animatedSnapPoints,
+    handleContentLayout,
+  } = useBottomSheetDynamicSnapPoints(['CONTENT_HEIGHT']);
+  const [adults, children, infants, viewPort, city] = useSearchStore(
+    state => [
+      state.adults,
+      state.children,
+      state.infants,
+      state.viewPort,
+      state.city,
+    ],
     shallow,
   );
   const {data, loading} = useSearchListingsQuery({
@@ -39,31 +56,116 @@ export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
     },
   });
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <Text style={styles.headerTitle}>{city}</Text>,
+    });
+  }, [city, navigation]);
+
+  const snapPoints = useMemo(() => ['10%', '50%', '100%'], []);
+
+  const handleRefresh = useCallback(() => {
+    console.log('refresh');
+  }, []);
+  const handleSheetChange = useCallback(index => {
+    console.log('handleSheetChange', index);
+  }, []);
+  const handleSnapPress = useCallback(index => {
+    sheetRef.current?.snapToIndex(index);
+  }, []);
+  const handleClosePress = useCallback(() => {
+    sheetRef.current?.close();
+  }, []);
+
+  const renderHeaderHandle = useCallback(
+    props => (
+      <HeaderHandle
+        {...props}
+        children={
+          <View style={styles.listHeader}>
+            <Subheading style={styles.placesCount}>
+              300+ places to stay
+            </Subheading>
+          </View>
+        }
+      />
+    ),
+    [],
+  );
+
+  const renderItem = useCallback(
+    ({item}) => (
+      <ListingCard
+        category={item.category}
+        city={item.city}
+        images={item.photos}
+        price={item.price}
+        reviews={item.reviews}
+        title={item.title}
+        onPress={() => navigation.navigate('Room', {roomId: item.id})}
+      />
+    ),
+    [navigation],
+  );
+
   if (loading) {
     return (
       <LottieView
         source={require('../../assets/material-wave-loading.json')}
+        style={styles.lottie}
+        resizeMode="center"
         autoPlay
+        autoSize
         loop
       />
     );
   }
 
-  console.log(data);
+  //console.log(data);
   return (
     <>
       {data && (
-        <SafeAreaView style={styles.container}>
+        // <SafeAreaView style={styles.container}>
+        <>
           <View style={styles.listingsContainer}>
-            <FlatList
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.white} />
+
+            {/* <Button title="Snap To 90%" onPress={() => handleSnapPress(2)} />
+            <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
+            <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
+            <Button title="Close" onPress={() => handleClosePress()} /> */}
+            <BottomSheet
+              animateOnMount
+              ref={sheetRef}
+              // contentHeight={animatedContentHeight}
+              // handleHeight={animatedHandleHeight}
+              snapPoints={snapPoints}
+              handleComponent={renderHeaderHandle}
+              onChange={handleSnapPress}
+              onClose={handleClosePress}>
+              <BottomSheetFlatList
+                data={data.searchListings.listings}
+                keyExtractor={listing => listing.id}
+                renderItem={renderItem}
+                contentContainerStyle={styles.contentContainer}
+                focusHook={useFocusEffect}
+                onLayout={handleContentLayout}
+                onRefresh={handleRefresh}
+                // ListHeaderComponent={
+                //   <View style={styles.listHeader}>
+                //     <Subheading style={styles.placesCount}>
+                //       300+ places to stay
+                //     </Subheading>
+                //   </View>
+                // }
+              />
+            </BottomSheet>
+            {/* <FlatList
               ListHeaderComponent={
                 <View style={styles.listHeader}>
-                  <View>
-                    <Subheading style={styles.placesCount}>
-                      300+ places to stay
-                    </Subheading>
-                  </View>
-                  <IconButton icon="filter-variant" style={styles.filterBtn} />
+                  <Subheading style={styles.placesCount}>
+                    300+ places to stay
+                  </Subheading>
                 </View>
               }
               data={data.searchListings.listings}
@@ -78,8 +180,8 @@ export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
                   onPress={() => navigation.navigate('Room', {roomId: item.id})}
                 />
               )}
-            />
-            <View style={styles.mapBtnWrapper}>
+            /> */}
+            <View style={[styles.mapBtnWrapper]}>
               <View style={styles.mapBtnContainer}>
                 <TouchableWithoutFeedback
                   onPress={() => navigation.navigate('Calendar')}>
@@ -95,44 +197,58 @@ export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
               </View>
             </View>
           </View>
-        </SafeAreaView>
+        </>
+        //  </SafeAreaView>
       )}
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  headerTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginLeft: -20,
+    marginBottom: 2,
+  },
+
+  lottie: {flex: 1, alignSelf: 'center'},
+
   container: {
     flex: 1,
     backgroundColor: Colors.white,
   },
 
+  contentContainer: {
+    backgroundColor: Colors.white,
+  },
+
   listingsContainer: {
     flex: 1,
-    paddingHorizontal: 24,
+    // justifyContent: 'center',
+    // paddingHorizontal: 24,
+    paddingTop: 200,
   },
 
   listHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 40,
+    justifyContent: 'center',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginTop: 20,
     marginBottom: 30,
+    marginHorizontal: 25,
   },
 
   placesCount: {
+    fontSize: 15,
     fontWeight: 'bold',
-  },
-
-  filterBtn: {
-    height: 50,
-    width: 20,
+    marginBottom: 30,
   },
 
   mapBtnWrapper: {
     position: 'absolute',
     alignSelf: 'center',
     bottom: 20,
-    //width: '25%',
   },
 
   mapBtnContainer: {

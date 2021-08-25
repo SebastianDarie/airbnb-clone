@@ -1,7 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import {IconButton} from 'react-native-paper';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -14,7 +16,8 @@ export type ExploreStackParamList = {
   Main: undefined;
 };
 
-const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
+//const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
+const ExploreStack = createStackNavigator<ExploreStackParamList>();
 
 const ExploreStackScreen: React.FC = () => {
   return (
@@ -22,7 +25,17 @@ const ExploreStackScreen: React.FC = () => {
       initialRouteName="Main"
       screenOptions={{headerShown: false}}>
       <ExploreStack.Screen name="Main" component={MainPage} />
-      <ExploreStack.Screen name="Listings" component={ListingsPage} />
+      <ExploreStack.Screen
+        name="Listings"
+        component={ListingsPage}
+        options={{
+          headerShown: true,
+          // headerLeft: () => (
+          //   <IconButton icon="arrow-left" color="black" size={20} />
+          // ),
+          headerRight: () => <IconButton icon="filter-variant" color="black" />,
+        }}
+      />
     </ExploreStack.Navigator>
   );
 };

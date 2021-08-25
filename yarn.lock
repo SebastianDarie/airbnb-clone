@@ -1858,6 +1858,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-transform-object-assign@npm:^7.10.4":
+  version: 7.14.5
+  resolution: "@babel/plugin-transform-object-assign@npm:7.14.5"
+  dependencies:
+    "@babel/helper-plugin-utils": ^7.14.5
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 79585bab6e675adbbfa19793ef3ccf87e298bf6123dab92ecc6d7ab7f396f32c5e397216bd43dbb0624becf6aff4b0bb93d4f2116f4a3a37c0d4d89f28ee9005
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-transform-object-super@npm:^7.0.0":
   version: 7.12.13
   resolution: "@babel/plugin-transform-object-super@npm:7.12.13"
@@ -2540,6 +2551,36 @@ __metadata:
   version: 1.2.2
   resolution: "@googlemaps/markerwithlabel@npm:1.2.2"
   checksum: 00220abb4502909eb006fe15234b5a5fb4f43c16d2951f7ddca9b46d23f605845d96f1a9bc213192dec04fed703874f16630efafe46c16b9df32f542dc9175ff
+  languageName: node
+  linkType: hard
+
+"@gorhom/bottom-sheet@npm:4.0.0-alpha.30":
+  version: 4.0.0-alpha.30
+  resolution: "@gorhom/bottom-sheet@npm:4.0.0-alpha.30"
+  dependencies:
+    "@gorhom/portal": ^1.0.7
+    invariant: ^2.2.4
+    nanoid: ^3.1.20
+    react-native-redash: ^16.1.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">=1.10.1"
+    react-native-reanimated: ">=2.2.0"
+  checksum: c1c48369d9956733fc548f46c83dda7dfab555c6ec7fb79a5a1dbcda3b74ccb6d65401b47faab9a24c2e68e26553b1e82e8e9fe43cd1249d20279ee59d85d003
+  languageName: node
+  linkType: hard
+
+"@gorhom/portal@npm:^1.0.7":
+  version: 1.0.8
+  resolution: "@gorhom/portal@npm:1.0.8"
+  dependencies:
+    immer: ^9.0.3
+    nanoid: ^3.1.23
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: d270a2f974549c2537fd868616e6b6089c2840e2d370b5e45002a9813086ddcd6cdf5e5a785969f9c667815e7578d3e3bb645257386bb167ba0156c5af26c2de
   languageName: node
   linkType: hard
 
@@ -3523,6 +3564,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-navigation/stack@npm:^6.0.7":
+  version: 6.0.7
+  resolution: "@react-navigation/stack@npm:6.0.7"
+  dependencies:
+    "@react-navigation/elements": ^1.1.0
+    color: ^3.1.3
+    warn-once: ^0.1.0
+  peerDependencies:
+    "@react-navigation/native": ^6.0.0
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">= 1.0.0"
+    react-native-safe-area-context: ">= 3.0.0"
+    react-native-screens: ">= 3.0.0"
+  checksum: eb5f3d0398527247d86c472a727f798941a7a4778ef71b7b6284b1e95b6ad9aa9adf33791ccd3c21bb701730bdd394628fe0e4c30555709903e8b0f7ac8b29a1
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-babel@npm:^5.2.0":
   version: 5.3.0
   resolution: "@rollup/plugin-babel@npm:5.3.0"
@@ -3925,7 +3984,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/geojson@npm:^7946.0.8":
+"@types/geojson@npm:^7946.0.7, @types/geojson@npm:^7946.0.8":
   version: 7946.0.8
   resolution: "@types/geojson@npm:7946.0.8"
   checksum: 2d9628afd0caac21dd927c90a5be0a361634a2d3b55c78752a9f1754874cf3802aa5cf2248489ace40e97b29a25d718b0d10689ca8e1b42df350222c282a8ef0
@@ -4664,6 +4723,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"abs-svg-path@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "abs-svg-path@npm:0.1.1"
+  checksum: a1a1976292b20a024095579cb2e48873ff62ac5f67a8f595deee7f5f913282c06240e2132920c5ff4ee2a683b9717228a98916dbca7bb454810d921b722682dd
+  languageName: node
+  linkType: hard
+
 "absolute-path@npm:^0.0.0":
   version: 0.0.0
   resolution: "absolute-path@npm:0.0.0"
@@ -5143,12 +5209,14 @@ __metadata:
     "@apollo/client": ^3.4.8
     "@babel/core": ^7.15.0
     "@babel/runtime": ^7.15.3
+    "@gorhom/bottom-sheet": 4.0.0-alpha.30
     "@hookform/error-message": ^2.0.0
     "@hookform/resolvers": ^2.8.0
     "@react-native-community/eslint-config": ^2.0.0
     "@react-navigation/bottom-tabs": ^6.0.5
     "@react-navigation/native": ^6.0.2
     "@react-navigation/native-stack": ^6.1.0
+    "@react-navigation/stack": ^6.0.7
     "@second-gear/common": ^1.3.1
     "@second-gear/controller": ^1.2.8
     "@types/jest": ^26.0.23
@@ -5174,7 +5242,9 @@ __metadata:
     react-native-gesture-handler: ^1.10.3
     react-native-google-places-autocomplete: ^2.4.1
     react-native-linear-gradient: ^2.5.6
+    react-native-maps: 0.28.0
     react-native-paper: ^4.9.2
+    react-native-reanimated: ^2.2.0
     react-native-safe-area-context: ^3.3.0
     react-native-screens: ^3.5.0
     react-native-vector-icons: ^8.1.0
@@ -9494,6 +9564,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^9.0.3":
+  version: 9.0.5
+  resolution: "immer@npm:9.0.5"
+  checksum: a7fa984fa1887a33ce6d44a7a505fd5ac76009336d8b1c99d34f59aaefc28aadf93ab1e5db27513acd15be454a8a89d8151e915d9b0b6e86e72acbd28218410b
+  languageName: node
+  linkType: hard
+
 "immutable@npm:^4.0.0-rc.12":
   version: 4.0.0-rc.14
   resolution: "immutable@npm:4.0.0-rc.14"
@@ -12153,6 +12230,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mockdate@npm:^3.0.2":
+  version: 3.0.5
+  resolution: "mockdate@npm:3.0.5"
+  checksum: 8098a98f0af3a143b7a3f9625c6ae525cad0b72c9798a82b9429e6c89bcb0c67e238126e5df8962169e8a503a51af18d03eea222051c8e67f62707277880ece0
+  languageName: node
+  linkType: hard
+
 "module-definition@npm:^3.3.1":
   version: 3.3.1
   resolution: "module-definition@npm:3.3.1"
@@ -12230,6 +12314,15 @@ __metadata:
   version: 0.2.1
   resolution: "nanoclone@npm:0.2.1"
   checksum: f624fe519818ac2ab9fc2322d0bd8b54def4c0080123e7e4fa4a8d5fa331862e057a5c8fa1923cce6445d011a66718454750058a16c3a68b1912058288cd71a2
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^3.1.20":
+  version: 3.1.25
+  resolution: "nanoid@npm:3.1.25"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: caab76af9a899969f87fb2105e15ef192f9e7bbf4230c2dea5a87b752c94bfd1c13a3877c388fd464826a7752fb49db5a4ff39a44458a32b740e6a1ff072e55e
   languageName: node
   linkType: hard
 
@@ -12648,6 +12741,15 @@ __metadata:
   version: 3.0.0
   resolution: "normalize-path@npm:3.0.0"
   checksum: 215a701b471948884193628f3e38910353abf445306b519c42c2a30144b8beb8ca0a684da97bfc2ee11eb168c35c776d484274da4bd8f213d2b22f70579380ee
+  languageName: node
+  linkType: hard
+
+"normalize-svg-path@npm:^1.0.1":
+  version: 1.1.0
+  resolution: "normalize-svg-path@npm:1.1.0"
+  dependencies:
+    svg-arc-to-cubic-bezier: ^3.0.0
+  checksum: 7d287a42c02e13a498d052ea10e6a9dfddc19c47683a38872a57984f45b9b1b93e9eebd3c9633cdc5607d08e1b9055abf493c68ea2d8145aaa788df96ad77300
   languageName: node
   linkType: hard
 
@@ -13154,6 +13256,13 @@ __metadata:
   version: 2.1.0
   resolution: "parse-ms@npm:2.1.0"
   checksum: 59c381bf8732170633ddee524965a6d63e4e9fd08835052a300ea4f4f01e5e875ac0034fe7b370777ec85b157c2bd355e2bc93dce03368efa0d782722c81832a
+  languageName: node
+  linkType: hard
+
+"parse-svg-path@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "parse-svg-path@npm:0.1.2"
+  checksum: a9cf2b838bb774e215ed1adccfd1fdcfdf1ac6bbd46a1185d8ad66a24272ed835f42fbf5dfdd60f4660f037786a2e20aef932a9e48333bddd6959bd49e481dd1
   languageName: node
   linkType: hard
 
@@ -14141,6 +14250,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-maps@npm:0.28.0":
+  version: 0.28.0
+  resolution: "react-native-maps@npm:0.28.0"
+  dependencies:
+    "@types/geojson": ^7946.0.7
+  peerDependencies:
+    react: ">= 16.0 || < 17.0"
+    react-native: ">= 0.51"
+    react-native-web: ^0.11
+  checksum: 4dc7c8f315b4ef1e355f5e65dc9ea1c57fa6c8939512e26066b12b1b7261eca60d15b493036d4a24c1e75bb2dd8812710b82859187e2cf0a24b8340d79ded5ba
+  languageName: node
+  linkType: hard
+
 "react-native-paper@npm:^4.9.2":
   version: 4.9.2
   resolution: "react-native-paper@npm:4.9.2"
@@ -14153,6 +14275,38 @@ __metadata:
     react-native: "*"
     react-native-vector-icons: "*"
   checksum: 4dc577e26ad19eccdee70e617f6b1ae81ea4cae82414c68b71d63655166027e31fe8a8bb3ae1d215ef9f3aa7f95f8db687b77b1bc54ad0bac74a11415bca53b8
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "react-native-reanimated@npm:2.2.0"
+  dependencies:
+    "@babel/plugin-transform-object-assign": ^7.10.4
+    fbjs: ^3.0.0
+    mockdate: ^3.0.2
+    string-hash-64: ^1.0.3
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: "*"
+  checksum: 9f7c496895b8d05cc60ef491e743fa7cdbac3bb3dd66d15c67185d64356a8e9ff4e1df6b5694f167ff1ef48b37d808fb312f38f62841c288d1225c07e8bce7b8
+  languageName: node
+  linkType: hard
+
+"react-native-redash@npm:^16.1.1":
+  version: 16.2.0
+  resolution: "react-native-redash@npm:16.2.0"
+  dependencies:
+    abs-svg-path: ^0.1.1
+    normalize-svg-path: ^1.0.1
+    parse-svg-path: ^0.1.2
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: "*"
+    react-native-reanimated: ">=2.0.0-rc.0"
+  checksum: f30c00f7470166d7cf63cc7e20ead60b51ee461c7598aa7d12ae69feb5be8c04f63c5875832f711e16ad704cc73c395809606aed3bc656e61b96383d171b7a91
   languageName: node
   linkType: hard
 
@@ -15640,6 +15794,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"string-hash-64@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "string-hash-64@npm:1.0.3"
+  checksum: fc7b2cacf39519852aba8203e53970e567c0dbb74e86b4210706b9a5d87a50ffdaf42ac8fbe2477af4647551adc6ca25d1e2b75af104b6df3f44b1206332a82d
+  languageName: node
+  linkType: hard
+
 "string-hash@npm:1.1.3":
   version: 1.1.3
   resolution: "string-hash@npm:1.1.3"
@@ -15961,6 +16122,13 @@ resolve@^2.0.0-next.3:
     has-flag: ^4.0.0
     supports-color: ^7.0.0
   checksum: 91af5f206c55fe38c5acacafca8e13bee8ddf59f817178d3cb83388bd85d3ec181a59c446439b63aafa0375e579a7e8d8ec044a0ed1143137ba12f303eb76c6a
+  languageName: node
+  linkType: hard
+
+"svg-arc-to-cubic-bezier@npm:^3.0.0":
+  version: 3.2.0
+  resolution: "svg-arc-to-cubic-bezier@npm:3.2.0"
+  checksum: 94725651f6db5ac70b5733dce674d68c657128d57e119d4c46c06567d5d45b142f0819e8368a65e52985fa261ce7313aac32f4af7687214dcc992c5137deb7bb
   languageName: node
   linkType: hard
 

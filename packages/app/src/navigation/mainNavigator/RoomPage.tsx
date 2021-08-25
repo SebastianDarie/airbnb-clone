@@ -1,6 +1,6 @@
 import React from 'react';
-import {RoomController} from '../../modules/room/RoomController';
+import {RoomPageController} from '../../modules/room/RoomPageController';
 
 export const RoomPage: React.FC<{}> = ({}) => {
-  return <RoomController />;
+  return <RoomPageController />;
 };
