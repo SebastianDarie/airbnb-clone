@@ -1,4 +1,4 @@
-import {TouchableOpacity} from '@gorhom/bottom-sheet';
+import {TouchableHighlight, TouchableOpacity} from '@gorhom/bottom-sheet';
 import {Review} from '@second-gear/controller';
 import React from 'react';
 import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
@@ -16,7 +16,7 @@ interface ListingCardProps {
     __typename?: 'Review' | undefined;
   } & Pick<Review, 'id' | 'rating'>)[];
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 const {height, width} = Dimensions.get('window');
@@ -35,8 +35,9 @@ export const ListingCard: React.FC<ListingCardProps> = ({
     rating += reviews[i].rating;
   }
   return (
-    <NativeViewGestureHandler disallowInterruption>
-      <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
+    // <NativeViewGestureHandler disallowInterruption>
+    <TouchableHighlight style={styles.itemContainer} onPress={onPress}>
+      <View>
         <View style={styles.container}>
           <FlatList
             data={images}
@@ -57,6 +58,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             showsHorizontalScrollIndicator={false}
             snapToAlignment="center"
             style={styles.imagesList}
+            //contentContainerStyle={styles.imagesList}
             horizontal
             pagingEnabled
             scrollEnabled
@@ -89,8 +91,9 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             <Paragraph> / night</Paragraph>
           </View>
         </View>
-      </TouchableOpacity>
-    </NativeViewGestureHandler>
+      </View>
+    </TouchableHighlight>
+    // </NativeViewGestureHandler>
   );
 };
 
@@ -121,6 +124,7 @@ const styles = StyleSheet.create({
     //overflow: 'hidden',
     height: '100%',
     width: width,
+    //aspectRatio: 1,
   },
 
   norev: {

@@ -9,8 +9,9 @@ import {SearchScreenNavigationProp} from '../../navigation/RootNavigation';
 export const SearchPageController: React.FC<SearchScreenNavigationProp> = ({
   navigation,
 }) => {
-  const [setCity, setViewPort] = useSearchStore(state => [
+  const [setCity, setLocation, setViewPort] = useSearchStore(state => [
     state.setCity,
+    state.setLocation,
     state.setViewPort,
   ]);
 
@@ -42,6 +43,7 @@ export const SearchPageController: React.FC<SearchScreenNavigationProp> = ({
         onPress={(data, details = null) => {
           if (details?.geometry.location) {
             setCity(details.name);
+            setLocation(details.geometry.location);
             setViewPort(details.geometry.viewport);
             navigation.navigate('Calendar');
           }

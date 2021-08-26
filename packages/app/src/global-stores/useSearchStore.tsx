@@ -1,4 +1,4 @@
-import {Geometry} from 'react-native-google-places-autocomplete';
+import {Geometry, Point} from 'react-native-google-places-autocomplete';
 import create from 'zustand';
 import {combine} from 'zustand/middleware';
 
@@ -6,6 +6,7 @@ export const useSearchStore = create(
   combine(
     {
       city: '',
+      location: {} as Point,
       viewPort: {} as Geometry['viewport'],
       startDate: '',
       endDate: '',
@@ -15,6 +16,7 @@ export const useSearchStore = create(
     },
     set => ({
       setCity: (city: string) => set({city}),
+      setLocation: (location: Point) => set({location}),
       setViewPort: (viewPort: Geometry['viewport']) => set({viewPort}),
       setStartDate: (startDate: string) => set({startDate}),
       setEndDate: (endDate: string) => set({endDate}),

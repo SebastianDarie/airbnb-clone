@@ -24,9 +24,11 @@ import {ListingsScreenNavigationProp} from '../../navigation/RootNavigation';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeViewGestureHandler} from 'react-native-gesture-handler';
 import HeaderHandle from '../../components/header/HeaderHandle';
+import {ListingsMap} from '../../components/listing/ListingsMap';
 
 export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
   navigation,
+  route,
 }) => {
   const sheetRef = useRef<BottomSheet>(null);
   const {
@@ -125,20 +127,12 @@ export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
   return (
     <>
       {data && (
-        // <SafeAreaView style={styles.container}>
-        <>
-          <View style={styles.listingsContainer}>
-            <StatusBar barStyle="dark-content" backgroundColor={Colors.white} />
+        <ListingsMap data={data} navigation={navigation} route={route}>
+          {/* <StatusBar barStyle="dark-content" backgroundColor={Colors.white} /> */}
 
-            {/* <Button title="Snap To 90%" onPress={() => handleSnapPress(2)} />
-            <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
-            <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
-            <Button title="Close" onPress={() => handleClosePress()} /> */}
-            <BottomSheet
+          {/* <BottomSheet
               animateOnMount
               ref={sheetRef}
-              // contentHeight={animatedContentHeight}
-              // handleHeight={animatedHandleHeight}
               snapPoints={snapPoints}
               handleComponent={renderHeaderHandle}
               onChange={handleSnapPress}
@@ -151,37 +145,10 @@ export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
                 focusHook={useFocusEffect}
                 onLayout={handleContentLayout}
                 onRefresh={handleRefresh}
-                // ListHeaderComponent={
-                //   <View style={styles.listHeader}>
-                //     <Subheading style={styles.placesCount}>
-                //       300+ places to stay
-                //     </Subheading>
-                //   </View>
-                // }
               />
-            </BottomSheet>
-            {/* <FlatList
-              ListHeaderComponent={
-                <View style={styles.listHeader}>
-                  <Subheading style={styles.placesCount}>
-                    300+ places to stay
-                  </Subheading>
-                </View>
-              }
-              data={data.searchListings.listings}
-              keyExtractor={listing => listing.id}
-              showsVerticalScrollIndicator={false}
-              renderItem={({item}) => (
-                <ListingCard
-                  images={item.photos}
-                  price={item.price}
-                  reviews={item.reviews}
-                  title={item.title}
-                  onPress={() => navigation.navigate('Room', {roomId: item.id})}
-                />
-              )}
-            /> */}
-            <View style={[styles.mapBtnWrapper]}>
+            </BottomSheet> */}
+
+          {/* <View style={[styles.mapBtnWrapper]}>
               <View style={styles.mapBtnContainer}>
                 <TouchableWithoutFeedback
                   onPress={() => navigation.navigate('Calendar')}>
@@ -195,10 +162,8 @@ export const ListingsController: React.FC<ListingsScreenNavigationProp> = ({
                   </View>
                 </TouchableWithoutFeedback>
               </View>
-            </View>
-          </View>
-        </>
-        //  </SafeAreaView>
+            </View> */}
+        </ListingsMap>
       )}
     </>
   );

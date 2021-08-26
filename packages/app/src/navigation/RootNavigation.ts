@@ -59,6 +59,11 @@ export type GuestsScreenNavigationProp = StackNavigationProps<
   'Guests'
 >;
 
+export type RoomScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Room'
+>;
+
 // export type ListingsScreenNavigationProp = StackNavigationProps<
 //   RootStackParamList,
 //   'Listings'
@@ -76,6 +81,10 @@ export type ListingsScreenNavigationProp = CompositeScreenProps<
     NativeStackScreenProps<RootStackParamList>
   >
 >;
+
+// export type ListingsNavigationProp = {
+//   navigation: ListingsScreenNavigationProp;
+// };
 
 export type ExploreScreenNavigationProp = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'Explore'>,

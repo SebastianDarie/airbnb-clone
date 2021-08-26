@@ -30,10 +30,11 @@ const ExploreStackScreen: React.FC = () => {
         component={ListingsPage}
         options={{
           headerShown: true,
+          headerTransparent: true,
           // headerLeft: () => (
           //   <IconButton icon="arrow-left" color="black" size={20} />
           // ),
-          headerRight: () => <IconButton icon="filter-variant" color="black" />,
+          //headerRight: () => <IconButton icon="filter-variant" color="black" />,
         }}
       />
     </ExploreStack.Navigator>

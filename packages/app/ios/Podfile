@@ -22,6 +22,8 @@ target 'app' do
 
   pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
 
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
   target 'appTests' do
     inherit! :complete
     # Pods for testing
