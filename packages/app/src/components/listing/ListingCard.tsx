@@ -36,7 +36,11 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   }
   return (
     // <NativeViewGestureHandler disallowInterruption>
-    <TouchableHighlight style={styles.itemContainer} onPress={onPress}>
+    <TouchableOpacity
+      activeOpacity={1}
+      // delayPressIn={150}
+      style={styles.itemContainer}
+      onPress={onPress}>
       <View>
         <View style={styles.container}>
           <FlatList
@@ -72,7 +76,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
               <>
                 <FontAwesome name="star" color="#ff385c" />
                 <Paragraph style={styles.ratingCount}>
-                  {rating === 0 ? 'New' : rating}
+                  {rating === 0 ? 'New' : (rating / reviews.length).toFixed(2)}
                 </Paragraph>
                 <Paragraph>{reviews.length}</Paragraph>
               </>
@@ -92,7 +96,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
           </View>
         </View>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
     // </NativeViewGestureHandler>
   );
 };

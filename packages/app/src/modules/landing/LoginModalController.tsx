@@ -8,7 +8,7 @@ import {StyleSheet, View} from 'react-native';
 import {ActivityIndicator, Card} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {GradientButton} from '../../components/GradientBtn';
+import {GradientButton} from '../../components/button/GradientBtn';
 import {InputField} from '../../components/InputField';
 
 interface LoginModalProps {

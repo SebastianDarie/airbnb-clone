@@ -1,51 +1,38 @@
 import React from 'react';
-import {
-  Dimensions,
-  Pressable,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Colors, Paragraph} from 'react-native-paper';
 
 interface ListingCarouselItemProps {
-  first: boolean;
-  last: boolean;
   beds: number;
   bedrooms: number;
   category: string;
   cover: string;
   price: number;
   title: string;
+  onPress: () => void;
 }
 
 const {width} = Dimensions.get('window');
 
 export const ListingCarouselItem: React.FC<ListingCarouselItemProps> = ({
-  first,
-  last,
   bedrooms,
   beds,
   category,
   cover,
   price,
   title,
+  onPress,
 }) => {
-  // const {width} = useWindowDimensions();
-
   return (
     <Pressable
       style={[
         styles.container,
-        // eslint-disable-next-line react-native/no-inline-styles
         {
-          // marginLeft: first ? 15 : 5,
-          // marginRight: last ? 15 : 5,
           width: width - 20,
         },
-      ]}>
+      ]}
+      onPress={onPress}>
       <View style={styles.innerContainer}>
         <FastImage
           source={{uri: cover}}

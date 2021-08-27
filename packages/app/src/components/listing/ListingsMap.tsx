@@ -6,6 +6,7 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import {useHeaderHeight} from '@react-navigation/elements';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   SearchListingResult,
   SearchListingsQuery,
@@ -32,6 +33,7 @@ import {Subheading} from 'react-native-paper';
 import {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSearchStore} from '../../global-stores/useSearchStore';
+import {RoomPageController} from '../../modules/room/RoomPageController';
 import {ListingsScreenNavigationProp} from '../../navigation/RootNavigation';
 import HeaderHandle from '../header/HeaderHandle';
 import {MapMarker} from '../MapMarker';
@@ -45,10 +47,10 @@ export interface ListingsMapProps extends ListingsScreenNavigationProp {
 
 const {height: SCREEN_HEIGHT, width} = Dimensions.get('window');
 
-const HANDLE_HEIGHT = 19;
-const LOCATION_DETAILS_HEIGHT = 298;
+const HANDLE_HEIGHT = 69;
+const LOCATION_DETAILS_HEIGHT = 325;
 
-export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
+export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
   const location = useSearchStore(state => state.location);
   const [selected, setSelected] = useState<string>('');
   const flatlist = useRef<FlatList>(null);
@@ -69,7 +71,7 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
       altitude: 0,
       heading: 0,
       pitch: 0,
-      zoom: 12,
+      zoom: 4,
     }),
     [location.lat, location.lng],
   );
@@ -95,6 +97,18 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
   const handleTouchStart = useCallback(() => {
     poiListModalRef.current?.collapse();
   }, []);
+  const handleCloseLocationDetails = useCallback(() => {
+    setSelected('');
+    poiDetailsModalRef.current?.dismiss();
+  }, []);
+  const handlePresentRoomDetails = useCallback((item: SearchListingResult) => {
+    console.log('in handle room details');
+    setSelected(item.id);
+    poiDetailsModalRef.current?.expand();
+  }, []);
+  const handleRefresh = useCallback(() => {
+    console.log('handleRefresh');
+  }, []);
 
   const scrollViewAnimatedStyle = useAnimatedStyle(() => ({
     opacity: animatedPOIListIndex.value,
@@ -108,11 +122,16 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
     [bottomSafeArea],
   );
 
-  useEffect(() => {
-    navigation.setOptions({
-      tabBarStyle: {height: 0},
-    });
-  }, [navigation]);
+  // useEffect(() => {
+  //   if (animatedPOIListIndex.value === 0) {
+  //     mapRef.current?.animateToRegion({
+  //       latitude: location.lat,
+  //       longitude: location.lng,
+  //       latitudeDelta: 0.5,
+  //       longitudeDelta: 0.5,
+  //     });
+  //   }
+  // }, [animatedPOIListIndex.value, location.lat, location.lng]);
 
   useEffect(() => {
     if (!data.searchListings.listings || !selected || !flatlist) {
@@ -134,27 +153,31 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
     mapRef.current?.animateToRegion(region);
   }, [data.searchListings.listings, selected]);
 
-  useLayoutEffect(() => {
+  // useLayoutEffect(() => {
+  //   requestAnimationFrame(() => poiListModalRef.current?.present());
+  // }, []);
+
+  useEffect(() => {
     requestAnimationFrame(() => poiListModalRef.current?.present());
   }, []);
 
-  console.log(animatedPOIListPosition);
+  console.log(animatedPOIListIndex, animatedPOIListPosition);
 
-  // const renderHeaderHandle = useCallback(
-  //   props => (
-  //     <HeaderHandle
-  //       {...props}
-  //       children={
-  //         <View style={styles.listHeader}>
-  //           <Subheading style={styles.placesCount}>
-  //             300+ places to stay
-  //           </Subheading>
-  //         </View>
-  //       }
-  //     />
-  //   ),
-  //   [],
-  // );
+  const renderHeaderHandle = useCallback(
+    props => (
+      <HeaderHandle
+        {...props}
+        children={
+          <View style={styles.listHeader}>
+            <Subheading style={styles.placesCount}>
+              {data.searchListings.listings.length} places to stay
+            </Subheading>
+          </View>
+        }
+      />
+    ),
+    [data.searchListings.listings.length],
+  );
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (
@@ -178,10 +201,13 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
         price={item.price}
         reviews={item.reviews}
         title={item.title}
-        //onPress={() => navigation.navigate('Room', {roomId: item.id})}
+        onPress={() => {
+          console.log('should open room details');
+          handlePresentRoomDetails(item);
+        }}
       />
     ),
-    [],
+    [handlePresentRoomDetails],
   );
 
   // const renderCarouselItem = useCallback(
@@ -224,7 +250,11 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
   return (
     <BottomSheetModalProvider>
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="white" />
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent
+        />
         <MapView
           ref={mapRef}
           initialCamera={mapInitialCamera}
@@ -256,24 +286,26 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
           animatedPosition={animatedPOIListPosition}
           animatedIndex={animatedPOIListIndex}
           backdropComponent={renderBackdrop}
-          // handleComponent={renderHeaderHandle}
-        >
+          handleComponent={renderHeaderHandle}>
           <BottomSheetFlatList
             data={data.searchListings.listings}
             keyExtractor={listing => listing.id}
             renderItem={renderItem}
             style={scrollViewStyle}
             contentContainerStyle={scrollViewContentContainer}
-            ListHeaderComponent={
-              <View style={styles.listHeader}>
-                <Subheading style={styles.placesCount}>
-                  300+ places to stay
-                </Subheading>
-              </View>
-            }
+            // ListHeaderComponent={
+            //   <View style={styles.listHeader}>
+            //     <Subheading style={styles.placesCount}>
+            //       300+ places to stay
+            //     </Subheading>
+            //   </View>
+            // }
+            focusHook={useFocusEffect}
             initialNumToRender={10}
             maxToRenderPerBatch={20}
+            refreshing={false}
             showsVerticalScrollIndicator={false}
+            onRefresh={handleRefresh}
           />
         </BottomSheetModal>
 
@@ -285,35 +317,20 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data, navigation}) => {
           topInset={headerHeight}
           animatedIndex={animatedPOIDetailsIndex}
           animatedPosition={animatedPOIDetailsPosition}>
-          <Text>Test</Text>
+          <RoomPageController
+            id={selected}
+            onClose={handleCloseLocationDetails}
+          />
         </BottomSheetModal>
 
-        {/* <View style={styles.carouselContainer}>
-          <FlatList
-            ref={flatlist}
-            data={data.searchListings.listings}
-            keyExtractor={listing => listing.id}
-            renderItem={renderCarouselItem}
-            decelerationRate="fast"
-            initialNumToRender={5}
-            maxToRenderPerBatch={10}
-            showsHorizontalScrollIndicator={false}
-            snapToAlignment="center"
-            snapToInterval={width - 60}
-            contentInset={{
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-            }}
-            horizontal
+        {/* {animatedPOIListIndex.value === 0 ? (
+          <ListingsCarousel
+            data={data}
+            flatlist={flatlist}
+            handlePresentRoomDetails={handlePresentRoomDetails}
+            setSelected={setSelected}
           />
-        </View> */}
-        <ListingsCarousel
-          data={data}
-          flatlist={flatlist}
-          setSelected={setSelected}
-        />
+        ) : null} */}
       </View>
     </BottomSheetModalProvider>
   );

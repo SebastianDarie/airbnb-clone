@@ -1,8 +1,12 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigatorScreenParams} from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  NavigatorScreenParams,
+  RouteProp,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {IconButton} from 'react-native-paper';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -20,23 +24,21 @@ export type ExploreStackParamList = {
 const ExploreStack = createStackNavigator<ExploreStackParamList>();
 
 const ExploreStackScreen: React.FC = () => {
+  // useLayoutEffect(() => {
+  //   const routeName = getFocusedRouteNameFromRoute(route);
+  //   if (routeName === 'Listings') {
+  //     navigation.setOptions({tabBarVisible: false});
+  //   } else {
+  //     navigation.setOptions({tabBarVisible: true});
+  //   }
+  // }, [navigation, route]);
+
   return (
     <ExploreStack.Navigator
       initialRouteName="Main"
       screenOptions={{headerShown: false}}>
       <ExploreStack.Screen name="Main" component={MainPage} />
-      <ExploreStack.Screen
-        name="Listings"
-        component={ListingsPage}
-        options={{
-          headerShown: true,
-          headerTransparent: true,
-          // headerLeft: () => (
-          //   <IconButton icon="arrow-left" color="black" size={20} />
-          // ),
-          //headerRight: () => <IconButton icon="filter-variant" color="black" />,
-        }}
-      />
+      <ExploreStack.Screen name="Listings" component={ListingsPage} />
     </ExploreStack.Navigator>
   );
 };
@@ -69,10 +71,16 @@ export const BottomNavigator: React.FC = () => {
         //     }
         //   },
         // })}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Ionicon name="md-search-outline" color={color} size={size} />
-          ),
+        options={({route}) => {
+          const routeName = getFocusedRouteNameFromRoute(route);
+          return {
+            tabBarIcon: ({color, size}) => (
+              <Ionicon name="md-search-outline" color={color} size={size} />
+            ),
+            tabBarStyle: {
+              display: routeName === 'Listings' ? 'none' : 'flex',
+            },
+          };
         }}
       />
       <Tab.Screen

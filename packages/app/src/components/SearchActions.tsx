@@ -5,7 +5,7 @@ import {Colors} from 'react-native-paper';
 import {PeriodMarking} from 'react-native-calendars';
 import {RootStackParamList} from '../navigation/MainNavigator';
 import {RootStackRoutes} from '../navigation/RootNavigation';
-import {GradientButton} from './GradientBtn';
+import {GradientButton} from './button/GradientBtn';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {TabParamList} from '../navigation/mainNavigator/BottomNavigator';
 

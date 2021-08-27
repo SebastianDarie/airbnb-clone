@@ -7,7 +7,7 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, Text, View} from 'react-native';
 import {ActivityIndicator, Button, Card, Colors} from 'react-native-paper';
-import {GradientButton} from '../../components/GradientBtn';
+import {GradientButton} from '../../components/button/GradientBtn';
 import {InputField} from '../../components/InputField';
 import {AuthStackParamList} from '../../navigation/AuthNavigator';
 

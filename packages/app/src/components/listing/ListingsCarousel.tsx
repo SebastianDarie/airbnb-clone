@@ -9,6 +9,7 @@ import {ListingCarouselItem} from './ListingCarouselItem';
 interface ListingsCarouselProps {
   data: SearchListingsQuery;
   flatlist: React.RefObject<FlatList<any>>;
+  handlePresentRoomDetails: (item: SearchListingResult) => void;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -17,6 +18,7 @@ const {width} = Dimensions.get('window');
 export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
   data,
   flatlist,
+  handlePresentRoomDetails,
   setSelected,
 }) => {
   const viewConfig = useRef({itemVisiblePercentThreshold: 70});
@@ -30,19 +32,18 @@ export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
   );
 
   const renderCarouselItem = useCallback(
-    ({item, index}: {item: SearchListingResult; index: number}) => (
+    ({item}: {item: SearchListingResult}) => (
       <ListingCarouselItem
-        first={index === 0}
-        last={index === data.searchListings.listings.length - 1}
         bedrooms={item.bedrooms}
         beds={item.beds}
         category={item.category}
         cover={item.photos[0]}
         price={item.price}
         title={item.title}
+        onPress={() => handlePresentRoomDetails(item)}
       />
     ),
-    [data.searchListings.listings.length],
+    [handlePresentRoomDetails],
   );
 
   return (
@@ -69,7 +70,7 @@ export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
 const styles = StyleSheet.create({
   carouselContainer: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 90,
     left: 0,
     right: 0,
   },
