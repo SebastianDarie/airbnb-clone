@@ -3,12 +3,21 @@ import {
   SearchListingsQuery,
 } from '@second-gear/controller';
 import React, {useCallback, useRef} from 'react';
-import {Dimensions, FlatList, StyleSheet, View, ViewToken} from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  View,
+  ViewToken,
+} from 'react-native';
 import {ListingCarouselItem} from './ListingCarouselItem';
 
 interface ListingsCarouselProps {
   data: SearchListingsQuery | undefined;
   flatlist: React.RefObject<FlatList<any>>;
+  flatlistOpacity: Animated.Value;
+  isVisible: boolean;
   handlePresentRoomDetails: (item: SearchListingResult) => void;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -18,6 +27,8 @@ const {width} = Dimensions.get('window');
 export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
   data,
   flatlist,
+  flatlistOpacity,
+  isVisible,
   handlePresentRoomDetails,
   setSelected,
 }) => {
@@ -48,7 +59,7 @@ export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
 
   return (
     <View style={styles.carouselContainer}>
-      <FlatList
+      <Animated.FlatList
         ref={flatlist}
         data={data?.searchListings.listings}
         keyExtractor={listing => listing.id}
@@ -60,6 +71,8 @@ export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
         snapToAlignment="center"
         snapToInterval={width - 20}
         viewabilityConfig={viewConfig.current}
+        pointerEvents={isVisible ? 'box-only' : 'none'}
+        style={{opacity: flatlistOpacity}}
         onViewableItemsChanged={onViewChanged.current}
         horizontal
         pagingEnabled

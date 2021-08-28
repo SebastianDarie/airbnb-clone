@@ -1,4 +1,3 @@
-import {ApolloQueryResult, NetworkStatus} from '@apollo/client';
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -6,14 +5,9 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import {useHeaderHeight} from '@react-navigation/elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {
-  Exact,
-  Maybe,
-  SearchInput,
   SearchListingResult,
-  SearchListingsQuery,
   useSearchListingsQuery,
 } from '@second-gear/controller';
 import React, {
@@ -25,18 +19,17 @@ import React, {
   useState,
 } from 'react';
 import {
+  Animated,
   Dimensions,
+  Easing,
   FlatList,
   StatusBar,
   StyleSheet,
-  Text,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import MapView, {Camera, Region} from 'react-native-maps';
-import {Subheading} from 'react-native-paper';
 import {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
-import {useSafeArea, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import shallow from 'zustand/shallow';
 import {useSearchStore} from '../../global-stores/useSearchStore';
 import {RoomPageController} from '../../modules/room/RoomPageController';
@@ -44,15 +37,14 @@ import {ListingsScreenNavigationProp} from '../../navigation/RootNavigation';
 import HeaderHandle from '../header/HeaderHandle';
 import {MapMarker} from '../MapMarker';
 import {ListingCard} from './ListingCard';
-import {ListingCarouselItem} from './ListingCarouselItem';
 import {ListingsCarousel} from './ListingsCarousel';
 
 export interface ListingsMapProps extends ListingsScreenNavigationProp {}
 
-const {height: SCREEN_HEIGHT, width} = Dimensions.get('window');
+const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 const HANDLE_HEIGHT = 69;
-const LOCATION_DETAILS_HEIGHT = 325;
+const LOCATION_DETAILS_HEIGHT = 345;
 
 export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
   const [adults, children, infants, location, viewPort] = useSearchStore(
@@ -75,13 +67,13 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
       cursor: null,
     },
   });
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('');
   const flatlist = useRef<FlatList>(null);
   const mapRef = useRef<MapView>(null);
   const poiListModalRef = useRef<BottomSheetModal>(null);
   const poiDetailsModalRef = useRef<BottomSheetModal>(null);
 
-  const headerHeight = useHeaderHeight();
   const {top: topSafeArea, bottom: bottomSafeArea} = useSafeAreaInsets();
 
   const mapInitialCamera: Camera = useMemo(
@@ -98,6 +90,7 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
     [location.lat, location.lng],
   );
 
+  const flatlistOpacity = useMemo(() => new Animated.Value(0), []);
   const animatedPOIListIndex = useSharedValue<number>(0);
   const animatedPOIListPosition = useSharedValue<number>(SCREEN_HEIGHT);
   const animatedPOIDetailsIndex = useSharedValue<number>(0);
@@ -116,9 +109,52 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
     [bottomSafeArea],
   );
 
-  const handleTouchStart = useCallback(() => {
-    poiListModalRef.current?.collapse();
-  }, []);
+  const fade = useCallback(() => {
+    Animated.timing(flatlistOpacity, {
+      toValue: isVisible ? 0 : 1,
+      duration: 300,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start(() => setIsVisible(!isVisible));
+  }, [flatlistOpacity, isVisible]);
+
+  const handlePress = useCallback(
+    () => {
+      if (animatedPOIListIndex.value === 1) {
+        poiListModalRef.current?.collapse();
+        mapRef.current?.animateCamera({
+          center: {
+            latitude: location.lat,
+            longitude: location.lng,
+          },
+          zoom: 12,
+        });
+      } else if (animatedPOIListIndex.value === 0) {
+        fade();
+      }
+    },
+    //@ts-ignore
+    [animatedPOIListIndex.value, fade, location.lat, location.lng],
+  );
+  const handleChange = useCallback(() => {
+    if (animatedPOIListIndex.value === 1) {
+      mapRef.current?.animateCamera({
+        center: {
+          latitude: location.lat,
+          longitude: location.lng,
+        },
+        zoom: 10,
+      });
+    } else if (animatedPOIListIndex.value === 0) {
+      mapRef.current?.animateCamera({
+        center: {
+          latitude: location.lat,
+          longitude: location.lng,
+        },
+        zoom: 12,
+      });
+    }
+  }, [animatedPOIListIndex.value, location.lat, location.lng]);
   const handleCloseLocationDetails = useCallback(() => {
     setSelected('');
     poiDetailsModalRef.current?.dismiss();
@@ -158,28 +194,6 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
   );
 
   useEffect(() => {
-    if (animatedPOIListIndex.value === 0) {
-      console.log(animatedPOIListIndex.value);
-      console.log('zoom in');
-      mapRef.current?.animateToRegion({
-        latitude: location.lat,
-        longitude: location.lng,
-        latitudeDelta: 0.2,
-        longitudeDelta: 0.2,
-      });
-    } else {
-      console.log(animatedPOIListIndex.value);
-      console.log('zoom out');
-      mapRef.current?.animateToRegion({
-        latitude: location.lat,
-        longitude: location.lng,
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
-      });
-    }
-  }, [animatedPOIListIndex.value, location.lat, location.lng]);
-
-  useEffect(() => {
     if (!data?.searchListings.listings || !selected || !flatlist) {
       return;
     }
@@ -203,19 +217,11 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
     requestAnimationFrame(() => poiListModalRef.current?.present());
   }, []);
 
-  // console.log(animatedPOIListIndex, animatedPOIListPosition);
-
   const renderHeaderHandle = useCallback(
     props => (
       <HeaderHandle
+        title={`${data?.searchListings.listings.length} places to stay`}
         {...props}
-        children={
-          <View style={styles.listHeader}>
-            <Subheading style={styles.placesCount}>
-              {data?.searchListings.listings.length} places to stay
-            </Subheading>
-          </View>
-        }
       />
     ),
     [data?.searchListings.listings.length],
@@ -263,7 +269,7 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
           ref={mapRef}
           initialCamera={mapInitialCamera}
           style={styles.mapContainer}
-          onTouchStart={handleTouchStart}
+          onPress={handlePress}
           cacheEnabled
           loadingEnabled
           zoomEnabled
@@ -291,7 +297,8 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
           animatedPosition={animatedPOIListPosition}
           animatedIndex={animatedPOIListIndex}
           backdropComponent={renderBackdrop}
-          handleComponent={renderHeaderHandle}>
+          handleComponent={renderHeaderHandle}
+          onChange={handleChange}>
           <BottomSheetFlatList
             data={data?.searchListings.listings}
             keyExtractor={listing => listing.id}
@@ -337,6 +344,8 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
         <ListingsCarousel
           data={data}
           flatlist={flatlist}
+          flatlistOpacity={flatlistOpacity}
+          isVisible={isVisible}
           handlePresentRoomDetails={handlePresentRoomDetails}
           setSelected={setSelected}
         />
@@ -358,19 +367,6 @@ const styles = StyleSheet.create({
     bottom: 40,
     left: 0,
     right: 0,
-  },
-  listHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginTop: 10,
-    marginBottom: 30,
-    marginHorizontal: 25,
-  },
-  placesCount: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginBottom: 30,
   },
   scrollView: {
     flex: 1,

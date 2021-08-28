@@ -11,15 +11,21 @@ interface UserCardProps {
   item?: ListingReview;
   name?: string;
   joinDate?: string;
+  photoUrl?: string;
 }
 
-export const UserCard: React.FC<UserCardProps> = ({item, joinDate, name}) => {
+export const UserCard: React.FC<UserCardProps> = ({
+  item,
+  joinDate,
+  name,
+  photoUrl,
+}) => {
   return (
     <Swipeable>
       <TouchableHighlight>
         <View style={styles.cardContentContainer}>
           <FastImage
-            source={{uri: item?.creator.photoUrl}}
+            source={{uri: item ? item.creator.photoUrl : photoUrl}}
             style={styles.cardImage}
           />
           <View style={styles.textContainer}>
@@ -28,8 +34,8 @@ export const UserCard: React.FC<UserCardProps> = ({item, joinDate, name}) => {
             </View>
             <Caption numberOfLines={1}>
               {item
-                ? dayjs(item.createdAt).format('MMM-YYYY')
-                : dayjs(joinDate).format('MMM-YYYY')}
+                ? dayjs(+item.createdAt).format('MMM YYYY')
+                : dayjs(+joinDate!).format('MMM YYYY')}
             </Caption>
           </View>
         </View>

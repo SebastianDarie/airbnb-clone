@@ -37,7 +37,6 @@ export const ListingCard: React.FC<ListingCardProps> = ({
   return (
     <TouchableOpacity
       activeOpacity={1}
-      // delayPressIn={150}
       style={styles.itemContainer}
       onPress={onPress}>
       <View>
@@ -59,7 +58,6 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             showsHorizontalScrollIndicator={false}
             snapToAlignment="center"
             style={styles.imagesList}
-            //contentContainerStyle={styles.imagesList}
             horizontal
             pagingEnabled
             scrollEnabled
@@ -99,16 +97,12 @@ export const ListingCard: React.FC<ListingCardProps> = ({
 
 const styles = StyleSheet.create({
   itemContainer: {
-    //paddingHorizontal: 20,
     marginHorizontal: 25,
-    //  padding: 10,
   },
 
   container: {
     display: 'flex',
     alignItems: 'center',
-    //borderRadius: 15,
-    //overflow: 'hidden',
   },
 
   listingDetails: {
@@ -122,11 +116,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    borderRadius: 15,
-    //overflow: 'hidden',
     height: '100%',
     width: width,
-    //aspectRatio: 1,
   },
 
   norev: {

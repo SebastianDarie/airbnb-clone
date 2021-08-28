@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -22,8 +23,6 @@ import {
 } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-//import Animated from 'react-native-reanimated';
-import {GradientButton} from '../../components/button/GradientBtn';
 import {UnderlineBtn} from '../../components/button/UnderlineBtn';
 import {RoomHeader} from '../../components/header/RoomHeader';
 import {Amenity} from '../../components/iconlabel/Amenity';
@@ -31,7 +30,6 @@ import {Highlight} from '../../components/iconlabel/Highlight';
 import {ReviewCard} from '../../components/card/ReviewCard';
 import {ImgCarousel} from '../../components/room/ImgCarousel';
 import {UserCard} from '../../components/card/UserCard';
-import {TouchableOpacity, TouchableWithoutFeedback} from '@gorhom/bottom-sheet';
 import {amenityIcons} from '../../constants/amenityIcons';
 
 interface RoomPageControllerProps {
@@ -52,7 +50,7 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
   const scaleValue = new Animated.Value(0);
   const [headerOpacity] = useState(opacityValue);
   const inputRange = [0, 1];
-  const outputRange = [1, 0.8];
+  const outputRange = [1, 0.9];
   const scale = scaleValue.interpolate({inputRange, outputRange});
 
   const headerStyle: Animated.WithAnimatedObject<ViewStyle> = {
@@ -255,6 +253,7 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
               <UserCard
                 name={data.listing.creator.name}
                 joinDate={data.listing.creator.createdAt}
+                photoUrl={data.listing.creator.photoUrl}
               />
             </View>
           </View>
@@ -282,11 +281,6 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
             onPressOut={onPressOut}>
             <Text style={styles.reserveText}>Check availability</Text>
           </TouchableOpacity>
-          {/* <GradientButton
-            disabled={false}
-            text="Reserve"
-            onPress={() => console.log('Reserve')}
-          /> */}
         </Animated.View>
       </View>
     </View>
@@ -302,10 +296,10 @@ const styles = StyleSheet.create({
 
   btnContainer: {
     backgroundColor: '#ff385c',
-    borderRadius: 5,
+    borderRadius: 7,
     paddingHorizontal: 10,
     paddingVertical: 10,
-    height: 30,
+    height: 45,
     width: '45%',
   },
 
@@ -370,7 +364,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
   },
 
   reserveBtn: {
