@@ -23,7 +23,7 @@ import {
   DefaultTheme as PaperDefaultTheme,
   Provider as PaperProvider,
 } from 'react-native-paper';
-import {client} from './src/lib/appollo';
+import {client} from './src/lib/apollo';
 import {AuthSwitch} from './src/navigation/AuthSwitch';
 import {PreferencesContext} from './src/lib/PreferencesContext';
 import {fontConfig} from './src/lib/fontConfig';

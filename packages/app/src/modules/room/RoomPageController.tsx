@@ -6,6 +6,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
+  Text,
   View,
   ViewStyle,
 } from 'react-native';
@@ -19,15 +20,19 @@ import {
   Subheading,
   Title,
 } from 'react-native-paper';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 //import Animated from 'react-native-reanimated';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GradientButton} from '../../components/button/GradientBtn';
 import {UnderlineBtn} from '../../components/button/UnderlineBtn';
 import {RoomHeader} from '../../components/header/RoomHeader';
 import {Amenity} from '../../components/iconlabel/Amenity';
 import {Highlight} from '../../components/iconlabel/Highlight';
-import {ReviewCard} from '../../components/ReviewCard';
+import {ReviewCard} from '../../components/card/ReviewCard';
+import {ImgCarousel} from '../../components/room/ImgCarousel';
+import {UserCard} from '../../components/card/UserCard';
+import {TouchableOpacity, TouchableWithoutFeedback} from '@gorhom/bottom-sheet';
+import {amenityIcons} from '../../constants/amenityIcons';
 
 interface RoomPageControllerProps {
   id: string;
@@ -44,8 +49,11 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
     variables: {id, noreviews: false, slim: false},
   });
   const opacityValue = new Animated.Value(0);
+  const scaleValue = new Animated.Value(0);
   const [headerOpacity] = useState(opacityValue);
-  //console.log(route.params.roomId);
+  const inputRange = [0, 1];
+  const outputRange = [1, 0.8];
+  const scale = scaleValue.interpolate({inputRange, outputRange});
 
   const headerStyle: Animated.WithAnimatedObject<ViewStyle> = {
     height: 70,
@@ -58,6 +66,14 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
     position: 'absolute',
     top: 0,
     left: 0,
+  };
+
+  const onPressIn = () => {
+    Animated.spring(scaleValue, {toValue: 1, useNativeDriver: true}).start();
+  };
+
+  const onPressOut = () => {
+    Animated.spring(scaleValue, {toValue: 0, useNativeDriver: true}).start();
   };
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -105,26 +121,26 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
 
       {data?.listing && (
         <ScrollView
+          key={data.listing.id}
           style={styles.scrollContainer}
           scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
           onScroll={handleScroll}>
+          <ImgCarousel photos={data.listing.photos} />
+
           <View style={styles.mainWrapper}>
-            <Title>{data.listing.title}</Title>
+            <Title style={styles.roomTitle}>{data.listing.title}</Title>
             <View style={styles.subheading}>
               <View style={styles.iconContainer}>
-                <FontAwesome5Icon name="star" style={styles.icon} />
-                <Subheading>{finalRating}</Subheading>
-                <Subheading>
+                <FontAwesomeIcon name="star" size={17} style={styles.icon} />
+                <Subheading style={styles.city}>{finalRating}</Subheading>
+                <Subheading style={styles.city}>
                   {data.listing.reviews?.length
-                    ? `(${data.listing.reviews.length})`
+                    ? `(${data.listing.reviews.length} reviews)`
                     : null}
                 </Subheading>
               </View>
-              <View style={styles.iconContainer}>
-                <MaterialCommunityIcon name="medal" />
-                <Subheading>superhost</Subheading>
-              </View>
-              <Subheading>{data.listing.city}</Subheading>
+              <Subheading style={styles.city}>{data.listing.city}</Subheading>
             </View>
 
             <Divider />
@@ -132,7 +148,7 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
             <View style={styles.section}>
               <Highlight
                 ant
-                caption="You'll have the entire apartment to yourself"
+                caption="You'll have the entire apartment to yourself."
                 name="home"
                 title="Entire home"
               />
@@ -154,41 +170,43 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
             <Divider />
 
             <View style={styles.section}>
-              <Headline>Description</Headline>
-              <View style={styles.iconsFlex}>
-                <View style={styles.iconContainer}>
-                  <FontAwesome5Icon name="bath" style={styles.icon} />
-                  <Subheading>Baths</Subheading>
-                  <Subheading>{data.listing.bathrooms}</Subheading>
-                </View>
-                <View style={styles.iconContainer}>
-                  <FontAwesome5Icon name="bed" style={styles.icon} />
-                  <Subheading>Beds</Subheading>
-                  <Subheading>{data.listing.beds}</Subheading>
-                </View>
-              </View>
               <Paragraph>{data.listing.description}</Paragraph>
+              <TouchableOpacity>
+                <View style={styles.showMoreContainer}>
+                  <Text style={styles.showMore}>Show More</Text>
+                  <FeatherIcon
+                    name="chevron-right"
+                    color={Colors.black}
+                    size={18}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{marginTop: 4}}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
 
             <Divider />
 
             <View style={styles.section}>
-              <Headline>What this place offers</Headline>
+              <Text style={styles.amenitiesTitle}>What this place offers</Text>
               {data.listing.amenities.map(a => (
-                <Amenity amenity={a} name="elevator" />
+                <Amenity
+                  amenity={a}
+                  name={amenityIcons[a.replace(/\s+/g, '') as 'Wifi']}
+                />
               ))}
             </View>
 
             <Divider />
 
             <View style={styles.section}>
-              <Headline>Location</Headline>
+              <Text style={styles.amenitiesTitle}>Where you'll be</Text>
               <MapView
                 initialRegion={{
                   latitude: data.listing.latitude,
                   longitude: data.listing.longitude,
-                  latitudeDelta: 0.1,
-                  longitudeDelta: 0.1,
+                  latitudeDelta: 0.005,
+                  longitudeDelta: 0.005,
                 }}
                 scrollEnabled={false}
                 style={styles.map}>
@@ -233,7 +251,12 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
           <Divider />
 
           <View style={styles.section}>
-            <View style={styles.reviewsMargin}></View>
+            <View style={styles.reviewsMargin}>
+              <UserCard
+                name={data.listing.creator.name}
+                joinDate={data.listing.creator.createdAt}
+              />
+            </View>
           </View>
         </ScrollView>
       )}
@@ -241,36 +264,49 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
       <View style={styles.reserve}>
         <View>
           <View style={styles.priceContainer}>
-            <Title>${data?.listing?.price}</Title>
-            <Paragraph> / night</Paragraph>
+            <Text style={styles.price}>${data?.listing?.price}</Text>
+            <Text style={styles.night}> / night</Text>
           </View>
 
           <View style={styles.iconContainer}>
-            <FontAwesome5Icon name="star" style={styles.icon} />
-            <Subheading>{finalRating}</Subheading>
-            <Subheading>
-              {data?.listing?.reviews?.length
-                ? `(${data.listing.reviews.length})`
-                : null}
-            </Subheading>
+            <FontAwesomeIcon name="star" size={14} style={styles.icon} />
+            <Subheading style={styles.reserveRating}>{finalRating}</Subheading>
           </View>
         </View>
 
-        <View style={styles.btnContainer}>
-          <GradientButton
+        <Animated.View style={[styles.btnContainer, {transform: [{scale}]}]}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.reserveBtn}
+            onPressIn={onPressIn}
+            onPressOut={onPressOut}>
+            <Text style={styles.reserveText}>Check availability</Text>
+          </TouchableOpacity>
+          {/* <GradientButton
             disabled={false}
             text="Reserve"
             onPress={() => console.log('Reserve')}
-          />
-        </View>
+          /> */}
+        </Animated.View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  amenitiesTitle: {
+    color: Colors.black,
+    fontSize: 24,
+    fontWeight: '700',
+  },
+
   btnContainer: {
-    width: '50%',
+    backgroundColor: '#ff385c',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    height: 30,
+    width: '45%',
   },
 
   container: {
@@ -278,17 +314,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
 
+  city: {
+    color: Colors.grey500,
+  },
+
   iconContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    color: Colors.grey500,
   },
 
-  icon: {
-    color: '#ff385c',
-    marginRight: 2,
-  },
+  icon: {color: '#ff385c', marginTop: 2, marginRight: 5},
 
   iconsFlex: {
     flexDirection: 'row',
@@ -317,6 +354,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
+  price: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  night: {
+    fontSize: 16,
+  },
+
   reserve: {
     backgroundColor: Colors.white,
     borderTopColor: Colors.grey200,
@@ -327,8 +373,30 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
+  reserveBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  reserveText: {
+    color: Colors.white,
+    fontSize: 16,
+  },
+
+  reserveRating: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+
   reviewsMargin: {
     marginLeft: 20,
+  },
+
+  roomTitle: {
+    color: Colors.black,
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 
   scrollContainer: {
@@ -339,9 +407,22 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
   },
 
-  subheading: {
+  showMoreContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 4,
+  },
+
+  showMore: {
+    color: Colors.black,
+    fontSize: 15,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
+
+  subheading: {
+    flexDirection: 'column',
+    justifyContent: 'center',
     marginVertical: 15,
   },
 });

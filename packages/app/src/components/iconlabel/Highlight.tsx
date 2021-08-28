@@ -20,13 +20,23 @@ export const Highlight: React.FC<HighlightProps> = ({
   return (
     <View style={styles.highlight}>
       {ant ? (
-        <AntDesignIcon name={name} color={Colors.black} size={34} />
+        <AntDesignIcon
+          name={name}
+          color={Colors.black}
+          size={25}
+          style={styles.icon}
+        />
       ) : (
-        <MaterialCommunityIcon name={name} color={Colors.black} size={34} />
+        <MaterialCommunityIcon
+          name={name}
+          color={Colors.black}
+          size={25}
+          style={styles.icon}
+        />
       )}
       <View style={styles.highlightText}>
         <Title>{title}</Title>
-        <Caption>{caption}</Caption>
+        <Caption style={styles.captionText}>{caption}</Caption>
       </View>
     </View>
   );
@@ -38,8 +48,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 
+  icon: {
+    marginTop: 5,
+  },
+
   highlightText: {
     flexShrink: 1,
     marginLeft: 10,
+  },
+
+  captionText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

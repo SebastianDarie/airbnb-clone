@@ -15,8 +15,13 @@ export const Amenity: React.FC<AmenityProps> = ({amenity, name}) => {
       <View style={styles.amenityContainer}>
         <View style={styles.textContainer}>
           <Subheading>{amenity}</Subheading>
-          <MaterialCommunityIcon name={name} color={Colors.black} size={24} />
         </View>
+        <MaterialCommunityIcon
+          name={name}
+          color={Colors.black}
+          size={24}
+          style={styles.icon}
+        />
       </View>
     </TouchableHighlight>
   );
@@ -25,13 +30,20 @@ export const Amenity: React.FC<AmenityProps> = ({amenity, name}) => {
 const styles = StyleSheet.create({
   amenityContainer: {
     backgroundColor: Colors.white,
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
     paddingVertical: 20,
   },
 
+  icon: {
+    marginTop: 5,
+  },
+
   textContainer: {
+    color: Colors.black,
     flex: 1,
-    flexDirection: 'column',
+    fontSize: 18,
+    marginTop: 5,
+    marginLeft: 10,
   },
 });

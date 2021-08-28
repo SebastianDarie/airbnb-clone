@@ -1,3 +1,4 @@
+import {ApolloQueryResult, NetworkStatus} from '@apollo/client';
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -8,8 +9,12 @@ import {
 import {useHeaderHeight} from '@react-navigation/elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {
+  Exact,
+  Maybe,
+  SearchInput,
   SearchListingResult,
   SearchListingsQuery,
+  useSearchListingsQuery,
 } from '@second-gear/controller';
 import React, {
   useCallback,
@@ -31,7 +36,8 @@ import {
 import MapView, {Camera, Region} from 'react-native-maps';
 import {Subheading} from 'react-native-paper';
 import {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSafeArea, useSafeAreaInsets} from 'react-native-safe-area-context';
+import shallow from 'zustand/shallow';
 import {useSearchStore} from '../../global-stores/useSearchStore';
 import {RoomPageController} from '../../modules/room/RoomPageController';
 import {ListingsScreenNavigationProp} from '../../navigation/RootNavigation';
@@ -41,26 +47,42 @@ import {ListingCard} from './ListingCard';
 import {ListingCarouselItem} from './ListingCarouselItem';
 import {ListingsCarousel} from './ListingsCarousel';
 
-export interface ListingsMapProps extends ListingsScreenNavigationProp {
-  data: SearchListingsQuery;
-}
+export interface ListingsMapProps extends ListingsScreenNavigationProp {}
 
 const {height: SCREEN_HEIGHT, width} = Dimensions.get('window');
 
 const HANDLE_HEIGHT = 69;
 const LOCATION_DETAILS_HEIGHT = 325;
 
-export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
-  const location = useSearchStore(state => state.location);
+export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
+  const [adults, children, infants, location, viewPort] = useSearchStore(
+    state => [
+      state.adults,
+      state.children,
+      state.infants,
+      state.location,
+      state.viewPort,
+      state.city,
+    ],
+    shallow,
+  );
+  const bounds = {northEast: viewPort.northeast, southWest: viewPort.southwest};
+  const guests = adults + children + infants;
+  const {data, loading, fetchMore, refetch} = useSearchListingsQuery({
+    variables: {
+      input: {bounds, guests},
+      limit: 20,
+      cursor: null,
+    },
+  });
   const [selected, setSelected] = useState<string>('');
   const flatlist = useRef<FlatList>(null);
   const mapRef = useRef<MapView>(null);
   const poiListModalRef = useRef<BottomSheetModal>(null);
   const poiDetailsModalRef = useRef<BottomSheetModal>(null);
 
-  // const {width} = useWindowDimensions();
   const headerHeight = useHeaderHeight();
-  const {bottom: bottomSafeArea} = useSafeAreaInsets();
+  const {top: topSafeArea, bottom: bottomSafeArea} = useSafeAreaInsets();
 
   const mapInitialCamera: Camera = useMemo(
     () => ({
@@ -71,7 +93,7 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
       altitude: 0,
       heading: 0,
       pitch: 0,
-      zoom: 4,
+      zoom: 12,
     }),
     [location.lat, location.lng],
   );
@@ -102,13 +124,26 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
     poiDetailsModalRef.current?.dismiss();
   }, []);
   const handlePresentRoomDetails = useCallback((item: SearchListingResult) => {
-    console.log('in handle room details');
     setSelected(item.id);
-    poiDetailsModalRef.current?.expand();
+    poiDetailsModalRef.current?.present();
   }, []);
   const handleRefresh = useCallback(() => {
-    console.log('handleRefresh');
-  }, []);
+    refetch({
+      input: {
+        guests: adults + children + infants,
+        bounds: {northEast: viewPort.northeast, southWest: viewPort.southwest},
+      },
+      limit: 20,
+      cursor: null,
+    });
+  }, [
+    adults,
+    children,
+    infants,
+    refetch,
+    viewPort.northeast,
+    viewPort.southwest,
+  ]);
 
   const scrollViewAnimatedStyle = useAnimatedStyle(() => ({
     opacity: animatedPOIListIndex.value,
@@ -122,19 +157,30 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
     [bottomSafeArea],
   );
 
-  // useEffect(() => {
-  //   if (animatedPOIListIndex.value === 0) {
-  //     mapRef.current?.animateToRegion({
-  //       latitude: location.lat,
-  //       longitude: location.lng,
-  //       latitudeDelta: 0.5,
-  //       longitudeDelta: 0.5,
-  //     });
-  //   }
-  // }, [animatedPOIListIndex.value, location.lat, location.lng]);
+  useEffect(() => {
+    if (animatedPOIListIndex.value === 0) {
+      console.log(animatedPOIListIndex.value);
+      console.log('zoom in');
+      mapRef.current?.animateToRegion({
+        latitude: location.lat,
+        longitude: location.lng,
+        latitudeDelta: 0.2,
+        longitudeDelta: 0.2,
+      });
+    } else {
+      console.log(animatedPOIListIndex.value);
+      console.log('zoom out');
+      mapRef.current?.animateToRegion({
+        latitude: location.lat,
+        longitude: location.lng,
+        latitudeDelta: 0.5,
+        longitudeDelta: 0.5,
+      });
+    }
+  }, [animatedPOIListIndex.value, location.lat, location.lng]);
 
   useEffect(() => {
-    if (!data.searchListings.listings || !selected || !flatlist) {
+    if (!data?.searchListings.listings || !selected || !flatlist) {
       return;
     }
 
@@ -151,17 +197,13 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
       longitudeDelta: 0.12,
     };
     mapRef.current?.animateToRegion(region);
-  }, [data.searchListings.listings, selected]);
+  }, [data?.searchListings.listings, selected]);
 
-  // useLayoutEffect(() => {
-  //   requestAnimationFrame(() => poiListModalRef.current?.present());
-  // }, []);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     requestAnimationFrame(() => poiListModalRef.current?.present());
   }, []);
 
-  console.log(animatedPOIListIndex, animatedPOIListPosition);
+  // console.log(animatedPOIListIndex, animatedPOIListPosition);
 
   const renderHeaderHandle = useCallback(
     props => (
@@ -170,13 +212,13 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
         children={
           <View style={styles.listHeader}>
             <Subheading style={styles.placesCount}>
-              {data.searchListings.listings.length} places to stay
+              {data?.searchListings.listings.length} places to stay
             </Subheading>
           </View>
         }
       />
     ),
-    [data.searchListings.listings.length],
+    [data?.searchListings.listings.length],
   );
 
   const renderBackdrop = useCallback(
@@ -202,50 +244,12 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
         reviews={item.reviews}
         title={item.title}
         onPress={() => {
-          console.log('should open room details');
           handlePresentRoomDetails(item);
         }}
       />
     ),
     [handlePresentRoomDetails],
   );
-
-  // const renderCarouselItem = useCallback(
-  //   ({item, index}: {item: SearchListingResult; index: number}) => (
-  //     <ListingCarouselItem
-  //       first={index === 0}
-  //       last={index === data.searchListings.listings.length - 1}
-  //       bedrooms={item.bedrooms}
-  //       beds={item.beds}
-  //       category={item.category}
-  //       cover={item.photos[0]}
-  //       price={item.price}
-  //       title={item.title}
-  //     />
-  //   ),
-  //   [data.searchListings.listings.length],
-  // );
-
-  // const filteredLocations = (arr: SearchListingResult[]) => {
-  //   const hash = Object.create(null);
-  //   const result = arr.map(x => {
-  //     const latLng = `${x.latitude}_${x.longitude}`;
-  //     if (hash[latLng]) {
-  //       return {
-  //         ...x,
-  //         location: {
-  //           lat: x.latitude - 0.1,
-  //           lng: x.longitude,
-  //         },
-  //       };
-  //     }
-  //     hash[latLng] = true;
-  //     return x;
-  //   });
-  //   return result;
-  // };
-
-  // const filteredArr = filteredLocations(data.searchListings.listings);
 
   return (
     <BottomSheetModalProvider>
@@ -261,9 +265,10 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
           style={styles.mapContainer}
           onTouchStart={handleTouchStart}
           cacheEnabled
+          loadingEnabled
           zoomEnabled
           zoomTapEnabled>
-          {data.searchListings.listings.map(l => (
+          {data?.searchListings.listings.map(l => (
             <MapMarker
               key={l.id}
               coordinate={{latitude: l.latitude, longitude: l.longitude}}
@@ -277,10 +282,10 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
           ref={poiListModalRef}
           key="PoiListSheet"
           name="PoiListSheet"
-          index={1}
+          index={0}
           snapPoints={poiListSnapPoints}
           handleHeight={HANDLE_HEIGHT}
-          topInset={headerHeight}
+          topInset={topSafeArea}
           enableDismissOnClose={false}
           enablePanDownToClose={false}
           animatedPosition={animatedPOIListPosition}
@@ -288,23 +293,29 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
           backdropComponent={renderBackdrop}
           handleComponent={renderHeaderHandle}>
           <BottomSheetFlatList
-            data={data.searchListings.listings}
+            data={data?.searchListings.listings}
             keyExtractor={listing => listing.id}
             renderItem={renderItem}
             style={scrollViewStyle}
             contentContainerStyle={scrollViewContentContainer}
-            // ListHeaderComponent={
-            //   <View style={styles.listHeader}>
-            //     <Subheading style={styles.placesCount}>
-            //       300+ places to stay
-            //     </Subheading>
-            //   </View>
-            // }
             focusHook={useFocusEffect}
             initialNumToRender={10}
             maxToRenderPerBatch={20}
             refreshing={false}
             showsVerticalScrollIndicator={false}
+            onEndReachedThreshold={30}
+            onEndReached={() =>
+              fetchMore({
+                variables: {
+                  input: {bounds, guests},
+                  limit: 20,
+                  cursor:
+                    data?.searchListings.listings[
+                      data.searchListings.listings.length - 1
+                    ].createdAt,
+                },
+              })
+            }
             onRefresh={handleRefresh}
           />
         </BottomSheetModal>
@@ -314,7 +325,7 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
           key="PoiDetailsSheet"
           name="PoiDetailsSheet"
           snapPoints={poiDetailsSnapPoints}
-          topInset={headerHeight}
+          topInset={topSafeArea}
           animatedIndex={animatedPOIDetailsIndex}
           animatedPosition={animatedPOIDetailsPosition}>
           <RoomPageController
@@ -323,14 +334,12 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({data}) => {
           />
         </BottomSheetModal>
 
-        {/* {animatedPOIListIndex.value === 0 ? (
-          <ListingsCarousel
-            data={data}
-            flatlist={flatlist}
-            handlePresentRoomDetails={handlePresentRoomDetails}
-            setSelected={setSelected}
-          />
-        ) : null} */}
+        <ListingsCarousel
+          data={data}
+          flatlist={flatlist}
+          handlePresentRoomDetails={handlePresentRoomDetails}
+          setSelected={setSelected}
+        />
       </View>
     </BottomSheetModalProvider>
   );
@@ -354,7 +363,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 30,
     marginHorizontal: 25,
   },
@@ -370,5 +379,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
-
-//export default withModalProvider(ListingsMap);

@@ -1,9 +1,9 @@
-import {TouchableHighlight, TouchableOpacity} from '@gorhom/bottom-sheet';
+import {TouchableOpacity} from '@gorhom/bottom-sheet';
 import {Review} from '@second-gear/controller';
 import React from 'react';
-import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {FlatList, NativeViewGestureHandler} from 'react-native-gesture-handler';
+import {FlatList} from 'react-native-gesture-handler';
 import {Colors, Paragraph, Title} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -35,7 +35,6 @@ export const ListingCard: React.FC<ListingCardProps> = ({
     rating += reviews[i].rating;
   }
   return (
-    // <NativeViewGestureHandler disallowInterruption>
     <TouchableOpacity
       activeOpacity={1}
       // delayPressIn={150}
@@ -48,13 +47,11 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             keyExtractor={(_item, index) => 'key: ' + index}
             renderItem={({item}) => {
               return (
-                <View>
-                  <FastImage
-                    style={styles.image}
-                    source={{uri: item, priority: FastImage.priority.normal}}
-                    resizeMode={FastImage.resizeMode.cover}
-                  />
-                </View>
+                <FastImage
+                  style={styles.image}
+                  source={{uri: item, priority: FastImage.priority.normal}}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
               );
             }}
             decelerationRate="fast"
@@ -97,7 +94,6 @@ export const ListingCard: React.FC<ListingCardProps> = ({
         </View>
       </View>
     </TouchableOpacity>
-    // </NativeViewGestureHandler>
   );
 };
 
@@ -111,6 +107,8 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
+    //borderRadius: 15,
+    //overflow: 'hidden',
   },
 
   listingDetails: {

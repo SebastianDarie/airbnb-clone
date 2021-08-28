@@ -1,7 +1,7 @@
 import React from 'react';
 import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Colors, Paragraph} from 'react-native-paper';
+import {Colors} from 'react-native-paper';
 
 interface ListingCarouselItemProps {
   beds: number;
@@ -50,7 +50,7 @@ export const ListingCarouselItem: React.FC<ListingCarouselItemProps> = ({
           </Text>
 
           <Text style={styles.prices}>
-            <Paragraph style={styles.price}>${price}</Paragraph> / night
+            <Text style={styles.price}>${price}</Text> / night
           </Text>
         </View>
       </View>
@@ -62,8 +62,6 @@ const styles = StyleSheet.create({
   container: {
     height: 120,
     padding: 5,
-
-    // alignSelf: 'center',
 
     shadowColor: '#000',
     shadowOffset: {
@@ -109,10 +107,5 @@ const styles = StyleSheet.create({
 
   price: {
     fontWeight: 'bold',
-  },
-
-  totalPrice: {
-    color: '#5b5b5b',
-    textDecorationLine: 'underline',
   },
 });

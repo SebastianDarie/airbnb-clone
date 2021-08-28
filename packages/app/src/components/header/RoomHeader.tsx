@@ -1,6 +1,7 @@
 import {TouchableOpacity} from '@gorhom/bottom-sheet';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {Colors} from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface RoomHeaderProps {
@@ -15,7 +16,11 @@ export const RoomHeader: React.FC<RoomHeaderProps> = ({onPress}) => {
           <View style={styles.maxWidth}>
             <TouchableOpacity onPress={onPress}>
               <View style={styles.circle}>
-                <FontAwesome5Icon name="arrow-left" color="black" size={24} />
+                <FontAwesome5Icon
+                  name="arrow-left"
+                  color={Colors.grey800}
+                  size={14}
+                />
               </View>
             </TouchableOpacity>
           </View>
@@ -31,8 +36,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
     position: 'absolute',
-    top: 0,
-    left: -10,
+    top: -10,
+    left: 15,
     zIndex: 100,
   },
 
@@ -53,7 +58,8 @@ const styles = StyleSheet.create({
 
   circle: {
     backgroundColor: 'white',
-    borderRadius: 500,
-    padding: 4,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
 });

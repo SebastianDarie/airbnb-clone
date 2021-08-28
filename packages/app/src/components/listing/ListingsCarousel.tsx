@@ -7,7 +7,7 @@ import {Dimensions, FlatList, StyleSheet, View, ViewToken} from 'react-native';
 import {ListingCarouselItem} from './ListingCarouselItem';
 
 interface ListingsCarouselProps {
-  data: SearchListingsQuery;
+  data: SearchListingsQuery | undefined;
   flatlist: React.RefObject<FlatList<any>>;
   handlePresentRoomDetails: (item: SearchListingResult) => void;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
@@ -50,10 +50,10 @@ export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
     <View style={styles.carouselContainer}>
       <FlatList
         ref={flatlist}
-        data={data.searchListings.listings}
+        data={data?.searchListings.listings}
         keyExtractor={listing => listing.id}
         renderItem={renderCarouselItem}
-        decelerationRate="fast"
+        decelerationRate={0}
         initialNumToRender={5}
         maxToRenderPerBatch={10}
         showsHorizontalScrollIndicator={false}
@@ -62,6 +62,7 @@ export const ListingsCarousel: React.FC<ListingsCarouselProps> = ({
         viewabilityConfig={viewConfig.current}
         onViewableItemsChanged={onViewChanged.current}
         horizontal
+        pagingEnabled
       />
     </View>
   );

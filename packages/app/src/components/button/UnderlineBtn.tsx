@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   labelWrapper: {
     paddingVertical: 10,
   },
+
   label: {
     color: Colors.grey500,
     fontSize: 15,

@@ -10,27 +10,27 @@ interface MapMarkerProps {
   onPress: () => void;
 }
 
-export const MapMarker: React.FC<MapMarkerProps> = ({
-  coordinate,
-  isSelected,
-  price,
-  onPress,
-}) => {
-  return (
-    <Marker coordinate={coordinate} tracksViewChanges={false} onPress={onPress}>
-      <View
-        style={[
-          styles.pillContainer,
-          {backgroundColor: isSelected ? 'black' : 'white'},
-        ]}>
-        <Text
-          style={{color: isSelected ? 'white' : 'black', fontWeight: 'bold'}}>
-          ${price}
-        </Text>
-      </View>
-    </Marker>
-  );
-};
+export const MapMarker: React.FC<MapMarkerProps> = React.memo(
+  ({coordinate, isSelected, price, onPress}) => {
+    return (
+      <Marker
+        coordinate={coordinate}
+        tracksViewChanges={false}
+        onPress={onPress}>
+        <View
+          style={[
+            styles.pillContainer,
+            {backgroundColor: isSelected ? 'black' : 'white'},
+          ]}>
+          <Text
+            style={{color: isSelected ? 'white' : 'black', fontWeight: 'bold'}}>
+            ${price}
+          </Text>
+        </View>
+      </Marker>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   pillContainer: {

@@ -2,12 +2,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   getFocusedRouteNameFromRoute,
   NavigatorScreenParams,
-  RouteProp,
 } from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useLayoutEffect} from 'react';
-import {IconButton} from 'react-native-paper';
+import React from 'react';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -24,15 +21,6 @@ export type ExploreStackParamList = {
 const ExploreStack = createStackNavigator<ExploreStackParamList>();
 
 const ExploreStackScreen: React.FC = () => {
-  // useLayoutEffect(() => {
-  //   const routeName = getFocusedRouteNameFromRoute(route);
-  //   if (routeName === 'Listings') {
-  //     navigation.setOptions({tabBarVisible: false});
-  //   } else {
-  //     navigation.setOptions({tabBarVisible: true});
-  //   }
-  // }, [navigation, route]);
-
   return (
     <ExploreStack.Navigator
       initialRouteName="Main"
@@ -64,13 +52,6 @@ export const BottomNavigator: React.FC = () => {
       <Tab.Screen
         name="Explore"
         component={ExploreStackScreen}
-        // listeners={({navigation, route}) => ({
-        //   tabPress: e => {
-        //     if (route.name === 'Explore') {
-        //       e.preventDefault();
-        //     }
-        //   },
-        // })}
         options={({route}) => {
           const routeName = getFocusedRouteNameFromRoute(route);
           return {
