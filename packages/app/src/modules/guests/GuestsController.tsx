@@ -12,14 +12,8 @@ import {GuestsScreenNavigationProp} from '../../navigation/RootNavigation';
 export const GuestsController: React.FC<GuestsScreenNavigationProp> = ({
   navigation,
 }) => {
-  const [adults, children, infants, startDate, endDate] = useSearchStore(
-    state => [
-      state.adults,
-      state.children,
-      state.infants,
-      state.startDate,
-      state.endDate,
-    ],
+  const [adults, children, infants] = useSearchStore(
+    state => [state.adults, state.children, state.infants],
     shallow,
   );
   const [setAdults, setChildren, setInfants] = useSearchStore(

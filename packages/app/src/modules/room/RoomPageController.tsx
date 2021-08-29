@@ -1,11 +1,10 @@
 import {ListingReview, useListingQuery} from '@second-gear/controller';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -31,6 +30,16 @@ import {ReviewCard} from '../../components/card/ReviewCard';
 import {ImgCarousel} from '../../components/room/ImgCarousel';
 import {UserCard} from '../../components/card/UserCard';
 import {amenityIcons} from '../../constants/amenityIcons';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {styles} from './styles';
+import {DescriptionController} from './DescriptionController';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetScrollView,
+} from '@gorhom/bottom-sheet';
+import DetailsHandle from '../../components/header/DetailsHandle';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface RoomPageControllerProps {
   id: string;
@@ -43,15 +52,28 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
   id,
   onClose,
 }) => {
+  const navigation = useNavigation();
   const {data, loading} = useListingQuery({
     variables: {id, noreviews: false, slim: false},
   });
+  const {top: topSafeArea, bottom: bottomSafeArea} = useSafeAreaInsets();
+  const bottomModalRef = useRef<BottomSheetModal>(null);
   const opacityValue = new Animated.Value(0);
   const scaleValue = new Animated.Value(0);
   const [headerOpacity] = useState(opacityValue);
   const inputRange = [0, 1];
   const outputRange = [1, 0.9];
   const scale = scaleValue.interpolate({inputRange, outputRange});
+
+  const snapPoints = useMemo(() => [1, '100%'], []);
+
+  const contentContainerStyle = useMemo(
+    () => ({
+      ...styles.contentContainer,
+      paddingBottom: bottomSafeArea,
+    }),
+    [bottomSafeArea],
+  );
 
   const headerStyle: Animated.WithAnimatedObject<ViewStyle> = {
     height: 70,
@@ -92,6 +114,11 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
     }
   };
 
+  const renderDetailsHandle = useCallback(
+    props => <DetailsHandle title="About this space" {...props} />,
+    [],
+  );
+
   const renderReview = useCallback(
     ({item, index}: {item: ListingReview; index: number}) => (
       <ReviewCard item={item} index={index} />
@@ -111,6 +138,7 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
       : (rating / data?.listing?.reviews?.length!).toFixed(2);
 
   return (
+    //<BottomSheetModalProvider>
     <View style={styles.container}>
       <View style={styles.overlayBtn}>
         <Animated.View style={headerStyle} />
@@ -169,7 +197,8 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
 
             <View style={styles.section}>
               <Paragraph>{data.listing.description}</Paragraph>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => bottomModalRef.current?.present()}>
                 <View style={styles.showMoreContainer}>
                   <Text style={styles.showMore}>Show More</Text>
                   <FeatherIcon
@@ -181,6 +210,21 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
                   />
                 </View>
               </TouchableOpacity>
+              <BottomSheetModal
+                ref={bottomModalRef}
+                index={1}
+                snapPoints={snapPoints}
+                topInset={topSafeArea}
+                handleComponent={renderDetailsHandle}
+                enablePanDownToClose>
+                <BottomSheetScrollView
+                  style={styles.scrollViewContainer}
+                  contentContainerStyle={contentContainerStyle}
+                  focusHook={useFocusEffect}
+                  bounces>
+                  <Text>{data.listing.description}</Text>
+                </BottomSheetScrollView>
+              </BottomSheetModal>
             </View>
 
             <Divider />
@@ -241,7 +285,11 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
             <View style={styles.reviewsMargin}>
               <UnderlineBtn
                 text="See more"
-                onPress={() => console.log('reviews')}
+                onPress={() =>
+                  navigation.navigate('Reviews', {
+                    reviews: data.listing?.reviews,
+                  })
+                }
               />
             </View>
           </View>
@@ -284,140 +332,6 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
         </Animated.View>
       </View>
     </View>
+    //</BottomSheetModalProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  amenitiesTitle: {
-    color: Colors.black,
-    fontSize: 24,
-    fontWeight: '700',
-  },
-
-  btnContainer: {
-    backgroundColor: '#ff385c',
-    borderRadius: 7,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    height: 45,
-    width: '45%',
-  },
-
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
-
-  city: {
-    color: Colors.grey500,
-  },
-
-  iconContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    color: Colors.grey500,
-  },
-
-  icon: {color: '#ff385c', marginTop: 2, marginRight: 5},
-
-  iconsFlex: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 14,
-    marginRight: 16,
-  },
-
-  mainWrapper: {
-    flex: 1,
-    paddingVertical: 20,
-    paddingHorizontal: 30,
-  },
-
-  map: {
-    height: 200,
-    marginTop: 15,
-  },
-
-  overlayBtn: {
-    zIndex: 100,
-  },
-
-  priceContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-
-  price: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-
-  night: {
-    fontSize: 16,
-  },
-
-  reserve: {
-    backgroundColor: Colors.white,
-    borderTopColor: Colors.grey200,
-    borderTopWidth: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-  },
-
-  reserveBtn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  reserveText: {
-    color: Colors.white,
-    fontSize: 16,
-  },
-
-  reserveRating: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-
-  reviewsMargin: {
-    marginLeft: 20,
-  },
-
-  roomTitle: {
-    color: Colors.black,
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-
-  scrollContainer: {
-    flex: 1,
-  },
-
-  section: {
-    paddingVertical: 18,
-  },
-
-  showMoreContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 4,
-  },
-
-  showMore: {
-    color: Colors.black,
-    fontSize: 15,
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-  },
-
-  subheading: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginVertical: 15,
-  },
-});

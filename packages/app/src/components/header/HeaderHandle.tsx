@@ -10,12 +10,12 @@ import Animated, {
 import {toRad} from 'react-native-redash';
 import {transformOrigin} from '../../lib/transformOrigin';
 
-interface CustomHandleProps extends BottomSheetHandleProps {
+interface HeaderHandleProps extends BottomSheetHandleProps {
   title: string;
   style?: StyleProp<ViewStyle>;
 }
 
-const CustomHandle: React.FC<CustomHandleProps> = ({
+const HeaderHandle: React.FC<HeaderHandleProps> = ({
   title,
   style,
   animatedIndex,
@@ -103,7 +103,7 @@ const CustomHandle: React.FC<CustomHandleProps> = ({
   );
 };
 
-export default memo(CustomHandle);
+export default memo(HeaderHandle);
 
 const styles = StyleSheet.create({
   container: {

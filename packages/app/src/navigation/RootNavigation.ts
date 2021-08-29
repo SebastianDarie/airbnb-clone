@@ -54,20 +54,25 @@ export type CalendarScreenNavigationProp = StackNavigationProps<
   'Calendar'
 >;
 
+export type DescriptionScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Description'
+>;
+
 export type GuestsScreenNavigationProp = StackNavigationProps<
   RootStackParamList,
   'Guests'
+>;
+
+export type ReviewsScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Reviews'
 >;
 
 export type RoomScreenNavigationProp = StackNavigationProps<
   RootStackParamList,
   'Room'
 >;
-
-// export type ListingsScreenNavigationProp = StackNavigationProps<
-//   RootStackParamList,
-//   'Listings'
-// >;
 
 export type SearchScreenNavigationProp = StackNavigationProps<
   RootStackParamList,
@@ -81,10 +86,6 @@ export type ListingsScreenNavigationProp = CompositeScreenProps<
     NativeStackScreenProps<RootStackParamList>
   >
 >;
-
-// export type ListingsNavigationProp = {
-//   navigation: ListingsScreenNavigationProp;
-// };
 
 export type ExploreScreenNavigationProp = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'Explore'>,
@@ -104,9 +105,3 @@ export type RootStackRoutes =
   | 'Search';
 
 export const navigationRef = createNavigationContainerRef();
-
-// export function navigate(name, params = {}) {
-//   if (navigationRef.isReady()) {
-//     navigationRef.navigate(name, params);
-//   }
-// }

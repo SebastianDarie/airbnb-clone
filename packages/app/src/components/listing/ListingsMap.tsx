@@ -143,7 +143,7 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
           latitude: location.lat,
           longitude: location.lng,
         },
-        zoom: 10,
+        zoom: 11,
       });
     } else if (animatedPOIListIndex.value === 0) {
       mapRef.current?.animateCamera({
@@ -220,7 +220,7 @@ export const ListingsMap: React.FC<ListingsMapProps> = ({}) => {
   const renderHeaderHandle = useCallback(
     props => (
       <HeaderHandle
-        title={`${data?.searchListings.listings.length} places to stay`}
+        title={`${data?.searchListings.listings.length || 0} places to stay`}
         {...props}
       />
     ),
