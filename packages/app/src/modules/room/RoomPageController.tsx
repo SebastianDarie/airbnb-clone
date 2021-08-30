@@ -1,8 +1,8 @@
-import {ListingReview, useListingQuery} from '@second-gear/controller';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {useListingQuery} from '@second-gear/controller';
+import React, {useState} from 'react';
 import {
   Animated,
-  Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Text,
@@ -10,43 +10,24 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import MapView, {Marker} from 'react-native-maps';
-import {
-  Colors,
-  Divider,
-  Headline,
-  Paragraph,
-  Subheading,
-  Title,
-} from 'react-native-paper';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import {Colors, Divider, Subheading, Title} from 'react-native-paper';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import {UnderlineBtn} from '../../components/button/UnderlineBtn';
+import {UserCard} from '../../components/card/UserCard';
 import {RoomHeader} from '../../components/header/RoomHeader';
 import {Amenity} from '../../components/iconlabel/Amenity';
 import {Highlight} from '../../components/iconlabel/Highlight';
-import {ReviewCard} from '../../components/card/ReviewCard';
 import {ImgCarousel} from '../../components/room/ImgCarousel';
-import {UserCard} from '../../components/card/UserCard';
 import {amenityIcons} from '../../constants/amenityIcons';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {DescriptionSection} from './DescriptionSection';
+import {ReviewsSection} from './ReviewsSection';
 import {styles} from './styles';
-import {DescriptionController} from './DescriptionController';
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetScrollView,
-} from '@gorhom/bottom-sheet';
-import DetailsHandle from '../../components/header/DetailsHandle';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface RoomPageControllerProps {
   id: string;
   onClose: () => void;
 }
-
-const {width} = Dimensions.get('window');
 
 export const RoomPageController: React.FC<RoomPageControllerProps> = ({
   id,
@@ -56,24 +37,12 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
   const {data, loading} = useListingQuery({
     variables: {id, noreviews: false, slim: false},
   });
-  const {top: topSafeArea, bottom: bottomSafeArea} = useSafeAreaInsets();
-  const bottomModalRef = useRef<BottomSheetModal>(null);
   const opacityValue = new Animated.Value(0);
   const scaleValue = new Animated.Value(0);
   const [headerOpacity] = useState(opacityValue);
   const inputRange = [0, 1];
   const outputRange = [1, 0.9];
   const scale = scaleValue.interpolate({inputRange, outputRange});
-
-  const snapPoints = useMemo(() => [1, '100%'], []);
-
-  const contentContainerStyle = useMemo(
-    () => ({
-      ...styles.contentContainer,
-      paddingBottom: bottomSafeArea,
-    }),
-    [bottomSafeArea],
-  );
 
   const headerStyle: Animated.WithAnimatedObject<ViewStyle> = {
     height: 70,
@@ -114,18 +83,6 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
     }
   };
 
-  const renderDetailsHandle = useCallback(
-    props => <DetailsHandle title="About this space" {...props} />,
-    [],
-  );
-
-  const renderReview = useCallback(
-    ({item, index}: {item: ListingReview; index: number}) => (
-      <ReviewCard item={item} index={index} />
-    ),
-    [],
-  );
-
   let rating = 0;
   if (data?.listing?.reviews?.length) {
     for (let i = 0; i < data.listing.reviews.length; i++) {
@@ -138,7 +95,6 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
       : (rating / data?.listing?.reviews?.length!).toFixed(2);
 
   return (
-    //<BottomSheetModalProvider>
     <View style={styles.container}>
       <View style={styles.overlayBtn}>
         <Animated.View style={headerStyle} />
@@ -195,37 +151,7 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
 
             <Divider />
 
-            <View style={styles.section}>
-              <Paragraph>{data.listing.description}</Paragraph>
-              <TouchableOpacity
-                onPress={() => bottomModalRef.current?.present()}>
-                <View style={styles.showMoreContainer}>
-                  <Text style={styles.showMore}>Show More</Text>
-                  <FeatherIcon
-                    name="chevron-right"
-                    color={Colors.black}
-                    size={18}
-                    // eslint-disable-next-line react-native/no-inline-styles
-                    style={{marginTop: 4}}
-                  />
-                </View>
-              </TouchableOpacity>
-              <BottomSheetModal
-                ref={bottomModalRef}
-                index={1}
-                snapPoints={snapPoints}
-                topInset={topSafeArea}
-                handleComponent={renderDetailsHandle}
-                enablePanDownToClose>
-                <BottomSheetScrollView
-                  style={styles.scrollViewContainer}
-                  contentContainerStyle={contentContainerStyle}
-                  focusHook={useFocusEffect}
-                  bounces>
-                  <Text>{data.listing.description}</Text>
-                </BottomSheetScrollView>
-              </BottomSheetModal>
-            </View>
+            <DescriptionSection data={data} />
 
             <Divider />
 
@@ -264,35 +190,7 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
             <Divider />
           </View>
 
-          <View style={styles.section}>
-            <View style={styles.reviewsMargin}>
-              <Headline>Reviews</Headline>
-            </View>
-
-            {data.listing.reviews && (
-              <FlatList
-                data={data.listing.reviews.slice(0, 4)}
-                keyExtractor={item => item.id}
-                renderItem={renderReview}
-                decelerationRate={0}
-                snapToAlignment="center"
-                snapToInterval={width - 90}
-                showsHorizontalScrollIndicator={false}
-                horizontal
-                scrollEnabled
-              />
-            )}
-            <View style={styles.reviewsMargin}>
-              <UnderlineBtn
-                text="See more"
-                onPress={() =>
-                  navigation.navigate('Reviews', {
-                    reviews: data.listing?.reviews,
-                  })
-                }
-              />
-            </View>
-          </View>
+          <ReviewsSection data={data} navigation={navigation} />
 
           <Divider />
 
@@ -332,6 +230,5 @@ export const RoomPageController: React.FC<RoomPageControllerProps> = ({
         </Animated.View>
       </View>
     </View>
-    //</BottomSheetModalProvider>
   );
 };

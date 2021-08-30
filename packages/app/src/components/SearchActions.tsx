@@ -4,14 +4,16 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Colors} from 'react-native-paper';
 import {PeriodMarking} from 'react-native-calendars';
 import {RootStackParamList} from '../navigation/MainNavigator';
-import {RootStackRoutes} from '../navigation/RootNavigation';
 import {GradientButton} from './button/GradientBtn';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {TabParamList} from '../navigation/mainNavigator/BottomNavigator';
 
 interface SearchActionsProps {
-  navigation: NativeStackNavigationProp<RootStackParamList, RootStackRoutes>;
-  route: RootStackRoutes;
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    keyof RootStackParamList
+  >;
+  route: keyof RootStackParamList;
   params?: NavigatorScreenParams<TabParamList>;
   disabled: boolean;
   text?: string;
