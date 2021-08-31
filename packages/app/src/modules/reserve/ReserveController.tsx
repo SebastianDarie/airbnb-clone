@@ -14,7 +14,7 @@ import {
 import {styles} from './styles';
 import ReservationStore from '../../global-stores/useReservationStore';
 import shallow from 'zustand/shallow';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {GuestsModal} from '../../components/modal/GuestsModal';
 
 export const ReserveController: React.FC<ReserveScreenNavigationProp> = ({
@@ -50,7 +50,7 @@ export const ReserveController: React.FC<ReserveScreenNavigationProp> = ({
   } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
-  const modalRef = useRef(null);
+  const modalRef = useRef<BottomSheetModal>(null);
 
   const listing = route.params.data?.listing;
 
@@ -209,8 +209,9 @@ export const ReserveController: React.FC<ReserveScreenNavigationProp> = ({
 
             <GuestsModal
               adults={adults}
-              children={children}
+              child={children}
               infants={infants}
+              ref={modalRef}
             />
 
             <View style={styles.divider} />
