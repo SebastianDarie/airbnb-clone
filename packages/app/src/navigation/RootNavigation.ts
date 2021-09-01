@@ -54,24 +54,19 @@ export type CalendarScreenNavigationProp = StackNavigationProps<
   'Calendar'
 >;
 
-export type DescriptionScreenNavigationProp = StackNavigationProps<
-  RootStackParamList,
-  'Description'
->;
-
 export type GuestsScreenNavigationProp = StackNavigationProps<
   RootStackParamList,
   'Guests'
 >;
 
+export type ReserveScreenNavigationProp = StackNavigationProps<
+  RootStackParamList,
+  'Reserve'
+>;
+
 export type ReviewsScreenNavigationProp = StackNavigationProps<
   RootStackParamList,
   'Reviews'
->;
-
-export type RoomScreenNavigationProp = StackNavigationProps<
-  RootStackParamList,
-  'Room'
 >;
 
 export type SearchScreenNavigationProp = StackNavigationProps<
@@ -96,12 +91,5 @@ export type ExploreNavigationProp = {
   navigation: ExploreScreenNavigationProp;
   route: RouteProp<TabParamList, 'Explore'>;
 };
-
-export type RootStackRoutes =
-  | 'Calendar'
-  | 'Guests'
-  | 'Home'
-  | 'Room'
-  | 'Search';
 
 export const navigationRef = createNavigationContainerRef();

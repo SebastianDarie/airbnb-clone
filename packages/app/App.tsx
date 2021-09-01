@@ -15,7 +15,8 @@ import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
-import React from 'react';
+import {StripeProvider} from '@stripe/stripe-react-native';
+import React, {useEffect} from 'react';
 import {
   Colors,
   configureFonts,
@@ -33,6 +34,7 @@ import {
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
 import {StatusBar, useColorScheme} from 'react-native';
+import {STRIPE_PUBLISHABLE_KEY} from 'react-native-dotenv';
 
 const CombinedDefaultTheme = {
   ...PaperDefaultTheme,
@@ -74,19 +76,21 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <PreferencesContext.Provider value={preferences}>
-        <PaperProvider theme={theme}>
-          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-            <StatusBar
-              barStyle="light-content"
-              backgroundColor={isThemeDark ? '#ff385c' : '#176e71'}
-            />
-            <NavigationContainer theme={theme}>
-              <AuthSwitch />
-            </NavigationContainer>
-          </SafeAreaProvider>
-        </PaperProvider>
-      </PreferencesContext.Provider>
+      <StripeProvider publishableKey={STRIPE_PUBLISHABLE_KEY}>
+        <PreferencesContext.Provider value={preferences}>
+          <PaperProvider theme={theme}>
+            <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+              <StatusBar
+                barStyle="light-content"
+                backgroundColor={isThemeDark ? '#ff385c' : '#176e71'}
+              />
+              <NavigationContainer theme={theme}>
+                <AuthSwitch />
+              </NavigationContainer>
+            </SafeAreaProvider>
+          </PaperProvider>
+        </PreferencesContext.Provider>
+      </StripeProvider>
     </ApolloProvider>
   );
 };
