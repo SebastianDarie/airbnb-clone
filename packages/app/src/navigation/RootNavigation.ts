@@ -74,6 +74,11 @@ export type SearchScreenNavigationProp = StackNavigationProps<
   'Search'
 >;
 
+export type TripsScreenNavigationProp = StackNavigationProps<
+  TabParamList,
+  'Trips'
+>;
+
 export type ListingsScreenNavigationProp = CompositeScreenProps<
   NativeStackScreenProps<ExploreStackParamList, 'Listings'>,
   CompositeScreenProps<

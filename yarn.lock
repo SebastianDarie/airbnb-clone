@@ -5324,6 +5324,7 @@ __metadata:
     react-native-linear-gradient: ^2.5.6
     react-native-maps: 0.28.0
     react-native-paper: ^4.9.2
+    react-native-ratings: ^8.1.0
     react-native-reanimated: ^2.2.0
     react-native-safe-area-context: ^3.3.0
     react-native-screens: ^3.5.0
@@ -14412,6 +14413,18 @@ __metadata:
     react-native: "*"
     react-native-vector-icons: "*"
   checksum: 4dc577e26ad19eccdee70e617f6b1ae81ea4cae82414c68b71d63655166027e31fe8a8bb3ae1d215ef9f3aa7f95f8db687b77b1bc54ad0bac74a11415bca53b8
+  languageName: node
+  linkType: hard
+
+"react-native-ratings@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "react-native-ratings@npm:8.1.0"
+  dependencies:
+    lodash: ^4.17.15
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: c3f0827f2ca13db6dfeb1b478746d34840d0ef033498de063708c0d6b77750f6a87f743917ebe71ff4e0cf916496dc0f841b97573e4f532f6e3ba37023b0f52c
   languageName: node
   linkType: hard
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {Colors} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -10,6 +11,21 @@ export const MainController: React.FC<MainScreenNavigationProp> = ({
 }) => {
   return (
     <SafeAreaView>
+      {/* <ImageBackground
+        resizeMode="cover"
+        source={{
+          uri:
+            'https://ik.imagekit.io/1nlnne3ilbe/airbnb-forest_S4wSXhI7g.webp?updatedAt=1630506688817&tr=w-1080,h-566,fo-auto',
+        }}
+        style={styles.bgImage}></ImageBackground> */}
+      <FastImage
+        resizeMode="cover"
+        source={{
+          uri:
+            'https://ik.imagekit.io/1nlnne3ilbe/airbnb-forest_S4wSXhI7g.webp?updatedAt=1630506688817&tr=w-1080,h-566,fo-auto',
+        }}
+        style={styles.bgImage}
+      />
       <View style={styles.searchContainer}>
         <Pressable
           android_ripple={{borderless: true, radius: 5}}
@@ -57,4 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
   },
+
+  bgImage: {flex: 1, justifyContent: 'center', height: 100, width: '100%'},
 });

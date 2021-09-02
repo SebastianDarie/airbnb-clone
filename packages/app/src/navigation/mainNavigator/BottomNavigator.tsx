@@ -11,6 +11,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {ListingsPage} from './bottomNavigator/ListingsPage';
 import {MainPage} from './bottomNavigator/MainPage';
+import {TripsPage} from './bottomNavigator/TripsPage';
 
 export type ExploreStackParamList = {
   Listings: undefined;
@@ -75,7 +76,7 @@ export const BottomNavigator: React.FC = () => {
       />
       <Tab.Screen
         name={'Trips'}
-        component={MainPage}
+        component={TripsPage}
         options={{
           tabBarIcon: ({color}) => (
             <FontAwesome5 name="airbnb" color={color} size={25} />
