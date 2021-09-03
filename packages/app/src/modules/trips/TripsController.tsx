@@ -1,5 +1,5 @@
-import React, {useMemo, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useMemo, useState} from 'react';
+import {RefreshControl, StyleSheet, Text, View} from 'react-native';
 import {
   PanGestureHandlerGestureEvent,
   ScrollView,
@@ -27,6 +27,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {ScaleButton} from '../../components/button/ScaleButton';
 import {TripsScreenNavigationProp} from '../../navigation/RootNavigation';
 
 // interface TripsControllerProps {
@@ -37,31 +38,41 @@ type AnimatedGHContext = {
   val: number;
 };
 
-const runTiming = (clock: Animated.Clock, from: number, to: number) => {
-  const state: Animated.TimingState = {
-    finished: new Value(0),
-    position: new Value(from),
-    time: new Value(0),
-    frameTime: new Value(0),
-  };
+// const runTiming = (clock: Animated.Clock, from: number, to: number) => {
+//   const state: Animated.TimingState = {
+//     finished: new Value(0),
+//     position: new Value(from),
+//     time: new Value(0),
+//     frameTime: new Value(0),
+//   };
 
-  // const config: Animated.TimingConfig = {
-  //   duration: 100,
-  //   toValue: new Value(to),
-  //   easing: 0,
-  // };
+//   // const config: Animated.TimingConfig = {
+//   //   duration: 100,
+//   //   toValue: new Value(to),
+//   //   easing: 0,
+//   // };
 
-  //timing(clock, state, config)
+//   //timing(clock, state, config)
 
-  return block([
-    cond(clockRunning(clock), [], startClock(clock)),
-    withTiming(to, {duration: 100, easing: Easing.inOut(Easing.ease)}),
-    cond(state.finished, debug('stop clock', stopClock(clock))),
-    state.position,
-  ]);
+//   return block([
+//     cond(clockRunning(clock), [], startClock(clock)),
+//     withTiming(to, {duration: 100, easing: Easing.inOut(Easing.ease)}),
+//     cond(state.finished, debug('stop clock', stopClock(clock))),
+//     state.position,
+//   ]);
+// };
+
+const wait = (timeout: number) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
 export const TripsController: React.FC<TripsScreenNavigationProp> = ({}) => {
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   // const scaleValue = new Animated.Value(0);
   // const inputRange = [0, 1];
   // const outputRange = [1, 0.9];
@@ -89,37 +100,41 @@ export const TripsController: React.FC<TripsScreenNavigationProp> = ({}) => {
   //   },
   // });
 
-  const [pressed, setPressed] = useState<boolean>(false);
+  // const [pressed, setPressed] = useState<boolean>(false);
 
-  const sharedScale = useSharedValue(1);
+  // const sharedScale = useSharedValue(1);
 
-  const {clock, scale} = useMemo(
-    () => ({
-      clock: new Clock(),
-      scale: new Value(1),
-    }),
-    [],
-  );
+  // const {clock, scale} = useMemo(
+  //   () => ({
+  //     clock: new Clock(),
+  //     scale: new Value(1),
+  //   }),
+  //   [],
+  // );
 
-  useCode(
-    () =>
-      block([
-        pressed
-          ? set(scale, runTiming(clock, 0, 1))
-          : set(scale, runTiming(clock, 1, 0)),
-      ]),
-    [pressed],
-  );
+  // useCode(
+  //   () =>
+  //     block([
+  //       pressed
+  //         ? set(scale, runTiming(clock, 0, 1))
+  //         : set(scale, runTiming(clock, 1, 0)),
+  //     ]),
+  //   [pressed],
+  // );
 
-  const scaling: Animated.Adaptable<number> = interpolate(
-    sharedScale.value,
-    [0, 1],
-    [1, 0.9],
-  );
+  // const scaling: Animated.Adaptable<number> = interpolate(
+  //   sharedScale.value,
+  //   [0, 1],
+  //   [1, 0.9],
+  // );
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <Text style={styles.title}>Trips</Text>
         <View style={styles.divider} />
         <View>
@@ -128,14 +143,17 @@ export const TripsController: React.FC<TripsScreenNavigationProp> = ({}) => {
             Plan a new trip and explore places to stay close to all the places
             you love.
           </Text>
-          <TouchableWithoutFeedback
+          {/* <TouchableWithoutFeedback
             onPressIn={() => setPressed(true)}
             onPressOut={() => setPressed(false)}>
             <Animated.View
               style={{transform: [{scaleX: scaling}, {scaleY: scaling}]}}>
               <Text>Start exploring</Text>
             </Animated.View>
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
+          <ScaleButton style={styles.scaleBtnContainer}>
+            <Text style={styles.scaleText}>Start exploring</Text>
+          </ScaleButton>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -149,7 +167,7 @@ const styles = StyleSheet.create({
   },
 
   divider: {
-    borderBottomColor: '#bbb',
+    borderBottomColor: '#bbbbbb',
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 1,
     width: '100%',
@@ -168,6 +186,23 @@ const styles = StyleSheet.create({
     fontSize: 15,
     letterSpacing: 0.5,
     marginBottom: 10,
+  },
+
+  scaleBtnContainer: {
+    justifyContent: 'center',
+    borderColor: 'black',
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    width: '50%',
+  },
+
+  scaleText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 
   scrollView: {
