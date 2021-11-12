@@ -48,7 +48,7 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax",
         secure: __prod__,
-        domain: __prod__ ? ".mernlabs.team" : undefined,
+        domain: __prod__ ? ".airbnbclone.rent" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SECRET,

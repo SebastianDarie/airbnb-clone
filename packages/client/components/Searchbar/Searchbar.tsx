@@ -52,6 +52,7 @@ const PlacesAutocomplete = ({
     try {
       const res = await getGeocode({ address });
       const { lat, lng } = await getLatLng(res[0]);
+      // @ts-ignore
       setLocation(res[0].formatted_address, lat, lng, res[0].geometry.bounds);
     } catch (err) {
       console.log(err);
@@ -69,8 +70,8 @@ const PlacesAutocomplete = ({
       <ComboboxPopover style={{ zIndex: 999 }}>
         <ComboboxList>
           {status === "OK" &&
-            data.map(({ id, description }) => (
-              <ComboboxOption key={id} value={description} />
+            data.map(({ place_id, description }) => (
+              <ComboboxOption key={place_id} value={description} />
             ))}
         </ComboboxList>
       </ComboboxPopover>

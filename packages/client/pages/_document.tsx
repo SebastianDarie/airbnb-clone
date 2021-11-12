@@ -29,7 +29,7 @@ export default class Document extends NextDocument {
           />
 
           <link rel="manifest" href="/manifest.json" />
-          <link rel="canonical" href="https://mernlabs.team/" />
+          <link rel="canonical" href="https://airbnbclone.rent/" />
 
           <meta property="og:image" content="/" />
           <meta
@@ -50,7 +50,7 @@ export default class Document extends NextDocument {
             name="twitter:title"
             content="Airbnb: Vacation Rentals, Cabins, Beach Houses, Unique Homes &amp; Experiences"
           />
-          <meta property="twitter:url" content="https://mernlabs.team/" />
+          <meta property="twitter:url" content="https://airbnbclone.rent/" />
           <meta
             name="twitter:description"
             content="Find vacation rentals, cabins, beach houses, unique homes and experiences around the world - all made possible by hosts on Airbnb."

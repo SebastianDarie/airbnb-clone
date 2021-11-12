@@ -1,4 +1,4 @@
-@use '../utilities/bootstrap.scss';
+@use "../utilities/bootstrap.scss";
 
 @include bootstrap.opacity-mixin;
 @include bootstrap.skeleton-mixin;
@@ -124,7 +124,7 @@
   }
 
   @media screen and (min-width: 1128px) {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 
@@ -183,12 +183,12 @@
 }
 
 .room__navbar__container {
-  box-shadow: rgb(0 0 0 / 10%) 0px 1px 0px;
+  box-shadow: rgb(0 0 0 / 10%) 0 1px 0;
   background-color: bootstrap.$default-color;
   position: fixed;
-  left: 0px;
-  right: 0px;
-  top: 0px;
+  left: 0;
+  right: 0;
+  top: 0;
   z-index: 3;
   animation-name: opacity-appear;
   animation-duration: 100ms;
@@ -239,7 +239,7 @@
 .btn__padding {
   color: bootstrap.$nero;
   font-weight: 600;
-  padding: 30px 0px;
+  padding: 30px 0;
   display: inline-block;
   text-decoration: none;
   position: relative;
@@ -254,7 +254,7 @@
     background-color: bootstrap.$nero;
     content: "";
     display: block;
-    bottom: 0px;
+    bottom: 0;
     height: 4px;
     opacity: 0;
     position: absolute;
@@ -600,8 +600,8 @@
 
   @media screen and (min-width: 744px) {
     overflow: visible;
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
@@ -638,10 +638,10 @@
 }
 
 .map__container {
-  border-radius: 12px 12px 0px 0px;
+  border-radius: 12px 12px 0 0;
   overflow: hidden;
   backface-visibility: hidden;
-  transform: translate3d(0px, 0px, 0px);
+  transform: translate3d(0, 0, 0);
   position: relative;
   height: 218px;
 
@@ -699,7 +699,7 @@
 }
 
 .loading__margin {
-  margin: 0px auto;
+  margin: 0 auto;
   text-align: center;
   white-space: nowrap;
   display: inline-block;

@@ -1,11 +1,11 @@
-@use '../utilities/bootstrap.scss';
+@use "../utilities/bootstrap.scss";
 
 .inset__div {
-  inset: 105px 0px 0px;
+  inset: 105px 0 0;
   padding-bottom: 56px;
 
   @media screen and (min-width: 1128px) {
-    padding-bottom: 0px;
+    padding-bottom: 0;
   }
 
   &::before {
@@ -47,7 +47,7 @@
   }
 
   @media screen and (min-width: 1128px) {
-    padding-top: 0px;
+    padding-top: 0;
   }
 }
 
@@ -57,7 +57,7 @@
   max-width: none;
 
   @media screen and (min-width: 1128px) {
-    margin: 0px auto;
+    margin: 0 auto;
     position: relative;
   }
 }
@@ -91,7 +91,7 @@
 
 .heading {
   font-size: 1em;
-  margin: 0px;
+  margin: 0;
 }
 
 .listings__container {
@@ -118,14 +118,14 @@
   max-width: none;
 
   @media screen and (min-width: 1128px) {
-    margin: 0px auto;
+    margin: 0 auto;
     position: relative;
   }
 }
 
 .listings__margin {
   @media screen and (min-width: 744px) {
-    padding: 0px;
+    padding: 0;
     margin-left: -8px;
     margin-right: -8px;
   }
@@ -167,7 +167,7 @@
 }
 
 .map__container {
-  inset: -5px 0px 0px;
+  inset: -5px 0 0;
   display: none;
   position: absolute;
   transition: none 0s ease 0s;
@@ -188,7 +188,7 @@
   padding-top: 80px;
   margin-top: -80px;
   position: sticky;
-  top: 0px;
+  top: 0;
   width: 100%;
   contain: content;
 }
@@ -197,13 +197,13 @@
   transform: translate(calc(-50% + 170.863px), calc(50% + -10.2312px));
   left: 50%;
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   z-index: 0;
   pointer-events: auto;
 }
 
 .info__window__width {
-  margin-bottom: 0px;
+  margin-bottom: 0;
   pointer-events: none;
   width: 274px;
 }
@@ -269,16 +269,16 @@
 }
 
 .info__window__list {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 .info__window__dot {
   pointer-events: none;
   user-select: none;
   white-space: pre-wrap;
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .info__window__content__description {

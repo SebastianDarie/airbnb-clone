@@ -1,8 +1,8 @@
-@use '../utilities/bootstrap.scss';
+@use "../utilities/bootstrap.scss";
 
 .header {
   height: 80px;
-  box-shadow: rgb(235 235 235) 0px 1px 0px;
+  box-shadow: rgb(235 235 235) 0 1px 0;
   padding-left: 24px;
 }
 
@@ -18,7 +18,7 @@
   &::before {
     border-radius: 12px;
     bottom: 8px;
-    content: '';
+    content: "";
     left: -8px;
     position: absolute;
     right: -8px;
@@ -86,7 +86,7 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 50%;
@@ -240,7 +240,7 @@
 
 .table__display {
   display: table;
-  border-spacing: 0px;
+  border-spacing: 0;
   width: 100%;
 }
 
@@ -278,7 +278,7 @@
 .total__price {
   white-space: nowrap;
   color: bootstrap.$nero;
-  margin: 0px;
+  margin: 0;
   overflow-wrap: break-word;
   font-size: 16px;
   font-weight: 600;
@@ -326,7 +326,7 @@
   font-size: 14px;
   line-height: 18px;
   color: bootstrap.$nero;
-  padding: 16px 0px 32px;
+  padding: 16px 0 32px;
 }
 
 .host__profile__img {
@@ -352,11 +352,11 @@
   white-space: pre-wrap;
   font-size: 14px;
   line-height: 18px;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .message__area {
-  box-shadow: bootstrap.$form-txt 0px 0px 0px 1px inset;
+  box-shadow: bootstrap.$form-txt 0 0 0 1px inset;
   box-sizing: border-box;
   color: bootstrap.$nero;
   padding: 4px;
@@ -370,7 +370,7 @@
   max-width: 100%;
   outline: none;
   border: none;
-  margin: 0px;
+  margin: 0;
   box-sizing: border-box;
   background-color: transparent;
   appearance: none;

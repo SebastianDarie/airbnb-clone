@@ -1,43 +1,43 @@
-import { MarkerSvg } from '@second-gear/controller';
-import MarkerWithLabel from '@googlemaps/markerwithlabel';
+import { MarkerSvg } from "@second-gear/controller";
+import MarkerWithLabel from "@googlemaps/markerwithlabel";
 import {
   Combobox,
   ComboboxInput,
   ComboboxList,
   ComboboxOption,
   ComboboxPopover,
-} from '@reach/combobox';
-import '@reach/combobox/styles.css';
-import { GoogleMap } from '@react-google-maps/api';
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
+import { GoogleMap } from "@react-google-maps/api";
 import React, {
   CSSProperties,
   MutableRefObject,
   useCallback,
   useEffect,
   useRef,
-} from 'react';
+} from "react";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
-} from 'use-places-autocomplete';
-import shallow from 'zustand/shallow';
-import styles from '../../sass/layout/Location.module.scss';
-import ListingStore from '../../stores/useListingStore';
-import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
-import { labelContent } from '../../constants/markerLabel';
+} from "use-places-autocomplete";
+import shallow from "zustand/shallow";
+import styles from "../../sass/layout/Location.module.scss";
+import ListingStore from "../../stores/useListingStore";
+import { useGoogleMaps } from "../../utils/GoogleMapsProvider";
+import { labelContent } from "../../constants/markerLabel";
 
 interface LocationFieldProps {}
 
 interface SearchAddressProps {
   addressFound: boolean;
-  map: MutableRefObject<google.maps.Map<Element> | undefined>;
+  map: MutableRefObject<google.maps.Map | undefined>;
   marker: MutableRefObject<MarkerWithLabel | undefined>;
   pinMarker: MutableRefObject<MarkerWithLabel | null>;
 }
 
 const mapContainerStyle: CSSProperties = {
-  height: '100%',
-  width: '100%',
+  height: "100%",
+  width: "100%",
 };
 
 const options: google.maps.MapOptions = {
@@ -66,7 +66,7 @@ const SearchAddress: React.FC<SearchAddressProps> = ({
   } = usePlacesAutocomplete({
     debounce: 300,
     requestOptions: {
-      types: ['address'],
+      types: ["address"],
     },
   });
 
@@ -98,8 +98,7 @@ const SearchAddress: React.FC<SearchAddressProps> = ({
             clickable: false,
             draggable: true,
             map: map.current,
-            icon:
-              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+            icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
             labelContent,
           });
         } else {
@@ -118,16 +117,16 @@ const SearchAddress: React.FC<SearchAddressProps> = ({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
-        placeholder='Enter your address'
+        placeholder="Enter your address"
         className={
           addressFound ? styles.location__input__small : styles.location__input
         }
       />
       <ComboboxPopover style={{ zIndex: 999 }}>
         <ComboboxList>
-          {status === 'OK' &&
-            data.map(({ id, description }) => (
-              <ComboboxOption key={id} value={description} />
+          {status === "OK" &&
+            data.map(({ place_id, description }) => (
+              <ComboboxOption key={place_id} value={description} />
             ))}
         </ComboboxList>
       </ComboboxPopover>
@@ -137,7 +136,7 @@ const SearchAddress: React.FC<SearchAddressProps> = ({
 
 const LocationField: React.FC<LocationFieldProps> = ({}) => {
   const { isLoaded } = useGoogleMaps();
-  const mapRef = useRef<google.maps.Map<Element>>();
+  const mapRef = useRef<google.maps.Map>();
   const marker = useRef<MarkerWithLabel>();
   const pinMarker = useRef<MarkerWithLabel | null>(null);
   const popover = useRef<HTMLDivElement | null>(null);
@@ -152,7 +151,7 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
     };
   }, []);
 
-  const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
+  const onMapLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
 
     if (navigator.geolocation) {
@@ -172,8 +171,7 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
             clickable: false,
             draggable: false,
             map: map,
-            icon:
-              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+            icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
             labelContent: `
             <div class='circle__container'>
             <div class='circle__outer'>
@@ -195,7 +193,7 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
             <div className={styles.map__flex}>
               <div className={styles.map__height}>
                 <GoogleMap
-                  id='map'
+                  id="map"
                   mapContainerStyle={mapContainerStyle}
                   center={{ lat: coords.lat, lng: coords.lng }}
                   zoom={12}
@@ -205,7 +203,7 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
 
                     if (pos && popover.current) {
                       pinMarker.current?.setPosition(pos);
-                      popover.current.style.visibility = 'hidden';
+                      popover.current.style.visibility = "hidden";
 
                       ListingStore.updateLocation({
                         lat: pos.lat(),
@@ -233,11 +231,11 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
 
           <div
             className={styles.search__wrapper}
-            style={{ pointerEvents: addressFound ? 'none' : 'auto' }}
+            style={{ pointerEvents: addressFound ? "none" : "auto" }}
           >
             <div className={styles.search__form}>
               {addressFound ? (
-                <a className={styles.inner__padding__small} role='button'>
+                <a className={styles.inner__padding__small} role="button">
                   <div className={styles.svg__padding__small}>
                     <MarkerSvg />
                   </div>
@@ -260,7 +258,7 @@ const LocationField: React.FC<LocationFieldProps> = ({}) => {
                         </div>
                       </div>
 
-                      <label htmlFor='location' className={styles.label}>
+                      <label htmlFor="location" className={styles.label}>
                         {isLoaded ? (
                           <SearchAddress
                             addressFound={addressFound}

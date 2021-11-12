@@ -1,4 +1,4 @@
-@use '../utilities/bootstrap.scss';
+@use "../utilities/bootstrap.scss";
 
 @include bootstrap.fade-mixin;
 
@@ -6,7 +6,7 @@
   margin-top: 24px;
 
   @media screen and (min-width: 744px) {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 
@@ -48,7 +48,7 @@
   align-items: center;
   width: 30%;
   min-height: 68px;
-  margin: 0px 6px 12px;
+  margin: 0 6px 12px;
   flex: 0 1 calc(50% - 12px);
   padding-top: 12px;
   padding-bottom: 24px;
@@ -59,11 +59,11 @@
 
   @media screen and (min-width: 744px) {
     flex: 0 1 calc(33% - 16px);
-    margin: 0px 8px 16px;
+    margin: 0 8px 16px;
 
     &:hover {
       border-color: transparent;
-      box-shadow: bootstrap.$black 0px 0px 0px 2px;
+      box-shadow: bootstrap.$black 0 0 0 2px;
     }
   }
 }
@@ -78,11 +78,11 @@
   align-items: center;
   width: 30%;
   min-height: 68px;
-  margin: 0px 6px 12px;
+  margin: 0 6px 12px;
   flex: 0 1 calc(50% - 12px);
   padding-top: 12px;
   padding-bottom: 24px;
-  box-shadow: rgb(0 0 0) 0px 0px 0px 2px;
+  box-shadow: rgb(0 0 0) 0 0 0 2px;
   background-color: bootstrap.$whitesmoke;
   animation-duration: 600ms;
   animation-iteration-count: 1;
@@ -91,11 +91,11 @@
 
   @media screen and (min-width: 744px) {
     flex: 0 1 calc(33% - 16px);
-    margin: 0px 8px 16px;
+    margin: 0 8px 16px;
 
     &:hover {
       border-color: transparent;
-      box-shadow: bootstrap.$black 0px 0px 0px 2px;
+      box-shadow: bootstrap.$black 0 0 0 2px;
     }
   }
 }
@@ -118,5 +118,5 @@
   line-height: 18px;
   font-weight: 600;
   text-align: center;
-  margin: 0px 20px;
+  margin: 0 20px;
 }

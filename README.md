@@ -1,14 +1,11 @@
-
 # Airbnb Clone
 
-As the name implies the app integrates Airbnb's core functionality like browsing listings based on location or map movement, reservations with payments and refunds, category-based ratings with reviews, messaging between hosts and guests. 
-
+As the name implies the app integrates Airbnb's core functionality like browsing listings based on location or map movement, reservations with payments and refunds, category-based ratings with reviews, messaging between hosts and guests.
 
 ## Demo
 
-https://mernlabs.team
+https://airbnbclone.rent/
 
-  
 ## Deployment
 
 To deploy this project run\
@@ -18,13 +15,16 @@ This assumes you have the Vercel CLI installed
   cd packages/client
   vercel --prod
 ```
+
 And just follow the instructions to set up a new project
 
 For the server this assumes you have Docker installed and maybe have a debit/credit card around
+
 ```bash
   cd packages/server
   npm run build
 ```
+
 Then edit the `deploy.sh` file and change **sebastian2772** with your Docker Hub username as well as **airbnb-clone** with your Docker repository name
 Make sure you are in the server directory, now run `sudo ./deploy.sh`.
 You may need to chmod the file.
@@ -35,10 +35,13 @@ Install the Dokku PostgreSQL and Redis add-ons you can find them on GitHub
 Then create a database, cache, app, link them together
 
 After you are done with those run the following
+
 ```bash
   dokku git:from-image api sebastian2772/airbnb-clone:$VERSION
 ```
+
 Replace api with your app name as well as the docker repo and add the version at the end.
+
 ## Features
 
 - Search functionality with Places API
@@ -47,7 +50,6 @@ Replace api with your app name as well as the docker repo and add the version at
 - Real time messaging
 - Multi category reviews
 
-  
 ## Run Locally
 
 For the server you need the `.env` and a Postgres db plus Redis server running
@@ -85,14 +87,15 @@ Start the frontend
   cd packages/client
   yarn dev
 ```
+
 ## Screenshots
 
 ![Home Page](https://ik.imagekit.io/1nlnne3ilbe/airbnb-clone_SrLrKhNiNE.png?updatedAt=1629312825686&tr=w-1200,h-575)\
 ![Create Listing Page](https://ik.imagekit.io/1nlnne3ilbe/airbnb-clone-create_W4dS551s3.png?updatedAt=1629312824154&tr=w-1200,h-575)\
 ![Room Page](https://ik.imagekit.io/1nlnne3ilbe/airbnb-clone-room_ZlV2lXg1m.png?updatedAt=1629312824365&tr=w-1000,h-575)
-  
+
 ## Tech Stack
 
-**Client:** Next.js, Apollo Client, Sass, Zustand, React Hook Form, Stripe.js, Google Maps Api 
+**Client:** Next.js, Apollo Client, Sass, Zustand, React Hook Form, Stripe.js, Google Maps Api
 
 **Server:** Node, Express, Apollo Server, GraphQL, Redis, PostgreSQL, Stripe, TypeGraphQL, TypeORM, AWS S3

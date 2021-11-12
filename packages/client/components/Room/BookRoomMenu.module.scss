@@ -1,4 +1,4 @@
-@use '../../sass/utilities/bootstrap.scss';
+@use "../../sass/utilities/bootstrap.scss";
 
 .menu__topmargin {
   margin-top: 48px;
@@ -8,7 +8,7 @@
   border: 1px solid bootstrap.$gainsboro;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+  box-shadow: rgb(0 0 0 / 12%) 0 6px 16px;
 }
 
 .menu__text__style {
@@ -115,30 +115,30 @@
   position: absolute;
   pointer-events: none;
   background: none;
-  border-radius: 8px 8px 0px 0px;
-  inset: 0px 0px -1px;
+  border-radius: 8px 8px 0 0;
+  inset: 0 0 -1px;
 }
 
 .dates__container {
   position: relative;
   display: flex;
   width: 100%;
-  margin: 0px;
+  margin: 0;
   border: none transparent;
   color: bootstrap.$nero;
   background-color: transparent;
-  border-radius: 0px;
+  border-radius: 0;
   box-shadow: none;
   font-size: 16px;
   line-height: 20px;
   font-weight: 400;
-  outline: 0px;
+  outline: 0;
 }
 
 .checkin__container {
   position: relative;
   flex: 1 1 0%;
-  padding: 0px;
+  padding: 0;
   width: 100%;
   overflow: hidden;
 }
@@ -148,8 +148,8 @@
   top: 12px;
   left: 12px;
   right: 12px;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   pointer-events: none;
   font-size: 10px;
   line-height: 12px;
@@ -167,7 +167,7 @@
   width: 100%;
   border: none;
   outline: none;
-  margin: 0px;
+  margin: 0;
   padding: 26px 12px 10px;
   background-color: transparent;
   font-family: inherit;
@@ -185,15 +185,15 @@
 .checkout__container {
   position: relative;
   flex: 1 1 0%;
-  padding: 0px;
+  padding: 0;
   width: 100%;
   overflow: hidden;
   border-left: 1px solid rgb(176, 176, 176);
 }
 
 .dates__border__right {
-  inset: 0px 0px -1px;
-  border-radius: 8px 8px 0px 0px;
+  inset: 0 0 -1px;
+  border-radius: 8px 8px 0 0;
   border-color: rgb(176, 176, 176);
   border-width: 1px;
   z-index: 0;
@@ -205,7 +205,7 @@
 .guest__label {
   position: relative;
   flex: 1 1 auto;
-  padding: 0px;
+  padding: 0;
   width: 100%;
   overflow: hidden;
 }
@@ -229,7 +229,7 @@
 
 .arrow__position {
   position: absolute;
-  right: 0px;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,7 +248,7 @@
 .guest__picker__container {
   background: bootstrap.$default-color;
   border-radius: 4px;
-  box-shadow: rgb(0 0 0 / 15%) 0px 2px 6px, rgb(0 0 0 / 7%) 0px 0px 0px 1px;
+  box-shadow: rgb(0 0 0 / 15%) 0 2px 6px, rgb(0 0 0 / 7%) 0 0 0 1px;
   box-sizing: border-box;
   margin-bottom: 16px;
   min-width: 280px;
@@ -257,7 +257,7 @@
   text-align: left;
   width: 100%;
   z-index: 999;
-  right: 0px;
+  right: 0;
 }
 
 .guest__picker__item__mr {
@@ -302,7 +302,7 @@
 
 .guest__picker__close {
   display: inline-block;
-  margin: 0px -10px;
+  margin: 0 -10px;
   position: relative;
   text-align: center;
   width: auto;
@@ -327,8 +327,8 @@
   display: flex;
   flex-direction: column;
   list-style-type: none;
-  margin: 8px 0px 0px;
-  padding: 0px;
+  margin: 8px 0 0;
+  padding: 0;
   text-align: center;
 }
 
@@ -350,7 +350,7 @@
   padding-top: 8px;
 
   &:first-child {
-    padding-top: 0px;
+    padding-top: 0;
   }
 }
 
@@ -389,6 +389,6 @@
   padding-top: 16px;
 
   &:last-child {
-    padding-bottom: 0px;
+    padding-bottom: 0;
   }
 }

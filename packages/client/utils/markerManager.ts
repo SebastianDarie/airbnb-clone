@@ -1,12 +1,12 @@
-import { SearchListingResult } from '@second-gear/controller';
-import MarkerWithLabel from '@googlemaps/markerwithlabel';
-import { Dispatch, SetStateAction } from 'react';
+import { SearchListingResult } from "@second-gear/controller";
+import MarkerWithLabel from "@googlemaps/markerwithlabel";
+import { Dispatch, SetStateAction } from "react";
 
 export default class MarkerManager {
-  map: google.maps.Map<Element>;
+  map: google.maps.Map;
   markers: { [id: string]: MarkerWithLabel };
 
-  constructor(map: google.maps.Map<Element>) {
+  constructor(map: google.maps.Map) {
     this.map = map;
     this.markers = {};
   }
@@ -26,8 +26,7 @@ export default class MarkerManager {
       clickable: true,
       draggable: false,
       map: this.map,
-      icon:
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
       labelContent: `
           <div class='label__transform'>
             <button class='label__btn' type='button'>
@@ -46,7 +45,7 @@ export default class MarkerManager {
     });
 
     marker.setValues({ id: listing.id });
-    marker.addListener('click', () => setSelected(marker));
+    marker.addListener("click", () => setSelected(marker));
 
     this.markers[listing.id] = marker;
   }

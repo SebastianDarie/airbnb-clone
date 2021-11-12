@@ -1,6 +1,7 @@
-import React, { createContext, FC, useContext, useMemo } from 'react';
-import { useJsApiLoader } from '@react-google-maps/api';
-import { UseLoadScriptOptions } from '@react-google-maps/api/dist/useJsApiLoader';
+import React, { createContext, FC, useContext, useMemo } from "react";
+import { useJsApiLoader } from "@react-google-maps/api";
+// @ts-ignore
+import { UseLoadScriptOptions } from "@react-google-maps/api/dist/useJsApiLoader";
 
 export type GoogleMapsState = {
   isLoaded: boolean;

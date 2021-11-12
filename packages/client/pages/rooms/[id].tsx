@@ -1,5 +1,5 @@
-import { RightArrowSvg, SuperHostSvg } from '@second-gear/controller';
-import { Circle, GoogleMap } from '@react-google-maps/api';
+import { RightArrowSvg, SuperHostSvg } from "@second-gear/controller";
+import { Circle, GoogleMap } from "@react-google-maps/api";
 import {
   CSSProperties,
   memo,
@@ -8,57 +8,57 @@ import {
   useEffect,
   useRef,
   useState,
-} from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
-import shallow from 'zustand/shallow';
-import { FloorPlanDetails } from '../../components/FloorPlanDetails';
-import { Header } from '../../components/Room/Header';
-import { ImageGallery } from '../../components/Room/ImageGallery';
-import { RoomSkeleton } from '../../components/RoomSkeleton';
-import { dynamicSvgs } from '../../constants/dynamicSvgs';
-import styles from '../../sass/pages/Room.module.scss';
-import { useGetListingFromUrl } from '../../shared-hooks/useGetListingFromUrl';
-import ReservationStore from '../../stores/useReservationStore';
-import { useGoogleMaps } from '../../utils/GoogleMapsProvider';
-import { withApollo } from '../../utils/withApollo';
-import dynamic from 'next/dynamic';
+} from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import shallow from "zustand/shallow";
+import { FloorPlanDetails } from "../../components/FloorPlanDetails";
+import { Header } from "../../components/Room/Header";
+import { ImageGallery } from "../../components/Room/ImageGallery";
+import { RoomSkeleton } from "../../components/RoomSkeleton";
+import { dynamicSvgs } from "../../constants/dynamicSvgs";
+import styles from "../../sass/pages/Room.module.scss";
+import { useGetListingFromUrl } from "../../shared-hooks/useGetListingFromUrl";
+import ReservationStore from "../../stores/useReservationStore";
+import { useGoogleMaps } from "../../utils/GoogleMapsProvider";
+import { withApollo } from "../../utils/withApollo";
+import dynamic from "next/dynamic";
 import {
   BookRoomMenuProps,
   CalendarProps,
   ProfileSectionProps,
   ReviewsSectionProps,
-} from '../../types';
+} from "../../types";
 
-const Layout = dynamic(() => import('../../components/Layout'));
+const Layout = dynamic(() => import("../../components/Layout"));
 const BookRoomMenu = dynamic<BookRoomMenuProps>(() =>
-  import('../../components/Room/BookRoomMenu').then((mod) => mod.BookRoomMenu)
+  import("../../components/Room/BookRoomMenu").then((mod) => mod.BookRoomMenu)
 );
 const Calendar = dynamic<CalendarProps>(() =>
-  import('../../components/Room/Calendar').then((mod) => mod.Calendar)
+  import("../../components/Room/Calendar").then((mod) => mod.Calendar)
 );
 const Highlights = dynamic<{
   host: string | undefined;
   type: string | undefined;
 }>(() =>
-  import('../../components/Room/Highlights').then((mod) => mod.Highlights)
+  import("../../components/Room/Highlights").then((mod) => mod.Highlights)
 );
 const ProfileSection = dynamic<ProfileSectionProps>(() =>
-  import('../../components/Room/ProfileSection').then(
+  import("../../components/Room/ProfileSection").then(
     (mod) => mod.ProfileSection
   )
 );
 const ReviewsSection = dynamic<ReviewsSectionProps>(() =>
-  import('../../components/Room/ReviewsSection').then(
+  import("../../components/Room/ReviewsSection").then(
     (mod) => mod.ReviewsSection
   )
 );
 const ServerError = dynamic<{}>(() =>
-  import('../../components/ServerError').then((mod) => mod.ServerError)
+  import("../../components/ServerError").then((mod) => mod.ServerError)
 );
 
 const mapContainerStyle: CSSProperties = {
-  height: '100%',
-  width: '100%',
+  height: "100%",
+  width: "100%",
 };
 
 const options = {
@@ -80,7 +80,7 @@ const getDimensions = (el: HTMLDivElement) => {
 
 const scrollTo = (el: HTMLDivElement, pos: ScrollLogicalPosition) => {
   el.scrollIntoView({
-    behavior: 'smooth',
+    behavior: "smooth",
     block: pos,
     inline: pos,
   });
@@ -108,8 +108,8 @@ const Room: React.FC<RoomProps> = memo(({}) => {
     (state) => [state.startDate, state.endDate],
     shallow
   );
-  const [visibleSection, setVisibleSection] = useState<string | undefined>('');
-  const mapRef = useRef<google.maps.Map<Element> | null>(null);
+  const [visibleSection, setVisibleSection] = useState<string | undefined>("");
+  const mapRef = useRef<google.maps.Map | null>(null);
   const nav = useRef<HTMLDivElement>(null);
   const photosRef = useRef<HTMLDivElement>(null);
   const amenitiesRef = useRef<HTMLDivElement>(null);
@@ -117,18 +117,18 @@ const Room: React.FC<RoomProps> = memo(({}) => {
   const locationRef = useRef<HTMLDivElement>(null);
 
   const sectionRefs = [
-    { section: 'Photos', ref: photosRef },
-    { section: 'Amenities', ref: amenitiesRef },
-    { section: 'Reviews', ref: reviewsRef },
-    { section: 'Location', ref: locationRef },
+    { section: "Photos", ref: photosRef },
+    { section: "Amenities", ref: amenitiesRef },
+    { section: "Reviews", ref: reviewsRef },
+    { section: "Location", ref: locationRef },
   ];
 
   const onScroll = () => {
     if (nav.current) {
       if (window.pageYOffset >= 490) {
-        nav.current.style.visibility = 'visible';
+        nav.current.style.visibility = "visible";
       } else {
-        nav.current.style.visibility = 'hidden';
+        nav.current.style.visibility = "hidden";
       }
     }
 
@@ -153,10 +153,10 @@ const Room: React.FC<RoomProps> = memo(({}) => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
-      document.removeEventListener('scroll', onScroll);
+      document.removeEventListener("scroll", onScroll);
     };
   }, []);
 
@@ -175,7 +175,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
 
   const { isLoaded } = useGoogleMaps();
 
-  const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
+  const onMapLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
   }, []);
 
@@ -216,7 +216,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
 
           <div
             className={styles.room__navbar__container}
-            style={{ visibility: 'hidden' }}
+            style={{ visibility: "hidden" }}
             ref={nav}
           >
             <div className={styles.room__section__padding}>
@@ -229,7 +229,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           className={styles.room__navbar__btn}
                           onClick={() => {
                             if (photosRef.current)
-                              scrollTo(photosRef.current, 'start');
+                              scrollTo(photosRef.current, "start");
                           }}
                         >
                           <div className={styles.btn__padding}>Photos</div>
@@ -240,7 +240,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           className={styles.room__navbar__btn}
                           onClick={() => {
                             if (amenitiesRef.current)
-                              scrollTo(amenitiesRef.current, 'start');
+                              scrollTo(amenitiesRef.current, "start");
                           }}
                         >
                           <div className={styles.btn__padding}>Amenities</div>
@@ -251,7 +251,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           className={styles.room__navbar__btn}
                           onClick={() => {
                             if (reviewsRef.current)
-                              scrollTo(reviewsRef.current, 'start');
+                              scrollTo(reviewsRef.current, "start");
                           }}
                         >
                           <div className={styles.btn__padding}>Reviews</div>
@@ -262,7 +262,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           className={styles.room__navbar__btn}
                           onClick={() => {
                             if (locationRef.current)
-                              scrollTo(locationRef.current, 'start');
+                              scrollTo(locationRef.current, "start");
                           }}
                         >
                           <div className={styles.btn__padding}>Location</div>
@@ -283,7 +283,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                     <div className={styles.title__profile__flex}>
                       <div className={styles.title__grow}>
                         <div className={styles.room__title}>
-                          Entire {data?.listing?.type} hosted by{' '}
+                          Entire {data?.listing?.type} hosted by{" "}
                           {data?.listing?.creator.name}
                         </div>
                         <div>
@@ -304,7 +304,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                                 <img
                                   className={styles.profile__img}
                                   src={`${data?.listing?.creator.photoUrl}`}
-                                  alt='profile image'
+                                  alt="profile image"
                                 />
                               </div>
                             </button>
@@ -362,7 +362,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                   <div className={styles.amenities__list__grid}>
                     {data?.listing?.amenities.slice(0, 10).map((amenity, i) => {
                       let C =
-                        dynamicSvgs[amenity.replace(/\s+/g, '') as 'Wifi'];
+                        dynamicSvgs[amenity.replace(/\s+/g, "") as "Wifi"];
                       return (
                         <div
                           key={i}
@@ -426,7 +426,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                   <div className={styles.map__container}>
                     {data && isLoaded ? (
                       <GoogleMap
-                        id='map'
+                        id="map"
                         mapContainerStyle={mapContainerStyle}
                         center={{
                           lat: data.listing?.latitude!,
@@ -443,7 +443,7 @@ const Room: React.FC<RoomProps> = memo(({}) => {
                           }}
                           radius={125}
                           options={{
-                            fillColor: '#E5C8CD',
+                            fillColor: "#E5C8CD",
                             fillOpacity: 0.35,
                             strokeOpacity: 0,
                           }}

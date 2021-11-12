@@ -1,4 +1,4 @@
-@use '../utilities/bootstrap.scss';
+@use "../utilities/bootstrap.scss";
 
 @include bootstrap.dot-mixin;
 
@@ -77,7 +77,7 @@
   align-items: center;
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 50%;
@@ -118,8 +118,8 @@
 
 .sticky__bar {
   position: fixed;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   z-index: 2;
   width: 100vw;
 
@@ -130,7 +130,7 @@
 
 .bar__padding {
   height: 88px;
-  padding: 16px 24px 0px;
+  padding: 16px 24px 0;
   display: flex;
   flex-direction: row-reverse;
 
@@ -138,13 +138,13 @@
     flex-direction: row;
     justify-content: flex-end;
     background-color: bootstrap.$default-color;
-    padding: 32px 48px 0px;
+    padding: 32px 48px 0;
   }
 }
 
 .right__side {
   width: 100%;
-  border-radius: 12px 12px 0px 0px;
+  border-radius: 12px 12px 0 0;
   align-self: flex-end;
   overflow-y: visible;
   display: flex;
@@ -157,7 +157,7 @@
   @media screen and (min-width: 744px) {
     width: 50%;
     overflow-y: auto;
-    border-radius: 0px;
+    border-radius: 0;
     position: inherit;
     height: 100%;
     min-height: unset;
@@ -209,7 +209,7 @@
   width: 100%;
 
   @media screen and (min-width: 744px) {
-    padding-bottom: 0px;
+    padding-bottom: 0;
   }
 }
 
@@ -222,7 +222,7 @@
 
 .right__nav {
   background-color: inherit;
-  bottom: 0px;
+  bottom: 0;
   position: fixed;
   width: 100vw;
   z-index: 2;

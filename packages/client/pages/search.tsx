@@ -63,10 +63,10 @@ const Search: React.FC<SearchProps> = ({}) => {
   const [checked, setChecked] = useState<boolean>(true);
   const [markerManager, setMarkerManager] = useState<MarkerManager>();
   const [selected, setSelected] = useState<MarkerWithLabel | null>(null);
-  const mapRef = useRef<google.maps.Map<Element> | null>(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
   const controlRef = useRef<HTMLDivElement | null>(null);
 
-  const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
+  const onMapLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
     setMarkerManager(new MarkerManager(map));
     if (controlRef.current) {
@@ -214,8 +214,8 @@ const Search: React.FC<SearchProps> = ({}) => {
                 options={options}
                 onDragEnd={async () => {
                   if (checked) {
-                    const newLat = mapRef.current?.getCenter().lat();
-                    const newLng = mapRef.current?.getCenter().lng();
+                    const newLat = mapRef.current?.getCenter()?.lat();
+                    const newLng = mapRef.current?.getCenter()?.lng();
                     const currBounds = mapRef.current?.getBounds();
 
                     if (latitude !== newLat || longitude !== newLng) {
@@ -248,8 +248,8 @@ const Search: React.FC<SearchProps> = ({}) => {
                       );
                     }
                   } else if (!checked) {
-                    const newLat = mapRef.current?.getCenter().lat();
-                    const newLng = mapRef.current?.getCenter().lng();
+                    const newLat = mapRef.current?.getCenter()?.lat();
+                    const newLng = mapRef.current?.getCenter()?.lng();
                     const currBounds = mapRef.current?.getBounds();
                     if (latitude !== newLat || longitude !== newLng) {
                       SearchStore.setLocation(

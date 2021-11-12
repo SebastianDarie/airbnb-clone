@@ -1,4 +1,4 @@
-@use '../utilities/bootstrap.scss';
+@use "../utilities/bootstrap.scss";
 
 .wrapper {
   display: none;
@@ -10,12 +10,12 @@
 
 .flex__after {
   &::before {
-    content: '';
+    content: "";
     display: flex;
   }
 
   &::after {
-    content: '';
+    content: "";
     display: flex;
   }
 }
@@ -28,7 +28,7 @@
   z-index: 100;
 
   &::before {
-    content: '';
+    content: "";
     background-image: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0));
     height: 140%;
     width: 100%;
@@ -40,9 +40,9 @@
   }
 
   &::after {
-    content: '';
+    content: "";
     background: bootstrap.$default-color;
-    box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
+    box-shadow: rgb(0 0 0 / 8%) 0 1px 12px;
     height: 100%;
     width: 100%;
     opacity: 0;
@@ -60,35 +60,35 @@
   height: 80px;
   width: 100%;
   position: fixed;
-  top: 0px;
+  top: 0;
   z-index: 100;
 
   &::before {
-    content: '';
+    content: "";
     background-image: linear-gradient(bootstrap.$black, rgba(0, 0, 0, 0));
     height: 140%;
-    left: 0px;
+    left: 0;
     opacity: 0;
     pointer-events: none;
     position: absolute;
-    top: 0px;
+    top: 0;
     width: 100%;
     z-index: 0;
     transition: opacity 150ms ease 0s;
   }
 
   &::after {
-    content: '';
-    box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
+    content: "";
+    box-shadow: rgb(0 0 0 / 8%) 0 1px 12px;
     transform-origin: 50% 0%;
     transition-duration: 150ms;
     transition-property: opacity, transform;
     transition-timing-function: ease;
     background: bootstrap.$default-color;
     height: 100%;
-    left: 0px;
+    left: 0;
     position: absolute;
-    top: 0px;
+    top: 0;
     width: 100%;
     z-index: 0;
     opacity: 1;
@@ -167,7 +167,7 @@
 
 #link {
   &::before {
-    content: '';
+    content: "";
     border-radius: 12px;
     position: absolute;
     top: 8px;

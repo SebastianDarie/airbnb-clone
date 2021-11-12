@@ -1,11 +1,11 @@
-@use '../utilities/bootstrap.scss';
+@use "../utilities/bootstrap.scss";
 
 .Searchbar {
   display: flex;
   background-color: bootstrap.$default-color;
   border: 1px solid bootstrap.$gainsboro;
   border-radius: 32px;
-  box-shadow: 0px 16px 32px rgb(0 0 0 / 15%), 0px 3px 8px rgb(0 0 0 / 10%);
+  box-shadow: 0 16px 32px rgb(0 0 0 / 15%), 0 3px 8px rgb(0 0 0 / 10%);
   color: bootstrap.$nero;
   height: 66px;
   width: 100%;
@@ -25,20 +25,20 @@
 
 .active {
   background-color: bootstrap.$whitesmoke;
-  box-shadow: rgb(0 0 0 / 15%) 0px 16px 32px, rgb(0 0 0 / 10%) 0px 3px 8px;
+  box-shadow: rgb(0 0 0 / 15%) 0 16px 32px, rgb(0 0 0 / 10%) 0 3px 8px;
 }
 
 .container {
   display: flex;
   flex: 1 1 0%;
   height: 100%;
-  min-width: 0px;
+  min-width: 0;
   pointer-events: auto;
 }
 
 .part1 {
   flex: 1 0 0%;
-  min-width: 0px;
+  min-width: 0;
 
   @media screen and (min-width: 950px) {
     flex: 1.5 0 0%;
@@ -50,7 +50,7 @@
   flex: 1 0 0%;
   align-items: center;
   margin: -1px;
-  min-width: 0px;
+  min-width: 0;
   position: relative;
 }
 
@@ -60,7 +60,7 @@
   background-clip: padding-box;
   border: 1px solid transparent;
   border-radius: 32px;
-  min-width: 0px;
+  min-width: 0;
   padding: 14px 32px;
   cursor: pointer;
 
@@ -78,9 +78,9 @@
     &::after {
       background-color: bootstrap.$default-color;
       border-color: bootstrap.$default-color;
-      box-shadow: 0px 6px 20px rgb(0 0 0 / 20%);
-      left: 0px;
-      right: 0px;
+      box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+      left: 0;
+      right: 0;
     }
   }
 
@@ -95,30 +95,30 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     display: none;
-    border-left: 0px;
+    border-left: 0;
     border-width: 0 1px;
     border-style: solid;
     border-color: transparent;
     height: 32px;
     margin-top: -16px;
     position: absolute;
-    right: 0px;
+    right: 0;
     top: 50%;
     z-index: 0;
   }
 
   &::after {
-    content: '';
+    content: "";
     background-clip: padding-box;
     border: 1px solid transparent;
     border-radius: 32px;
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 0;
   }
 }
@@ -139,12 +139,12 @@
 .location__input {
   display: block;
   background: none;
-  border: 0px;
+  border: 0;
   color: bootstrap.$nero;
   font-size: 14px;
   line-height: 18px;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   width: 100%;
   text-overflow: ellipsis;
 
@@ -154,7 +154,7 @@
 }
 
 .vline {
-  flex: 0 0 0px;
+  flex: 0 0 0;
   align-self: center;
   border-right: 1px solid bootstrap.$gainsboro;
   height: 32px;
@@ -163,7 +163,7 @@
 .part2__container {
   display: flex;
   flex: 2 0 0%;
-  min-width: 0px;
+  min-width: 0;
 }
 
 .part2__checkin {
@@ -171,7 +171,7 @@
   flex: 1 0 0%;
   align-items: center;
   margin: -1px;
-  min-width: 0px;
+  min-width: 0;
   position: relative;
 }
 
@@ -181,7 +181,7 @@
   flex: 1 0 0%;
   padding: 1px;
   text-align: left;
-  width: 0px;
+  width: 0;
   z-index: 1;
 
   &:hover {
@@ -195,30 +195,30 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     display: none;
-    border-left: 0px;
+    border-left: 0;
     border-width: 0 1px;
     border-style: solid;
     border-color: transparent;
     height: 32px;
     margin-top: -16px;
     position: absolute;
-    right: 0px;
+    right: 0;
     top: 50%;
     z-index: 0;
   }
 
   &::after {
-    content: '';
+    content: "";
     background-clip: padding-box;
     border: 1px solid transparent;
     border-radius: 32px;
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 0;
   }
 }
@@ -229,33 +229,33 @@
   padding: 1px;
   text-align: left;
   flex: 1 0 0%;
-  width: 0px;
+  width: 0;
   z-index: 3;
 
   &::before {
-    content: '';
+    content: "";
     height: 32px;
-    left: 0px;
+    left: 0;
     margin-top: -16px;
     position: absolute;
-    right: 0px;
+    right: 0;
     top: 50%;
     z-index: 0;
     display: block;
-    border-width: 0px 0px 0px 1px;
-    border-right: 0px;
+    border-width: 0 0 0 1px;
+    border-right: 0;
   }
 
   &::after {
     background-clip: padding-box;
     border: 1px solid bootstrap.$default-color;
     border-radius: 32px;
-    inset: 0px;
-    content: '';
+    inset: 0;
+    content: "";
     position: absolute;
     z-index: 0;
     background-color: bootstrap.$default-color;
-    box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px;
+    box-shadow: rgb(0 0 0 / 20%) 0 6px 20px;
   }
 }
 
@@ -325,7 +325,7 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 50%;
@@ -347,7 +347,7 @@
   flex: 0.95 0 auto;
   align-items: center;
   margin: -1px;
-  min-width: 0px;
+  min-width: 0;
   position: relative;
 }
 
@@ -382,7 +382,7 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     background: linear-gradient(
       to right,
       rgb(230, 30, 77) 0%,
@@ -390,10 +390,10 @@
       rgb(215, 4, 102) 100%
     );
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     transition: 0.2s opacity cubic-bezier(0.35, 0, 0.65, 1);
     will-change: opacity;
     z-index: 0;
@@ -424,8 +424,8 @@
       rgb(227, 28, 95) 50%,
       rgb(215, 4, 102) 100%
     );
-    inset: 0px;
-    content: '';
+    inset: 0;
+    content: "";
     position: absolute;
     transition: opacity 0.2s cubic-bezier(0.35, 0, 0.65, 1) 0s;
     will-change: opacity;
