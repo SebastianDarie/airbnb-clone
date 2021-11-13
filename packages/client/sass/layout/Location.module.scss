@@ -2,14 +2,14 @@
 
 .position {
   top: 30vh;
-  left: 0px;
+  left: 0;
   width: 100%;
   opacity: 1;
   transition: opacity 0.3s 0.5s;
 
   @media screen and (min-width: 744px) {
     position: absolute;
-    top: 0px;
+    top: 0;
     left: 50%;
     width: 50%;
     height: calc(100% - 80px);
@@ -20,25 +20,25 @@
 .wrapper {
   width: 100%;
   position: absolute;
-  border-radius: 12px 12px 0px 0px;
-  left: 0px;
-  bottom: 0px;
+  border-radius: 12px 12px 0 0;
+  left: 0;
+  bottom: 0;
   background-color: bootstrap.$default-color;
   height: calc(80% - 52px);
   transition-duration: 0.6s;
 
   @media screen and (min-width: 744px) {
     height: 100%;
-    border-radius: 0px;
+    border-radius: 0;
   }
 }
 
 .map__container {
   overflow: hidden;
   position: absolute;
-  border-radius: 12px 12px 0px 0px;
-  top: 0px;
-  left: 0px;
+  border-radius: 12px 12px 0 0;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   opacity: 1;
@@ -107,7 +107,7 @@
   }
 
   @media screen and (min-width: 744px) {
-    top: 0px;
+    top: 0;
     height: 100vh;
     padding-top: 60px;
     padding-bottom: 80px;
@@ -123,7 +123,7 @@
   @media screen and (min-width: 744px) {
     background-color: bootstrap.$default-color;
     position: relative;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    box-shadow: rgb(0 0 0 / 12%) 0 6px 16px;
     width: 80%;
     max-width: 600px;
     margin: auto;
@@ -132,10 +132,10 @@
 }
 
 .inner__padding {
-  padding: 32px 32px 0 32px;
+  padding: 32px 32px 0;
 
   @media screen and(min-width: 744px) {
-    padding: 0px;
+    padding: 0;
   }
 }
 
@@ -168,8 +168,8 @@
   transform: translateY(-94px);
 
   @media screen and (min-width: 744px) {
-    padding: 0px;
-    transform: translateY(0px);
+    padding: 0;
+    transform: translateY(0);
   }
 }
 
@@ -179,7 +179,7 @@
   display: flex;
   height: 48px;
   width: 100%;
-  margin: 0px;
+  margin: 0;
   border: none;
   color: bootstrap.$nero;
   background-color: bootstrap.$default-color;
@@ -200,7 +200,7 @@
   max-width: 50%;
   white-space: nowrap;
   margin-right: 8px;
-  padding: 0px;
+  padding: 0;
 }
 
 .svg__padding {
@@ -217,14 +217,14 @@
 .label {
   position: relative;
   flex: 1 1 0%;
-  padding: 0px;
+  padding: 0;
 }
 
 .location__input {
   width: 100%;
   border: none;
   outline: none;
-  margin: 0px 8px 0px 16px;
+  margin: 0 8px 0 16px;
   min-height: 1px;
   color: bootstrap.$nero;
   background-color: transparent;
@@ -234,7 +234,7 @@
   line-height: 20px;
   appearance: none;
   flex: 1 1 0%;
-  padding: 0px;
+  padding: 0;
   text-overflow: ellipsis;
 }
 

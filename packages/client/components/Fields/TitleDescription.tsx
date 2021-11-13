@@ -6,8 +6,8 @@ interface TitleDescriptionProps {
 }
 
 export const TitleDescription: React.FC<TitleDescriptionProps> = ({
-  description = undefined,
-  title = undefined,
+  description,
+  title,
 }) => {
   return (
     <div className={styles.padding}>
